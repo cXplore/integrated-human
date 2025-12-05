@@ -13,13 +13,13 @@ export default function AboutPage() {
 
             <div className="space-y-6 text-stone-700 leading-relaxed text-lg">
               <p>
-                I'm not a guru, therapist or finished product.
+                I'm not a guru, therapist, or enlightened master.
               </p>
               <p>
-                I'm a man who has broken down a few times, lifted himself back up, watched patterns repeat, and finally got tired of pretending it's all "fine".
+                I'm someone who's burned out, rebuilt, noticed the same patterns looping, and finally stopped pretending everything's figured out.
               </p>
               <p>
-                Integrated Human started as notes to myself.
+                This site started as notes to myself — scattered observations that didn't fit anywhere else.
               </p>
               <p>
                 Notes on why my body would feel heavy even when life looked okay on paper.<br />
