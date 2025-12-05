@@ -4,14 +4,14 @@ export default function AboutPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-stone-50">
+      <main className="min-h-screen bg-zinc-950">
         <section className="py-20 px-6">
           <div className="max-w-3xl mx-auto">
-            <h1 className="font-serif text-5xl md:text-6xl font-light text-stone-900 mb-12">
+            <h1 className="font-serif text-5xl md:text-6xl font-light text-white mb-12">
               About Integrated Human
             </h1>
 
-            <div className="space-y-6 text-stone-700 leading-relaxed text-lg">
+            <div className="space-y-6 text-gray-300 leading-relaxed text-lg">
               <p>
                 I'm not a guru, therapist, or enlightened master.
               </p>
@@ -79,7 +79,7 @@ export default function AboutPage() {
                 I don't have all the answers.<br />
                 But I'm committed to asking better questions, telling the truth as I see it, and sharing whatever I learn along the way.
               </p>
-              <p className="pt-8 border-t border-stone-200 font-serif text-xl">
+              <p className="pt-8 border-t border-zinc-800 font-serif text-xl text-white">
                 Welcome to Integrated Human.
               </p>
               <p className="italic">

@@ -7,30 +7,30 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="py-6 px-6 bg-white border-b border-stone-200">
+    <nav className="py-6 px-6 bg-black border-b border-zinc-800">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <Link href="/" className="font-serif text-2xl font-light text-stone-900 hover:text-stone-600 transition-colors">
+        <Link href="/" className="font-serif text-2xl font-light text-white hover:text-gray-400 transition-colors">
           Integrated Human
         </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex gap-8">
-          <Link href="/mind" className="text-stone-700 hover:text-stone-900 transition-colors">
+          <Link href="/mind" className="text-gray-400 hover:text-white transition-colors">
             Mind
           </Link>
-          <Link href="/body" className="text-stone-700 hover:text-stone-900 transition-colors">
+          <Link href="/body" className="text-gray-400 hover:text-white transition-colors">
             Body
           </Link>
-          <Link href="/soul" className="text-stone-700 hover:text-stone-900 transition-colors">
+          <Link href="/soul" className="text-gray-400 hover:text-white transition-colors">
             Soul
           </Link>
-          <Link href="/relationships" className="text-stone-700 hover:text-stone-900 transition-colors">
+          <Link href="/relationships" className="text-gray-400 hover:text-white transition-colors">
             Relationships
           </Link>
-          <Link href="/library" className="text-stone-700 hover:text-stone-900 transition-colors">
+          <Link href="/library" className="text-gray-400 hover:text-white transition-colors">
             Library
           </Link>
-          <Link href="/about" className="text-stone-700 hover:text-stone-900 transition-colors">
+          <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
             About
           </Link>
         </div>
@@ -38,7 +38,7 @@ export default function Navigation() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 text-stone-700 hover:text-stone-900"
+          className="md:hidden p-2 text-gray-400 hover:text-white"
           aria-label="Toggle menu"
         >
           <svg
@@ -61,46 +61,46 @@ export default function Navigation() {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden mt-4 pt-4 border-t border-stone-200">
+        <div className="md:hidden mt-4 pt-4 border-t border-zinc-800">
           <div className="flex flex-col gap-4">
             <Link
               href="/mind"
-              className="text-stone-700 hover:text-stone-900 transition-colors py-2"
+              className="text-gray-400 hover:text-white transition-colors py-2"
               onClick={() => setIsOpen(false)}
             >
               Mind
             </Link>
             <Link
               href="/body"
-              className="text-stone-700 hover:text-stone-900 transition-colors py-2"
+              className="text-gray-400 hover:text-white transition-colors py-2"
               onClick={() => setIsOpen(false)}
             >
               Body
             </Link>
             <Link
               href="/soul"
-              className="text-stone-700 hover:text-stone-900 transition-colors py-2"
+              className="text-gray-400 hover:text-white transition-colors py-2"
               onClick={() => setIsOpen(false)}
             >
               Soul
             </Link>
             <Link
               href="/relationships"
-              className="text-stone-700 hover:text-stone-900 transition-colors py-2"
+              className="text-gray-400 hover:text-white transition-colors py-2"
               onClick={() => setIsOpen(false)}
             >
               Relationships
             </Link>
             <Link
               href="/library"
-              className="text-stone-700 hover:text-stone-900 transition-colors py-2"
+              className="text-gray-400 hover:text-white transition-colors py-2"
               onClick={() => setIsOpen(false)}
             >
               Library
             </Link>
             <Link
               href="/about"
-              className="text-stone-700 hover:text-stone-900 transition-colors py-2"
+              className="text-gray-400 hover:text-white transition-colors py-2"
               onClick={() => setIsOpen(false)}
             >
               About

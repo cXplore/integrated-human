@@ -10,31 +10,31 @@ export default function Home() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-stone-50">
+      <main className="min-h-screen bg-black">
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center min-h-[80vh] px-6 text-center">
-        <h1 className="font-serif text-5xl md:text-7xl font-light text-stone-900 mb-6">
+      <section className="flex flex-col items-center justify-center min-h-[80vh] px-6 text-center bg-black">
+        <h1 className="font-serif text-5xl md:text-7xl font-light text-white mb-6">
           Integrated Human
         </h1>
-        <p className="text-xl md:text-2xl text-stone-600 mb-12 max-w-2xl font-light">
+        <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl font-light">
           Live stronger, feel deeper, become whole.
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
           <Link
             href="/mind"
-            className="px-8 py-3 border-2 border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-stone-50 transition-colors duration-200"
+            className="px-8 py-3 border-2 border-gray-600 text-gray-300 hover:bg-gray-900 hover:text-white transition-colors duration-200"
           >
             Mind
           </Link>
           <Link
             href="/body"
-            className="px-8 py-3 border-2 border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-stone-50 transition-colors duration-200"
+            className="px-8 py-3 border-2 border-gray-600 text-gray-300 hover:bg-gray-900 hover:text-white transition-colors duration-200"
           >
             Body
           </Link>
           <Link
             href="/soul"
-            className="px-8 py-3 border-2 border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-stone-50 transition-colors duration-200"
+            className="px-8 py-3 border-2 border-gray-600 text-gray-300 hover:bg-gray-900 hover:text-white transition-colors duration-200"
           >
             Soul
           </Link>
@@ -45,12 +45,12 @@ export default function Home() {
       <WisdomQuote />
 
       {/* About Section */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-20 px-6 bg-zinc-950">
         <div className="max-w-3xl mx-auto">
-          <h2 className="font-serif text-3xl md:text-4xl font-light text-stone-900 mb-12 text-center">
+          <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-12 text-center">
             Not Another Self-Help Site
           </h2>
-          <div className="space-y-6 text-stone-700 leading-relaxed text-lg">
+          <div className="space-y-6 text-gray-300 leading-relaxed text-lg">
             <p>
               This isn't about optimizing your life, manifesting abundance, or 10x-ing your potential.
             </p>
@@ -71,9 +71,9 @@ export default function Home() {
       </section>
 
       {/* Latest Articles */}
-      <section className="py-20 px-6 bg-stone-50">
+      <section className="py-20 px-6 bg-black">
         <div className="max-w-4xl mx-auto">
-          <h2 className="font-serif text-3xl md:text-4xl font-light text-stone-900 mb-12 text-center">
+          <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-12 text-center">
             Latest Articles
           </h2>
           <div className="space-y-8">
@@ -85,39 +85,39 @@ export default function Home() {
       </section>
 
       {/* The Three Pillars */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-20 px-6 bg-zinc-950">
         <div className="max-w-6xl mx-auto">
-          <h2 className="font-serif text-3xl md:text-4xl font-light text-stone-900 mb-16 text-center">
+          <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-16 text-center">
             The Three Pillars
           </h2>
           <div className="grid md:grid-cols-3 gap-12">
             <div className="space-y-4">
-              <h3 className="font-serif text-2xl font-light text-stone-900">Mind</h3>
-              <p className="text-stone-700 leading-relaxed">
+              <h3 className="font-serif text-2xl font-light text-white">Mind</h3>
+              <p className="text-gray-400 leading-relaxed">
                 Your inner structure: psychology, patterns, attachment styles, masculine & feminine dynamics,
                 trauma, communication. How you think, feel and relate — to yourself and others.
               </p>
-              <Link href="/mind" className="inline-block text-stone-900 underline hover:no-underline">
+              <Link href="/mind" className="inline-block text-gray-300 underline hover:text-white transition-colors">
                 Explore Mind →
               </Link>
             </div>
             <div className="space-y-4">
-              <h3 className="font-serif text-2xl font-light text-stone-900">Body</h3>
-              <p className="text-stone-700 leading-relaxed">
+              <h3 className="font-serif text-2xl font-light text-white">Body</h3>
+              <p className="text-gray-400 leading-relaxed">
                 Your physical foundation: training, food, sleep, hormones, breath, nervous system.
                 How you move through the world, how you carry your energy.
               </p>
-              <Link href="/body" className="inline-block text-stone-900 underline hover:no-underline">
+              <Link href="/body" className="inline-block text-gray-300 underline hover:text-white transition-colors">
                 Explore Body →
               </Link>
             </div>
             <div className="space-y-4">
-              <h3 className="font-serif text-2xl font-light text-stone-900">Soul</h3>
-              <p className="text-stone-700 leading-relaxed">
+              <h3 className="font-serif text-2xl font-light text-white">Soul</h3>
+              <p className="text-gray-400 leading-relaxed">
                 Your depth: wisdom, meditation, psychedelics, philosophy, silence, meaning.
                 Everything in you that knows there's more to life than performance.
               </p>
-              <Link href="/soul" className="inline-block text-stone-900 underline hover:no-underline">
+              <Link href="/soul" className="inline-block text-gray-300 underline hover:text-white transition-colors">
                 Explore Soul →
               </Link>
             </div>
@@ -126,17 +126,17 @@ export default function Home() {
       </section>
 
       {/* Start Here */}
-      <section className="py-20 px-6 bg-stone-50">
+      <section className="py-20 px-6 bg-black border-t border-zinc-800">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="font-serif text-3xl md:text-4xl font-light text-stone-900 mb-8">
+          <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-8">
             Start Here
           </h2>
-          <div className="space-y-4 text-stone-700 leading-relaxed">
-            <p>If you feel stuck in your head → read something from <Link href="/mind" className="underline hover:no-underline">Mind</Link>.</p>
-            <p>If you feel weak, restless or numb → start with <Link href="/body" className="underline hover:no-underline">Body</Link>.</p>
-            <p>If you feel lost, empty or searching → explore <Link href="/soul" className="underline hover:no-underline">Soul</Link>.</p>
+          <div className="space-y-4 text-gray-400 leading-relaxed">
+            <p>If you feel stuck in your head → read something from <Link href="/mind" className="text-gray-300 underline hover:text-white transition-colors">Mind</Link>.</p>
+            <p>If you feel weak, restless or numb → start with <Link href="/body" className="text-gray-300 underline hover:text-white transition-colors">Body</Link>.</p>
+            <p>If you feel lost, empty or searching → explore <Link href="/soul" className="text-gray-300 underline hover:text-white transition-colors">Soul</Link>.</p>
           </div>
-          <p className="mt-8 text-stone-600 italic">
+          <p className="mt-8 text-gray-500 italic">
             Small steps. Real talk. No pretending.
           </p>
         </div>

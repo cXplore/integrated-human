@@ -49,37 +49,37 @@ export default function LibraryPage() {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen bg-stone-50">
+      <main className="min-h-screen bg-zinc-950">
         <section className="py-20 px-6">
           <div className="max-w-4xl mx-auto">
-            <h1 className="font-serif text-5xl md:text-6xl font-light text-stone-900 mb-6">
+            <h1 className="font-serif text-5xl md:text-6xl font-light text-white mb-6">
               Library
             </h1>
-            <p className="text-xl text-stone-700 leading-relaxed mb-12">
+            <p className="text-xl text-gray-300 leading-relaxed mb-12">
               Essential books for the integrated life. Not self-help. Not quick fixes. Just depth.
             </p>
 
             <div className="space-y-6">
               {books.map((book, index) => (
-                <div key={index} className="bg-white p-8 border border-stone-200">
+                <div key={index} className="bg-zinc-900 p-8 border border-zinc-800">
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <h2 className="font-serif text-2xl font-light text-stone-900">
+                      <h2 className="font-serif text-2xl font-light text-white">
                         {book.title}
                       </h2>
-                      <p className="text-stone-600 mt-1">{book.author}</p>
+                      <p className="text-gray-400 mt-1">{book.author}</p>
                     </div>
-                    <span className="text-xs uppercase tracking-wide text-stone-500 bg-stone-100 px-3 py-1">
+                    <span className="text-xs uppercase tracking-wide text-gray-500 bg-zinc-800 px-3 py-1">
                       {book.category}
                     </span>
                   </div>
-                  <p className="text-stone-700 leading-relaxed">{book.note}</p>
+                  <p className="text-gray-300 leading-relaxed">{book.note}</p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-12 p-8 bg-white border border-stone-200">
-              <p className="text-stone-700 leading-relaxed italic">
+            <div className="mt-12 p-8 bg-zinc-900 border border-zinc-800">
+              <p className="text-gray-300 leading-relaxed italic">
                 More book notes, quotes, and author deep-dives coming soon. This is a living library —
                 it grows as the work deepens.
               </p>
