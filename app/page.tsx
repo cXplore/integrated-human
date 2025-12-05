@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Navigation from './components/Navigation';
 import WisdomQuote from './components/WisdomQuote';
 import PostCard from './components/PostCard';
+import NewsletterSignup from './components/NewsletterSignup';
 import { getAllPosts } from '@/lib/posts';
 
 export default function Home() {
@@ -12,7 +13,15 @@ export default function Home() {
       <Navigation />
       <main className="min-h-screen bg-black">
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center min-h-[80vh] px-6 text-center bg-black">
+      <section className="relative flex flex-col items-center justify-center min-h-[80vh] px-6 text-center bg-black overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <img
+            src="/images/hero-home.jpg"
+            alt=""
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="relative z-10">
         <h1 className="font-serif text-5xl md:text-7xl font-light text-white mb-6">
           Integrated Human
         </h1>
@@ -38,6 +47,7 @@ export default function Home() {
           >
             Soul
           </Link>
+        </div>
         </div>
       </section>
 
@@ -125,8 +135,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Start Here */}
+      {/* Newsletter Signup */}
       <section className="py-20 px-6 bg-black border-t border-zinc-800">
+        <div className="max-w-4xl mx-auto">
+          <NewsletterSignup />
+        </div>
+      </section>
+
+      {/* Start Here */}
+      <section className="py-20 px-6 bg-black">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-8">
             Start Here

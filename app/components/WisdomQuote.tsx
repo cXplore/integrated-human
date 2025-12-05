@@ -13,8 +13,24 @@ export default function WisdomQuote() {
       author: "Carl Jung",
     },
     {
-      text: "The man who comes back through the Door in the Wall will never be quite the same as the man who went out.",
+      text: "We live together, we act on, and react to, one another; but always and in all circumstances we are by ourselves.",
       author: "Aldous Huxley",
+    },
+    {
+      text: "People don't have ideas. Ideas have people.",
+      author: "Carl Jung",
+    },
+    {
+      text: "You are under no obligation to be the same person you were five minutes ago.",
+      author: "Alan Watts",
+    },
+    {
+      text: "The cost of sanity in this society is a certain level of alienation.",
+      author: "Terence McKenna",
+    },
+    {
+      text: "Knowing your own darkness is the best method for dealing with the darknesses of other people.",
+      author: "Carl Jung",
     },
   ];
 

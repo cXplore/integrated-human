@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 import Navigation from '@/app/components/Navigation';
 import { getAllPosts, getPostBySlug } from '@/lib/posts';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import ArticleImage from '@/app/components/ArticleImage';
+import Image from 'next/image';
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -56,8 +58,15 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               prose-blockquote:border-l-4 prose-blockquote:border-zinc-700
               prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-gray-400
               prose-strong:text-white prose-strong:font-semibold
-              prose-a:text-gray-300 prose-a:underline hover:prose-a:text-white">
-              <MDXRemote source={post.content} />
+              prose-a:text-gray-300 prose-a:underline hover:prose-a:text-white
+              prose-img:rounded-sm prose-img:border prose-img:border-zinc-800">
+              <MDXRemote
+                source={post.content}
+                components={{
+                  ArticleImage,
+                  Image,
+                }}
+              />
             </div>
           </div>
         </article>

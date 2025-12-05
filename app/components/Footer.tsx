@@ -39,6 +39,9 @@ export default function Footer() {
               <Link href="/about" className="text-gray-400 hover:text-white text-sm transition-colors">
                 About
               </Link>
+              <Link href="/connect" className="text-gray-400 hover:text-white text-sm transition-colors">
+                Connect
+              </Link>
             </div>
           </div>
 
@@ -46,11 +49,11 @@ export default function Footer() {
           <div>
             <h4 className="text-sm uppercase tracking-wide text-gray-500 mb-3">Connect</h4>
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              Community and social links coming soon.
+              Questions, feedback, or just want to say hello?
             </p>
-            <p className="text-gray-400 text-sm">
-              For now, explore the content and let it settle.
-            </p>
+            <Link href="/connect" className="text-gray-300 underline hover:text-white text-sm transition-colors">
+              Get in touch →
+            </Link>
           </div>
         </div>
 
