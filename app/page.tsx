@@ -1,7 +1,12 @@
 import Link from 'next/link';
 import Navigation from './components/Navigation';
+import WisdomQuote from './components/WisdomQuote';
+import PostCard from './components/PostCard';
+import { getAllPosts } from '@/lib/posts';
 
 export default function Home() {
+  const latestPosts = getAllPosts().slice(0, 3);
+
   return (
     <>
       <Navigation />
@@ -36,6 +41,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Wisdom Quote */}
+      <WisdomQuote />
+
       {/* About Section */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-3xl mx-auto">
@@ -60,8 +68,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* The Three Pillars */}
+      {/* Latest Articles */}
       <section className="py-20 px-6 bg-stone-50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="font-serif text-3xl md:text-4xl font-light text-stone-900 mb-12 text-center">
+            Latest Articles
+          </h2>
+          <div className="space-y-8">
+            {latestPosts.map((post) => (
+              <PostCard key={post.slug} post={post} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* The Three Pillars */}
+      <section className="py-20 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="font-serif text-3xl md:text-4xl font-light text-stone-900 mb-16 text-center">
             The Three Pillars
@@ -98,22 +120,6 @@ export default function Home() {
               </Link>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* What You'll Find */}
-      <section className="py-20 px-6 bg-white">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="font-serif text-3xl md:text-4xl font-light text-stone-900 mb-8 text-center">
-            What You'll Find Here
-          </h2>
-          <ul className="space-y-4 text-stone-700 leading-relaxed">
-            <li>• Articles & essays on psychology, training, intimacy, healing, discipline, purpose.</li>
-            <li>• Guides you can actually use — workouts, reflection prompts, practices.</li>
-            <li>• Book notes from Jung to Tao Te Ching to modern psychology.</li>
-            <li>• Perspectives on love & relationships that go deeper than "text her this."</li>
-            <li>• Later: a community space for people walking the same path.</li>
-          </ul>
         </div>
       </section>
 
