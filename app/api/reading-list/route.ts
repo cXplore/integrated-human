@@ -15,7 +15,7 @@ export async function GET() {
     orderBy: { addedAt: "desc" },
   });
 
-  return NextResponse.json(items.map(item => item.slug));
+  return NextResponse.json(items.map((item: { slug: string }) => item.slug));
 }
 
 // POST - Add item to reading list
