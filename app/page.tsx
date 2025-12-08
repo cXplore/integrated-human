@@ -23,11 +23,14 @@ export default function Home() {
       <Navigation />
       <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center min-h-[80vh] px-6 text-center overflow-hidden bg-[var(--background)]">
-        {/* Subtle radial glow */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-radial from-[rgba(255,255,255,0.03)] via-transparent to-transparent blur-3xl" />
-        </div>
+      <section className="relative flex flex-col items-center justify-center min-h-[80vh] px-6 text-center overflow-hidden">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat hero-bg-image"
+          style={{ backgroundImage: 'url(/images/A-Spark-In-The-Universe_web-1400x788.jpg)' }}
+        />
+        {/* Dark/Light overlay for text readability */}
+        <div className="absolute inset-0 bg-black/70 hero-overlay" />
         <div className="relative z-10">
         <h1 className="font-serif text-5xl md:text-7xl font-light text-white mb-6">
           Integrated Human

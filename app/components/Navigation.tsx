@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import SearchBox from './SearchBox';
 import { useReadingList } from './ReadingListContext';
 import ThemeToggle from './ThemeToggle';
+import UserMenu from './UserMenu';
 
 interface DropdownItem {
   label: string;
@@ -180,10 +181,14 @@ export default function Navigation() {
 
           {/* Theme Toggle */}
           <ThemeToggle />
+
+          {/* User Menu */}
+          <UserMenu />
         </div>
 
         {/* Mobile Search & Menu Buttons */}
         <div className="flex items-center gap-1 md:hidden">
+          <UserMenu />
           <ThemeToggle />
           <Link
             href="/reading-list"

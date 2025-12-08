@@ -5,6 +5,7 @@ import "./globals.css";
 import Footer from "./components/Footer";
 import { ReadingListProvider } from "./components/ReadingListContext";
 import { ThemeProvider } from "./components/ThemeProvider";
+import SessionProvider from "./components/SessionProvider";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -50,12 +51,14 @@ export default function RootLayout({
       <body
         className={`${cormorant.variable} ${inter.variable} antialiased`}
       >
-        <ThemeProvider>
-          <ReadingListProvider>
-            {children}
-            <Footer />
-          </ReadingListProvider>
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider>
+            <ReadingListProvider>
+              {children}
+              <Footer />
+            </ReadingListProvider>
+          </ThemeProvider>
+        </SessionProvider>
         <Analytics />
       </body>
     </html>

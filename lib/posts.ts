@@ -13,6 +13,7 @@ export interface PostMetadata {
   type?: 'article' | 'guide';
   series?: string;
   order?: number;
+  image?: string;
 }
 
 export interface Post {

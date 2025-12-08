@@ -36,7 +36,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
-  const { title, excerpt, categories, date } = post.metadata;
+  const { title, excerpt, categories, date, image } = post.metadata;
+  const ogImage = image ? `${BASE_URL}${image}` : undefined;
 
   return {
     title: `${title} | Integrated Human`,
@@ -53,11 +54,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       publishedTime: date,
       authors: ['Integrated Human'],
       tags: categories,
+      ...(ogImage && {
+        images: [
+          {
+            url: ogImage,
+            width: 1200,
+            height: 630,
+            alt: title,
+          },
+        ],
+      }),
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description: excerpt,
+      ...(ogImage && { images: [ogImage] }),
     },
     alternates: {
       canonical: `${BASE_URL}/posts/${slug}`,
@@ -122,7 +134,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             <p className="text-xl text-gray-400 mb-8 leading-relaxed">
               {post.metadata.excerpt}
             </p>
-            <div className="mb-12 pb-8 border-b border-zinc-800 flex items-center justify-between">
+            <div className="mb-8 flex items-center justify-between">
               <div className="flex items-center gap-3 text-gray-500">
                 <span>
                   {new Date(post.metadata.date).toLocaleDateString('en-US', {
@@ -136,7 +148,22 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               </div>
               <ArticleActions slug={slug} title={post.metadata.title} />
             </div>
-            <div className="prose prose-invert prose-lg max-w-none
+
+            {/* Featured Image */}
+            {post.metadata.image && (
+              <div className="mb-12 -mx-6 md:mx-0">
+                <Image
+                  src={post.metadata.image}
+                  alt={post.metadata.title}
+                  width={1200}
+                  height={630}
+                  className="w-full h-auto object-cover border border-zinc-800"
+                  priority
+                />
+              </div>
+            )}
+
+            <div className="pt-8 border-t border-zinc-800 prose prose-invert prose-lg max-w-none
               prose-headings:font-serif prose-headings:font-light prose-headings:text-white
               prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
               prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
