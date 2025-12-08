@@ -1,4 +1,5 @@
 import Navigation from '../components/Navigation';
+import Link from 'next/link';
 
 export default function AboutPage() {
   return (
@@ -8,83 +9,143 @@ export default function AboutPage() {
         <section className="py-20 px-6">
           <div className="max-w-3xl mx-auto">
             <h1 className="font-serif text-5xl md:text-6xl font-light text-white mb-12">
-              About Integrated Human
+              About
             </h1>
 
-            <div className="space-y-6 text-gray-300 leading-relaxed text-lg">
-              <p>
-                I'm not a guru, therapist, or enlightened master.
-              </p>
-              <p>
-                I'm someone who's burned out, rebuilt, noticed the same patterns looping, and finally stopped pretending everything's figured out.
-              </p>
-              <p>
-                This site started as notes to myself — scattered observations that didn't fit anywhere else.
-              </p>
-              <p>
-                Notes on why my body would feel heavy even when life looked okay on paper.<br />
-                Notes on why I could be strong in the gym but weak in my boundaries.<br />
-                Notes on why some relationships burned bright and then collapsed under their own intensity.<br />
-                Notes on how psychedelics could open the sky and still leave me confused the next morning.
-              </p>
-              <p>
-                At some point I realised these notes weren't only for me.
-              </p>
-              <p>
-                We live in a time where everything is split:
-              </p>
-              <p className="ml-4">
-                – Fitness in one corner<br />
-                – Therapy in another<br />
-                – Spirituality in a third<br />
-                – Dating advice somewhere between entertainment and manipulation
-              </p>
-              <p>
-                Real life doesn't work like that.<br />
-                Your deadlift, your childhood, your nervous system, your relationships and your idea of God all talk to each other – whether you're aware of it or not.
-              </p>
-              <p>
-                "Integrated Human" is my attempt to stop separating what actually belongs together.
-              </p>
-              <p>
-                Here you'll find:
-              </p>
-              <p className="ml-4">
-                – <strong>Body:</strong> training, food, sleep, breath – the stuff that makes you feel solid in your own skin.<br />
-                – <strong>Mind:</strong> psychology, attachment, shadow, masculine and feminine patterns, communication.<br />
-                – <strong>Soul:</strong> wisdom, meditation, psychedelics, philosophy, the quiet part of you that knows when you're lying to yourself.<br />
-                – <strong>Relationships:</strong> the arena where all of the above become very real, very fast.
-              </p>
-              <p>
-                I write from the middle of the process, not from a mountaintop.
-              </p>
-              <p>
-                Sometimes the tone will be sharp, sometimes soft.<br />
-                Sometimes practical (do this, not that).<br />
-                Sometimes more like sitting in silence with a friend after a hard night.
-              </p>
-              <p>
-                If you're here, you probably recognise at least one of these:
-              </p>
-              <p className="ml-4">
-                – You want strength that is more than appearance.<br />
-                – You want honesty in your relationships, even when it hurts.<br />
-                – You're tired of quick fixes but still hungry for change.<br />
-                – You suspect that your body, mind and soul are not separate projects.
-              </p>
-              <p>
-                If any of that lands, you're in the right place.
-              </p>
-              <p>
-                I don't have all the answers.<br />
-                But I'm committed to asking better questions, telling the truth as I see it, and sharing whatever I learn along the way.
-              </p>
-              <p className="pt-8 border-t border-zinc-800 font-serif text-xl text-white">
-                Welcome to Integrated Human.
-              </p>
-              <p className="italic">
-                Live stronger. Feel deeper. Become whole.
-              </p>
+            <div className="space-y-8 text-gray-300 leading-relaxed text-lg">
+              {/* Author Section */}
+              <div className="pb-12 border-b border-zinc-800">
+                <div className="flex flex-col md:flex-row gap-8 items-start">
+                  <div className="w-32 h-32 bg-zinc-800 rounded-full flex-shrink-0 flex items-center justify-center">
+                    <svg className="w-16 h-16 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <div className="space-y-4">
+                    <h2 className="font-serif text-2xl text-white">The Person Behind This</h2>
+                    <p>
+                      I've spent years in the weeds of personal development — reading the books, doing the practices,
+                      making the mistakes. Therapy, meditation retreats, strength training, psychedelics, failed relationships,
+                      successful ones. The whole messy process of trying to figure out how to actually live well.
+                    </p>
+                    <p>
+                      This site is what I wish I'd found earlier: practical wisdom without the guru energy,
+                      depth without the dogma, and honest acknowledgment that none of us really know what we're doing —
+                      we're just paying closer attention than most.
+                    </p>
+                    <p className="text-gray-500 text-base">
+                      Based in Europe. Writing when something feels true enough to share.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Philosophy Section */}
+              <div className="space-y-6 pt-4">
+                <h2 className="font-serif text-2xl text-white">The Philosophy</h2>
+                <p>
+                  Your body, mind, and soul aren't separate projects.
+                </p>
+                <p>
+                  They talk to each other whether you want them to or not.
+                </p>
+                <p>
+                  How you train affects how you think. How you think shapes how you relate.
+                  How you relate reveals what you actually believe about yourself and the world.
+                </p>
+              </div>
+
+              <div className="border-l-2 border-zinc-700 pl-6 my-12">
+                <p className="text-xl text-gray-400 italic">
+                  Integration isn't about becoming perfect. It's about becoming whole —
+                  including the parts you'd rather hide.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <h2 className="font-serif text-2xl text-white">The Four Pillars</h2>
+
+                <div className="space-y-4">
+                  <p>
+                    <strong className="text-white">Mind</strong> — Psychology, patterns, attachment,
+                    shadow work, emotions. The invisible structures that run your life.
+                  </p>
+                  <p>
+                    <strong className="text-white">Body</strong> — Training, movement, breath, sleep,
+                    nervous system. The foundation you stand on.
+                  </p>
+                  <p>
+                    <strong className="text-white">Soul</strong> — Meditation, psychedelics, philosophy,
+                    meaning. The part of you that knows when you're lying to yourself.
+                  </p>
+                  <p>
+                    <strong className="text-white">Relationships</strong> — Attachment, polarity,
+                    conflict, intimacy. Where all of it becomes real.
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <h2 className="font-serif text-2xl text-white">What This Isn't</h2>
+                <p>
+                  This isn't self-help with a system, a method, or 7 steps to anything.
+                </p>
+                <p>
+                  No manifestation. No hustle culture. No spiritual bypassing dressed up as wisdom.
+                </p>
+                <p>
+                  Just observations, principles, and practices drawn from psychology, philosophy,
+                  contemplative traditions, and the hard-won lessons of being human.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <h2 className="font-serif text-2xl text-white">What This Is</h2>
+                <p>
+                  A place to work through the real stuff — burnout, heartbreak,
+                  psychedelic integration, attachment wounds, existential confusion,
+                  the strange terrain of becoming whole in a fragmented world.
+                </p>
+                <p>
+                  Some of it is practical. Some of it is philosophical.
+                  Some of it might not land for you, and that's fine.
+                </p>
+                <p>
+                  No shortcuts. No false promises. Just depth.
+                </p>
+              </div>
+
+              <div className="border-t border-zinc-800 pt-12 mt-12">
+                <p className="text-gray-500 mb-6">
+                  Start wherever feels right:
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Link
+                    href="/mind"
+                    className="px-6 py-3 border border-zinc-700 text-gray-300 hover:bg-zinc-900 hover:text-white transition-colors"
+                  >
+                    Mind
+                  </Link>
+                  <Link
+                    href="/body"
+                    className="px-6 py-3 border border-zinc-700 text-gray-300 hover:bg-zinc-900 hover:text-white transition-colors"
+                  >
+                    Body
+                  </Link>
+                  <Link
+                    href="/soul"
+                    className="px-6 py-3 border border-zinc-700 text-gray-300 hover:bg-zinc-900 hover:text-white transition-colors"
+                  >
+                    Soul
+                  </Link>
+                  <Link
+                    href="/relationships"
+                    className="px-6 py-3 border border-zinc-700 text-gray-300 hover:bg-zinc-900 hover:text-white transition-colors"
+                  >
+                    Relationships
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>

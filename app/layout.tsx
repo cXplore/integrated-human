@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import Footer from "./components/Footer";
+import { ReadingListProvider } from "./components/ReadingListContext";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -30,6 +33,11 @@ export const metadata: Metadata = {
     title: "Integrated Human",
     description: "Live stronger, feel deeper, become whole.",
   },
+  alternates: {
+    types: {
+      'application/rss+xml': 'https://integrated-human.vercel.app/feed.xml',
+    },
+  },
 };
 
 export default function RootLayout({
@@ -42,8 +50,13 @@ export default function RootLayout({
       <body
         className={`${cormorant.variable} ${inter.variable} antialiased`}
       >
-        {children}
-        <Footer />
+        <ThemeProvider>
+          <ReadingListProvider>
+            {children}
+            <Footer />
+          </ReadingListProvider>
+        </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

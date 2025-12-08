@@ -1,9 +1,23 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import Navigation from '@/app/components/Navigation';
-import { getAllPosts, getPostBySlug } from '@/lib/posts';
+import ReadingProgress from '@/app/components/ReadingProgress';
+import ArticleActions from '@/app/components/ArticleActions';
+import TableOfContents from '@/app/components/TableOfContents';
+import BackToTop from '@/app/components/BackToTop';
+import SeriesProgress from '@/app/components/SeriesProgress';
+import KeyboardNav from '@/app/components/KeyboardNav';
+import Comments from '@/app/components/Comments';
+import ReadTracker from '@/app/components/ReadTracker';
+import { getAllPosts, getPostBySlug, getRelatedPosts, getSeriesNavigation, getSeriesPostsMinimal } from '@/lib/posts';
+import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import rehypeSlug from 'rehype-slug';
 import ArticleImage from '@/app/components/ArticleImage';
+import YouTube from '@/app/components/YouTube';
 import Image from 'next/image';
+
+const BASE_URL = 'https://integrated-human.vercel.app';
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -11,6 +25,53 @@ export async function generateStaticParams() {
     slug: post.slug,
   }));
 }
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: 'Article Not Found',
+    };
+  }
+
+  const { title, excerpt, categories, date } = post.metadata;
+
+  return {
+    title: `${title} | Integrated Human`,
+    description: excerpt,
+    keywords: [...categories, ...post.metadata.tags],
+    authors: [{ name: 'Integrated Human' }],
+    openGraph: {
+      title,
+      description: excerpt,
+      url: `${BASE_URL}/posts/${slug}`,
+      siteName: 'Integrated Human',
+      locale: 'en_US',
+      type: 'article',
+      publishedTime: date,
+      authors: ['Integrated Human'],
+      tags: categories,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: excerpt,
+    },
+    alternates: {
+      canonical: `${BASE_URL}/posts/${slug}`,
+    },
+  };
+}
+
+const seriesNames: Record<string, string> = {
+  'physical-foundation': 'Physical Foundation',
+  'inner-work': 'Inner Work',
+  'soul-foundations': 'Soul Foundations',
+  'relationship-foundations': 'Relationship Foundations',
+  'from-seeking-to-being': 'From Seeking to Being',
+};
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -20,20 +81,39 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     notFound();
   }
 
+  const relatedPosts = getRelatedPosts(slug, 3);
+  const seriesNav = getSeriesNavigation(slug);
+  const seriesPosts = post.metadata.series ? getSeriesPostsMinimal(post.metadata.series) : [];
+
   return (
     <>
+      <ReadingProgress />
+      <ReadTracker slug={slug} />
       <Navigation />
       <main className="min-h-screen bg-zinc-950">
         <article className="py-20 px-6">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid xl:grid-cols-[1fr_250px] gap-12">
+              <div className="max-w-3xl">
+            {/* Series Progress */}
+            {post.metadata.series && seriesPosts.length > 1 && (
+              <SeriesProgress
+                seriesId={post.metadata.series}
+                seriesName={seriesNames[post.metadata.series] || post.metadata.series}
+                posts={seriesPosts}
+                currentSlug={slug}
+              />
+            )}
+
             <div className="flex flex-wrap gap-3 mb-6">
               {post.metadata.categories.map((category) => (
-                <span
+                <Link
                   key={category}
-                  className="text-sm uppercase tracking-wide text-gray-500"
+                  href={`/${category.toLowerCase()}`}
+                  className="text-sm uppercase tracking-wide text-gray-500 hover:text-gray-300 transition-colors"
                 >
                   {category}
-                </span>
+                </Link>
               ))}
             </div>
             <h1 className="font-serif text-4xl md:text-5xl font-light text-white mb-6">
@@ -42,12 +122,19 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             <p className="text-xl text-gray-400 mb-8 leading-relaxed">
               {post.metadata.excerpt}
             </p>
-            <div className="text-gray-500 mb-12 pb-8 border-b border-zinc-800">
-              {new Date(post.metadata.date).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
+            <div className="mb-12 pb-8 border-b border-zinc-800 flex items-center justify-between">
+              <div className="flex items-center gap-3 text-gray-500">
+                <span>
+                  {new Date(post.metadata.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+                <span>·</span>
+                <span>{post.readingTime} min read</span>
+              </div>
+              <ArticleActions slug={slug} title={post.metadata.title} />
             </div>
             <div className="prose prose-invert prose-lg max-w-none
               prose-headings:font-serif prose-headings:font-light prose-headings:text-white
@@ -62,15 +149,127 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               prose-img:rounded-sm prose-img:border prose-img:border-zinc-800">
               <MDXRemote
                 source={post.content}
+                options={{
+                  mdxOptions: {
+                    rehypePlugins: [rehypeSlug],
+                  },
+                }}
                 components={{
                   ArticleImage,
                   Image,
+                  YouTube,
                 }}
               />
+            </div>
+
+            {/* Related Tags */}
+            {post.metadata.tags.length > 0 && (
+              <div className="mt-12 pt-8 border-t border-zinc-800">
+                <h3 className="text-sm text-gray-500 mb-4">Explore related topics</h3>
+                <div className="flex flex-wrap gap-2">
+                  {post.metadata.tags.map((tag) => (
+                    <Link
+                      key={tag}
+                      href={`/tags/${tag}`}
+                      className="px-3 py-1 text-sm border border-zinc-700 text-gray-400 hover:text-white hover:border-zinc-500 transition-colors"
+                    >
+                      {tag}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Series Navigation */}
+            {seriesNav.series && (seriesNav.prev || seriesNav.next) && (
+              <div className="mt-16 pt-8 border-t border-zinc-800">
+                <div className="text-sm text-gray-500 mb-4">
+                  Continue in {seriesNames[seriesNav.series] || seriesNav.series}
+                </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {seriesNav.prev && (
+                    <Link
+                      href={`/posts/${seriesNav.prev.slug}`}
+                      className="group p-5 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors"
+                    >
+                      <div className="text-xs text-gray-500 mb-2">← Previous</div>
+                      <div className="font-serif text-lg text-white group-hover:text-gray-300 transition-colors">
+                        {seriesNav.prev.metadata.title}
+                      </div>
+                    </Link>
+                  )}
+                  {seriesNav.next && (
+                    <Link
+                      href={`/posts/${seriesNav.next.slug}`}
+                      className={`group p-5 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors ${!seriesNav.prev ? 'md:col-start-2' : ''}`}
+                    >
+                      <div className="text-xs text-gray-500 mb-2 text-right">Next →</div>
+                      <div className="font-serif text-lg text-white group-hover:text-gray-300 transition-colors text-right">
+                        {seriesNav.next.metadata.title}
+                      </div>
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Related Posts */}
+            {relatedPosts.length > 0 && (
+              <div className="mt-16 pt-12 border-t border-zinc-800">
+                <h2 className="font-serif text-2xl font-light text-white mb-8">
+                  Keep Reading
+                </h2>
+                <div className="grid gap-4">
+                  {relatedPosts.map((relatedPost) => (
+                    <Link
+                      key={relatedPost.slug}
+                      href={`/posts/${relatedPost.slug}`}
+                      className="group flex items-start gap-4 p-5 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors"
+                    >
+                      <div className="flex-1">
+                        <div className="flex flex-wrap gap-2 mb-2">
+                          {relatedPost.metadata.categories.map((category) => (
+                            <span
+                              key={category}
+                              className="text-xs uppercase tracking-wide text-gray-500"
+                            >
+                              {category}
+                            </span>
+                          ))}
+                        </div>
+                        <h3 className="font-serif text-lg text-white group-hover:text-gray-300 transition-colors mb-1">
+                          {relatedPost.metadata.title}
+                        </h3>
+                        <p className="text-gray-500 text-sm line-clamp-1">
+                          {relatedPost.metadata.excerpt}
+                        </p>
+                      </div>
+                      <div className="text-gray-600 text-sm flex-shrink-0">
+                        {relatedPost.readingTime} min
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Comments Section */}
+            <Comments slug={slug} />
+              </div>
+
+              {/* Table of Contents Sidebar */}
+              <TableOfContents content={post.content} />
             </div>
           </div>
         </article>
       </main>
+      <BackToTop />
+      {seriesNav.series && (
+        <KeyboardNav
+          prevSlug={seriesNav.prev?.slug}
+          nextSlug={seriesNav.next?.slug}
+        />
+      )}
     </>
   );
 }

@@ -1,69 +1,99 @@
 import Link from 'next/link';
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="bg-black border-t border-zinc-800 py-12 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-3 gap-12 mb-8">
+    <footer className="bg-black border-t border-zinc-800">
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
-          <div>
-            <h3 className="font-serif text-xl font-light text-white mb-3">
+          <div className="md:col-span-1">
+            <Link href="/" className="font-serif text-xl text-white">
               Integrated Human
-            </h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            </Link>
+            <p className="text-gray-500 mt-4 text-sm leading-relaxed">
               Live stronger, feel deeper, become whole.
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Learn */}
           <div>
-            <h4 className="text-sm uppercase tracking-wide text-gray-500 mb-3">Navigate</h4>
-            <div className="flex flex-col gap-2">
-              <Link href="/mind" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Mind
-              </Link>
-              <Link href="/body" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Body
-              </Link>
-              <Link href="/soul" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Soul
-              </Link>
-              <Link href="/relationships" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Relationships
-              </Link>
-              <Link href="/library" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Library
-              </Link>
-              <Link href="/about" className="text-gray-400 hover:text-white text-sm transition-colors">
-                About
-              </Link>
-              <Link href="/connect" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Connect
-              </Link>
-            </div>
+            <h4 className="text-white font-medium mb-4">Learn</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link href="/mind" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Mind
+                </Link>
+              </li>
+              <li>
+                <Link href="/body" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Body
+                </Link>
+              </li>
+              <li>
+                <Link href="/soul" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Soul
+                </Link>
+              </li>
+              <li>
+                <Link href="/relationships" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Relationships
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Explore */}
+          <div>
+            <h4 className="text-white font-medium mb-4">Explore</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link href="/library" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  All Articles
+                </Link>
+              </li>
+              <li>
+                <Link href="/shop" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Books
+                </Link>
+              </li>
+              <li>
+                <Link href="/community" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Community
+                </Link>
+              </li>
+            </ul>
           </div>
 
           {/* Connect */}
           <div>
-            <h4 className="text-sm uppercase tracking-wide text-gray-500 mb-3">Connect</h4>
-            <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              Questions, feedback, or just want to say hello?
-            </p>
-            <Link href="/connect" className="text-gray-300 underline hover:text-white text-sm transition-colors">
-              Get in touch →
-            </Link>
+            <h4 className="text-white font-medium mb-4">Connect</h4>
+            <ul className="space-y-3">
+              <li>
+                <Link href="/about" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href="/connect" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link href="/feed.xml" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  RSS Feed
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Bottom */}
         <div className="pt-8 border-t border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm">
-            © {currentYear} Integrated Human. All rights reserved.
+          <p className="text-gray-600 text-sm">
+            © {new Date().getFullYear()} Integrated Human. All rights reserved.
           </p>
-          <p className="text-gray-500 text-sm">
-            Built with intention. No shortcuts.
+          <p className="text-gray-600 text-sm italic">
+            Small steps. Real talk. No pretending.
           </p>
         </div>
       </div>

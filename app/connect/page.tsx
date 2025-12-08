@@ -1,6 +1,34 @@
+'use client';
+
+import { useState } from 'react';
 import Navigation from '../components/Navigation';
 
 export default function ConnectPage() {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
+  };
+
   return (
     <>
       <Navigation />
@@ -21,58 +49,77 @@ export default function ConnectPage() {
               </p>
             </div>
 
-            <div className="bg-zinc-900 border border-zinc-800 p-8 md:p-12 space-y-6">
+            <div className="bg-zinc-900 border border-zinc-800 p-8 md:p-12">
               <h2 className="font-serif text-2xl font-light text-white mb-6">Get In Touch</h2>
 
-              <div className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm text-gray-400 mb-2">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="w-full px-4 py-3 bg-black border border-zinc-700 text-white placeholder-gray-600 focus:outline-none focus:border-zinc-500 transition-colors"
-                    placeholder="Your name"
-                  />
+              {status === 'success' ? (
+                <div className="text-gray-300 py-8 text-center">
+                  <p className="text-lg mb-2">Message sent.</p>
+                  <p className="text-sm text-gray-500">Thanks for reaching out. I'll get back to you when I can.</p>
                 </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  {status === 'error' && (
+                    <p className="text-red-400 text-sm">Something went wrong. Please try again.</p>
+                  )}
 
-                <div>
-                  <label htmlFor="email" className="block text-sm text-gray-400 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full px-4 py-3 bg-black border border-zinc-700 text-white placeholder-gray-600 focus:outline-none focus:border-zinc-500 transition-colors"
-                    placeholder="your@email.com"
-                  />
-                </div>
+                  <div>
+                    <label htmlFor="name" className="block text-sm text-gray-400 mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-4 py-3 bg-black border border-zinc-700 text-white placeholder-gray-600 focus:outline-none focus:border-zinc-500 transition-colors"
+                      placeholder="Your name"
+                      required
+                      disabled={status === 'loading'}
+                    />
+                  </div>
 
-                <div>
-                  <label htmlFor="message" className="block text-sm text-gray-400 mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={8}
-                    className="w-full px-4 py-3 bg-black border border-zinc-700 text-white placeholder-gray-600 focus:outline-none focus:border-zinc-500 transition-colors resize-none"
-                    placeholder="What's on your mind?"
-                  />
-                </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm text-gray-400 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-4 py-3 bg-black border border-zinc-700 text-white placeholder-gray-600 focus:outline-none focus:border-zinc-500 transition-colors"
+                      placeholder="your@email.com"
+                      required
+                      disabled={status === 'loading'}
+                    />
+                  </div>
 
-                <button
-                  type="submit"
-                  className="w-full px-8 py-3 bg-white text-black font-medium hover:bg-gray-200 transition-colors"
-                >
-                  Send Message
-                </button>
-              </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm text-gray-400 mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      id="message"
+                      rows={8}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="w-full px-4 py-3 bg-black border border-zinc-700 text-white placeholder-gray-600 focus:outline-none focus:border-zinc-500 transition-colors resize-none"
+                      placeholder="What's on your mind?"
+                      required
+                      disabled={status === 'loading'}
+                    />
+                  </div>
 
-              <p className="text-xs text-gray-600 mt-6">
-                This form is currently a placeholder. To connect, reach out via social media or
-                email integration coming soon.
-              </p>
+                  <button
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="w-full px-8 py-3 bg-white text-black font-medium hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {status === 'loading' ? 'Sending...' : 'Send Message'}
+                  </button>
+                </form>
+              )}
             </div>
 
             <div className="mt-12 p-8 bg-zinc-900 border border-zinc-800">

@@ -10,12 +10,22 @@ export default function NewsletterSignup() {
     e.preventDefault();
     setStatus('loading');
 
-    // Placeholder - integrate with your newsletter service (ConvertKit, Mailchimp, etc.)
-    // For now, just simulate success
-    setTimeout(() => {
-      setStatus('success');
-      setEmail('');
-    }, 1000);
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setEmail('');
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
@@ -32,10 +42,13 @@ export default function NewsletterSignup() {
         {status === 'success' ? (
           <div className="text-gray-300 py-4">
             <p className="mb-2">You're in.</p>
-            <p className="text-sm text-gray-500">Check your email to confirm.</p>
+            <p className="text-sm text-gray-500">We'll be in touch.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+            {status === 'error' && (
+              <p className="text-red-400 text-sm mb-2 w-full">Something went wrong. Please try again.</p>
+            )}
             <input
               type="email"
               value={email}
