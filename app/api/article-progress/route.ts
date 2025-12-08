@@ -13,7 +13,7 @@ export async function GET() {
     orderBy: { updatedAt: "desc" },
   });
 
-  return NextResponse.json(progress.map(p => ({
+  return NextResponse.json(progress.map((p: { slug: string; completed: boolean; completedAt: Date | null }) => ({
     slug: p.slug,
     completed: p.completed,
     completedAt: p.completedAt,
