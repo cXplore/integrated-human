@@ -24,41 +24,65 @@ const navItems: NavItem[] = [
   {
     label: 'Explore',
     dropdown: [
-      { label: 'Mind', href: '/mind', description: 'Shadow work, emotions, nervous system, patterns' },
-      { label: 'Body', href: '/body', description: 'Strength, yoga, breathwork, sleep, recovery' },
-      { label: 'Soul', href: '/soul', description: 'Meditation, psychedelics, meaning, presence' },
-      { label: 'Relationships', href: '/relationships', description: 'Attachment, polarity, conflict, intimacy' },
-      { label: 'Archetype Quiz', href: '/archetypes', description: 'Discover your archetypal profile' },
-      { label: 'Learning Paths', href: '/learning-paths', description: 'Structured series to read in order' },
-      { label: 'AI Guide', href: '/guide', description: 'A wise companion for your journey' },
+      { label: 'Mind', href: '/mind', description: 'Shadow work, emotions, patterns' },
+      { label: 'Body', href: '/body', description: 'Strength, breath, nervous system' },
+      { label: 'Soul', href: '/soul', description: 'Meditation, meaning, presence' },
+      { label: 'Relationships', href: '/relationships', description: 'Attachment, intimacy, conflict' },
+      { label: 'Archetype Quiz', href: '/archetypes', description: 'Discover your profile' },
+      { label: 'Learning Paths', href: '/learning-paths', description: 'Structured journeys' },
     ],
   },
   { label: 'Courses', href: '/courses' },
-  { label: 'Topics', href: '/tags' },
   { label: 'Library', href: '/library' },
-  { label: 'Books', href: '/shop' },
-  { label: 'Community', href: '/community' },
   { label: 'About', href: '/about' },
 ];
 
-function DropdownMenu({ items, isOpen, onClose }: { items: DropdownItem[]; isOpen: boolean; onClose: () => void }) {
+function MegaMenu({ items, isOpen, onClose }: { items: DropdownItem[]; isOpen: boolean; onClose: () => void }) {
   if (!isOpen) return null;
 
+  // Separate pillars from tools
+  const pillars = items.filter(item => ['Mind', 'Body', 'Soul', 'Relationships'].includes(item.label));
+  const tools = items.filter(item => !['Mind', 'Body', 'Soul', 'Relationships'].includes(item.label));
+
   return (
-    <div className="absolute top-full left-0 mt-2 w-72 bg-zinc-900 border border-zinc-800 shadow-xl z-50">
-      {items.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          onClick={onClose}
-          className="block px-5 py-4 hover:bg-zinc-800 transition-colors border-b border-zinc-800 last:border-b-0"
-        >
-          <span className="text-white font-medium">{item.label}</span>
-          {item.description && (
-            <span className="block text-sm text-gray-500 mt-1">{item.description}</span>
-          )}
-        </Link>
-      ))}
+    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[700px] bg-zinc-900 border border-zinc-800 shadow-xl z-50 p-6">
+      {/* Four Pillars Grid */}
+      <div className="grid grid-cols-4 gap-4 mb-6">
+        {pillars.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            onClick={onClose}
+            className="group p-4 rounded-lg hover:bg-zinc-800 transition-colors text-center"
+          >
+            <span className="block text-white font-medium group-hover:text-gray-200 mb-1">{item.label}</span>
+            {item.description && (
+              <span className="block text-xs text-gray-500 group-hover:text-gray-400">{item.description}</span>
+            )}
+          </Link>
+        ))}
+      </div>
+
+      {/* Tools Section */}
+      {tools.length > 0 && (
+        <div className="pt-4 border-t border-zinc-800">
+          <div className="flex justify-center gap-6">
+            {tools.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={onClose}
+                className="group flex items-center gap-2 px-4 py-2 rounded hover:bg-zinc-800 transition-colors"
+              >
+                <span className="text-gray-400 group-hover:text-white text-sm">{item.label}</span>
+                {item.description && (
+                  <span className="text-xs text-gray-600 group-hover:text-gray-500">— {item.description}</span>
+                )}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -121,7 +145,7 @@ export default function Navigation() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </button>
-                  <DropdownMenu
+                  <MegaMenu
                     items={item.dropdown}
                     isOpen={activeDropdown === item.label}
                     onClose={() => setActiveDropdown(null)}

@@ -475,3 +475,42 @@ a:hover {
 .light-mode footer .border-zinc-800 {
   border-color: #e8e0d8;
 }
+
+/* Light mode mega menu */
+.light-mode .bg-zinc-900.p-6 {
+  background: #fffefa;
+  border-color: #e8e0d8;
+}
+
+.light-mode .bg-zinc-900.p-6 .text-white {
+  color: #2d2420;
+}
+
+.light-mode .bg-zinc-900.p-6 .text-gray-500 {
+  color: #8c7b6d;
+}
+
+.light-mode .bg-zinc-900.p-6 .text-gray-400 {
+  color: #6b5d52;
+}
+
+.light-mode .bg-zinc-900.p-6 .text-gray-600 {
+  color: #a89888;
+}
+
+.light-mode .bg-zinc-900.p-6 .hover\:bg-zinc-800:hover {
+  background: #f5f0ea;
+}
+
+/* Light mode profile page */
+.light-mode .bg-gradient-to-b.from-zinc-900 {
+  background: linear-gradient(to bottom, #f5f0ea, var(--background));
+}
+
+.light-mode .ring-zinc-800 {
+  --tw-ring-color: #e8e0d8;
+}
+
+.light-mode .bg-gradient-to-br.from-zinc-700.to-zinc-800 {
+  background: linear-gradient(to bottom right, #d4c8ba, #e8e0d8);
+}
