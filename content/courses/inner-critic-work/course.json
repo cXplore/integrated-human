@@ -1,0 +1,62 @@
+{
+  "id": "inner-critic-work",
+  "title": "Working with Your Inner Critic",
+  "subtitle": "Transform self-attack into self-leadership",
+  "description": "Learn to recognize, understand, and transform the harsh inner voice that keeps you small. This course teaches you practical techniques for shifting from self-criticism to self-compassion without losing your drive for growth.",
+  "category": "Mind",
+  "price": 57,
+  "currency": "USD",
+  "duration": "3-4 weeks",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-the-inner-critic",
+      "title": "Understanding the Inner Critic",
+      "description": "What it is, where it comes from, and why it's so powerful",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "mapping-your-critic",
+      "title": "Mapping Your Critic",
+      "description": "Identifying your specific critic patterns and triggers",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "the-critic-relationship",
+      "title": "Changing the Relationship",
+      "description": "From enemy to informant - a new way of relating",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "building-the-inner-ally",
+      "title": "Building the Inner Ally",
+      "description": "Developing your supportive inner voice",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "critic-in-daily-life",
+      "title": "Living with Your Critic",
+      "description": "Practical strategies for real-world application",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Recognize your inner critic's voice and patterns",
+    "Understand the protective function behind self-criticism",
+    "Techniques to interrupt critic attacks in real-time",
+    "How to extract useful information without the abuse",
+    "Build a supportive inner voice that motivates without harm",
+    "Daily practices for ongoing critic management"
+  ],
+  "requirements": [
+    "Willingness to observe your inner dialogue",
+    "Openness to self-compassion (even if it feels uncomfortable)",
+    "Journal or notes app for exercises"
+  ]
+}

@@ -1,22 +1,28 @@
+'use client';
+
 import Navigation from '../components/Navigation';
-import Link from 'next/link';
+import { useState } from 'react';
 
 interface Book {
   title: string;
   author: string;
   description: string;
   category: string;
-  affiliateLink?: string;
+  asin?: string;
   freeLink?: string;
 }
 
+// Store ASIN (Amazon Standard Identification Number) for proper affiliate links
+// The affiliate tag will be added at render time
+const AFFILIATE_TAG = 'integratedhum-20'; // Replace with your actual Amazon Associates tag
+
 const books: Book[] = [
   {
-    title: 'Man\'s Search for Meaning',
+    title: "Man's Search for Meaning",
     author: 'Viktor Frankl',
-    description: 'A psychiatrist\'s experience in Nazi concentration camps and his discovery that meaning can be found even in the darkest circumstances.',
+    description: "A psychiatrist's experience in Nazi concentration camps and his discovery that meaning can be found even in the darkest circumstances.",
     category: 'Soul',
-    affiliateLink: 'https://www.amazon.com/Mans-Search-Meaning-Viktor-Frankl/dp/0807014273',
+    asin: '0807014273',
     freeLink: 'https://archive.org/details/manssearchformea00fran',
   },
   {
@@ -24,72 +30,96 @@ const books: Book[] = [
     author: 'Bessel van der Kolk',
     description: 'How trauma reshapes both body and brain, and what it takes to heal. Essential reading for understanding the nervous system.',
     category: 'Mind',
-    affiliateLink: 'https://www.amazon.com/Body-Keeps-Score-Healing-Trauma/dp/0143127748',
+    asin: '0143127748',
   },
   {
     title: 'Iron John',
     author: 'Robert Bly',
     description: 'A modern classic on masculine initiation, archetypes, and the journey from boy to man.',
     category: 'Soul',
-    affiliateLink: 'https://www.amazon.com/Iron-John-Book-About-Men/dp/0306824264',
+    asin: '0306824264',
   },
   {
     title: 'Attached',
     author: 'Amir Levine & Rachel Heller',
     description: 'The science of attachment styles and how they affect your relationships. Practical and accessible.',
     category: 'Relationships',
-    affiliateLink: 'https://www.amazon.com/Attached-Science-Adult-Attachment-YouFind/dp/1585429139',
+    asin: '1585429139',
   },
   {
     title: 'The Way of the Superior Man',
     author: 'David Deida',
     description: 'Masculine-feminine polarity, purpose, and depth in relationships. Direct and sometimes confronting.',
     category: 'Relationships',
-    affiliateLink: 'https://www.amazon.com/Way-Superior-Man-Spiritual-Challenges/dp/1622038320',
+    asin: '1622038320',
   },
   {
     title: 'Meditations',
     author: 'Marcus Aurelius',
     description: 'Personal writings of a Roman emperor practicing Stoic philosophy. Timeless wisdom on presence and acceptance.',
     category: 'Mind',
+    asin: '0812968255',
     freeLink: 'https://www.gutenberg.org/ebooks/2680',
-    affiliateLink: 'https://www.amazon.com/Meditations-New-Translation-Marcus-Aurelius/dp/0812968255',
   },
   {
     title: 'The Doors of Perception',
     author: 'Aldous Huxley',
-    description: 'Huxley\'s account of his mescaline experience. A thoughtful exploration of consciousness and perception.',
+    description: "Huxley's account of his mescaline experience. A thoughtful exploration of consciousness and perception.",
     category: 'Soul',
+    asin: '0061729078',
     freeLink: 'https://archive.org/details/doorsofperceptio0000huxl',
-    affiliateLink: 'https://www.amazon.com/Doors-Perception-Heaven-Hell/dp/0061729078',
   },
   {
     title: 'Starting Strength',
     author: 'Mark Rippetoe',
     description: 'The definitive guide to barbell training. Technical, thorough, and effective.',
     category: 'Body',
-    affiliateLink: 'https://www.amazon.com/Starting-Strength-Basic-Barbell-Training/dp/0982522738',
+    asin: '0982522738',
   },
   {
     title: 'Light on Yoga',
     author: 'B.K.S. Iyengar',
     description: 'The bible of yoga practice. Comprehensive guide to asanas with detailed instructions and photographs.',
     category: 'Body',
-    affiliateLink: 'https://www.amazon.com/Light-Yoga-Definitive-Guide-Practice/dp/0805210318',
+    asin: '0805210318',
   },
   {
     title: 'The Tao Te Ching',
     author: 'Lao Tzu',
     description: 'Ancient Chinese wisdom on living in harmony with the way of things. Short, profound, endlessly rereadable.',
     category: 'Soul',
+    asin: '0060812451',
     freeLink: 'https://www.gutenberg.org/ebooks/216',
-    affiliateLink: 'https://www.amazon.com/Tao-Te-Ching-Laozi/dp/0060812451',
+  },
+  {
+    title: 'Breath',
+    author: 'James Nestor',
+    description: 'The lost art and science of breathing. How something so simple can transform your health and performance.',
+    category: 'Body',
+    asin: '0735213615',
+  },
+  {
+    title: 'King, Warrior, Magician, Lover',
+    author: 'Robert Moore & Douglas Gillette',
+    description: 'The four masculine archetypes and how to access their mature forms. Essential for understanding masculine psychology.',
+    category: 'Soul',
+    asin: '0062506064',
   },
 ];
 
 const categories = ['All', 'Mind', 'Body', 'Soul', 'Relationships'];
 
+function getAffiliateLink(asin: string): string {
+  return `https://www.amazon.com/dp/${asin}?tag=${AFFILIATE_TAG}`;
+}
+
 export default function ShopPage() {
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const filteredBooks = selectedCategory === 'All'
+    ? books
+    : books.filter(book => book.category === selectedCategory);
+
   return (
     <>
       <Navigation />
@@ -109,18 +139,37 @@ export default function ShopPage() {
                 Products Coming Soon
               </h2>
               <p className="text-gray-400 leading-relaxed">
-                We're working on curated products — journals, training gear, and more.
+                We&apos;re working on curated products — journals, training gear, and more.
                 Join the community to be notified when they launch.
               </p>
             </div>
 
             {/* Books Section */}
-            <h2 className="font-serif text-3xl font-light text-white mb-8">
-              Recommended Reading
-            </h2>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+              <h2 className="font-serif text-3xl font-light text-white">
+                Recommended Reading
+              </h2>
+
+              {/* Category Filter */}
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`px-4 py-2 text-sm transition-colors ${
+                      selectedCategory === category
+                        ? 'bg-white text-zinc-900'
+                        : 'bg-zinc-900 border border-zinc-700 text-gray-400 hover:text-white hover:border-zinc-500'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {books.map((book) => (
+              {filteredBooks.map((book) => (
                 <div
                   key={book.title}
                   className="bg-zinc-900 border border-zinc-800 p-6 hover:border-zinc-700 transition-colors"
@@ -146,9 +195,9 @@ export default function ShopPage() {
                         Read Free
                       </a>
                     )}
-                    {book.affiliateLink && (
+                    {book.asin && (
                       <a
-                        href={book.affiliateLink}
+                        href={getAffiliateLink(book.asin)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-sm text-gray-400 hover:text-white transition-colors underline"
@@ -161,9 +210,19 @@ export default function ShopPage() {
               ))}
             </div>
 
+            {filteredBooks.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                No books found in this category.
+              </div>
+            )}
+
             <div className="mt-12 p-8 bg-zinc-900 border border-zinc-800 text-center">
               <p className="text-gray-500 text-sm">
-                Some links are affiliate links. We only recommend books we've actually read and value.
+                Some links are affiliate links. We only recommend books we&apos;ve actually read and value.
+                <br />
+                <span className="text-gray-600 mt-2 block">
+                  Purchasing through these links helps support this project at no extra cost to you.
+                </span>
               </p>
             </div>
           </div>

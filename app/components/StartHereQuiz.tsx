@@ -80,6 +80,10 @@ const articleRecommendations: Record<string, Recommendation> = {
   'clarity': { title: 'Gratitude Without the Cringe', slug: 'gratitude-without-the-cringe', reason: 'Appreciation that actually works' },
   'transitions': { title: 'Midlife Without the Crisis', slug: 'midlife-without-the-crisis', reason: 'The questions that surface in your 30s and 40s' },
   'spirituality': { title: 'When the Seeking Stops', slug: 'when-the-seeking-stops', reason: 'From searching to settling' },
+  'archetypes': { title: 'The Four Masculine Archetypes', slug: 'the-four-masculine-archetypes', reason: 'King, Warrior, Magician, Lover — patterns of the masculine psyche' },
+  'masculine': { title: 'The Four Masculine Archetypes', slug: 'the-four-masculine-archetypes', reason: 'Understanding masculine energy and its shadows' },
+  'feminine': { title: 'The Seven Feminine Archetypes', slug: 'the-seven-feminine-archetypes', reason: 'Queen, Mother, Lover, and four more patterns of feminine power' },
+  'polarity': { title: 'Polarity: The Dance of Masculine and Feminine', slug: 'polarity-the-dance-of-masculine-and-feminine', reason: 'The attraction between opposites' },
 };
 
 export default function StartHereQuiz() {

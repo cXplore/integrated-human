@@ -17,10 +17,30 @@ export default function MindPage() {
             <h1 className="font-serif text-5xl md:text-6xl font-light text-white mb-6">
               Mind
             </h1>
-            <p className="text-xl text-gray-300 leading-relaxed mb-16">
+            <p className="text-xl text-gray-300 leading-relaxed mb-8">
               Your inner landscape: psychology, patterns, shadow work, attachment.
               Understanding why you do what you do — and how to change it.
             </p>
+
+            {/* Archetype Quiz CTA */}
+            <Link
+              href="/archetypes"
+              className="block mb-16 p-6 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors group"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-serif text-xl text-white mb-2 group-hover:text-gray-300 transition-colors">
+                    Archetype Assessment
+                  </h3>
+                  <p className="text-gray-500 text-sm">
+                    Discover which archetypal energies are most active in your psyche. 12 questions, ~3 minutes.
+                  </p>
+                </div>
+                <svg className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </div>
+            </Link>
 
             {/* Learning Path */}
             {innerWork.length > 0 && (

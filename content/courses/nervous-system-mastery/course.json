@@ -1,0 +1,73 @@
+{
+  "id": "nervous-system-mastery",
+  "title": "Nervous System Mastery",
+  "subtitle": "Regulate Your System, Expand Your Capacity",
+  "description": "A 6-module course on understanding and working with your autonomic nervous system. Learn to recognize your states, regulate when activated, and build greater capacity for life's challenges.",
+  "price": 67,
+  "currency": "USD",
+  "image": "/images/courses/nervous-system-mastery.jpg",
+  "duration": "6 modules",
+  "level": "Beginner",
+  "category": "Body",
+  "tags": ["nervous-system", "regulation", "polyvagal", "somatic", "stress"],
+  "instructor": "Integrated Human",
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-your-nervous-system",
+      "title": "Understanding Your Nervous System",
+      "description": "The science of your autonomic nervous system and why it matters",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "mapping-your-patterns",
+      "title": "Mapping Your Patterns",
+      "description": "Identifying your unique nervous system responses",
+      "duration": "20 min"
+    },
+    {
+      "id": 3,
+      "slug": "down-regulating",
+      "title": "Down-Regulating",
+      "description": "Tools for calming an activated system",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "up-regulating",
+      "title": "Up-Regulating",
+      "description": "Tools for energizing a shutdown system",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "building-capacity",
+      "title": "Building Capacity",
+      "description": "Expanding your window of tolerance over time",
+      "duration": "25 min"
+    },
+    {
+      "id": 6,
+      "slug": "daily-practice",
+      "title": "Integration & Daily Practice",
+      "description": "Creating a sustainable nervous system practice",
+      "duration": "20 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand how your autonomic nervous system works",
+    "Recognize the signs of activation and shutdown",
+    "Use practical tools to regulate your state",
+    "Build greater capacity for stress and intensity",
+    "Create a daily practice for nervous system health"
+  ],
+  "requirements": [
+    "Willingness to pay attention to body sensations",
+    "A quiet space for practicing regulation techniques",
+    "Openness to experimenting with different approaches"
+  ],
+  "published": true,
+  "createdAt": "2024-12-18",
+  "updatedAt": "2024-12-18"
+}

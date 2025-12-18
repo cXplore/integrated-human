@@ -4,6 +4,8 @@ import Navigation from '../components/Navigation';
 import Image from 'next/image';
 import NewsletterToggle from './NewsletterToggle';
 import ReadingStats from './ReadingStats';
+import CourseProgress from './CourseProgress';
+import { prisma } from '@/lib/prisma';
 
 export default async function ProfilePage() {
   const session = await auth();
@@ -13,6 +15,12 @@ export default async function ProfilePage() {
   }
 
   const { user } = session;
+
+  // Fetch user's createdAt from database
+  const dbUser = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { createdAt: true },
+  });
 
   return (
     <>
@@ -42,6 +50,14 @@ export default async function ProfilePage() {
                   {user.name || 'Anonymous'}
                 </h1>
                 <p className="text-gray-400">{user.email}</p>
+                {dbUser?.createdAt && (
+                  <p className="text-gray-500 text-sm mt-1">
+                    Member since {new Date(dbUser.createdAt).toLocaleDateString('en-US', {
+                      month: 'long',
+                      year: 'numeric',
+                    })}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -74,6 +90,9 @@ export default async function ProfilePage() {
 
               {/* Reading Stats */}
               <ReadingStats />
+
+              {/* Course Progress */}
+              <CourseProgress />
             </div>
 
             {/* Sign Out */}

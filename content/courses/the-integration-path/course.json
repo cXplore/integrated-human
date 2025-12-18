@@ -1,0 +1,91 @@
+{
+  "id": "the-integration-path",
+  "title": "The Integration Path",
+  "subtitle": "An 8-Week Journey to Becoming Whole",
+  "description": "The flagship course bringing together all four pillars—Mind, Body, Soul, and Relationships—into one comprehensive transformation journey. This is the deep work of integration: understanding your patterns, healing what's wounded, building new capacities, and becoming the person you're meant to be.",
+  "price": 247,
+  "currency": "USD",
+  "image": "/images/courses/the-integration-path.jpg",
+  "duration": "8 weeks",
+  "level": "Intermediate",
+  "category": "Mind",
+  "tags": ["integration", "shadow-work", "nervous-system", "relationships", "meaning", "transformation"],
+  "instructor": "Integrated Human",
+  "modules": [
+    {
+      "id": 1,
+      "slug": "week-1-foundation",
+      "title": "Week 1: Foundation",
+      "description": "Understanding integration and mapping where you are",
+      "duration": "45 min"
+    },
+    {
+      "id": 2,
+      "slug": "week-2-body",
+      "title": "Week 2: The Body",
+      "description": "Nervous system, embodiment, and physical foundation",
+      "duration": "50 min"
+    },
+    {
+      "id": 3,
+      "slug": "week-3-shadow",
+      "title": "Week 3: The Shadow",
+      "description": "Meeting and integrating the disowned self",
+      "duration": "50 min"
+    },
+    {
+      "id": 4,
+      "slug": "week-4-emotions",
+      "title": "Week 4: Emotions",
+      "description": "Emotional intelligence and capacity",
+      "duration": "45 min"
+    },
+    {
+      "id": 5,
+      "slug": "week-5-patterns",
+      "title": "Week 5: Patterns",
+      "description": "Identifying and transforming limiting patterns",
+      "duration": "50 min"
+    },
+    {
+      "id": 6,
+      "slug": "week-6-relationships",
+      "title": "Week 6: Relationships",
+      "description": "Attachment, intimacy, and conscious relating",
+      "duration": "50 min"
+    },
+    {
+      "id": 7,
+      "slug": "week-7-meaning",
+      "title": "Week 7: Meaning",
+      "description": "Purpose, values, and what you're here for",
+      "duration": "45 min"
+    },
+    {
+      "id": 8,
+      "slug": "week-8-integration",
+      "title": "Week 8: Integration",
+      "description": "Bringing it all together for lasting change",
+      "duration": "50 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Map your current state across all four pillars",
+    "Regulate your nervous system and build capacity",
+    "Identify and integrate shadow material",
+    "Develop emotional intelligence and tolerance",
+    "Transform limiting patterns and beliefs",
+    "Heal attachment wounds and relate more consciously",
+    "Clarify your purpose and values",
+    "Create a sustainable practice for ongoing integration"
+  ],
+  "requirements": [
+    "Commitment to 8 weeks of consistent practice",
+    "A journal for daily reflection",
+    "Willingness to examine all aspects of your life honestly",
+    "Time for daily practices (15-30 min) and weekly deep work (60-90 min)"
+  ],
+  "published": true,
+  "createdAt": "2024-12-18",
+  "updatedAt": "2024-12-18"
+}

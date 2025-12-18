@@ -1,0 +1,66 @@
+{
+  "id": "shadow-work-foundations",
+  "title": "Shadow Work Foundations",
+  "subtitle": "Meet the Parts of Yourself You've Been Running From",
+  "description": "A 5-module journey into understanding and integrating your shadow. Learn what the shadow is, how to find it, and how to bring it into consciousness for genuine transformation.",
+  "price": 47,
+  "currency": "USD",
+  "image": "/images/courses/shadow-work-foundations.jpg",
+  "duration": "5 modules",
+  "level": "Beginner",
+  "category": "Mind",
+  "tags": ["shadow-work", "psychology", "self-awareness", "integration"],
+  "instructor": "Integrated Human",
+  "modules": [
+    {
+      "id": 1,
+      "slug": "what-is-shadow",
+      "title": "What is the Shadow?",
+      "description": "Understanding the disowned self and why it matters",
+      "duration": "20 min"
+    },
+    {
+      "id": 2,
+      "slug": "finding-your-shadow",
+      "title": "Finding Your Shadow",
+      "description": "Practical methods for discovering what you've disowned",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "meeting-the-shadow",
+      "title": "Meeting the Shadow",
+      "description": "How to approach shadow material without being overwhelmed",
+      "duration": "25 min"
+    },
+    {
+      "id": 4,
+      "slug": "understanding-your-shadow",
+      "title": "Understanding Your Shadow",
+      "description": "Making sense of what you discover",
+      "duration": "20 min"
+    },
+    {
+      "id": 5,
+      "slug": "integrating-shadow",
+      "title": "Integrating the Shadow",
+      "description": "Bringing the shadow home and living more whole",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand what the shadow is and how it forms",
+    "Identify your specific shadow material",
+    "Develop practices for ongoing shadow work",
+    "Transform projection into self-awareness",
+    "Integrate disowned parts for greater wholeness"
+  ],
+  "requirements": [
+    "Willingness to explore uncomfortable aspects of yourself",
+    "A journal for reflection exercises",
+    "Openness to challenging your self-image"
+  ],
+  "published": true,
+  "createdAt": "2024-12-18",
+  "updatedAt": "2024-12-18"
+}

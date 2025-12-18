@@ -402,3 +402,46 @@ a:hover {
 .light-mode section p.text-gray-400 {
   color: #4a3f36;
 }
+
+/* Light mode course page styles */
+.light-mode .bg-zinc-900\/50 {
+  background: rgba(250, 248, 245, 0.8);
+}
+
+.light-mode .border-zinc-800\/50 {
+  border-color: rgba(232, 224, 216, 0.5);
+}
+
+.light-mode .bg-gradient-to-br.from-zinc-800.to-zinc-900 {
+  background: linear-gradient(to bottom right, #f5f0ea, #fffefa);
+}
+
+/* Light mode course completion badges */
+.light-mode .text-green-500 {
+  color: #4a7c4a;
+}
+
+.light-mode .text-green-600 {
+  color: #3d6b3d;
+}
+
+.light-mode .bg-green-600 {
+  background-color: #4a7c4a;
+}
+
+.light-mode .bg-green-900 {
+  background-color: rgba(74, 124, 74, 0.15);
+}
+
+.light-mode .text-green-400 {
+  color: #4a7c4a;
+}
+
+.light-mode .border-green-900 {
+  border-color: rgba(74, 124, 74, 0.3);
+}
+
+/* Light mode progress bars */
+.light-mode .bg-blue-600 {
+  background-color: #5a6b8a;
+}

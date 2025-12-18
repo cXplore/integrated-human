@@ -1,0 +1,74 @@
+{
+  "id": "attachment-repair",
+  "title": "Attachment Repair",
+  "subtitle": "From Insecure to Earned Secure",
+  "description": "A 6-module course on understanding and healing your attachment patterns. Learn how attachment forms, identify your style, and develop the skills for secure relating.",
+  "price": 67,
+  "currency": "USD",
+  "image": "/images/courses/attachment-repair.jpg",
+  "duration": "6 modules",
+  "level": "Beginner",
+  "category": "Relationships",
+  "tags": ["attachment", "relationships", "intimacy", "healing", "secure-attachment"],
+  "instructor": "Integrated Human",
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-attachment",
+      "title": "Understanding Attachment",
+      "description": "How attachment forms and why it matters",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "mapping-your-patterns",
+      "title": "Mapping Your Patterns",
+      "description": "Identifying your specific attachment style",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "anxious-attachment",
+      "title": "Working with Anxious Attachment",
+      "description": "Healing the fear of abandonment",
+      "duration": "25 min"
+    },
+    {
+      "id": 4,
+      "slug": "avoidant-attachment",
+      "title": "Working with Avoidant Attachment",
+      "description": "Healing the fear of engulfment",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "choosing-differently",
+      "title": "Choosing Differently",
+      "description": "Breaking partner selection patterns",
+      "duration": "20 min"
+    },
+    {
+      "id": 6,
+      "slug": "earned-secure",
+      "title": "The Path to Earned Secure",
+      "description": "Building security through practice",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand how attachment patterns form in childhood",
+    "Identify your specific attachment style and triggers",
+    "Regulate attachment anxiety without seeking reassurance",
+    "Open intimacy blocks from avoidant patterns",
+    "Choose partners who support secure attachment",
+    "Develop earned secure attachment through practice"
+  ],
+  "requirements": [
+    "Willingness to examine relationship patterns honestly",
+    "A journal for reflection exercises",
+    "Openness to changing how you relate"
+  ],
+  "published": true,
+  "createdAt": "2024-12-18",
+  "updatedAt": "2024-12-18"
+}

@@ -1,0 +1,62 @@
+{
+  "id": "boundaries",
+  "title": "The Art of Boundaries",
+  "subtitle": "Protect your energy without building walls",
+  "description": "Learn to set, communicate, and maintain healthy boundaries in all your relationships. This course teaches you to say no without guilt, ask for what you need, and protect your energy while staying connected.",
+  "category": "Relationships",
+  "price": 57,
+  "currency": "USD",
+  "duration": "3-4 weeks",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-boundaries",
+      "title": "Understanding Boundaries",
+      "description": "What they are, why they matter, and where yours are",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "boundary-barriers",
+      "title": "Why Boundaries Are Hard",
+      "description": "The internal and external obstacles to healthy limits",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "setting-boundaries",
+      "title": "Setting Boundaries",
+      "description": "How to identify and communicate your limits",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "maintaining-boundaries",
+      "title": "Maintaining Boundaries",
+      "description": "Holding your limits when others push back",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "boundaries-in-practice",
+      "title": "Boundaries in Practice",
+      "description": "Applying boundaries across different relationships",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Identify where your boundaries are weak, rigid, or healthy",
+    "Understand why setting boundaries feels difficult",
+    "Language and scripts for communicating boundaries clearly",
+    "How to handle pushback without backing down",
+    "Navigate boundaries in family, work, and intimate relationships",
+    "Balance protection with connection"
+  ],
+  "requirements": [
+    "Willingness to examine your relationship patterns",
+    "Openness to discomfort that comes with change",
+    "Journal for exercises"
+  ]
+}

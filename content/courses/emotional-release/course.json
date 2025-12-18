@@ -1,0 +1,70 @@
+{
+  "id": "emotional-release",
+  "title": "Emotional Release",
+  "subtitle": "Move what's stuck, free what's trapped",
+  "description": "Learn safe, effective techniques for releasing stuck emotions. This course teaches somatic approaches to processing grief, anger, fear, and other emotions that have been held in the body. Move from chronic holding to healthy flow.",
+  "category": "Body",
+  "price": 67,
+  "currency": "USD",
+  "duration": "4-5 weeks",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-stuck-emotions",
+      "title": "Understanding Stuck Emotions",
+      "description": "Why emotions get trapped and how to recognize holding patterns",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "preparing-for-release",
+      "title": "Preparing for Release",
+      "description": "Creating safety and building capacity for emotional work",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "releasing-grief",
+      "title": "Releasing Grief",
+      "description": "Processing loss, sadness, and unexpressed sorrow",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "releasing-anger",
+      "title": "Releasing Anger",
+      "description": "Moving rage safely and reclaiming your power",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "releasing-fear",
+      "title": "Releasing Fear and Anxiety",
+      "description": "Discharging frozen survival energy",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "integration-and-flow",
+      "title": "Integration and Flow",
+      "description": "Building ongoing emotional health and preventing future buildup",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Recognize where emotions are stuck in your body",
+    "Create safe containers for emotional release",
+    "Specific techniques for grief, anger, and fear release",
+    "How to move emotional energy without overwhelm",
+    "Somatic approaches that bypass the rational mind",
+    "Build ongoing practices for emotional flow"
+  ],
+  "requirements": [
+    "Completion of nervous system basics helpful but not required",
+    "Private space for physical/vocal release practices",
+    "Willingness to feel uncomfortable emotions",
+    "Basic physical mobility for movement exercises"
+  ]
+}

@@ -4,6 +4,7 @@ import WisdomQuote from './components/WisdomQuote';
 import PostCard from './components/PostCard';
 import NewsletterSignup from './components/NewsletterSignup';
 import { getAllPosts, getPostBySlug } from '@/lib/posts';
+import { getAllCourses } from '@/lib/courses';
 
 const essentialReads = [
   'shadow-work-beginners-guide',
@@ -17,6 +18,7 @@ export default function Home() {
   const starterPosts = essentialReads
     .map(slug => getPostBySlug(slug))
     .filter(Boolean);
+  const featuredCourses = getAllCourses().slice(0, 4);
 
   return (
     <>
@@ -74,23 +76,23 @@ export default function Home() {
       <section className="py-20 px-6 bg-[var(--card-bg)]">
         <div className="max-w-3xl mx-auto">
           <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-12 text-center">
-            Not Another Self-Help Site
+            What Integration Actually Means
           </h2>
           <div className="space-y-6 text-gray-300 leading-relaxed text-lg">
             <p>
-              This isn't about optimizing your life, manifesting abundance, or 10x-ing your potential.
+              You've probably tried optimizing your way to happiness. Productivity hacks, morning routines,
+              positive affirmations. And maybe it worked for a while—until it didn't.
             </p>
             <p>
-              It's about integration. Living in your body without fighting it. Relating with depth instead of tactics.
-              Finding clarity without spiritually bypassing the hard parts.
+              Integration is different. It's not about becoming a better version of yourself.
+              It's about becoming more of who you already are—including the parts you've been taught to hide.
             </p>
             <p>
-              For people navigating burnout, heartbreak, psychedelic integration, attachment wounds, and the strange
-              terrain of becoming whole in a fragmented world.
+              The voice that criticizes you? It's trying to protect you. The anxiety in your chest?
+              It has something to say. The patterns you keep repeating in relationships? They made sense once.
             </p>
             <p>
-              Psychology. Training. Philosophy. Relationships. Meditation. All in conversation,
-              not in separate boxes.
+              This work isn't about fixing what's broken. It's about listening to what's been ignored.
             </p>
           </div>
         </div>
@@ -157,8 +159,57 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Featured Courses */}
+      <section className="py-20 px-6 bg-[var(--background)]">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
+              Go Deeper with Courses
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Structured paths for real transformation. Each course guides you through practices,
+              not just concepts.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {featuredCourses.map((course) => (
+              <Link
+                key={course.slug}
+                href={`/courses/${course.slug}`}
+                className="group block bg-zinc-900 border border-zinc-800 p-6 hover:border-zinc-600 transition-colors"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <span className="text-xs uppercase tracking-wide text-gray-500">
+                    {course.metadata.category}
+                  </span>
+                  <span className="text-xs text-gray-600">{course.metadata.modules.length} modules</span>
+                </div>
+                <h3 className="font-serif text-xl text-white group-hover:text-gray-300 transition-colors mb-2">
+                  {course.metadata.title}
+                </h3>
+                <p className="text-gray-400 text-sm line-clamp-2 mb-4">
+                  {course.metadata.subtitle}
+                </p>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-500">{course.metadata.duration}</span>
+                  <span className="text-gray-300">${course.metadata.price}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              href="/courses"
+              className="inline-block px-8 py-3 border border-zinc-700 text-gray-300 hover:border-zinc-500 hover:text-white transition-colors"
+            >
+              View All Courses →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Newsletter Signup */}
-      <section className="py-20 px-6 bg-[var(--background)] border-t border-[var(--border-color)]">
+      <section className="py-20 px-6 bg-[var(--card-bg)] border-t border-[var(--border-color)]">
         <div className="max-w-4xl mx-auto">
           <NewsletterSignup />
         </div>

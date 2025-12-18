@@ -12,7 +12,7 @@ export default function ReadingListPage() {
               Reading List
             </h1>
             <p className="text-xl text-gray-300 leading-relaxed mb-12">
-              Articles you&apos;ve saved for later. Stored locally in your browser.
+              Articles you&apos;ve saved for later. Track your progress and mark articles as completed.
             </p>
             <ReadingListContent />
           </div>

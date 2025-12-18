@@ -1,0 +1,70 @@
+{
+  "id": "parts-work",
+  "title": "Meeting Your Inner World",
+  "subtitle": "A guided journey into the voices within",
+  "description": "You contain multitudes—different voices, feelings, and reactions that sometimes conflict. This course helps you meet these inner parts with curiosity instead of judgment, understand what they're trying to protect, and access the calm, compassionate core that can hold it all.",
+  "category": "Mind",
+  "price": 67,
+  "currency": "USD",
+  "duration": "4-5 weeks",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-parts",
+      "title": "Understanding Parts",
+      "description": "The multiplicity of mind and why parts exist",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "mapping-your-system",
+      "title": "Mapping Your System",
+      "description": "Identifying and understanding your inner parts",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "meeting-protectors",
+      "title": "Meeting Your Protectors",
+      "description": "Working with the parts that manage and defend",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "accessing-self",
+      "title": "Accessing Self",
+      "description": "Finding the core that can lead the system",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "healing-wounded-parts",
+      "title": "Healing Wounded Parts",
+      "description": "Approaching and unburdening exiled parts",
+      "duration": "35 min"
+    },
+    {
+      "id": 6,
+      "slug": "internal-harmony",
+      "title": "Building Internal Harmony",
+      "description": "Creating cooperation among your parts",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand why you sometimes feel at war with yourself",
+    "Meet the different voices inside you with curiosity",
+    "Recognize when protective parts are running the show",
+    "Access your calm, compassionate center",
+    "Begin healing the parts that carry old pain",
+    "Create more harmony in your inner world"
+  ],
+  "requirements": [
+    "Shadow Work Foundations or equivalent experience helpful",
+    "Willingness to engage with inner dialogue",
+    "Journal for exercises",
+    "Private space for inner work"
+  ]
+}
