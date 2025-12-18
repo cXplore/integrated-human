@@ -88,8 +88,8 @@ export default function Home() {
               It's about becoming more of who you already are—including the parts you've been taught to hide.
             </p>
             <p>
-              The voice that criticizes you? It's trying to protect you. The anxiety in your chest?
-              It has something to say. The patterns you keep repeating in relationships? They made sense once.
+              The anxiety in your chest? It has something to say. The patterns you keep repeating
+              in relationships? They made sense once. The parts of yourself you've rejected? They're waiting to come home.
             </p>
             <p>
               This work isn't about fixing what's broken. It's about listening to what's been ignored.
