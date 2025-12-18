@@ -13,18 +13,6 @@ export const metadata: Metadata = {
   description: 'Your personal dashboard for tracking reading progress, course completions, and integration journey.',
 };
 
-function getGreeting(): string {
-  const hour = new Date().getHours();
-  if (hour < 12) return 'Good morning';
-  if (hour < 17) return 'Good afternoon';
-  return 'Good evening';
-}
-
-function getFirstName(name: string | null | undefined): string {
-  if (!name) return 'there';
-  return name.split(' ')[0];
-}
-
 export default async function ProfilePage() {
   const session = await auth();
 
@@ -65,7 +53,7 @@ export default async function ProfilePage() {
               )}
               <div className="text-center md:text-left">
                 <h1 className="font-serif text-3xl md:text-4xl font-light text-white mb-2">
-                  {getGreeting()}, {getFirstName(user.name)}
+                  {user.name || 'Your Profile'}
                 </h1>
                 <p className="text-gray-400 text-lg">
                   Welcome back to your integration journey
