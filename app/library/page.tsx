@@ -1,4 +1,14 @@
 import Navigation from '../components/Navigation';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Library | Integrated Human',
+  description: 'Curated book recommendations for shadow work, psychology, philosophy, and personal growth. Essential reads for the integration journey.',
+  openGraph: {
+    title: 'Library | Integrated Human',
+    description: 'Curated book recommendations for shadow work, psychology, and personal growth.',
+  },
+};
 
 const books = [
   {

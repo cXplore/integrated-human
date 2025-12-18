@@ -445,3 +445,33 @@ a:hover {
 .light-mode .bg-blue-600 {
   background-color: #5a6b8a;
 }
+
+/* Light mode footer */
+.light-mode footer {
+  background: #fffefa;
+  border-color: #e8e0d8;
+}
+
+.light-mode footer .text-white {
+  color: #2d2420;
+}
+
+.light-mode footer .text-gray-400 {
+  color: #6b5d52;
+}
+
+.light-mode footer .text-gray-500 {
+  color: #8c7b6d;
+}
+
+.light-mode footer .text-gray-600 {
+  color: #a89888;
+}
+
+.light-mode footer .hover\:text-white:hover {
+  color: #2d2420;
+}
+
+.light-mode footer .border-zinc-800 {
+  border-color: #e8e0d8;
+}

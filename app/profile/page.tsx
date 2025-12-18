@@ -6,6 +6,12 @@ import NewsletterToggle from './NewsletterToggle';
 import ReadingStats from './ReadingStats';
 import CourseProgress from './CourseProgress';
 import { prisma } from '@/lib/prisma';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Profile | Integrated Human',
+  description: 'Your personal dashboard for tracking reading progress, course completions, and integration journey.',
+};
 
 export default async function ProfilePage() {
   const session = await auth();

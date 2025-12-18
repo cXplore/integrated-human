@@ -2,6 +2,16 @@ import Navigation from '../components/Navigation';
 import CategoryFilter from '../components/CategoryFilter';
 import Link from 'next/link';
 import { getArticlesByCategory, getPostsBySeries, getTagsByCategory } from '@/lib/posts';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Relationships | Integrated Human',
+  description: 'Attachment, intimacy, polarity, and conflict. Understanding how you connect with others and why it sometimes goes wrong.',
+  openGraph: {
+    title: 'Relationships | Integrated Human',
+    description: 'Attachment, intimacy, polarity, and conflict. Understanding connection.',
+  },
+};
 
 export default function RelationshipsPage() {
   const relationshipFoundations = getPostsBySeries('relationship-foundations');

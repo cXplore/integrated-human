@@ -1,5 +1,15 @@
 import Navigation from '../components/Navigation';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About | Integrated Human',
+  description: 'What Integrated Human is about and why it exists. No gurus, no quick fixes—just honest exploration of what it means to be whole.',
+  openGraph: {
+    title: 'About | Integrated Human',
+    description: 'What Integrated Human is about and why it exists.',
+  },
+};
 
 export default function AboutPage() {
   return (

@@ -52,13 +52,18 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/shop" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Books
+                <Link href="/courses" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Courses
                 </Link>
               </li>
               <li>
-                <Link href="/community" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Community
+                <Link href="/start-here" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Start Here
+                </Link>
+              </li>
+              <li>
+                <Link href="/archetypes" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Archetype Quiz
                 </Link>
               </li>
             </ul>

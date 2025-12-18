@@ -2,6 +2,16 @@ import Navigation from '../components/Navigation';
 import CategoryFilter from '../components/CategoryFilter';
 import Link from 'next/link';
 import { getArticlesByCategory, getPostsBySeries, getTagsByCategory } from '@/lib/posts';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Mind | Integrated Human',
+  description: 'Psychology, patterns, shadow work, and attachment. Understanding your inner landscape and learning how to transform it.',
+  openGraph: {
+    title: 'Mind | Integrated Human',
+    description: 'Psychology, patterns, shadow work, and attachment. Understanding your inner landscape.',
+  },
+};
 
 export default function MindPage() {
   const innerWork = getPostsBySeries('inner-work');

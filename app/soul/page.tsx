@@ -2,6 +2,16 @@ import Navigation from '../components/Navigation';
 import CategoryFilter from '../components/CategoryFilter';
 import Link from 'next/link';
 import { getArticlesByCategory, getPostsBySeries, getTagsByCategory } from '@/lib/posts';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Soul | Integrated Human',
+  description: 'Meditation, meaning, philosophy, and psychedelics. The depths beyond optimization and self-improvement.',
+  openGraph: {
+    title: 'Soul | Integrated Human',
+    description: 'Meditation, meaning, philosophy, and psychedelics. The depths beyond optimization.',
+  },
+};
 
 export default function SoulPage() {
   const soulFoundations = getPostsBySeries('soul-foundations');

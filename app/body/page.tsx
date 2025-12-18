@@ -2,6 +2,16 @@ import Navigation from '../components/Navigation';
 import CategoryFilter from '../components/CategoryFilter';
 import Link from 'next/link';
 import { getArticlesByCategory, getPostsBySeries, getTagsByCategory } from '@/lib/posts';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Body | Integrated Human',
+  description: 'Training, nutrition, sleep, breath, and nervous system regulation. Your physical foundation for everything else.',
+  openGraph: {
+    title: 'Body | Integrated Human',
+    description: 'Training, nutrition, sleep, breath, and nervous system. Your physical foundation.',
+  },
+};
 
 export default function BodyPage() {
   const physicalFoundation = getPostsBySeries('physical-foundation');
