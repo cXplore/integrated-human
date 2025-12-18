@@ -7,12 +7,40 @@ Build a sustainable income through high-quality content on personal integration,
 
 ---
 
-## Current State
-- 51 articles across Mind, Body, Soul, Relationships
+## Current State (Updated Dec 2024)
+
+### Content
+- 75+ articles across Mind, Body, Soul, Relationships
 - Archetype quiz functional
 - Start Here quiz functional
 - Learning paths structure in place
 - Newsletter signup ready (ConvertKit)
+
+### Courses (COMPLETE)
+- **8 courses built with full module content:**
+  - Shadow Work Foundations (5 modules) - $47
+  - Nervous System Mastery (6 modules) - $67
+  - Attachment Repair (6 modules) - $67
+  - The Integration Path - flagship (8 modules) - $197
+  - Inner Critic Work (5 modules) - $57
+  - Boundaries (5 modules) - $57
+  - Emotional Release (6 modules) - $67
+  - Meeting Your Inner World (6 modules) - $67
+
+### Features Built
+- Course progress tracking (database + UI)
+- Profile page with completion badges
+- Homepage with featured courses section
+- Courses page grouped by category
+- Module navigation with mark complete
+- Google OAuth authentication
+- Reading list & article progress tracking
+
+### Still Needed
+- Payment integration (Stripe) - courses show prices but no checkout
+- Email sequences for course promotion
+- Lead magnet PDFs
+- AI guide/avatar (in progress, not deployed)
 
 ---
 
@@ -64,10 +92,10 @@ New articles for depth (not just SEO):
 
 ---
 
-## Phase 2: First Products (Months 2-4)
+## Phase 2: First Products (Months 2-4) - COURSES COMPLETE
 *Goal: Create entry-level paid products*
 
-### 2.1 Digital Workbooks (One-Time Purchase)
+### 2.1 Digital Workbooks (One-Time Purchase) - NOT STARTED
 
 | Product | Price | Description | Pages |
 |---------|-------|-------------|-------|
@@ -76,20 +104,24 @@ New articles for depth (not just SEO):
 | **Attachment Healing Workbook** | $29 | Identify patterns, repair exercises, relationship inventory | 45-55 |
 | **Nervous System Reset Guide** | $19 | 14-day protocol with daily practices | 30-40 |
 
-### 2.2 Premium Quiz Reports (One-Time Purchase)
+### 2.2 Premium Quiz Reports (One-Time Purchase) - NOT STARTED
 
 | Product | Price | Description |
 |---------|-------|-------------|
 | **Archetype Deep Dive Report** | $19 | Personalized 15-20 page PDF from quiz results |
 | **Shadow Profile Report** | $25 | Based on new shadow quiz, identifies shadow patterns |
 
-### 2.3 Mini-Courses (One-Time Purchase)
+### 2.3 Mini-Courses (One-Time Purchase) - COMPLETE
 
-| Course | Price | Format | Duration |
-|--------|-------|--------|----------|
-| **Shadow Work Foundations** | $47 | Video + workbook | 5 modules |
-| **Nervous System Mastery** | $67 | Video + audio practices | 6 modules |
-| **Attachment Repair** | $67 | Video + exercises | 6 modules |
+| Course | Price | Format | Duration | Status |
+|--------|-------|--------|----------|--------|
+| **Shadow Work Foundations** | $47 | Video + workbook | 5 modules | ✅ Built |
+| **Nervous System Mastery** | $67 | Video + audio practices | 6 modules | ✅ Built |
+| **Attachment Repair** | $67 | Video + exercises | 6 modules | ✅ Built |
+| **Inner Critic Work** | $57 | Video + exercises | 5 modules | ✅ Built |
+| **Boundaries** | $57 | Video + exercises | 5 modules | ✅ Built |
+| **Emotional Release** | $67 | Video + exercises | 6 modules | ✅ Built |
+| **Meeting Your Inner World** | $67 | Video + exercises | 6 modules | ✅ Built |
 
 ---
 
@@ -138,25 +170,25 @@ What members get:
 
 ---
 
-## Phase 4: Flagship Course (Months 6-9)
+## Phase 4: Flagship Course (Months 6-9) - COMPLETE
 *Goal: Create premium transformational offering*
 
-### 4.1 The Integration Path Course
+### 4.1 The Integration Path Course ✅ BUILT
 
-**Price:** $197-297 (or included in annual membership)
+**Price:** $197
 
 **Format:** 8-week self-paced course
 
-| Week | Module | Focus |
-|------|--------|-------|
-| 1 | Foundation | The 4 pillars framework, where you are now |
-| 2 | Body | Nervous system, somatic awareness, grounding |
-| 3 | Shadow | Meeting rejected parts, integration practices |
-| 4 | Emotions | Feeling fully, processing, expression |
-| 5 | Patterns | Attachment, defenses, repetition compulsion |
-| 6 | Relationships | Projection, attraction, conscious relating |
-| 7 | Meaning | Purpose, values, death as teacher |
-| 8 | Integration | Bringing it together, ongoing practice |
+| Week | Module | Focus | Status |
+|------|--------|-------|--------|
+| 1 | Foundation | The 4 pillars framework, where you are now | ✅ |
+| 2 | Body | Nervous system, somatic awareness, grounding | ✅ |
+| 3 | Shadow | Meeting rejected parts, integration practices | ✅ |
+| 4 | Emotions | Feeling fully, processing, expression | ✅ |
+| 5 | Patterns | Attachment, defenses, repetition compulsion | ✅ |
+| 6 | Relationships | Projection, attraction, conscious relating | ✅ |
+| 7 | Meaning | Purpose, values, death as teacher | ✅ |
+| 8 | Integration | Bringing it together, ongoing practice | ✅ |
 
 **Each week includes:**
 - Video lesson (15-20 min)
@@ -244,29 +276,33 @@ What members get:
 
 ## Tech Requirements
 
-### For Payments
+### For Payments - NOT STARTED
 - Stripe (handles subscriptions + one-time)
 - Stripe Customer Portal for subscription management
 
-### For Content Gating
-- Membership status check in Next.js
-- Protected routes for premium content
-- Download protection for PDFs
+### For Content Gating - PARTIAL
+- ✅ User authentication (Google OAuth)
+- ⏳ Membership status check in Next.js
+- ⏳ Protected routes for premium content
+- ⏳ Download protection for PDFs
 
-### For Email
-- ConvertKit (already set up)
-- Email sequences for each lead magnet
-- Welcome sequence for new subscribers
-- Launch sequences for products
+### For Email - PARTIAL
+- ✅ ConvertKit (already set up)
+- ⏳ Email sequences for each lead magnet
+- ⏳ Welcome sequence for new subscribers
+- ⏳ Launch sequences for products
 
-### For Community
+### For Community - NOT STARTED
 - Discord with role sync to Stripe
 - Free tier vs Member tier channels
 
-### For Courses
-- Option 1: Self-hosted in Next.js (keep everything integrated)
-- Option 2: Teachable/Podia (easier, but separate platform)
-- Option 3: Hybrid (marketing on main site, course on platform)
+### For Courses - COMPLETE
+- ✅ Self-hosted in Next.js (chosen approach)
+- ✅ Course pages with module navigation
+- ✅ Progress tracking with database persistence
+- ✅ Completion badges on profile
+- ✅ Mark complete functionality
+- ⏳ Payment integration (courses show prices but no checkout)
 
 ---
 
@@ -281,10 +317,17 @@ What members get:
 
 ---
 
-## Next Steps
+## Next Steps (Updated Dec 2024)
 
-1. Create first lead magnet PDF
-2. Write 2-3 SEO-targeted articles
-3. Set up email sequences in ConvertKit
-4. Plan Shadow Work Workbook structure
-5. Research Stripe integration for Next.js
+### Immediate Priority
+1. **Stripe Integration** - Enable course purchases
+2. **Lead Magnet PDFs** - Create downloadable content for email capture
+3. **Email Sequences** - Set up in ConvertKit for course promotion
+
+### Content
+4. Write SEO-targeted articles (attachment styles, shadow work guide)
+5. Create workbook PDFs (Shadow Work, Integration Journal)
+
+### Technical
+6. Protected routes for premium content
+7. AI guide integration (avatar work in progress)
