@@ -23,14 +23,14 @@ export interface CourseMetadata {
   duration: string;
   level: string;
   category: string;
-  tags: string[];
-  instructor: string;
+  tags?: string[];
+  instructor?: string;
   modules: CourseModule[];
   whatYouLearn: string[];
   requirements: string[];
   published: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Course {
@@ -86,9 +86,8 @@ export function getAllCourses(): Course[] {
     })
     .filter((course): course is Course => course !== null);
 
-  return courses.sort((a, b) =>
-    new Date(b.metadata.createdAt).getTime() - new Date(a.metadata.createdAt).getTime()
-  );
+  // Sort by title alphabetically if no createdAt date
+  return courses.sort((a, b) => a.metadata.title.localeCompare(b.metadata.title));
 }
 
 export function getCourseBySlug(slug: string): Course | undefined {

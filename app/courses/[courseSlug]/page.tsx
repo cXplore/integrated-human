@@ -189,10 +189,12 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
                       <dt className="text-gray-500">Category</dt>
                       <dd className="text-gray-300">{metadata.category}</dd>
                     </div>
-                    <div className="flex justify-between">
-                      <dt className="text-gray-500">Instructor</dt>
-                      <dd className="text-gray-300">{metadata.instructor}</dd>
-                    </div>
+                    {metadata.instructor && (
+                      <div className="flex justify-between">
+                        <dt className="text-gray-500">Instructor</dt>
+                        <dd className="text-gray-300">{metadata.instructor}</dd>
+                      </div>
+                    )}
                   </dl>
 
                   <div className="mt-6 pt-6 border-t border-zinc-800">
@@ -207,7 +209,7 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
                 </div>
 
                 {/* Tags */}
-                {metadata.tags.length > 0 && (
+                {metadata.tags && metadata.tags.length > 0 && (
                   <div className="bg-zinc-900 border border-zinc-800 p-6">
                     <h3 className="text-white font-medium mb-4">Topics</h3>
                     <div className="flex flex-wrap gap-2">
