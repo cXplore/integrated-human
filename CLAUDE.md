@@ -145,62 +145,30 @@ export async function GET() {
 
 ### Priority Queue
 See CONTENT_ROADMAP.md for detailed planning.
+See IDEAS.md for future possibilities and creative brainstorming.
 
 ---
 
-## Ideas & Future Possibilities
+## Working Philosophy
 
-Think outside the box. These are suggestions, not plans - creative prompts for expanding the platform.
+### Content
+- Depth over volume. Quality content that transforms > endless content that entertains.
+- Free content should be genuinely valuable, not watered down teasers.
+- Premium goes deeper, more structured, more actionable.
 
-### Engagement Features
-- **Streak system** - Daily check-ins with integration prompts, gamify the journey
-- **Progress visualizations** - Integration wheel showing balance across 4 pillars
-- **Journaling integration** - Private journal entries tied to modules, AI reflection prompts
-- **Community challenges** - Monthly themes like "30 days of shadow work" with shared progress
+### Development
+- Simple first, elaborate later. Get it working, then improve.
+- Proactive suggestions welcome - think outside the box.
+- When unsure between options, bias toward what serves the person doing hard inner work.
 
-### Content Expansion
-- **Audio versions** - TTS for articles, guided meditations embedded in courses
-- **Video content** - Short embodiment practices, breathwork guides
-- **Interactive exercises** - Parts work dialogues, inner critic conversations (chat-based)
-- **Assessment tools** - Beyond archetypes: attachment style quiz, shadow profile, nervous system state check
+### Brand Voice
+Warm but not soft. Direct but not harsh. Practical mysticism.
 
-### Monetization Ideas
-- **Tiered certificates** - Bronze/Silver/Gold based on depth of engagement
-- **Corporate/therapist licensing** - White-label courses for practitioners
-- **Integration coaching marketplace** - Connect users with vetted coaches (take percentage)
-- **Physical products** - Integration journal (printed), card decks for shadow work prompts
+Avoid: toxic positivity, spiritual bypassing, oversimplification of complex inner work.
+Embrace: honesty about difficulty, compassion for struggle, trust in the reader's intelligence.
 
-### Technical Enhancements
-- **AI integration guide** - Conversational assistant that knows user's progress, suggests next steps
-- **Spaced repetition** - Review prompts for key concepts at optimal intervals
-- **Social features** - Anonymous sharing of insights, peer support matching
-- **Mobile app** - PWA or native for offline access, push notifications for practices
-- **API for practitioners** - Let therapists track client progress (with consent)
-
-### Content Formats to Explore
-- **Case studies** - Anonymized integration journeys showing real transformation
-- **Expert interviews** - Podcast/video conversations with Jungian analysts, somatic therapists
-- **Book summaries** - Curated reading guides for Jung, Bessel van der Kolk, Gabor Maté
-- **Crisis resources** - When shadow work gets too intense, grounding protocols
-
-### Wild Ideas
-- **VR shadow work** - Immersive environments for meeting shadow figures
-- **Biometric integration** - HRV tracking during practices, correlate nervous system state
-- **AI-generated personalized content** - Articles tailored to user's archetype + progress
-- **Retreat partnerships** - In-person intensives with online prep/integration support
-
----
-
-## Creative Philosophy
-
-This platform is about depth, not volume. Quality content that actually transforms > endless content that entertains.
-
-When suggesting new features, consider:
-- Does it deepen the integration journey or distract from it?
-- Can it be done simply first, elaborated later?
-- Does it serve the person doing hard inner work, or just gamify wellness?
-
-The brand voice: warm but not soft, direct but not harsh, practical mysticism.
+### When Suggesting Features
+Ask: Does this deepen the integration journey or distract from it?
 
 ---
 
