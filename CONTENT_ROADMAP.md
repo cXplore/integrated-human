@@ -49,7 +49,7 @@ Build a sustainable income through high-quality content on personal integration,
 ### Still Needed
 - [x] Standalone journaling in profile (view all journal entries, free-form journaling, daily prompts)
 
-- [ ] Course content gating (open for testing, lock at launch)
+- [x] Course content gating (ModuleAccessGuard component - first module free, rest locked)
 - [ ] Email sequences in ConvertKit (infrastructure ready)
 - [ ] Digital workbooks (PDF products)
 - [ ] AI guide/avatar (code exists but not deployed)
@@ -115,12 +115,20 @@ New articles targeting search volume:
 | **Attachment Healing Workbook** | $29 | Identify patterns, repair exercises, relationship inventory | 45-55 |
 | **Nervous System Reset Guide** | $19 | 14-day protocol with daily practices | 30-40 |
 
-### 2.2 Premium Quiz Reports (One-Time Purchase) - NOT STARTED
+### 2.2 Assessments & Quizzes - PARTIAL
 
+| Quiz | Status | Description |
+|------|--------|-------------|
+| **Archetype Assessment** | ✅ Complete | Identifies masculine/feminine archetypes |
+| **Shadow Profile Quiz** | ✅ Complete | Identifies 8 shadow patterns with integration guidance |
+| **Nervous System Check** | ✅ Complete | Polyvagal-based state assessment |
+| **Start Here Quiz** | ✅ Complete | Entry point for new visitors |
+
+Premium Reports (Future):
 | Product | Price | Description |
 |---------|-------|-------------|
 | **Archetype Deep Dive Report** | $19 | Personalized 15-20 page PDF from quiz results |
-| **Shadow Profile Report** | $25 | Based on new shadow quiz, identifies shadow patterns |
+| **Shadow Profile Report** | $25 | Extended shadow analysis with exercises |
 
 ### 2.3 Courses (One-Time Purchase) - COMPLETE
 
@@ -264,11 +272,11 @@ All specialized courses have been built as part of the 35-course library.
 - [x] Purchase verification (client-side + webhook)
 - [x] Purchase tracking in database
 
-### For Content Gating - PARTIAL
+### For Content Gating - COMPLETE
 - [x] User authentication (Google OAuth)
-- [ ] Membership status check in Next.js
-- [ ] Protected routes for premium course content
-- [ ] Download protection for PDFs
+- [x] Membership status check in Next.js (ModuleAccessGuard component)
+- [x] Protected routes for premium course content (first module free, rest locked)
+- [ ] Download protection for PDFs (pending workbook creation)
 
 ### For Email - PARTIAL
 - [x] ConvertKit (already set up)
@@ -307,8 +315,8 @@ All specialized courses have been built as part of the 35-course library.
 
 ## Next Steps (Updated Dec 2024)
 
-### Pre-Launch (Content Gating)
-1. **Lock course content** - Gate modules behind purchase
+### Pre-Launch (Content Gating) - COMPLETE
+1. ~~**Lock course content** - Gate modules behind purchase~~ DONE - ModuleAccessGuard component
 2. **Test full purchase flow** - End-to-end verification
 
 ### Content

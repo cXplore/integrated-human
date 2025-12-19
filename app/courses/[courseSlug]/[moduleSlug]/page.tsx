@@ -13,6 +13,7 @@ import {
 } from '@/lib/courses';
 import ModuleCompleteButton from './ModuleCompleteButton';
 import ModuleContent from './ModuleContent';
+import ModuleAccessGuard from './ModuleAccessGuard';
 
 export async function generateStaticParams() {
   const courses = getAllCourses();
@@ -173,35 +174,44 @@ export default async function ModulePage({
                 </p>
               </div>
 
-              {/* Module Content */}
-              <div className="prose prose-invert prose-lg max-w-none
-                prose-headings:font-serif prose-headings:font-light prose-headings:text-white
-                prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-4 prose-h2:border-b prose-h2:border-zinc-800
-                prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4
-                prose-p:leading-relaxed prose-p:mb-6 prose-p:text-gray-300
-                prose-ul:my-6 prose-li:my-2 prose-li:text-gray-300
-                prose-ol:my-6
-                prose-blockquote:border-l-4 prose-blockquote:border-zinc-700
-                prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-gray-400
-                prose-strong:text-white prose-strong:font-semibold
-                prose-a:text-gray-300 prose-a:underline hover:prose-a:text-white
-                prose-hr:border-zinc-800 prose-hr:my-12">
-                <ModuleContent
-                  source={mdxSource}
-                  courseSlug={courseSlug}
-                  moduleSlug={moduleSlug}
-                />
-              </div>
+              {/* Module Content with Access Guard */}
+              <ModuleAccessGuard
+                courseSlug={courseSlug}
+                moduleSlug={moduleSlug}
+                moduleNumber={module.moduleNumber}
+                courseTitle={course.metadata.title}
+                price={course.metadata.price}
+                currency={course.metadata.currency}
+              >
+                <div className="prose prose-invert prose-lg max-w-none
+                  prose-headings:font-serif prose-headings:font-light prose-headings:text-white
+                  prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-4 prose-h2:border-b prose-h2:border-zinc-800
+                  prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4
+                  prose-p:leading-relaxed prose-p:mb-6 prose-p:text-gray-300
+                  prose-ul:my-6 prose-li:my-2 prose-li:text-gray-300
+                  prose-ol:my-6
+                  prose-blockquote:border-l-4 prose-blockquote:border-zinc-700
+                  prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-gray-400
+                  prose-strong:text-white prose-strong:font-semibold
+                  prose-a:text-gray-300 prose-a:underline hover:prose-a:text-white
+                  prose-hr:border-zinc-800 prose-hr:my-12">
+                  <ModuleContent
+                    source={mdxSource}
+                    courseSlug={courseSlug}
+                    moduleSlug={moduleSlug}
+                  />
+                </div>
 
-              {/* Mark Complete Button */}
-              <div className="mt-12">
-                <ModuleCompleteButton
-                  courseSlug={courseSlug}
-                  moduleSlug={moduleSlug}
-                  nextModuleSlug={navigation.next?.slug}
-                  isLastModule={!navigation.next}
-                />
-              </div>
+                {/* Mark Complete Button */}
+                <div className="mt-12">
+                  <ModuleCompleteButton
+                    courseSlug={courseSlug}
+                    moduleSlug={moduleSlug}
+                    nextModuleSlug={navigation.next?.slug}
+                    isLastModule={!navigation.next}
+                  />
+                </div>
+              </ModuleAccessGuard>
 
               {/* Module Navigation */}
               <div className="mt-16 pt-8 border-t border-zinc-800">
