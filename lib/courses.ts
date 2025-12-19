@@ -12,6 +12,18 @@ export interface CourseModule {
   duration: string;
 }
 
+export interface QuizQuestion {
+  id: number;
+  question: string;
+  options: string[];
+  correctIndex: number;
+}
+
+export interface CourseQuiz {
+  passingScore: number;
+  questions: QuizQuestion[];
+}
+
 export interface CourseMetadata {
   id: string;
   title: string;
@@ -28,6 +40,7 @@ export interface CourseMetadata {
   modules: CourseModule[];
   whatYouLearn: string[];
   requirements: string[];
+  quiz?: CourseQuiz;
   published: boolean;
   createdAt?: string;
   updatedAt?: string;

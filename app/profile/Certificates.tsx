@@ -17,6 +17,8 @@ interface CourseWithProgress {
   title: string;
   totalModules: number;
   completedModules: number;
+  hasQuiz: boolean;
+  quizPassed: boolean;
 }
 
 export default function Certificates() {
@@ -59,17 +61,36 @@ export default function Certificates() {
           const certSlugs = new Set(certs.map((c: Certificate) => c.courseSlug));
           const eligible: CourseWithProgress[] = [];
 
-          courses.forEach((course: { id: string; title: string; modules: { slug: string }[] }) => {
+          // Fetch quiz status for each completed course
+          for (const course of courses) {
             const completed = progressByCourse[course.id]?.size || 0;
             if (completed === course.modules.length && !certSlugs.has(course.id)) {
+              // Check quiz status
+              let quizPassed = false;
+              const hasQuiz = course.hasQuiz || false;
+
+              if (hasQuiz) {
+                try {
+                  const quizRes = await fetch(`/api/quiz?courseSlug=${course.id}`);
+                  if (quizRes.ok) {
+                    const quizData = await quizRes.json();
+                    quizPassed = quizData.hasPassed;
+                  }
+                } catch {
+                  // Quiz check failed, assume not passed
+                }
+              }
+
               eligible.push({
                 slug: course.id,
                 title: course.title,
                 totalModules: course.modules.length,
                 completedModules: completed,
+                hasQuiz,
+                quizPassed,
               });
             }
-          });
+          }
 
           setEligibleCourses(eligible);
         }
@@ -151,19 +172,36 @@ export default function Certificates() {
             {eligibleCourses.map((course) => (
               <div
                 key={course.slug}
-                className="bg-green-900/20 border border-green-800/50 p-4 flex items-center justify-between"
+                className={`p-4 flex items-center justify-between ${
+                  course.hasQuiz && !course.quizPassed
+                    ? 'bg-amber-900/20 border border-amber-800/50'
+                    : 'bg-green-900/20 border border-green-800/50'
+                }`}
               >
                 <div>
                   <p className="text-white font-medium">{course.title}</p>
-                  <p className="text-green-400 text-sm">Course completed!</p>
+                  {course.hasQuiz && !course.quizPassed ? (
+                    <p className="text-amber-400 text-sm">Pass the quiz to earn your certificate</p>
+                  ) : (
+                    <p className="text-green-400 text-sm">Ready to claim!</p>
+                  )}
                 </div>
-                <button
-                  onClick={() => claimCertificate(course.slug)}
-                  disabled={claiming === course.slug}
-                  className="px-4 py-2 bg-green-600 text-white text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50"
-                >
-                  {claiming === course.slug ? 'Claiming...' : 'Claim Certificate'}
-                </button>
+                {course.hasQuiz && !course.quizPassed ? (
+                  <a
+                    href={`/courses/${course.slug}/quiz`}
+                    className="px-4 py-2 bg-amber-600 text-white text-sm font-medium hover:bg-amber-700 transition-colors"
+                  >
+                    Take Quiz
+                  </a>
+                ) : (
+                  <button
+                    onClick={() => claimCertificate(course.slug)}
+                    disabled={claiming === course.slug}
+                    className="px-4 py-2 bg-green-600 text-white text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50"
+                  >
+                    {claiming === course.slug ? 'Claiming...' : 'Claim Certificate'}
+                  </button>
+                )}
               </div>
             ))}
           </div>

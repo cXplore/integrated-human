@@ -27,6 +27,7 @@ model User {
   articleProgress ArticleProgress[]
   courseProgress  CourseProgress[]
   certificates    Certificate[]
+  quizAttempts    QuizAttempt[]
 }
 
 model Account {
@@ -108,4 +109,19 @@ model Certificate {
 
   @@unique([userId, courseSlug])
   @@index([userId])
+}
+
+model QuizAttempt {
+  id           String   @id @default(cuid())
+  userId       String
+  courseSlug   String
+  score        Int      // Percentage 0-100
+  passed       Boolean
+  answers      String   // JSON string of answers
+  attemptedAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, courseSlug])
 }

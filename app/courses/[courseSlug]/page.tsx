@@ -146,6 +146,36 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
                       </div>
                     </Link>
                   ))}
+
+                  {/* Quiz Section */}
+                  {metadata.quiz && (
+                    <Link
+                      href={`/courses/${courseSlug}/quiz`}
+                      className="group block bg-amber-900/20 border border-amber-800/50 hover:border-amber-600 p-5 transition-colors"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 w-10 h-10 bg-amber-800/50 group-hover:bg-amber-700/50 flex items-center justify-center text-amber-400 group-hover:text-amber-300 transition-colors">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-amber-400 group-hover:text-amber-300 transition-colors mb-1">
+                            Final Quiz
+                          </h3>
+                          <p className="text-gray-500 text-sm mb-2">
+                            Test your knowledge and earn your certificate
+                          </p>
+                          <span className="text-xs text-gray-600">
+                            {metadata.quiz.questions.length} questions · {metadata.quiz.passingScore}% to pass
+                          </span>
+                        </div>
+                        <div className="flex-shrink-0 text-amber-600 group-hover:text-amber-400 transition-colors">
+                          →
+                        </div>
+                      </div>
+                    </Link>
+                  )}
                 </div>
               </section>
 
@@ -207,6 +237,22 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
                     </button>
                   </div>
                 </div>
+
+                {/* Certificate Info */}
+                {metadata.quiz && (
+                  <div className="bg-zinc-900 border border-zinc-800 p-6 mb-6">
+                    <h3 className="text-white font-medium mb-4">Earn a Certificate</h3>
+                    <p className="text-gray-400 text-sm mb-4">
+                      Complete all modules and pass the quiz to earn your certificate of completion.
+                    </p>
+                    <div className="flex items-center gap-2 text-amber-400 text-sm">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>{metadata.quiz.passingScore}% passing score required</span>
+                    </div>
+                  </div>
+                )}
 
                 {/* Tags */}
                 {metadata.tags && metadata.tags.length > 0 && (

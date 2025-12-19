@@ -60,6 +60,88 @@
     "A journal for reflection exercises",
     "Openness to challenging your self-image"
   ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is the 'shadow' in Jungian psychology?",
+        "options": [
+          "A dark spirit that follows you",
+          "The parts of yourself you've disowned or rejected",
+          "Your unconscious fears only",
+          "Negative thoughts you have about others"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "How does the shadow typically form?",
+        "options": [
+          "Through genetic inheritance",
+          "By suppressing traits that weren't accepted in childhood",
+          "Through traumatic events only",
+          "It doesn't form - we're born with it complete"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is 'projection' in the context of shadow work?",
+        "options": [
+          "Planning for your future self",
+          "Seeing your disowned qualities in others",
+          "Imagining what others think of you",
+          "Protecting yourself from criticism"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is the healthiest approach to shadow material?",
+        "options": [
+          "Suppress it completely",
+          "Express it without filters",
+          "Acknowledge, understand, and integrate it",
+          "Analyze it intellectually without feeling it"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 5,
+        "question": "Which of these is a sign you might be encountering shadow material?",
+        "options": [
+          "Feeling peaceful and content",
+          "Strong emotional reactions to certain traits in others",
+          "Logical disagreement with someone",
+          "Forgetting what someone said"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What does 'integrating the shadow' mean?",
+        "options": [
+          "Eliminating all negative qualities",
+          "Becoming a completely different person",
+          "Reclaiming and accepting disowned parts of yourself",
+          "Ignoring your flaws"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 7,
+        "question": "Why is shadow work considered important for personal growth?",
+        "options": [
+          "It makes you more popular",
+          "It helps you access more of your full potential and reduce unconscious patterns",
+          "It eliminates all emotional pain",
+          "It proves you're a good person"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
   "published": true,
   "createdAt": "2024-12-18",
   "updatedAt": "2024-12-18"

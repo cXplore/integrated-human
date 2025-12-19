@@ -62,6 +62,24 @@ export async function POST(request: Request) {
     }, { status: 400 });
   }
 
+  // Check if quiz is required and passed
+  if (course.metadata.quiz) {
+    const quizAttempt = await prisma.quizAttempt.findFirst({
+      where: {
+        userId: session.user.id,
+        courseSlug,
+        passed: true,
+      },
+    });
+
+    if (!quizAttempt) {
+      return NextResponse.json({
+        error: 'Quiz not passed',
+        message: 'You must pass the course quiz to earn your certificate',
+      }, { status: 400 });
+    }
+  }
+
   // Check if certificate already exists
   const existing = await prisma.certificate.findUnique({
     where: {
