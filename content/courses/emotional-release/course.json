@@ -66,5 +66,87 @@
     "Private space for physical/vocal release practices",
     "Willingness to feel uncomfortable emotions",
     "Basic physical mobility for movement exercises"
-  ]
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "Why do emotions get 'stuck' in the body?",
+        "options": [
+          "Because we're weak",
+          "When emotions aren't fully processed, the energy gets held in body tension",
+          "Emotions don't actually affect the body",
+          "Only traumatic emotions get stuck"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Why is 'creating safety' important before emotional release work?",
+        "options": [
+          "It's not important",
+          "The nervous system needs to feel safe enough to let go of protective holding",
+          "To avoid getting emotional",
+          "For legal reasons"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is the somatic approach to releasing grief?",
+        "options": [
+          "Thinking positive thoughts",
+          "Allowing the body to express sadness through breath, sound, and movement",
+          "Suppressing tears until they stop",
+          "Analyzing why you're sad"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "How can anger be released safely?",
+        "options": [
+          "Taking it out on others",
+          "Through physical movement, breath, and sound in a contained way",
+          "Never expressing it",
+          "Only talking about it"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is 'frozen survival energy' in relation to fear?",
+        "options": [
+          "Being cold",
+          "Fight/flight energy that got stuck when escape wasn't possible",
+          "Laziness",
+          "Depression"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What helps prevent emotions from getting stuck in the future?",
+        "options": [
+          "Avoiding all difficult situations",
+          "Regular practices that allow emotions to move through rather than accumulate",
+          "Never feeling anything",
+          "Staying busy"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "Why might intellectual understanding of emotions not be enough for release?",
+        "options": [
+          "Because intelligence doesn't matter",
+          "Stuck emotions live in the body, not the mind - they need somatic processing",
+          "Understanding is the only thing needed",
+          "Emotions are purely mental"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
 }

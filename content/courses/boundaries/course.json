@@ -58,5 +58,76 @@
     "Willingness to examine your relationship patterns",
     "Openness to discomfort that comes with change",
     "Journal for exercises"
-  ]
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is a boundary in relationship terms?",
+        "options": [
+          "A wall to keep people out",
+          "A line that defines where you end and others begin, protecting your wellbeing",
+          "A rule you impose on others",
+          "A way to control people"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What's the difference between rigid and porous boundaries?",
+        "options": [
+          "Rigid is healthy, porous is not",
+          "Rigid keeps everyone out; porous lets too much in - neither is healthy at extremes",
+          "Porous is more flexible therefore better",
+          "There is no difference"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "Why do many people struggle to set boundaries?",
+        "options": [
+          "They're weak",
+          "Fear of rejection, guilt, or learned patterns from childhood",
+          "It's not important",
+          "Only selfish people set boundaries"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is an effective way to communicate a boundary?",
+        "options": [
+          "Apologize profusely then state your need",
+          "State it clearly and directly without over-explaining or defending",
+          "Blame the other person for making you set it",
+          "Wait for them to read your mind"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What should you do when someone repeatedly violates a stated boundary?",
+        "options": [
+          "Assume they didn't understand and keep explaining",
+          "Enforce consequences you've communicated",
+          "Give up on boundaries with that person",
+          "Get angry and attack them"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "How can you balance boundaries with connection?",
+        "options": [
+          "You can't - boundaries end relationships",
+          "Healthy boundaries actually enable deeper connection by creating safety",
+          "Lower your boundaries for people you love",
+          "Only have boundaries with strangers"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
 }

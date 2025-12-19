@@ -67,6 +67,88 @@
     "A quiet space for practicing regulation techniques",
     "Openness to experimenting with different approaches"
   ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What are the three main states of the autonomic nervous system according to Polyvagal Theory?",
+        "options": [
+          "Fight, flight, freeze",
+          "Ventral vagal, sympathetic, dorsal vagal",
+          "Parasympathetic, sympathetic, somatic",
+          "Alert, relaxed, asleep"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is the 'window of tolerance'?",
+        "options": [
+          "How much pain you can handle",
+          "The zone where you can experience emotions without becoming dysregulated",
+          "The amount of time you can meditate",
+          "Your patience level with others"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is 'down-regulation'?",
+        "options": [
+          "Decreasing your expectations",
+          "Calming an activated/stressed nervous system",
+          "Lowering your standards",
+          "Reducing physical activity"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "When might you need to 'up-regulate' your nervous system?",
+        "options": [
+          "When you're feeling anxious",
+          "When you're in shutdown/freeze/collapse state",
+          "When you're angry",
+          "When you can't sleep"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "Which practice is most effective for activating the parasympathetic (calming) response?",
+        "options": [
+          "Vigorous exercise",
+          "Extended exhale breathing",
+          "Drinking coffee",
+          "Watching exciting content"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What does 'building capacity' mean in nervous system work?",
+        "options": [
+          "Becoming numb to stress",
+          "Expanding your window of tolerance over time",
+          "Working out more",
+          "Avoiding all stressors"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "What is co-regulation?",
+        "options": [
+          "Following rules together",
+          "Using another person's nervous system to help regulate your own",
+          "Breathing at the same rate as someone else",
+          "Agreeing on boundaries"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
   "published": true,
   "createdAt": "2024-12-18",
   "updatedAt": "2024-12-18"

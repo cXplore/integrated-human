@@ -58,5 +58,76 @@
     "Willingness to observe your inner dialogue",
     "Openness to self-compassion (even if it feels uncomfortable)",
     "Journal or notes app for exercises"
-  ]
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is the typical origin of the inner critic?",
+        "options": [
+          "It's a sign of mental illness",
+          "Internalized voices from caregivers and environment trying to protect us",
+          "A spiritual punishment",
+          "Random brain malfunction"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is the inner critic trying to do at its core?",
+        "options": [
+          "Destroy your self-esteem",
+          "Protect you from pain, rejection, or failure",
+          "Make you successful",
+          "Keep you humble"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is a healthier relationship with the inner critic?",
+        "options": [
+          "Silencing it completely",
+          "Obeying everything it says",
+          "Acknowledging it, extracting useful information, but not letting it lead",
+          "Arguing with it constantly"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 4,
+        "question": "What is the 'inner ally' or 'inner mentor'?",
+        "options": [
+          "A therapist",
+          "A supportive inner voice that motivates without cruelty",
+          "Your best friend",
+          "Positive affirmations"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "Why doesn't fighting or suppressing the inner critic work long-term?",
+        "options": [
+          "You're not trying hard enough",
+          "It strengthens the part by treating it as an enemy rather than addressing its concerns",
+          "The critic is always right",
+          "Fighting is always bad"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What's the difference between healthy self-evaluation and critic attacks?",
+        "options": [
+          "There is no difference",
+          "Healthy evaluation is specific, useful, and kind; critic attacks are global, shaming, and harsh",
+          "Healthy evaluation is always positive",
+          "Critic attacks are always accurate"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
 }

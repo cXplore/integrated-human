@@ -85,6 +85,99 @@
     "Willingness to examine all aspects of your life honestly",
     "Time for daily practices (15-30 min) and weekly deep work (60-90 min)"
   ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What are the four pillars of integration in this framework?",
+        "options": [
+          "Thinking, Feeling, Sensing, Intuiting",
+          "Mind, Body, Soul, Relationships",
+          "Past, Present, Future, Eternal",
+          "Physical, Mental, Emotional, Spiritual"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Why is the body considered foundational in integration work?",
+        "options": [
+          "Physical fitness is most important",
+          "The nervous system underlies our capacity for all other work",
+          "You need to look good to feel good",
+          "Exercise releases endorphins"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is the relationship between shadow work and patterns?",
+        "options": [
+          "They are unrelated",
+          "Shadow material often drives unconscious patterns",
+          "Patterns cause shadow",
+          "Shadow work eliminates all patterns"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What role do emotions play in integration?",
+        "options": [
+          "They should be controlled and minimized",
+          "They carry important information and need to be felt and processed",
+          "Only positive emotions matter",
+          "Emotions are just chemical reactions"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "How do limiting patterns typically form?",
+        "options": [
+          "Through conscious choice",
+          "Through adaptive responses to early experiences that no longer serve",
+          "Through genetics only",
+          "Through bad luck"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What does 'meaning' refer to in the integration framework?",
+        "options": [
+          "Dictionary definitions",
+          "Purpose, values, and what gives your life significance",
+          "Religious belief only",
+          "Career success"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "Why is integration an ongoing process rather than a destination?",
+        "options": [
+          "Because the course never ends",
+          "Because life continues presenting new material to integrate",
+          "Because you can never be fully healed",
+          "Because it's a business model"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 8,
+        "question": "What is the goal of examining relationships in integration work?",
+        "options": [
+          "To find someone better",
+          "To understand patterns, heal attachment wounds, and relate more consciously",
+          "To avoid relationships",
+          "To fix other people"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
   "published": true,
   "createdAt": "2024-12-18",
   "updatedAt": "2024-12-18"

@@ -68,6 +68,88 @@
     "A journal for reflection exercises",
     "Openness to changing how you relate"
   ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "When does attachment style primarily form?",
+        "options": [
+          "During adolescence",
+          "In the first few years of life with primary caregivers",
+          "When you start dating",
+          "It's entirely genetic"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is the core fear in anxious attachment?",
+        "options": [
+          "Fear of commitment",
+          "Fear of abandonment",
+          "Fear of conflict",
+          "Fear of intimacy"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is the core fear in avoidant attachment?",
+        "options": [
+          "Fear of being alone",
+          "Fear of engulfment/loss of self",
+          "Fear of rejection",
+          "Fear of change"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is 'protest behavior' in attachment terms?",
+        "options": [
+          "Political activism",
+          "Actions to get a partner's attention when feeling disconnected",
+          "Setting healthy boundaries",
+          "Ending a relationship"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What does 'earned secure' attachment mean?",
+        "options": [
+          "Being born with secure attachment",
+          "Developing security through conscious work despite insecure childhood",
+          "Finding a secure partner",
+          "Never having relationship problems"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "Why do people often choose partners with complementary insecure styles?",
+        "options": [
+          "Opposites attract",
+          "The dynamic feels familiar and confirms existing beliefs about relationships",
+          "It's completely random",
+          "Secure people are rare"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "What is key to healing attachment wounds?",
+        "options": [
+          "Finding the perfect partner",
+          "Avoiding relationships until healed",
+          "Consistent corrective experiences with safe others plus internal work",
+          "Understanding the theory intellectually"
+        ],
+        "correctIndex": 2
+      }
+    ]
+  },
   "published": true,
   "createdAt": "2024-12-18",
   "updatedAt": "2024-12-18"

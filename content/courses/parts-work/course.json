@@ -66,5 +66,87 @@
     "Willingness to engage with inner dialogue",
     "Journal for exercises",
     "Private space for inner work"
-  ]
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is the 'parts' perspective on the psyche?",
+        "options": [
+          "That we have multiple personalities disorder",
+          "That we all contain different sub-personalities with their own feelings and agendas",
+          "That we should be one unified self",
+          "That parts are pathological"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What are 'protector' parts?",
+        "options": [
+          "Bodyguards",
+          "Parts that developed to protect us from pain, often through control or avoidance",
+          "Our best qualities",
+          "Parts we should eliminate"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What are 'exiled' parts?",
+        "options": [
+          "Parts that have been sent away permanently",
+          "Wounded parts carrying pain that protectors try to keep out of awareness",
+          "Evil parts",
+          "Parts that don't exist anymore"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is 'Self' in parts work terminology?",
+        "options": [
+          "Your ego",
+          "The calm, compassionate core that can lead the internal system",
+          "Your personality",
+          "Your strongest part"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "How should we approach protector parts?",
+        "options": [
+          "Fight against them",
+          "With curiosity and appreciation for their protective intention",
+          "Ignore them",
+          "Let them completely run our lives"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What does 'unburdening' mean in parts work?",
+        "options": [
+          "Getting rid of parts",
+          "Releasing the pain, beliefs, or emotions a wounded part has been carrying",
+          "Ignoring problems",
+          "Becoming emotionless"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "Why is it important to get permission from protectors before approaching exiled parts?",
+        "options": [
+          "It's just a formality",
+          "Protectors can overwhelm or block access if they don't feel safe",
+          "Exiles are dangerous",
+          "Permission isn't actually needed"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
 }
