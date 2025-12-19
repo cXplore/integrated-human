@@ -26,6 +26,7 @@ model User {
   readingList     ReadingListItem[]
   articleProgress ArticleProgress[]
   courseProgress  CourseProgress[]
+  certificates    Certificate[]
 }
 
 model Account {
@@ -92,4 +93,19 @@ model CourseProgress {
   @@unique([userId, courseSlug, moduleSlug])
   @@index([userId])
   @@index([userId, courseSlug])
+}
+
+model Certificate {
+  id           String   @id @default(cuid())
+  userId       String
+  courseSlug   String
+  courseName   String
+  userName     String
+  issuedAt     DateTime @default(now())
+  certificateId String  @unique @default(cuid())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseSlug])
+  @@index([userId])
 }

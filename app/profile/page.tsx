@@ -5,6 +5,7 @@ import Image from 'next/image';
 import NewsletterToggle from './NewsletterToggle';
 import ReadingStats from './ReadingStats';
 import CourseProgress from './CourseProgress';
+import Certificates from './Certificates';
 import { prisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
 
@@ -113,6 +114,11 @@ export default async function ProfilePage() {
                 {/* Reading Stats Card */}
                 <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6">
                   <ReadingStats />
+                </div>
+
+                {/* Certificates Card */}
+                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6">
+                  <Certificates />
                 </div>
               </div>
 
