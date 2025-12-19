@@ -76,30 +76,30 @@ New articles targeting search volume:
 | Article | Target Keywords | Status |
 |---------|-----------------|--------|
 | "How to Do Shadow Work: A Complete Guide" | shadow work | ✅ Exists |
-| "Anxious Attachment: Signs and How to Heal" | anxious attachment | [ ] Needed |
-| "Avoidant Attachment: Understanding the Pattern" | avoidant attachment | [ ] Needed |
-| "Healing the Father Wound" | father wound | [ ] Needed |
-| "Healing the Mother Wound" | mother wound | [ ] Needed |
+| "Anxious Attachment: Signs and How to Heal" | anxious attachment | ✅ Exists |
+| "Avoidant Attachment: Understanding the Pattern" | avoidant attachment | ✅ Exists |
+| "Healing the Father Wound" | father wound | ✅ Exists |
+| "Healing the Mother Wound" | mother wound | ✅ Exists |
 | "Nervous System Regulation: A Practical Guide" | nervous system | ✅ Exists |
-| "Psychedelic Integration: Before, During, After" | psychedelic integration | [ ] Needed |
-| "Somatic Exercises for Anxiety" | somatic exercises | [ ] Needed |
-| "Masculine Energy: What It Actually Means" | masculine energy | [ ] Needed |
-| "Feminine Energy: Beyond the Stereotypes" | feminine energy | [ ] Needed |
+| "Psychedelic Integration: Before, During, After" | psychedelic integration | ✅ Exists |
+| "Somatic Exercises for Anxiety" | somatic exercises | ✅ Exists |
+| "Masculine Energy: What It Actually Means" | masculine energy | ✅ Exists |
+| "Feminine Energy: Beyond the Stereotypes" | feminine energy | ✅ Exists |
 
 ### 1.3 High-Value Deep Content
 
 | Article | Category | Status |
 |---------|----------|--------|
-| "Why You Choose Unavailable Partners" | Relationships | [ ] Needed |
-| "Reclaiming Your Aggression" | Mind | [ ] Needed |
-| "The Anger You Won't Let Yourself Feel" | Mind | [ ] Needed |
-| "Dating After Trauma" | Relationships | [ ] Needed |
-| "Post-Breakup Integration" | Relationships | [ ] Needed |
-| "Career Burnout to Purpose" | Mind/Soul | [ ] Needed |
-| "The Shame Beneath the Surface" | Mind | [ ] Needed |
-| "Codependency vs. Healthy Attachment" | Relationships | [ ] Needed |
-| "Disorganized Attachment: The Hidden Pattern" | Relationships | [ ] Needed |
-| "When Meditation Doesn't Work" | Soul | [ ] Needed |
+| "Why You Choose Unavailable Partners" | Relationships | ✅ Exists |
+| "Reclaiming Your Aggression" | Mind | ✅ Exists |
+| "The Anger You Won't Let Yourself Feel" | Mind | ✅ Exists |
+| "Dating After Trauma" | Relationships | ✅ Exists |
+| "Post-Breakup Integration" | Relationships | ✅ Exists |
+| "Career Burnout to Purpose" | Mind/Soul | ✅ Exists |
+| "The Shame Beneath the Surface" | Mind | ✅ Exists |
+| "Codependency vs. Healthy Attachment" | Relationships | ✅ Exists |
+| "Disorganized Attachment: The Hidden Pattern" | Relationships | ✅ Exists |
+| "When Meditation Doesn't Work" | Soul | ✅ Exists |
 
 ---
 
