@@ -1,0 +1,140 @@
+{
+  "id": "presence-practices",
+  "title": "Presence Practices",
+  "subtitle": "Learning to actually be here",
+  "description": "Most of us live in the past or future, rarely inhabiting the present. This course offers practical techniques for cultivating genuine presence—not as a spiritual achievement, but as a way of being more fully alive.",
+  "category": "Soul",
+  "price": 57,
+  "currency": "USD",
+  "duration": "5 weeks",
+  "level": "All Levels",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "what-is-presence",
+      "title": "What Is Presence",
+      "description": "Understanding presence beyond the buzzword",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "obstacles-to-presence",
+      "title": "Obstacles to Presence",
+      "description": "What pulls you out of the moment",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "body-based-presence",
+      "title": "Body-Based Presence",
+      "description": "Using the body as an anchor to now",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "presence-in-relationship",
+      "title": "Presence in Relationship",
+      "description": "Being fully here with others",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "presence-in-action",
+      "title": "Presence in Action",
+      "description": "Bringing awareness to daily activities",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "deepening-presence",
+      "title": "Deepening Presence",
+      "description": "Making presence your default state",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand what presence actually is",
+    "Recognize what habitually pulls you away",
+    "Use the body to anchor in the present",
+    "Be more present in relationships",
+    "Bring awareness to everyday activities",
+    "Develop presence as a way of being"
+  ],
+  "requirements": [
+    "No prior experience needed",
+    "Willingness to slow down",
+    "Daily practice time (10-20 minutes)"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is presence?",
+        "options": [
+          "Being physically in a location",
+          "Full awareness of and engagement with this moment",
+          "Not thinking",
+          "A spiritual achievement"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What commonly pulls us out of presence?",
+        "options": [
+          "Other people",
+          "Rumination about past, worry about future, compulsive thinking, and numbing",
+          "Having responsibilities",
+          "Being busy"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "Why is the body useful for cultivating presence?",
+        "options": [
+          "The body is more spiritual",
+          "The body is always in the present moment—you can't feel yesterday",
+          "Physical exercise",
+          "It isn't useful"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What does presence in relationship involve?",
+        "options": [
+          "Being in the same room",
+          "Full attention, listening without planning response, sensing the other person",
+          "Making eye contact",
+          "Talking more"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "How can presence be practiced in daily activities?",
+        "options": [
+          "Only through meditation",
+          "Bringing full attention to ordinary activities—eating, walking, working",
+          "It can't - daily life is too busy",
+          "By doing everything slowly"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What makes presence sustainable?",
+        "options": [
+          "Constant effort",
+          "Regular practice that rewires default patterns of attention",
+          "Never thinking",
+          "Avoiding stress"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

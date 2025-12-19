@@ -1,0 +1,141 @@
+{
+  "id": "trauma-informed-self-care",
+  "title": "Trauma-Informed Self-Care",
+  "subtitle": "Caring for yourself when everything feels hard",
+  "description": "Standard self-care advice doesn't work for trauma survivors. This course teaches gentle, body-based practices for people whose nervous systems are sensitized. Learn to care for yourself without triggering overwhelm or shutdown.",
+  "category": "Body",
+  "price": 67,
+  "currency": "USD",
+  "duration": "5-6 weeks",
+  "level": "All Levels",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "why-self-care-is-different",
+      "title": "Why Self-Care Is Different with Trauma",
+      "description": "Understanding the sensitized nervous system",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "safety-first",
+      "title": "Safety First",
+      "description": "Creating conditions where healing can happen",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "gentle-body-practices",
+      "title": "Gentle Body Practices",
+      "description": "Movement and touch that doesn't overwhelm",
+      "duration": "35 min"
+    },
+    {
+      "id": 4,
+      "slug": "resourcing",
+      "title": "Building Resources",
+      "description": "Creating internal and external supports",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "window-of-tolerance",
+      "title": "Working with Your Window",
+      "description": "Staying regulated while slowly expanding capacity",
+      "duration": "35 min"
+    },
+    {
+      "id": 6,
+      "slug": "sustainable-practices",
+      "title": "Sustainable Practices",
+      "description": "Building a routine that supports long-term healing",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand why trauma changes what self-care you need",
+    "Create genuine safety for your nervous system",
+    "Practice body-based care that doesn't overwhelm",
+    "Build internal and external resources",
+    "Work within your window of tolerance while expanding it",
+    "Create sustainable practices for ongoing healing"
+  ],
+  "requirements": [
+    "History of trauma (any type)",
+    "Willingness to go slow and be gentle",
+    "Therapist or support person recommended for significant trauma",
+    "Private space for practices"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "Why doesn't standard self-care advice work for trauma survivors?",
+        "options": [
+          "Trauma survivors are difficult",
+          "A sensitized nervous system can be overwhelmed by practices meant to be calming",
+          "Self-care doesn't help anyone",
+          "Trauma survivors don't deserve self-care"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is the 'window of tolerance'?",
+        "options": [
+          "How much you can handle before exploding",
+          "The range of arousal where you can function and process experience",
+          "Pain tolerance",
+          "Patience with others"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is 'resourcing' in trauma-informed care?",
+        "options": [
+          "Making money",
+          "Building internal and external supports that help you regulate",
+          "Finding resources online",
+          "Asking others for help"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "Why is safety emphasized before other work?",
+        "options": [
+          "Legal reasons",
+          "The nervous system can't heal or process while in survival mode",
+          "It's not that important",
+          "Only for severe trauma"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "How should body practices be approached with trauma?",
+        "options": [
+          "Intense exercise to release energy",
+          "Gently, with choice and control, at a pace that doesn't overwhelm",
+          "Avoiding the body entirely",
+          "Pushing through discomfort"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What makes trauma-informed self-care sustainable?",
+        "options": [
+          "Forcing yourself to practice",
+          "Practices that feel safe, build capacity gradually, and adapt to your current state",
+          "Doing the same thing every day",
+          "Never missing a day"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

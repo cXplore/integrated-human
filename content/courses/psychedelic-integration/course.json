@@ -1,0 +1,160 @@
+{
+  "id": "psychedelic-integration",
+  "title": "Psychedelic Preparation & Integration",
+  "subtitle": "Making medicine work work",
+  "description": "A comprehensive guide to preparing for, navigating, and integrating psychedelic experiences. This course covers physical and psychological preparation, navigation principles, and the crucial integration process that determines lasting benefit.",
+  "category": "Soul",
+  "price": 77,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-psychedelics",
+      "title": "Understanding Psychedelics",
+      "description": "What these substances are and how they work",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "preparation-physical",
+      "title": "Physical Preparation",
+      "description": "Body, diet, and practical readiness",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "preparation-psychological",
+      "title": "Psychological Preparation",
+      "description": "Intention, mindset, and mental readiness",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "navigation-principles",
+      "title": "Navigation Principles",
+      "description": "How to work with the experience as it unfolds",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "working-with-difficulty",
+      "title": "Working with Difficulty",
+      "description": "When the experience gets challenging",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "immediate-integration",
+      "title": "Immediate Integration",
+      "description": "The first 48 hours after an experience",
+      "duration": "25 min"
+    },
+    {
+      "id": 7,
+      "slug": "long-term-integration",
+      "title": "Long-Term Integration",
+      "description": "Making the insights stick for months and years",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand how psychedelics affect the brain and psyche",
+    "Prepare physically and mentally for an experience",
+    "Set intention without rigid expectation",
+    "Navigate challenging material during the experience",
+    "Integrate insights in the immediate aftermath",
+    "Build practices for lasting transformation",
+    "Know when integration support is needed"
+  ],
+  "requirements": [
+    "This course is educational - all decisions about substances are your own",
+    "Prior inner work experience strongly recommended",
+    "Nervous System Mastery course helpful for regulation skills",
+    "Journal for integration work"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is the most important factor in psychedelic outcomes?",
+        "options": [
+          "The dose",
+          "Set (mindset) and setting (environment)",
+          "The specific substance",
+          "How many times you've done it before"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is 'intention' in preparation context?",
+        "options": [
+          "Exactly what you want to experience",
+          "A genuine question or opening you bring, held loosely",
+          "A demand for specific answers",
+          "Not important"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is the core navigation principle during a psychedelic experience?",
+        "options": [
+          "Control everything",
+          "Fight difficult content",
+          "Surrender - let go, breathe, trust the process",
+          "Analyze everything in real-time"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 4,
+        "question": "When difficult content arises, what helps most?",
+        "options": [
+          "Fighting against it",
+          "Breathing, relaxing the body, and moving toward rather than away",
+          "Ending the experience immediately",
+          "Distracting yourself"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What should you do in the first 24-48 hours after an experience?",
+        "options": [
+          "Return to normal life immediately",
+          "Protect the space - journal, rest, avoid screens and stimulation",
+          "Tell everyone about it",
+          "Do another session"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "Why do insights often fade without integration?",
+        "options": [
+          "The experience wasn't real",
+          "Insights need embodiment through action, practice, and changed behavior",
+          "You did something wrong",
+          "They were just hallucinations"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "What is 'spiritual bypassing' in integration context?",
+        "options": [
+          "Being too spiritual",
+          "Using insights to avoid doing real-world work on problems",
+          "Not being spiritual enough",
+          "Skipping ceremonies"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "id": "anger-and-aggression",
+  "title": "Anger & Aggression",
+  "subtitle": "Reclaiming your fire without burning everything down",
+  "description": "Learn to work with anger as life force rather than suppressing it or exploding. This course covers understanding anger, feeling it fully, expressing it healthily, and channeling it into protection, boundaries, and creation.",
+  "category": "Mind",
+  "price": 57,
+  "currency": "USD",
+  "duration": "4-5 weeks",
+  "level": "All Levels",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-anger",
+      "title": "Understanding Anger",
+      "description": "What anger is, why it matters, and your relationship with it",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "anger-history",
+      "title": "Your Anger History",
+      "description": "How you learned to relate to anger",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "feeling-anger",
+      "title": "Feeling Anger Fully",
+      "description": "Allowing anger without acting destructively",
+      "duration": "35 min"
+    },
+    {
+      "id": 4,
+      "slug": "expressing-anger",
+      "title": "Healthy Expression",
+      "description": "Moving anger through the body safely",
+      "duration": "35 min"
+    },
+    {
+      "id": 5,
+      "slug": "anger-as-information",
+      "title": "Anger as Information",
+      "description": "What your anger is trying to tell you",
+      "duration": "25 min"
+    },
+    {
+      "id": 6,
+      "slug": "channeling-aggression",
+      "title": "Channeling Aggression",
+      "description": "Using anger for protection, creation, and change",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand anger as healthy life force",
+    "Map your personal relationship with anger",
+    "Feel anger fully without destructive action",
+    "Express anger through body-based practices",
+    "Decode what your anger is communicating",
+    "Channel aggression into protection and creation"
+  ],
+  "requirements": [
+    "Willingness to feel uncomfortable emotions",
+    "Private space for expression practices",
+    "Journal for reflection"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is anger at its core?",
+        "options": [
+          "A negative emotion to eliminate",
+          "Life force energy that arises when something matters",
+          "Always a sign of problems",
+          "Only destructive"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What typically happens when anger is chronically suppressed?",
+        "options": [
+          "It goes away",
+          "It emerges as depression, passive aggression, or explosive outbursts",
+          "You become a better person",
+          "Nothing"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is the difference between feeling anger and acting on it?",
+        "options": [
+          "There is no difference",
+          "Feeling is the internal experience; acting is external behavior—you can feel fully without destructive action",
+          "You should act immediately on all anger",
+          "Feeling anger is bad"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "Why move anger through the body?",
+        "options": [
+          "To become violent",
+          "Anger is physical energy that needs expression to complete the stress cycle",
+          "It's not necessary",
+          "Only men need to do this"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What information does anger typically provide?",
+        "options": [
+          "That you're a bad person",
+          "That a boundary was crossed, a value violated, or something needs to change",
+          "That you should hurt someone",
+          "Nothing useful"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What is 'healthy aggression'?",
+        "options": [
+          "Controlled violence",
+          "Life force energy directed toward protection, creation, boundaries, and pursuing goals",
+          "Passive aggression",
+          "Never getting angry"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

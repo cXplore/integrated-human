@@ -1,0 +1,132 @@
+{
+  "id": "sleep-mastery",
+  "title": "Sleep Mastery",
+  "subtitle": "The foundation you keep ignoring",
+  "description": "Sleep is the foundation of everything—mood, cognition, regulation, healing. This course covers the science of sleep, why yours might be broken, and practical protocols for actually getting the rest you need.",
+  "category": "Body",
+  "price": 47,
+  "currency": "USD",
+  "duration": "3-4 weeks",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "why-sleep-matters",
+      "title": "Why Sleep Matters",
+      "description": "What happens when you sleep—and when you don't",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "sleep-architecture",
+      "title": "Understanding Sleep Architecture",
+      "description": "Stages, cycles, and what makes sleep restorative",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "what-disrupts-sleep",
+      "title": "What Disrupts Sleep",
+      "description": "Common saboteurs and how to address them",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "optimizing-sleep",
+      "title": "Optimizing Your Sleep",
+      "description": "Environment, timing, and habits that work",
+      "duration": "35 min"
+    },
+    {
+      "id": 5,
+      "slug": "nervous-system-and-sleep",
+      "title": "Nervous System and Sleep",
+      "description": "When you can't sleep because you can't calm down",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand why sleep is foundational for everything",
+    "Know what makes sleep actually restorative",
+    "Identify what's disrupting your sleep",
+    "Implement evidence-based sleep optimization",
+    "Work with nervous system dysregulation that prevents sleep"
+  ],
+  "requirements": [
+    "Current sleep difficulties or desire to optimize",
+    "Willingness to change habits",
+    "Consult doctor for serious sleep disorders"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "Why is sleep considered foundational?",
+        "options": [
+          "It's just rest",
+          "Sleep affects mood, cognition, immune function, healing, and emotional regulation",
+          "It's not that important if you're healthy",
+          "Only for physical recovery"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What are the main stages of sleep?",
+        "options": [
+          "Light and deep only",
+          "Light sleep, deep sleep (slow-wave), and REM sleep in repeating cycles",
+          "Just REM",
+          "Awake and asleep"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What commonly disrupts sleep quality?",
+        "options": [
+          "Sleeping too much",
+          "Blue light, irregular schedule, caffeine, alcohol, stress, and room temperature",
+          "Sleeping alone",
+          "Dreaming"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is the ideal sleep environment?",
+        "options": [
+          "Warm and bright",
+          "Cool, dark, quiet, and associated only with sleep",
+          "Variable temperature",
+          "Any environment works"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "How does nervous system dysregulation affect sleep?",
+        "options": [
+          "It doesn't",
+          "An activated nervous system can't shift into the rest states needed for sleep",
+          "It only affects falling asleep",
+          "Only trauma survivors have this issue"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What helps establish healthy sleep patterns?",
+        "options": [
+          "Varying bedtime based on schedule",
+          "Consistent sleep/wake times, light exposure, and wind-down routines",
+          "Sleeping whenever tired",
+          "Sleeping more on weekends"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

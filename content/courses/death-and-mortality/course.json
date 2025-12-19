@@ -1,0 +1,141 @@
+{
+  "id": "death-and-mortality",
+  "title": "Death & Mortality",
+  "subtitle": "Living fully by facing the end",
+  "description": "Death awareness is a powerful teacher that most of us avoid. This course helps you face mortality consciously—not morbidly, but as a way to clarify what matters, release what doesn't, and live with more presence and purpose.",
+  "category": "Soul",
+  "price": 67,
+  "currency": "USD",
+  "duration": "5-6 weeks",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "why-face-death",
+      "title": "Why Face Death",
+      "description": "How death awareness transforms life",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "your-relationship-with-death",
+      "title": "Your Relationship with Death",
+      "description": "How you've learned to relate to mortality",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "facing-fear",
+      "title": "Facing the Fear",
+      "description": "Working with death anxiety",
+      "duration": "35 min"
+    },
+    {
+      "id": 4,
+      "slug": "death-as-advisor",
+      "title": "Death as Advisor",
+      "description": "Using mortality to clarify what matters",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "legacy-and-meaning",
+      "title": "Legacy and Meaning",
+      "description": "What do you want to leave behind?",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "living-with-death",
+      "title": "Living with Death Awareness",
+      "description": "Integrating mortality into daily life",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand how death awareness can transform life",
+    "Examine your relationship with mortality",
+    "Work directly with death anxiety",
+    "Use death as an advisor for choices",
+    "Clarify what legacy and meaning you want to create",
+    "Integrate mortality awareness into daily living"
+  ],
+  "requirements": [
+    "Not currently in acute grief (take Grief course instead)",
+    "Willingness to face uncomfortable territory",
+    "Journal for reflection",
+    "Support person available if needed"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "How can death awareness improve life?",
+        "options": [
+          "It can't - it's depressing",
+          "It clarifies priorities, releases petty concerns, and creates urgency for what matters",
+          "By avoiding death",
+          "Only for old people"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is death anxiety?",
+        "options": [
+          "Fear of being anxious",
+          "The terror or denial we experience when confronting our mortality",
+          "Being worried about dead people",
+          "A mental illness"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What does 'death as advisor' mean?",
+        "options": [
+          "Asking dead people for advice",
+          "Using the reality of death to evaluate choices and priorities",
+          "A death wish",
+          "Planning your funeral"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "How does avoiding death affect life?",
+        "options": [
+          "It doesn't",
+          "Can lead to living inauthentically, postponing what matters, and numbing",
+          "It's healthy to avoid",
+          "Everyone avoids it equally"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is 'legacy' in this context?",
+        "options": [
+          "Only material inheritance",
+          "What you contribute, create, and leave behind—relationships, values, impact",
+          "Fame",
+          "Having children"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "How can death awareness be integrated into daily life?",
+        "options": [
+          "Constant morbid thoughts",
+          "Regular contemplation that informs priorities without becoming obsession",
+          "Ignoring it completely",
+          "Only thinking about it when old"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

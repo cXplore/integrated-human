@@ -6,6 +6,7 @@ import NewsletterToggle from './NewsletterToggle';
 import ReadingStats from './ReadingStats';
 import CourseProgress from './CourseProgress';
 import Certificates from './Certificates';
+import PurchasedCourses from './PurchasedCourses';
 import { prisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
 
@@ -79,7 +80,7 @@ export default async function ProfilePage() {
               {/* Left Column - Progress */}
               <div className="md:col-span-2 space-y-6">
                 {/* Quick Actions */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <a
                     href="/courses"
                     className="group bg-[var(--card-bg)] border border-[var(--border-color)] p-5 hover:border-zinc-600 transition-colors"
@@ -93,6 +94,18 @@ export default async function ProfilePage() {
                     <p className="text-gray-500 text-sm">Continue learning</p>
                   </a>
                   <a
+                    href="/profile/journal"
+                    className="group bg-[var(--card-bg)] border border-[var(--border-color)] p-5 hover:border-zinc-600 transition-colors"
+                  >
+                    <div className="flex items-center gap-3 mb-2">
+                      <svg className="w-5 h-5 text-gray-400 group-hover:text-amber-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                      <span className="text-white font-medium">Journal</span>
+                    </div>
+                    <p className="text-gray-500 text-sm">Reflect & write</p>
+                  </a>
+                  <a
                     href="/reading-list"
                     className="group bg-[var(--card-bg)] border border-[var(--border-color)] p-5 hover:border-zinc-600 transition-colors"
                   >
@@ -104,6 +117,11 @@ export default async function ProfilePage() {
                     </div>
                     <p className="text-gray-500 text-sm">Saved for later</p>
                   </a>
+                </div>
+
+                {/* Purchased Courses Card */}
+                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6">
+                  <PurchasedCourses />
                 </div>
 
                 {/* Course Progress Card */}

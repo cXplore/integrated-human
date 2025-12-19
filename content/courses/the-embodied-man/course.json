@@ -1,0 +1,209 @@
+{
+  "id": "the-embodied-man",
+  "title": "The Embodied Man",
+  "subtitle": "A complete curriculum for masculine development",
+  "description": "A comprehensive 12-week program integrating body, mind, and soul for men ready to do the deep work. This flagship course covers nervous system mastery, shadow integration, emotional depth, purpose, and embodied presence. Not for beginners—this is for men ready to transform.",
+  "category": "Flagship",
+  "price": 297,
+  "currency": "USD",
+  "duration": "12 weeks",
+  "level": "Advanced",
+  "featured": true,
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "foundations-of-embodiment",
+      "title": "Foundations of Embodiment",
+      "description": "Moving from head to body—where real power lives",
+      "duration": "40 min"
+    },
+    {
+      "id": 2,
+      "slug": "nervous-system-for-men",
+      "title": "Nervous System Mastery for Men",
+      "description": "Regulation, resilience, and the capacity to hold more",
+      "duration": "45 min"
+    },
+    {
+      "id": 3,
+      "slug": "the-masculine-shadow",
+      "title": "The Masculine Shadow",
+      "description": "What you've disowned and why it's running your life",
+      "duration": "45 min"
+    },
+    {
+      "id": 4,
+      "slug": "father-wound-deep-dive",
+      "title": "Father Wound Deep Dive",
+      "description": "Healing the core masculine wound",
+      "duration": "50 min"
+    },
+    {
+      "id": 5,
+      "slug": "reclaiming-aggression",
+      "title": "Reclaiming Your Aggression",
+      "description": "From suppression or explosion to healthy power",
+      "duration": "40 min"
+    },
+    {
+      "id": 6,
+      "slug": "emotional-mastery",
+      "title": "Emotional Mastery",
+      "description": "Feeling fully without being overwhelmed",
+      "duration": "45 min"
+    },
+    {
+      "id": 7,
+      "slug": "the-four-archetypes-integrated",
+      "title": "Integrating the Four Archetypes",
+      "description": "King, Warrior, Magician, Lover in practice",
+      "duration": "50 min"
+    },
+    {
+      "id": 8,
+      "slug": "purpose-and-mission",
+      "title": "Clarifying Purpose and Mission",
+      "description": "What you're here to do and how to do it",
+      "duration": "45 min"
+    },
+    {
+      "id": 9,
+      "slug": "masculine-presence",
+      "title": "Cultivating Masculine Presence",
+      "description": "Being fully here—in body, mind, and spirit",
+      "duration": "40 min"
+    },
+    {
+      "id": 10,
+      "slug": "relationships-and-polarity",
+      "title": "Relationships and Polarity",
+      "description": "Showing up fully in intimate partnership",
+      "duration": "45 min"
+    },
+    {
+      "id": 11,
+      "slug": "brotherhood-and-mentorship",
+      "title": "Brotherhood and Mentorship",
+      "description": "The importance of men's community",
+      "duration": "35 min"
+    },
+    {
+      "id": 12,
+      "slug": "the-integrated-man",
+      "title": "The Integrated Man",
+      "description": "Bringing it all together for lasting transformation",
+      "duration": "40 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Master your nervous system for unshakeable presence",
+    "Integrate your shadow and stop unconscious patterns",
+    "Heal father wounds at the root",
+    "Reclaim healthy aggression and protective power",
+    "Develop genuine emotional depth and intelligence",
+    "Clarify your purpose and take aligned action",
+    "Show up fully in relationships with embodied presence",
+    "Access all four masculine archetypes consciously"
+  ],
+  "requirements": [
+    "Prior inner work experience required",
+    "Commitment to 12 weeks of consistent practice",
+    "Journal for daily reflection",
+    "Willingness to face uncomfortable truths",
+    "Physical space for somatic practices"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What does 'embodiment' mean in the context of masculine development?",
+        "options": [
+          "Having a muscular physique",
+          "Living from and through the body rather than just the mind",
+          "Physical fitness only",
+          "Suppressing emotions"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Why is nervous system regulation foundational for men's work?",
+        "options": [
+          "It's not important",
+          "A regulated system allows access to deeper work without overwhelm or shutdown",
+          "Only for anxious men",
+          "To appear calm"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is the masculine shadow typically composed of?",
+        "options": [
+          "Bad habits",
+          "Traits deemed unacceptable: vulnerability, rage, sensitivity, neediness",
+          "Only anger",
+          "Childhood memories"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "How does the father wound typically manifest in adult men?",
+        "options": [
+          "It doesn't affect adults",
+          "Struggles with authority, self-worth, knowing what you want, or becoming your father",
+          "Only physical symptoms",
+          "Better relationship with mother"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is healthy masculine aggression?",
+        "options": [
+          "Violence and dominance",
+          "Life force energy channeled for protection, creation, and pursuing purpose",
+          "Suppressed anger",
+          "Passive behavior"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What does masculine presence require?",
+        "options": [
+          "Being intimidating",
+          "Grounded embodiment, emotional regulation, and full attention in the moment",
+          "Talking a lot",
+          "Physical size"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "Why is brotherhood important for masculine development?",
+        "options": [
+          "Competition",
+          "Men need witnessing, challenge, and support from other men to fully mature",
+          "It's not important",
+          "To have drinking buddies"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 8,
+        "question": "What does integration mean in the context of this course?",
+        "options": [
+          "Combining different exercises",
+          "Bringing all aspects of self into coherent wholeness across body, mind, and purpose",
+          "Finishing the course",
+          "Adding more practices"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

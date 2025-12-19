@@ -1,0 +1,140 @@
+{
+  "id": "energy-and-vitality",
+  "title": "Energy & Vitality",
+  "subtitle": "Stop running on empty",
+  "description": "Chronic fatigue and low energy are epidemic. This course addresses the real causes—not just caffeine and sleep—covering nervous system drain, emotional exhaustion, energy leaks, and how to build genuine vitality.",
+  "category": "Body",
+  "price": 57,
+  "currency": "USD",
+  "duration": "5 weeks",
+  "level": "All Levels",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-energy",
+      "title": "Understanding Energy",
+      "description": "What drains you and what fills you",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "nervous-system-drain",
+      "title": "Nervous System Drain",
+      "description": "How chronic stress exhausts you",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "emotional-energy",
+      "title": "Emotional Energy",
+      "description": "The hidden cost of unfelt feelings",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "energy-leaks",
+      "title": "Plugging Energy Leaks",
+      "description": "Relationships, commitments, and habits that drain you",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "building-vitality",
+      "title": "Building Genuine Vitality",
+      "description": "Practices that create sustainable energy",
+      "duration": "35 min"
+    },
+    {
+      "id": 6,
+      "slug": "energy-management",
+      "title": "Energy Management",
+      "description": "Working with your energy throughout the day",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand the multiple sources of energy and drain",
+    "Address nervous system exhaustion",
+    "Recognize emotional energy costs",
+    "Identify and plug energy leaks",
+    "Build practices that create genuine vitality",
+    "Manage energy wisely throughout the day"
+  ],
+  "requirements": [
+    "Current experience of low energy or fatigue",
+    "Willingness to examine lifestyle honestly",
+    "Medical causes ruled out by doctor if fatigue is severe"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What are the main sources of energy drain beyond physical?",
+        "options": [
+          "Only lack of sleep",
+          "Nervous system dysregulation, emotional suppression, unhealthy relationships, and misalignment with values",
+          "Not enough caffeine",
+          "Aging"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "How does chronic stress drain energy?",
+        "options": [
+          "It doesn't affect energy",
+          "Constant activation depletes the nervous system and requires enormous resources to maintain",
+          "Only through lost sleep",
+          "Stress is energizing"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "How do unfelt emotions drain energy?",
+        "options": [
+          "They don't",
+          "Suppression requires constant effort and creates chronic tension",
+          "Only negative emotions drain energy",
+          "Emotions are just mental"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is an 'energy leak'?",
+        "options": [
+          "A medical condition",
+          "Anything that consistently drains you without proportional return—relationships, commitments, habits",
+          "Losing blood",
+          "Forgetting things"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What creates genuine vitality?",
+        "options": [
+          "Stimulants",
+          "Aligned living, nervous system regulation, expressed emotions, and real rest",
+          "Positive thinking",
+          "Willpower"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "How should energy be managed throughout the day?",
+        "options": [
+          "Push through until you crash",
+          "Work with natural rhythms, take breaks, match tasks to energy levels",
+          "Constant high energy",
+          "Save it all for evening"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

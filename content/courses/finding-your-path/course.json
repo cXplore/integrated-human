@@ -1,0 +1,140 @@
+{
+  "id": "finding-your-path",
+  "title": "Finding Your Path",
+  "subtitle": "When you don't know what you want",
+  "description": "For those who feel lost, stuck, or unclear about direction. This course helps you cut through confusion, reconnect with what matters to you, and take steps forward even when the whole path isn't visible.",
+  "category": "Soul",
+  "price": 57,
+  "currency": "USD",
+  "duration": "5 weeks",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-lostness",
+      "title": "Understanding Lostness",
+      "description": "Why you feel stuck and what it means",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "clearing-the-noise",
+      "title": "Clearing the Noise",
+      "description": "Separating your voice from others' expectations",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "following-energy",
+      "title": "Following Your Energy",
+      "description": "What enlivens you points the way",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "experiments-not-plans",
+      "title": "Experiments, Not Plans",
+      "description": "Moving forward without having it all figured out",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "working-with-fear",
+      "title": "Working with Fear",
+      "description": "When fear blocks the path forward",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "trusting-the-process",
+      "title": "Trusting the Process",
+      "description": "The path reveals itself through walking",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand why you feel lost or stuck",
+    "Distinguish your desires from others' expectations",
+    "Use energy and aliveness as guidance",
+    "Take action through experiments rather than requiring certainty",
+    "Work with fear that blocks forward movement",
+    "Trust the unfolding process"
+  ],
+  "requirements": [
+    "Currently feeling lost, stuck, or unclear about direction",
+    "Willingness to take small steps",
+    "Journal for exercises"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What does feeling 'lost' often indicate?",
+        "options": [
+          "Permanent brokenness",
+          "A transition point where old structures no longer work and new ones haven't formed",
+          "Failure",
+          "Being lazy"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Why is it important to separate your voice from others' expectations?",
+        "options": [
+          "To be selfish",
+          "Following others' expectations leads to paths that aren't truly yours",
+          "Others are always wrong",
+          "It's not important"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What does 'following your energy' mean?",
+        "options": [
+          "Physical energy levels",
+          "Paying attention to what genuinely enlivens and interests you as guidance",
+          "Being manic",
+          "Exercise"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "Why experiments rather than plans?",
+        "options": [
+          "Plans are bad",
+          "You can't know if something works until you try—small experiments reveal the path",
+          "Experiments are easier",
+          "Planning is impossible"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What role does fear play when finding your path?",
+        "options": [
+          "It should be ignored",
+          "Fear often guards the edge of growth—it's information, not a stop sign",
+          "Fear means you shouldn't proceed",
+          "Fear has no role"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What does 'the path reveals itself through walking' mean?",
+        "options": [
+          "Walk more",
+          "You can't see the whole path before starting—clarity comes through action",
+          "Physical walking helps",
+          "Paths are literal"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

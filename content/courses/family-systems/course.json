@@ -1,0 +1,141 @@
+{
+  "id": "family-systems",
+  "title": "Family Systems",
+  "subtitle": "Understanding the patterns you inherited",
+  "description": "Your family shaped you in ways you're still discovering. This course helps you understand family systems dynamics, recognize inherited patterns, navigate difficult family relationships, and break cycles you don't want to continue.",
+  "category": "Relationships",
+  "price": 67,
+  "currency": "USD",
+  "duration": "5-6 weeks",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "family-systems-basics",
+      "title": "Family Systems Basics",
+      "description": "How families function as systems",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "your-family-system",
+      "title": "Mapping Your Family System",
+      "description": "Understanding your specific family dynamics",
+      "duration": "35 min"
+    },
+    {
+      "id": 3,
+      "slug": "roles-and-patterns",
+      "title": "Roles and Patterns",
+      "description": "The role you played and patterns you inherited",
+      "duration": "35 min"
+    },
+    {
+      "id": 4,
+      "slug": "intergenerational-transmission",
+      "title": "Intergenerational Transmission",
+      "description": "What gets passed down through generations",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "navigating-family-now",
+      "title": "Navigating Family Now",
+      "description": "Relating to family as an adult",
+      "duration": "35 min"
+    },
+    {
+      "id": 6,
+      "slug": "breaking-cycles",
+      "title": "Breaking Cycles",
+      "description": "Ending patterns you don't want to continue",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand how families function as systems",
+    "Map your own family system dynamics",
+    "Recognize roles you played and patterns inherited",
+    "See how trauma and patterns transmit across generations",
+    "Navigate family relationships as an adult",
+    "Break cycles you don't want to continue"
+  ],
+  "requirements": [
+    "Willingness to examine family honestly",
+    "Journal for mapping exercises",
+    "Some prior inner work helpful",
+    "Professional support for severe family trauma"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What does 'family systems' perspective emphasize?",
+        "options": [
+          "Individual pathology",
+          "The family operates as an interconnected system where each member affects the others",
+          "Blaming parents",
+          "Family is unimportant"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What are common family roles?",
+        "options": [
+          "Only parent and child",
+          "Hero, scapegoat, lost child, mascot, enabler, and others",
+          "Roles don't exist in families",
+          "Only healthy roles"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is 'intergenerational transmission'?",
+        "options": [
+          "Genetic inheritance only",
+          "How trauma, patterns, and beliefs pass from one generation to the next",
+          "Teaching children skills",
+          "It doesn't happen"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is 'triangulation' in family systems?",
+        "options": [
+          "A math concept",
+          "When two people involve a third to manage tension between them",
+          "Having three children",
+          "A healthy communication pattern"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "How can adults change their role in the family system?",
+        "options": [
+          "They can't - it's fixed",
+          "Through differentiation, boundaries, and responding differently to old patterns",
+          "By cutting off all contact",
+          "By getting family to change first"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What does 'breaking a cycle' require?",
+        "options": [
+          "Willpower alone",
+          "Awareness of the pattern, understanding its function, and consistent different choices",
+          "Having children",
+          "Family therapy"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "id": "self-worth-and-shame",
+  "title": "Self-Worth & Shame",
+  "subtitle": "Healing the wound beneath all wounds",
+  "description": "Shame is often the hidden driver of our struggles. This course helps you recognize shame, understand its origins, differentiate toxic from healthy shame, and rebuild genuine self-worth from the inside out.",
+  "category": "Mind",
+  "price": 67,
+  "currency": "USD",
+  "duration": "5-6 weeks",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-shame",
+      "title": "Understanding Shame",
+      "description": "What shame is and how it differs from guilt",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "shame-origins",
+      "title": "Where Your Shame Comes From",
+      "description": "How shame is learned and internalized",
+      "duration": "35 min"
+    },
+    {
+      "id": 3,
+      "slug": "shame-patterns",
+      "title": "Recognizing Shame Patterns",
+      "description": "How shame shows up in your life",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "shame-and-nervous-system",
+      "title": "Shame and the Nervous System",
+      "description": "The somatic experience of shame",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "healing-shame",
+      "title": "Healing Shame",
+      "description": "Working with shame compassionately",
+      "duration": "40 min"
+    },
+    {
+      "id": 6,
+      "slug": "building-self-worth",
+      "title": "Building Genuine Self-Worth",
+      "description": "From external validation to internal ground",
+      "duration": "35 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand what shame is and how it differs from guilt",
+    "Map where your shame originated",
+    "Recognize how shame shows up in your patterns",
+    "Work with shame at the nervous system level",
+    "Heal shame through compassionate practices",
+    "Build authentic self-worth from within"
+  ],
+  "requirements": [
+    "Willingness to explore painful material",
+    "Journal for reflection exercises",
+    "Some prior inner work helpful",
+    "Support person available if needed"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is the difference between shame and guilt?",
+        "options": [
+          "They're the same",
+          "Guilt says 'I did something bad'; shame says 'I am bad'",
+          "Guilt is worse",
+          "Shame is just intense guilt"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "How is shame typically learned?",
+        "options": [
+          "Through genetic inheritance",
+          "Through experiences of rejection, humiliation, or conditional acceptance in childhood",
+          "It's not learned",
+          "Only through trauma"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What are common shame patterns?",
+        "options": [
+          "Confidence and success",
+          "Perfectionism, people-pleasing, hiding, or numbing",
+          "Being social",
+          "Having boundaries"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "How does shame show up in the body?",
+        "options": [
+          "It doesn't affect the body",
+          "Collapsing, wanting to hide, heat/flushing, frozen feeling",
+          "Increased energy",
+          "Only as thoughts"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What helps heal shame?",
+        "options": [
+          "Hiding it better",
+          "Compassionate witnessing, both internal and with safe others",
+          "Proving you're good enough",
+          "Ignoring it"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What is the foundation of genuine self-worth?",
+        "options": [
+          "External achievement and approval",
+          "An internal relationship with yourself based on inherent value, not performance",
+          "Never failing",
+          "Being better than others"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

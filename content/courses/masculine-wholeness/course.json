@@ -1,0 +1,160 @@
+{
+  "id": "masculine-wholeness",
+  "title": "Masculine Wholeness",
+  "subtitle": "Beyond the caricature—becoming a complete man",
+  "description": "Explore the full spectrum of healthy masculinity. This course helps men integrate all four masculine archetypes, heal father wounds, reclaim healthy aggression, and develop the emotional depth that makes strong leadership possible.",
+  "category": "Mind",
+  "price": 77,
+  "currency": "USD",
+  "duration": "6-8 weeks",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "beyond-toxic-and-soft",
+      "title": "Beyond Toxic and Soft",
+      "description": "What healthy masculinity actually looks like",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "the-four-archetypes",
+      "title": "The Four Masculine Archetypes",
+      "description": "King, Warrior, Magician, Lover—and their shadows",
+      "duration": "35 min"
+    },
+    {
+      "id": 3,
+      "slug": "father-wounds",
+      "title": "Healing Father Wounds",
+      "description": "Working with what your father couldn't give",
+      "duration": "35 min"
+    },
+    {
+      "id": 4,
+      "slug": "reclaiming-aggression",
+      "title": "Reclaiming Your Aggression",
+      "description": "Healthy anger, boundaries, and protective power",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "emotional-depth",
+      "title": "Developing Emotional Depth",
+      "description": "Feeling fully without losing yourself",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "purpose-and-mission",
+      "title": "Purpose and Mission",
+      "description": "Finding what you're here to do",
+      "duration": "30 min"
+    },
+    {
+      "id": 7,
+      "slug": "masculine-in-relationship",
+      "title": "Masculine in Relationship",
+      "description": "Presence, polarity, and partnership",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand the difference between healthy and unhealthy masculinity",
+    "Work with the four masculine archetypes and their shadows",
+    "Process father wounds and absent father patterns",
+    "Reclaim healthy aggression without becoming harmful",
+    "Develop emotional intelligence and depth",
+    "Clarify your purpose and direction",
+    "Show up more fully in intimate relationships"
+  ],
+  "requirements": [
+    "Identify as male or masculine-oriented",
+    "Willingness to examine conditioning around manhood",
+    "Journal for reflection exercises",
+    "Some prior inner work helpful but not required"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is 'toxic masculinity' most accurately describing?",
+        "options": [
+          "All masculine traits",
+          "Distorted expressions of masculine energy that harm self and others",
+          "Being strong",
+          "Having emotions"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What are the four masculine archetypes in Jungian/Moore-Gillette framework?",
+        "options": [
+          "Father, Son, Husband, Worker",
+          "King, Warrior, Magician, Lover",
+          "Mind, Body, Soul, Spirit",
+          "Hero, Villain, Mentor, Fool"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is the shadow of the King archetype?",
+        "options": [
+          "Too much kindness",
+          "Tyrant (inflated) or Weakling (deflated)",
+          "Being too successful",
+          "Having no ambition"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "How do unhealed father wounds typically manifest?",
+        "options": [
+          "They don't affect adult life",
+          "Difficulties with authority, self-worth, or knowing what you want",
+          "Only in relationships with older men",
+          "Physical illness only"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is healthy aggression?",
+        "options": [
+          "Violence",
+          "Life force energy used for protection, boundaries, and pursuing goals",
+          "Suppressed anger",
+          "Passive aggression"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "Why is emotional depth important for masculine development?",
+        "options": [
+          "It isn't - men shouldn't be emotional",
+          "It enables better decisions, deeper relationships, and genuine strength",
+          "Only for impressing women",
+          "It's required by society now"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "What does 'masculine presence' mean in relationship context?",
+        "options": [
+          "Being physically large",
+          "Fully showing up, being grounded, and holding space without reactivity",
+          "Dominating your partner",
+          "Always being right"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

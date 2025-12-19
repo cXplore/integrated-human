@@ -1,0 +1,141 @@
+{
+  "id": "people-pleasing-recovery",
+  "title": "People-Pleasing Recovery",
+  "subtitle": "Stop abandoning yourself for others' approval",
+  "description": "People-pleasing is a survival strategy that costs you your life. This course helps you understand why you do it, what you're really afraid of, and how to start choosing yourself without becoming selfish or alone.",
+  "category": "Relationships",
+  "price": 57,
+  "currency": "USD",
+  "duration": "5 weeks",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-people-pleasing",
+      "title": "Understanding People-Pleasing",
+      "description": "What it is, why you do it, and what it costs",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "origins",
+      "title": "Where It Comes From",
+      "description": "How people-pleasing developed as survival",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "the-fear-beneath",
+      "title": "The Fear Beneath",
+      "description": "What you're really afraid will happen",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "choosing-yourself",
+      "title": "Learning to Choose Yourself",
+      "description": "Practical steps for prioritizing your needs",
+      "duration": "35 min"
+    },
+    {
+      "id": 5,
+      "slug": "handling-reactions",
+      "title": "Handling Others' Reactions",
+      "description": "What to do when people don't like the new you",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "sustainable-change",
+      "title": "Sustainable Change",
+      "description": "Building a life that includes your own needs",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand the people-pleasing pattern and its costs",
+    "Recognize how it developed as a survival strategy",
+    "Face the fears that drive the behavior",
+    "Practice choosing yourself in practical ways",
+    "Handle negative reactions from others",
+    "Build sustainable change over time"
+  ],
+  "requirements": [
+    "Recognition that you have a people-pleasing pattern",
+    "Willingness to disappoint some people",
+    "Boundaries course helpful but not required",
+    "Journal for exercises"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is people-pleasing at its core?",
+        "options": [
+          "Being nice",
+          "Abandoning your own needs to manage others' emotions or perceptions",
+          "Good social skills",
+          "Generosity"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "How does people-pleasing typically develop?",
+        "options": [
+          "Being too nice as a child",
+          "As a survival strategy when approval was conditional or conflict was dangerous",
+          "Learning manners",
+          "Genetic trait"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What fear typically drives people-pleasing?",
+        "options": [
+          "Fear of success",
+          "Fear of rejection, abandonment, conflict, or being seen as bad/selfish",
+          "Fear of heights",
+          "No fear is involved"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What does 'choosing yourself' involve?",
+        "options": [
+          "Becoming selfish",
+          "Including your needs in decisions, saying no when needed, and not abandoning yourself for approval",
+          "Ignoring everyone else",
+          "Never helping others"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What happens when you stop people-pleasing?",
+        "options": [
+          "Everyone is happy",
+          "Some people may react negatively, especially those who benefited from your pattern",
+          "Nothing changes",
+          "You become mean"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "Is it possible to be kind without people-pleasing?",
+        "options": [
+          "No - they're the same thing",
+          "Yes - genuine kindness includes yourself and isn't driven by fear",
+          "Kindness is always people-pleasing",
+          "You have to choose one or the other"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

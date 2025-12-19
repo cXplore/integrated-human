@@ -1,0 +1,160 @@
+{
+  "id": "feminine-reclamation",
+  "title": "Feminine Reclamation",
+  "subtitle": "Reclaiming the power you were taught to hide",
+  "description": "Reconnect with the full spectrum of feminine energy—including the parts that were shamed, suppressed, or made dangerous. This course guides women through reclaiming intuition, desire, anger, and wild wisdom.",
+  "category": "Mind",
+  "price": 77,
+  "currency": "USD",
+  "duration": "6-8 weeks",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "feminine-conditioning",
+      "title": "Understanding Feminine Conditioning",
+      "description": "What you were taught to suppress and why",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "seven-archetypes",
+      "title": "The Seven Feminine Archetypes",
+      "description": "Maiden, Mother, Queen, Huntress, Sage, Mystic, Lover",
+      "duration": "40 min"
+    },
+    {
+      "id": 3,
+      "slug": "reclaiming-anger",
+      "title": "Reclaiming Your Anger",
+      "description": "The rage you weren't allowed to feel",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "reclaiming-desire",
+      "title": "Reclaiming Your Desire",
+      "description": "Wanting without apology",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "mother-wounds",
+      "title": "Healing Mother Wounds",
+      "description": "What your mother couldn't give or gave too much",
+      "duration": "35 min"
+    },
+    {
+      "id": 6,
+      "slug": "intuition-and-knowing",
+      "title": "Trusting Your Knowing",
+      "description": "Reconnecting with intuition and body wisdom",
+      "duration": "30 min"
+    },
+    {
+      "id": 7,
+      "slug": "wild-feminine",
+      "title": "The Wild Feminine",
+      "description": "Accessing your untamed, creative power",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Identify how feminine conditioning shaped you",
+    "Work with the seven feminine archetypes",
+    "Reclaim healthy anger and set fierce boundaries",
+    "Reconnect with desire and pleasure without guilt",
+    "Process mother wounds and their impact",
+    "Trust your intuition and body wisdom",
+    "Access creative, wild feminine energy"
+  ],
+  "requirements": [
+    "Identify as female or feminine-oriented",
+    "Willingness to examine conditioning around womanhood",
+    "Journal for reflection exercises",
+    "Private space for emotional work"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is 'feminine conditioning' referring to?",
+        "options": [
+          "Natural feminine traits",
+          "Societal messages about how women should be that suppress authentic expression",
+          "Physical fitness for women",
+          "Learning to be more feminine"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Why is reclaiming anger important in feminine healing?",
+        "options": [
+          "It isn't - anger is unfeminine",
+          "Women's anger was often shamed, leading to suppression or indirect expression",
+          "To become aggressive",
+          "Only to fight with partners"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is a common mother wound pattern?",
+        "options": [
+          "They only happen with bad mothers",
+          "Inheriting her unlived dreams, competing with her, or becoming her caretaker",
+          "Physical injury",
+          "Not having a mother"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What does 'reclaiming desire' involve?",
+        "options": [
+          "Wanting what others want",
+          "Knowing and pursuing what you actually want without guilt or apology",
+          "Being selfish",
+          "Material consumption"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is the 'wild feminine'?",
+        "options": [
+          "Being uncivilized",
+          "The untamed, instinctual, creative life force that doesn't conform to expectations",
+          "Living in nature",
+          "Being unpredictable to manipulate others"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "How does body wisdom differ from mental analysis?",
+        "options": [
+          "It's less reliable",
+          "Body wisdom includes felt sense, intuition, and knowing that doesn't come through thinking",
+          "They are the same thing",
+          "Body wisdom is always right, mind is always wrong"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "Why work with feminine archetypes?",
+        "options": [
+          "To fit into stereotypes",
+          "To access different aspects of feminine energy and understand which are over or underdeveloped",
+          "They're just made up",
+          "To become more attractive"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

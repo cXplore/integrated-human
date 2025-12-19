@@ -1,0 +1,195 @@
+{
+  "id": "relationship-mastery",
+  "title": "Relationship Mastery",
+  "subtitle": "The complete curriculum for conscious partnership",
+  "description": "A comprehensive 10-week program covering everything needed for extraordinary relationships. From attachment healing to communication to polarity to conflict resolution—this flagship course gives you the full toolkit for love that lasts and grows.",
+  "category": "Flagship",
+  "price": 247,
+  "currency": "USD",
+  "duration": "10 weeks",
+  "level": "Intermediate",
+  "featured": true,
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "relationship-foundations",
+      "title": "Relationship Foundations",
+      "description": "What makes relationships work—and what destroys them",
+      "duration": "40 min"
+    },
+    {
+      "id": 2,
+      "slug": "attachment-and-patterns",
+      "title": "Attachment and Patterns",
+      "description": "Understanding the unconscious forces in your relationships",
+      "duration": "45 min"
+    },
+    {
+      "id": 3,
+      "slug": "healing-attachment-wounds",
+      "title": "Healing Attachment Wounds",
+      "description": "Moving toward earned secure attachment",
+      "duration": "50 min"
+    },
+    {
+      "id": 4,
+      "slug": "communication-that-connects",
+      "title": "Communication That Connects",
+      "description": "Speaking and listening for true understanding",
+      "duration": "45 min"
+    },
+    {
+      "id": 5,
+      "slug": "conflict-as-growth",
+      "title": "Conflict as Growth",
+      "description": "Fighting without destroying—using tension for evolution",
+      "duration": "45 min"
+    },
+    {
+      "id": 6,
+      "slug": "polarity-and-attraction",
+      "title": "Polarity and Attraction",
+      "description": "Maintaining passion in long-term partnership",
+      "duration": "40 min"
+    },
+    {
+      "id": 7,
+      "slug": "repair-and-reconnection",
+      "title": "Rupture and Repair",
+      "description": "Coming back from disconnection stronger",
+      "duration": "40 min"
+    },
+    {
+      "id": 8,
+      "slug": "boundaries-in-love",
+      "title": "Boundaries in Love",
+      "description": "Protecting yourself while staying connected",
+      "duration": "40 min"
+    },
+    {
+      "id": 9,
+      "slug": "growing-together",
+      "title": "Growing Together",
+      "description": "Evolving as individuals and as partners",
+      "duration": "40 min"
+    },
+    {
+      "id": 10,
+      "slug": "lasting-love",
+      "title": "Building Lasting Love",
+      "description": "The practices that sustain extraordinary partnership",
+      "duration": "45 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand what makes relationships thrive or fail",
+    "Map your attachment patterns and their origins",
+    "Heal attachment wounds toward earned security",
+    "Communicate in ways that create connection not distance",
+    "Navigate conflict as an opportunity for growth",
+    "Maintain polarity and attraction over time",
+    "Repair ruptures and rebuild trust",
+    "Set boundaries while staying open-hearted",
+    "Support mutual growth within partnership"
+  ],
+  "requirements": [
+    "Currently in a relationship or actively preparing for one",
+    "Willingness to examine your patterns honestly",
+    "Journal for reflection exercises",
+    "Partner participation optional but beneficial"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is the primary predictor of relationship success according to research?",
+        "options": [
+          "Compatibility",
+          "The ability to repair after conflict",
+          "Never fighting",
+          "Similar interests"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is 'earned secure attachment'?",
+        "options": [
+          "Being born secure",
+          "Developing security through conscious work despite insecure early attachment",
+          "Finding a secure partner",
+          "Pretending to be secure"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What makes communication connecting rather than disconnecting?",
+        "options": [
+          "Using the right words",
+          "Speaking from vulnerability, listening to understand, and validating experience",
+          "Talking more",
+          "Being logical"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "How can conflict be used for growth?",
+        "options": [
+          "By winning arguments",
+          "By staying curious about underlying needs and using tension to evolve together",
+          "By avoiding it entirely",
+          "By compromising on everything"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What creates polarity in a relationship?",
+        "options": [
+          "Distance and coldness",
+          "The dynamic tension between different energies, often masculine and feminine",
+          "Always agreeing",
+          "Power imbalance"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What does healthy repair after rupture require?",
+        "options": [
+          "Pretending it didn't happen",
+          "Acknowledging impact, taking responsibility, and intentionally reconnecting",
+          "Waiting until both forget",
+          "One person apologizing"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "How do boundaries serve love?",
+        "options": [
+          "They don't - boundaries create distance",
+          "Boundaries create safety that allows for deeper intimacy",
+          "Boundaries are selfish",
+          "Only necessary with bad partners"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 8,
+        "question": "What sustains love over decades?",
+        "options": [
+          "Initial chemistry",
+          "Consistent choosing, continued growth, and practices of connection",
+          "Never changing",
+          "Luck"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

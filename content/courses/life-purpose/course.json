@@ -1,0 +1,152 @@
+{
+  "id": "life-purpose",
+  "title": "Life Purpose & Meaning",
+  "subtitle": "Finding what you're here to do",
+  "description": "Move beyond aimlessness into clarity. This course guides you through discovering your values, gifts, and calling—not as a single perfect answer, but as an ongoing relationship with meaning.",
+  "category": "Soul",
+  "price": 67,
+  "currency": "USD",
+  "duration": "5-6 weeks",
+  "level": "All Levels",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "why-purpose-matters",
+      "title": "Why Purpose Matters",
+      "description": "The cost of aimlessness and the value of direction",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "clarifying-values",
+      "title": "Clarifying Your Values",
+      "description": "What actually matters to you—not what should",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "discovering-gifts",
+      "title": "Discovering Your Gifts",
+      "description": "What you're naturally built to offer",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "wounds-and-wisdom",
+      "title": "Wounds as Wisdom",
+      "description": "How your struggles become your gift",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "finding-your-calling",
+      "title": "Finding Your Calling",
+      "description": "Where values, gifts, and world need intersect",
+      "duration": "35 min"
+    },
+    {
+      "id": 6,
+      "slug": "living-purposefully",
+      "title": "Living Purposefully",
+      "description": "Making purpose real in daily life",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand why purpose is essential for wellbeing",
+    "Clarify your actual values (not inherited ones)",
+    "Identify your natural gifts and strengths",
+    "Transform painful experiences into purposeful direction",
+    "Find where your gifts meet the world's need",
+    "Integrate purpose into everyday decisions"
+  ],
+  "requirements": [
+    "Some life experience to draw from",
+    "Willingness to question assumptions about success",
+    "Journal for deep reflection exercises",
+    "Shadow Work Foundations helpful for wounds module"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "Why is purpose important for human wellbeing?",
+        "options": [
+          "It makes you rich",
+          "Meaning and direction reduce depression, increase resilience, and motivate action",
+          "It isn't - purpose is a luxury",
+          "Only religious people need purpose"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What's the difference between values and goals?",
+        "options": [
+          "They're the same thing",
+          "Values are how you want to be; goals are what you want to achieve",
+          "Goals are more important",
+          "Values don't matter in modern life"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "How do you identify your natural gifts?",
+        "options": [
+          "Take an online quiz",
+          "Notice what comes easily, what you're drawn to, and what others seek from you",
+          "Your parents tell you",
+          "You either have gifts or you don't"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "How can wounds become wisdom?",
+        "options": [
+          "They can't - wounds are just damage",
+          "Working through struggles gives you understanding and gifts to help others with similar challenges",
+          "You have to forget your wounds",
+          "Only if you become a therapist"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is a 'calling' in this context?",
+        "options": [
+          "A literal voice telling you what to do",
+          "The intersection of your values, gifts, and what the world needs",
+          "Your job title",
+          "What your parents wanted for you"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "How do you live purpose in daily life?",
+        "options": [
+          "Quit your job and become a monk",
+          "Align small daily choices with your values and express your gifts wherever you are",
+          "Wait until conditions are perfect",
+          "Purpose is separate from daily life"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "Is purpose something you find once or an ongoing process?",
+        "options": [
+          "You find it once and you're done",
+          "Purpose evolves - it's an ongoing relationship with meaning",
+          "If you haven't found it by 30, you never will",
+          "Purpose doesn't exist"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

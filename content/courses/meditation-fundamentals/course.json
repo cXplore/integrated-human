@@ -1,0 +1,132 @@
+{
+  "id": "meditation-fundamentals",
+  "title": "Meditation Fundamentals",
+  "subtitle": "Building a practice that actually works",
+  "description": "Cut through the confusion and build a meditation practice that fits your life. This course covers the core techniques, common obstacles, and how to make meditation a sustainable habit rather than another thing you fail at.",
+  "category": "Soul",
+  "price": 47,
+  "currency": "USD",
+  "duration": "4 weeks",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "what-meditation-is",
+      "title": "What Meditation Actually Is",
+      "description": "Cutting through myths and misconceptions",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "core-techniques",
+      "title": "Core Techniques",
+      "description": "The fundamental practices that everything builds on",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "working-with-obstacles",
+      "title": "Working with Obstacles",
+      "description": "Restlessness, sleepiness, doubt, and distraction",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "building-the-habit",
+      "title": "Building the Habit",
+      "description": "Making meditation sustainable for life",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "deepening-practice",
+      "title": "Deepening Your Practice",
+      "description": "Where to go from here",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand what meditation is and isn't",
+    "Learn the core techniques that underpin all meditation",
+    "Work skillfully with common obstacles",
+    "Build a sustainable daily practice",
+    "Know when and how to deepen your practice"
+  ],
+  "requirements": [
+    "No prior meditation experience needed",
+    "5-20 minutes daily for practice",
+    "Quiet space for sitting"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is the goal of meditation?",
+        "options": [
+          "Stopping all thoughts",
+          "Training attention and cultivating awareness",
+          "Achieving bliss states",
+          "Escaping reality"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What should you do when you notice your mind has wandered?",
+        "options": [
+          "Get frustrated and try harder",
+          "Gently return attention to the object of focus without judgment",
+          "Stop meditating",
+          "Analyze why you got distracted"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is 'noting' in meditation?",
+        "options": [
+          "Writing in a journal",
+          "Mentally labeling experiences briefly to maintain awareness",
+          "Taking notes during class",
+          "Remembering important thoughts"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "How should you work with sleepiness during meditation?",
+        "options": [
+          "Push through no matter what",
+          "Open eyes, sit up straighter, or try standing/walking meditation",
+          "Just fall asleep",
+          "Stop meditating when tired"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What makes a meditation habit sustainable?",
+        "options": [
+          "Meditating for an hour daily",
+          "Consistent short sessions, same time/place, realistic expectations",
+          "Only meditating when you feel like it",
+          "Forcing yourself through willpower"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "When is the best time to meditate?",
+        "options": [
+          "Only at dawn",
+          "Whatever time you'll actually do it consistently",
+          "Only before bed",
+          "It doesn't matter"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

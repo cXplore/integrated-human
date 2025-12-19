@@ -1,0 +1,152 @@
+{
+  "id": "grief-and-loss",
+  "title": "Grief & Loss",
+  "subtitle": "Moving through what can't be fixed",
+  "description": "A compassionate guide to processing grief—whether from death, divorce, job loss, or the ending of who you used to be. Learn to feel fully, honor what was lost, and eventually find your way forward.",
+  "category": "Body",
+  "price": 67,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "All Levels",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-grief",
+      "title": "Understanding Grief",
+      "description": "What grief is, how it works, and why we avoid it",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "types-of-loss",
+      "title": "Types of Loss",
+      "description": "Death, divorce, identity, dreams—the many faces of grief",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "allowing-grief",
+      "title": "Allowing Grief to Move",
+      "description": "Somatic practices for feeling and releasing grief",
+      "duration": "35 min"
+    },
+    {
+      "id": 4,
+      "slug": "complicated-grief",
+      "title": "Complicated Grief",
+      "description": "When grief gets stuck or tangled",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "honoring-what-was",
+      "title": "Honoring What Was Lost",
+      "description": "Rituals and practices for acknowledgment",
+      "duration": "25 min"
+    },
+    {
+      "id": 6,
+      "slug": "rebuilding-meaning",
+      "title": "Rebuilding Meaning",
+      "description": "Finding your way forward after loss",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand grief as a healthy process, not a problem",
+    "Recognize different types of loss that require mourning",
+    "Use somatic practices to move grief through the body",
+    "Identify when grief is complicated or stuck",
+    "Create meaningful rituals for honoring loss",
+    "Begin rebuilding life and meaning after loss"
+  ],
+  "requirements": [
+    "Currently experiencing loss or processing past losses",
+    "No timeline pressure - work at your own pace",
+    "Private space for emotional work",
+    "Support person available if needed"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is grief?",
+        "options": [
+          "A sign of weakness",
+          "A natural response to loss that needs to be felt and processed",
+          "Something to get over quickly",
+          "Only happens when someone dies"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What types of loss can trigger grief?",
+        "options": [
+          "Only death of loved ones",
+          "Death, divorce, job loss, identity changes, lost dreams, and more",
+          "Only major traumas",
+          "Nothing should cause grief if you're strong"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "Why does grief often live in the body?",
+        "options": [
+          "It doesn't - grief is purely emotional",
+          "Unexpressed grief gets held as tension, heaviness, or numbness in the body",
+          "Only physical losses affect the body",
+          "This is a myth"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is 'complicated grief'?",
+        "options": [
+          "Grief that seems excessive",
+          "Grief that gets stuck, often due to unfinished business, ambivalence, or trauma",
+          "Grief for complicated people",
+          "All grief is complicated"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "Why are rituals helpful in grief?",
+        "options": [
+          "They're just traditions",
+          "They provide structure for acknowledging loss and supporting the transition",
+          "They make grief end faster",
+          "They're not helpful - just distractions"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What does 'rebuilding meaning' after loss involve?",
+        "options": [
+          "Forgetting what was lost",
+          "Integrating the loss into a new sense of self and life purpose",
+          "Replacing what was lost",
+          "Pretending nothing changed"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "When should you seek professional support for grief?",
+        "options": [
+          "Never - grief is natural",
+          "When grief significantly impairs functioning or feels stuck for extended periods",
+          "Only if someone died",
+          "Immediately - you can't do grief alone"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

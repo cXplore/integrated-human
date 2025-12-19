@@ -22,12 +22,15 @@ model User {
   newsletterSubscribed Boolean @default(false)
 
   // Relations
-  accounts        Account[]
-  readingList     ReadingListItem[]
-  articleProgress ArticleProgress[]
-  courseProgress  CourseProgress[]
-  certificates    Certificate[]
-  quizAttempts    QuizAttempt[]
+  accounts          Account[]
+  readingList       ReadingListItem[]
+  articleProgress   ArticleProgress[]
+  courseProgress    CourseProgress[]
+  certificates      Certificate[]
+  quizAttempts      QuizAttempt[]
+  purchases         Purchase[]
+  exerciseResponses ExerciseResponse[]
+  journalEntries    JournalEntry[]
 }
 
 model Account {
@@ -124,4 +127,57 @@ model QuizAttempt {
 
   @@index([userId])
   @@index([userId, courseSlug])
+}
+
+model Purchase {
+  id                String   @id @default(cuid())
+  userId            String
+  courseSlug        String
+  stripePaymentId   String   @unique
+  stripeCustomerId  String?
+  amount            Int      // Amount in cents
+  currency          String   @default("usd")
+  status            String   @default("completed") // completed, refunded
+  purchasedAt       DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseSlug])
+  @@index([userId])
+  @@index([stripePaymentId])
+}
+
+model ExerciseResponse {
+  id          String   @id @default(cuid())
+  userId      String
+  courseSlug  String
+  moduleSlug  String
+  exerciseId  String
+  type        String   // checkbox, journal, list
+  value       String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseSlug, moduleSlug, exerciseId])
+  @@index([userId])
+  @@index([userId, courseSlug])
+}
+
+model JournalEntry {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String?
+  content     String   @db.Text
+  promptId    String?  // Optional: links to a daily prompt
+  mood        String?  // Optional: emotional state
+  tags        String?  // JSON array of tags
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, createdAt])
 }

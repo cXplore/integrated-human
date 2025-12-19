@@ -209,40 +209,72 @@ The "window of tolerance" is the zone where you can experience activation withou
 
 ---
 
-## Exercise: State Mapping
+<Exercise title="State Mapping">
 
 Take 10 minutes to map your own nervous system patterns.
 
 ### Part 1: Identify Your States
 
-**When I'm in ventral vagal (safe/social), I notice:**
-- Body sensations:
-- Thoughts:
-- Behaviors:
-- What helps me get here:
+<Journal
+  id="state-ventral"
+  prompt="When I'm in VENTRAL VAGAL (safe/social), I notice:
+• Body sensations:
+• Thoughts:
+• Behaviors:
+• What helps me get here:"
+  placeholder="Body sensations when I feel safe and connected...&#10;&#10;My thoughts tend to be...&#10;&#10;My behaviors include...&#10;&#10;What helps me get to this state..."
+  rows={8}
+/>
 
-**When I'm in sympathetic (fight/flight), I notice:**
-- Body sensations:
-- Thoughts:
-- Behaviors:
-- What usually triggers this:
+<Journal
+  id="state-sympathetic"
+  prompt="When I'm in SYMPATHETIC (fight/flight), I notice:
+• Body sensations:
+• Thoughts:
+• Behaviors:
+• What usually triggers this:"
+  placeholder="Body sensations when I'm activated...&#10;&#10;My thoughts tend to be...&#10;&#10;My behaviors include...&#10;&#10;Common triggers..."
+  rows={8}
+/>
 
-**When I'm in dorsal vagal (freeze/shutdown), I notice:**
-- Body sensations:
-- Thoughts:
-- Behaviors:
-- What usually triggers this:
+<Journal
+  id="state-dorsal"
+  prompt="When I'm in DORSAL VAGAL (freeze/shutdown), I notice:
+• Body sensations:
+• Thoughts:
+• Behaviors:
+• What usually triggers this:"
+  placeholder="Body sensations when I'm shut down...&#10;&#10;My thoughts tend to be...&#10;&#10;My behaviors include...&#10;&#10;Common triggers..."
+  rows={8}
+/>
 
 ### Part 2: Current Patterns
 
-Estimate how much time you spend in each state on a typical day:
-- Ventral vagal: ____%
-- Sympathetic: ____%
-- Dorsal vagal: ____%
+<Journal
+  id="state-percentages"
+  prompt="Estimate how much time you spend in each state on a typical day:
+• Ventral vagal (safe/social): ___%
+• Sympathetic (fight/flight): ___%
+• Dorsal vagal (freeze/shutdown): ___%
 
 What state do you default to under stress?
+What state is hardest for you to access?"
+  placeholder="Ventral vagal: ___%&#10;Sympathetic: ___%&#10;Dorsal vagal: ___%&#10;&#10;Under stress, I default to...&#10;&#10;The hardest state for me to access is..."
+  rows={8}
+/>
 
-What state is hardest for you to access?
+<Checklist
+  id="state-awareness"
+  title="This week, practice noticing"
+  items={[
+    "Which state am I in right now?",
+    "What shifted me into this state?",
+    "What cues of safety or danger am I picking up?",
+    "How is my state affecting my thoughts and reactions?"
+  ]}
+/>
+
+</Exercise>
 
 ---
 

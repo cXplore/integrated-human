@@ -1,0 +1,141 @@
+{
+  "id": "somatic-healing",
+  "title": "Somatic Healing",
+  "subtitle": "The body remembers what the mind forgets",
+  "description": "Learn to work with trauma, tension, and stuck emotions through the body rather than just the mind. This course teaches practical somatic techniques for releasing what's been held and restoring natural flow.",
+  "category": "Body",
+  "price": 77,
+  "currency": "USD",
+  "duration": "6-8 weeks",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "body-as-container",
+      "title": "The Body as Container",
+      "description": "How experience gets stored in the body",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "reading-body-signals",
+      "title": "Reading Body Signals",
+      "description": "Learning to listen to somatic communication",
+      "duration": "35 min"
+    },
+    {
+      "id": 3,
+      "slug": "pendulation-and-titration",
+      "title": "Pendulation and Titration",
+      "description": "Working with activation safely",
+      "duration": "40 min"
+    },
+    {
+      "id": 4,
+      "slug": "releasing-held-tension",
+      "title": "Releasing Held Tension",
+      "description": "Techniques for letting go of chronic holding",
+      "duration": "40 min"
+    },
+    {
+      "id": 5,
+      "slug": "completing-survival-responses",
+      "title": "Completing Survival Responses",
+      "description": "Finishing what the body started",
+      "duration": "40 min"
+    },
+    {
+      "id": 6,
+      "slug": "restoring-flow",
+      "title": "Restoring Natural Flow",
+      "description": "Building practices for ongoing somatic health",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand how experience is stored in the body",
+    "Read and interpret somatic signals",
+    "Work with activation without overwhelm",
+    "Release chronic tension patterns",
+    "Complete interrupted survival responses",
+    "Build ongoing somatic health practices"
+  ],
+  "requirements": [
+    "Nervous System Mastery course or equivalent understanding",
+    "Private space for body-based practices",
+    "Willingness to feel uncomfortable sensations",
+    "Professional support recommended for significant trauma"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "How does experience get 'stored' in the body?",
+        "options": [
+          "It doesn't - the body just reflects the mind",
+          "Through muscle tension, fascial patterns, and nervous system states that persist",
+          "Only traumatic experiences are stored",
+          "As literal memories in muscles"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is 'pendulation' in somatic work?",
+        "options": [
+          "Swinging back and forth",
+          "Moving between activation and calm to build capacity",
+          "A type of exercise",
+          "Breathing technique"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is 'titration'?",
+        "options": [
+          "A chemistry term only",
+          "Working with small doses of activation rather than flooding",
+          "Measuring trauma",
+          "A breathing rate"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "Why does chronic tension persist?",
+        "options": [
+          "Laziness",
+          "The nervous system learned to hold as protection and hasn't received signals of safety",
+          "Bad posture only",
+          "Genetic factors"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What does 'completing a survival response' mean?",
+        "options": [
+          "Surviving something",
+          "Allowing the body to finish fight/flight/freeze movements that were interrupted",
+          "Thinking about survival",
+          "Exercise"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "Why is slow, gentle work often more effective than intense catharsis?",
+        "options": [
+          "It isn't - intensity is always better",
+          "Gentle work keeps the window of tolerance open for actual processing",
+          "Slow work is easier",
+          "Intense work is dangerous"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

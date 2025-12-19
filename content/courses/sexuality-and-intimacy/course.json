@@ -1,0 +1,141 @@
+{
+  "id": "sexuality-and-intimacy",
+  "title": "Sexuality & Intimacy",
+  "subtitle": "Beyond performance into presence",
+  "description": "Explore sexuality as a path of connection rather than performance. This course covers healing sexual shame, understanding desire, building genuine intimacy, and bringing presence to erotic experience.",
+  "category": "Relationships",
+  "price": 77,
+  "currency": "USD",
+  "duration": "6 weeks",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "sexuality-foundations",
+      "title": "Sexuality Foundations",
+      "description": "Your relationship with sexuality and how it formed",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "healing-sexual-shame",
+      "title": "Healing Sexual Shame",
+      "description": "Working with the shame that blocks authentic sexuality",
+      "duration": "40 min"
+    },
+    {
+      "id": 3,
+      "slug": "understanding-desire",
+      "title": "Understanding Desire",
+      "description": "What you want, why you want it, and how desire works",
+      "duration": "35 min"
+    },
+    {
+      "id": 4,
+      "slug": "presence-in-sexuality",
+      "title": "Presence in Sexuality",
+      "description": "Moving from performance to embodied experience",
+      "duration": "35 min"
+    },
+    {
+      "id": 5,
+      "slug": "communication-and-consent",
+      "title": "Communication and Consent",
+      "description": "Speaking your desires and hearing your partner's",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "deepening-intimacy",
+      "title": "Deepening Intimacy",
+      "description": "Building erotic connection that grows over time",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand your sexual history and conditioning",
+    "Heal shame that blocks authentic sexual expression",
+    "Understand the nature and varieties of desire",
+    "Bring presence rather than performance to sexuality",
+    "Communicate desires and boundaries effectively",
+    "Build intimacy that deepens over time"
+  ],
+  "requirements": [
+    "Willingness to explore sensitive material",
+    "This is educational, not therapeutic—seek support for trauma",
+    "Partner participation optional but beneficial",
+    "Private space for reflection exercises"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "How does sexual shame typically form?",
+        "options": [
+          "It's natural",
+          "Through messages received about sexuality being dirty, wrong, or shameful",
+          "Only from abuse",
+          "It doesn't exist"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is the difference between spontaneous and responsive desire?",
+        "options": [
+          "No difference",
+          "Spontaneous arises without context; responsive emerges in response to stimulation or connection",
+          "Spontaneous is better",
+          "Responsive is a dysfunction"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What does 'presence' mean in sexuality?",
+        "options": [
+          "Being physically present",
+          "Full embodied awareness of sensation, connection, and the present moment",
+          "Not thinking",
+          "Eye contact"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "Why is performance orientation problematic in sexuality?",
+        "options": [
+          "It isn't",
+          "It creates anxiety, disconnection from sensation, and focus on outcome over experience",
+          "Performance is what matters",
+          "Only for men"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What makes sexual communication effective?",
+        "options": [
+          "Hinting and hoping they understand",
+          "Direct, specific, shame-free expression of desires and boundaries",
+          "Avoiding the topic",
+          "Only discussing problems"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "How does intimacy deepen over time?",
+        "options": [
+          "It automatically does",
+          "Through continued vulnerability, presence, exploration, and prioritization",
+          "It can only decline",
+          "By doing the same things"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "id": "breathwork-mastery",
+  "title": "Breathwork Mastery",
+  "subtitle": "Your breath is the remote control for your nervous system",
+  "description": "Learn to use your breath as a tool for regulation, energy, emotional release, and altered states. This course covers practical techniques from calming to activating, giving you a complete toolkit for any situation.",
+  "category": "Body",
+  "price": 57,
+  "currency": "USD",
+  "duration": "4-5 weeks",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "breath-fundamentals",
+      "title": "Breath Fundamentals",
+      "description": "How breath affects your nervous system and state",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "calming-techniques",
+      "title": "Calming Techniques",
+      "description": "Breath practices for anxiety, stress, and sleep",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "activating-techniques",
+      "title": "Activating Techniques",
+      "description": "Breath practices for energy, focus, and motivation",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "emotional-release-breath",
+      "title": "Breath for Emotional Release",
+      "description": "Using breath to move stuck emotions",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "advanced-practices",
+      "title": "Advanced Practices",
+      "description": "Deeper breathwork for expanded states",
+      "duration": "35 min"
+    },
+    {
+      "id": 6,
+      "slug": "daily-breath-practice",
+      "title": "Building Your Daily Practice",
+      "description": "Creating a sustainable breathwork routine",
+      "duration": "20 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand how breath directly controls your nervous system",
+    "Master techniques for calming anxiety and stress",
+    "Use breath to increase energy and focus",
+    "Release stuck emotions through breath",
+    "Practice safely with more intense breathwork",
+    "Build a personalized daily breath practice"
+  ],
+  "requirements": [
+    "No prior breathwork experience needed",
+    "Quiet space for practice",
+    "No serious respiratory conditions (consult doctor if unsure)",
+    "Willingness to practice consistently"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "How does extending the exhale affect the nervous system?",
+        "options": [
+          "It activates fight or flight",
+          "It activates the parasympathetic (calming) response",
+          "It has no effect",
+          "It increases heart rate"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is the physiological sigh?",
+        "options": [
+          "A frustrated exhale",
+          "A double inhale followed by a long exhale",
+          "Holding your breath",
+          "Breathing only through your mouth"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What type of breathing tends to be more activating?",
+        "options": [
+          "Slow, extended exhales",
+          "Faster breathing with emphasis on inhale",
+          "Holding breath on exhale",
+          "Breathing through the left nostril only"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "Why can intense breathwork release emotions?",
+        "options": [
+          "It's purely psychological placebo",
+          "Altered CO2/O2 levels can release held tension and bypass mental defenses",
+          "It makes you dizzy",
+          "Emotions aren't actually released"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is a contraindication for intense breathwork practices?",
+        "options": [
+          "Being tired",
+          "Cardiovascular issues, pregnancy, or severe mental health conditions",
+          "Having eaten recently",
+          "Being new to breathwork"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What's the benefit of nasal breathing over mouth breathing?",
+        "options": [
+          "It looks better",
+          "Nasal breathing filters, warms air and activates the parasympathetic system",
+          "There is no difference",
+          "Mouth breathing is actually better"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "How often should breathwork be practiced for best results?",
+        "options": [
+          "Only during crisis",
+          "Once a month",
+          "Daily short practices with occasional longer sessions",
+          "As rarely as possible"
+        ],
+        "correctIndex": 2
+      }
+    ]
+  }
+}

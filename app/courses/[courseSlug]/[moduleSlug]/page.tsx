@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Navigation from '@/app/components/Navigation';
 import Link from 'next/link';
-import { MDXRemote } from 'next-mdx-remote/rsc';
+import { serialize } from 'next-mdx-remote/serialize';
 import rehypeSlug from 'rehype-slug';
 import {
   getAllCourses,
@@ -12,6 +12,7 @@ import {
   getModuleNavigation
 } from '@/lib/courses';
 import ModuleCompleteButton from './ModuleCompleteButton';
+import ModuleContent from './ModuleContent';
 
 export async function generateStaticParams() {
   const courses = getAllCourses();
@@ -66,6 +67,13 @@ export default async function ModulePage({
 
   const modules = getAllModulesForCourse(courseSlug);
   const navigation = getModuleNavigation(courseSlug, module.moduleNumber);
+
+  // Serialize MDX content for client-side rendering with interactive components
+  const mdxSource = await serialize(module.content, {
+    mdxOptions: {
+      rehypePlugins: [rehypeSlug],
+    },
+  });
 
   return (
     <>
@@ -178,13 +186,10 @@ export default async function ModulePage({
                 prose-strong:text-white prose-strong:font-semibold
                 prose-a:text-gray-300 prose-a:underline hover:prose-a:text-white
                 prose-hr:border-zinc-800 prose-hr:my-12">
-                <MDXRemote
-                  source={module.content}
-                  options={{
-                    mdxOptions: {
-                      rehypePlugins: [rehypeSlug],
-                    },
-                  }}
+                <ModuleContent
+                  source={mdxSource}
+                  courseSlug={courseSlug}
+                  moduleSlug={moduleSlug}
                 />
               </div>
 

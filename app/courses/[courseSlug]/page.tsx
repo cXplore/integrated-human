@@ -1,8 +1,11 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import Navigation from '@/app/components/Navigation';
 import Link from 'next/link';
 import { getAllCourses, getCourseBySlug } from '@/lib/courses';
+import PurchaseButton from '@/app/components/PurchaseButton';
+import PurchaseSuccess from '@/app/components/PurchaseSuccess';
 
 export async function generateStaticParams() {
   const courses = getAllCourses();
@@ -39,6 +42,9 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
 
   return (
     <>
+      <Suspense fallback={null}>
+        <PurchaseSuccess courseSlug={courseSlug} />
+      </Suspense>
       <Navigation />
       <main className="min-h-screen bg-zinc-950">
         {/* Hero Section */}
@@ -71,18 +77,12 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
             </p>
 
             <div className="flex flex-wrap items-center gap-6">
-              <div className="flex items-center gap-2">
-                <span className="text-3xl text-white font-light">
-                  ${metadata.price}
-                </span>
-                <span className="text-gray-500">
-                  {metadata.currency}
-                </span>
-              </div>
-
-              <button className="px-8 py-3 bg-white text-zinc-900 font-medium hover:bg-gray-200 transition-colors">
-                Enroll Now
-              </button>
+              <PurchaseButton
+                courseSlug={courseSlug}
+                price={metadata.price}
+                currency={metadata.currency || 'USD'}
+                className="px-8 py-3 bg-white text-zinc-900 font-medium hover:bg-gray-200 transition-colors"
+              />
 
               <Link
                 href={`/courses/${courseSlug}/${metadata.modules[0].slug}`}
@@ -228,13 +228,12 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
                   </dl>
 
                   <div className="mt-6 pt-6 border-t border-zinc-800">
-                    <div className="text-center mb-4">
-                      <span className="text-2xl text-white">${metadata.price}</span>
-                      <span className="text-gray-500 ml-2">{metadata.currency}</span>
-                    </div>
-                    <button className="w-full py-3 bg-white text-zinc-900 font-medium hover:bg-gray-200 transition-colors">
-                      Enroll Now
-                    </button>
+                    <PurchaseButton
+                      courseSlug={courseSlug}
+                      price={metadata.price}
+                      currency={metadata.currency || 'USD'}
+                      className="w-full py-3 bg-white text-zinc-900 font-medium hover:bg-gray-200 transition-colors text-center block"
+                    />
                   </div>
                 </div>
 

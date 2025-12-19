@@ -16,83 +16,96 @@ Build a sustainable income through high-quality content on personal integration,
 - Learning paths structure in place
 - Newsletter signup ready (ConvertKit)
 
-### Courses (COMPLETE)
-- **8 courses built with full module content:**
-  - Shadow Work Foundations (5 modules) - $47
-  - Nervous System Mastery (6 modules) - $67
-  - Attachment Repair (6 modules) - $67
-  - The Integration Path - flagship (8 modules) - $197
-  - Inner Critic Work (5 modules) - $57
-  - Boundaries (5 modules) - $57
-  - Emotional Release (6 modules) - $67
-  - Meeting Your Inner World (6 modules) - $67
+### Courses (COMPLETE - 35 TOTAL)
+- **4 Flagship courses** ($197-$297):
+  - The Integration Path (8 modules) - $247
+  - Relationship Mastery (8 modules) - $297
+  - Masculine Integration (8 modules) - $247
+  - Feminine Embodiment (8 modules) - $247
+
+- **31 Standard courses** ($47-$97) across categories:
+  - Mind (9 courses): Shadow Work, Inner Critic, Emotional Intelligence, etc.
+  - Body (8 courses): Nervous System, Somatic Awareness, Breathwork, etc.
+  - Soul (8 courses): Purpose Discovery, Spiritual Bypassing, Death & Meaning, etc.
+  - Relationships (6 courses): Attachment Repair, Boundaries, Communication, etc.
 
 ### Features Built
-- Course progress tracking (database + UI)
-- Profile page with completion badges
-- Homepage with featured courses section
-- Courses page grouped by category
-- Module navigation with mark complete
-- Google OAuth authentication
-- Reading list & article progress tracking
+- [x] Course progress tracking (database + UI)
+- [x] Profile page with completion badges
+- [x] Homepage with featured courses section
+- [x] Courses page grouped by category (including Flagship)
+- [x] Module navigation with mark complete
+- [x] Google OAuth authentication
+- [x] Reading list & article progress tracking
+- [x] **Stripe payment integration** - full checkout flow working
+- [x] **Purchase verification** - client-side + webhook
+- [x] **Purchased courses display** - in profile
+- [x] **Lead magnets** - 4 downloadable resources with email capture
+- [x] **Interactive exercises** - Journal, Checklist, Checkbox components in modules
+- [x] **Quiz system** - Certificate gating with 70% pass requirement
+- [x] **Learning paths** - Curated course sequences
+- [x] **Mega menu navigation** - with Free resources link
 
 ### Still Needed
-- Payment integration (Stripe) - courses show prices but no checkout
-- Email sequences for course promotion
-- Lead magnet PDFs
-- AI guide/avatar (in progress, not deployed)
+- [ ] Course content gating (open for testing, lock at launch)
+- [ ] Email sequences in ConvertKit (infrastructure ready)
+- [ ] Digital workbooks (PDF products)
+- [ ] AI guide/avatar (code exists but not deployed)
+
+### Recently Added
+- [x] Standalone journaling in profile (view all journal entries, free-form journaling, daily prompts)
 
 ---
 
-## Phase 1: Foundation (Months 1-2)
+## Phase 1: Foundation - MOSTLY COMPLETE
 *Goal: Build email list, create first lead magnets, fill content gaps*
 
-### 1.1 Lead Magnets (Email Capture)
+### 1.1 Lead Magnets (Email Capture) - COMPLETE
 
-| Lead Magnet | Format | Captures From |
-|-------------|--------|---------------|
-| "5 Shadow Work Prompts That Actually Work" | PDF (5-7 pages) | Shadow articles |
-| "The Nervous System Reset Checklist" | PDF (3 pages) | Body/Mind articles |
-| "Archetype Deep Dive" | Email course (7 days) | Quiz results page |
-| "Integration Starter Kit" | PDF bundle | Homepage, Start Here |
+| Lead Magnet | Format | Status |
+|-------------|--------|--------|
+| "Shadow Work Prompts" | Printable HTML/PDF | ✅ Built |
+| "Nervous System Reset" | Printable HTML/PDF | ✅ Built |
+| "Integration Starter Kit" | Printable HTML/PDF | ✅ Built |
+| "Relationship Patterns Guide" | Printable HTML/PDF | ✅ Built |
+
+All lead magnets accessible at `/free` with email capture via ConvertKit.
 
 ### 1.2 SEO Content (Traffic Drivers)
 
 New articles targeting search volume:
 
-| Article | Target Keywords | Category |
-|---------|-----------------|----------|
-| "How to Do Shadow Work: A Complete Guide" | shadow work, how to do shadow work | Mind |
-| "Anxious Attachment: Signs and How to Heal" | anxious attachment style, anxious attachment | Relationships |
-| "Avoidant Attachment: Understanding the Pattern" | avoidant attachment, dismissive avoidant | Relationships |
-| "Healing the Father Wound" | father wound, daddy issues healing | Mind/Relationships |
-| "Healing the Mother Wound" | mother wound, mother daughter healing | Mind/Relationships |
-| "Nervous System Regulation: A Practical Guide" | nervous system regulation, vagus nerve | Body/Mind |
-| "Psychedelic Integration: Before, During, After" | psychedelic integration, trip integration | Soul |
-| "Somatic Exercises for Anxiety" | somatic exercises, body-based anxiety relief | Body/Mind |
-| "Masculine Energy: What It Actually Means" | masculine energy, divine masculine | Soul |
-| "Feminine Energy: Beyond the Stereotypes" | feminine energy, divine feminine | Soul |
+| Article | Target Keywords | Status |
+|---------|-----------------|--------|
+| "How to Do Shadow Work: A Complete Guide" | shadow work | ✅ Exists |
+| "Anxious Attachment: Signs and How to Heal" | anxious attachment | [ ] Needed |
+| "Avoidant Attachment: Understanding the Pattern" | avoidant attachment | [ ] Needed |
+| "Healing the Father Wound" | father wound | [ ] Needed |
+| "Healing the Mother Wound" | mother wound | [ ] Needed |
+| "Nervous System Regulation: A Practical Guide" | nervous system | ✅ Exists |
+| "Psychedelic Integration: Before, During, After" | psychedelic integration | [ ] Needed |
+| "Somatic Exercises for Anxiety" | somatic exercises | [ ] Needed |
+| "Masculine Energy: What It Actually Means" | masculine energy | [ ] Needed |
+| "Feminine Energy: Beyond the Stereotypes" | feminine energy | [ ] Needed |
 
 ### 1.3 High-Value Deep Content
 
-New articles for depth (not just SEO):
-
-| Article | Category | Series |
+| Article | Category | Status |
 |---------|----------|--------|
-| "Why You Choose Unavailable Partners" | Relationships | - |
-| "Reclaiming Your Aggression" | Mind | inner-work |
-| "The Anger You Won't Let Yourself Feel" | Mind | inner-work |
-| "Dating After Trauma" | Relationships | - |
-| "Post-Breakup Integration" | Relationships | - |
-| "Career Burnout to Purpose" | Mind/Soul | - |
-| "The Shame Beneath the Surface" | Mind | inner-work |
-| "Codependency vs. Healthy Attachment" | Relationships | - |
-| "Disorganized Attachment: The Hidden Pattern" | Relationships | - |
-| "When Meditation Doesn't Work" | Soul | - |
+| "Why You Choose Unavailable Partners" | Relationships | [ ] Needed |
+| "Reclaiming Your Aggression" | Mind | [ ] Needed |
+| "The Anger You Won't Let Yourself Feel" | Mind | [ ] Needed |
+| "Dating After Trauma" | Relationships | [ ] Needed |
+| "Post-Breakup Integration" | Relationships | [ ] Needed |
+| "Career Burnout to Purpose" | Mind/Soul | [ ] Needed |
+| "The Shame Beneath the Surface" | Mind | [ ] Needed |
+| "Codependency vs. Healthy Attachment" | Relationships | [ ] Needed |
+| "Disorganized Attachment: The Hidden Pattern" | Relationships | [ ] Needed |
+| "When Meditation Doesn't Work" | Soul | [ ] Needed |
 
 ---
 
-## Phase 2: First Products (Months 2-4) - COURSES COMPLETE
+## Phase 2: First Products - MOSTLY COMPLETE
 *Goal: Create entry-level paid products*
 
 ### 2.1 Digital Workbooks (One-Time Purchase) - NOT STARTED
@@ -111,17 +124,11 @@ New articles for depth (not just SEO):
 | **Archetype Deep Dive Report** | $19 | Personalized 15-20 page PDF from quiz results |
 | **Shadow Profile Report** | $25 | Based on new shadow quiz, identifies shadow patterns |
 
-### 2.3 Mini-Courses (One-Time Purchase) - COMPLETE
+### 2.3 Courses (One-Time Purchase) - COMPLETE
 
-| Course | Price | Format | Duration | Status |
-|--------|-------|--------|----------|--------|
-| **Shadow Work Foundations** | $47 | Video + workbook | 5 modules | ✅ Built |
-| **Nervous System Mastery** | $67 | Video + audio practices | 6 modules | ✅ Built |
-| **Attachment Repair** | $67 | Video + exercises | 6 modules | ✅ Built |
-| **Inner Critic Work** | $57 | Video + exercises | 5 modules | ✅ Built |
-| **Boundaries** | $57 | Video + exercises | 5 modules | ✅ Built |
-| **Emotional Release** | $67 | Video + exercises | 6 modules | ✅ Built |
-| **Meeting Your Inner World** | $67 | Video + exercises | 6 modules | ✅ Built |
+**35 courses total** with interactive exercises, quizzes, and certificates.
+
+See CLAUDE.md for full course breakdown.
 
 ---
 
@@ -170,48 +177,25 @@ What members get:
 
 ---
 
-## Phase 4: Flagship Course (Months 6-9) - COMPLETE
+## Phase 4: Flagship Course - COMPLETE
 *Goal: Create premium transformational offering*
 
-### 4.1 The Integration Path Course ✅ BUILT
+### 4.1 The Integration Path Course - BUILT
 
-**Price:** $197
+**Price:** $247
 
-**Format:** 8-week self-paced course
+**Format:** 8-week self-paced course with interactive exercises
 
-| Week | Module | Focus | Status |
-|------|--------|-------|--------|
-| 1 | Foundation | The 4 pillars framework, where you are now | ✅ |
-| 2 | Body | Nervous system, somatic awareness, grounding | ✅ |
-| 3 | Shadow | Meeting rejected parts, integration practices | ✅ |
-| 4 | Emotions | Feeling fully, processing, expression | ✅ |
-| 5 | Patterns | Attachment, defenses, repetition compulsion | ✅ |
-| 6 | Relationships | Projection, attraction, conscious relating | ✅ |
-| 7 | Meaning | Purpose, values, death as teacher | ✅ |
-| 8 | Integration | Bringing it together, ongoing practice | ✅ |
-
-**Each week includes:**
-- Video lesson (15-20 min)
-- Written deep dive
-- Practice/exercise
-- Journaling prompts
-- Integration checkpoint
+All 4 flagship courses complete with full module content, quizzes, and certificate system.
 
 ---
 
 ## Phase 5: Expansion (Months 9-12+)
 *Goal: Add specialized offerings*
 
-### 5.1 Specialized Courses
+### 5.1 Specialized Courses - COMPLETE
 
-| Course | Price | Audience |
-|--------|-------|----------|
-| **Psychedelic Integration Masterclass** | $147 | Post-ceremony support |
-| **Breakup to Breakthrough** | $97 | Post-relationship healing |
-| **The Father Wound Intensive** | $127 | Men's deep work |
-| **The Mother Wound Intensive** | $127 | Women's deep work |
-| **Reclaiming Masculine Power** | $147 | Men's integration |
-| **Wild Feminine Awakening** | $147 | Women's integration |
+All specialized courses have been built as part of the 35-course library.
 
 ### 5.2 Additional Revenue Streams
 
@@ -226,8 +210,8 @@ What members get:
 
 ### Immediate (This Month)
 
-1. [ ] Lead magnet: "5 Shadow Work Prompts" PDF
-2. [ ] Lead magnet: "Nervous System Reset Checklist" PDF
+1. [x] Lead magnet: "Shadow Work Prompts" PDF - COMPLETE
+2. [x] Lead magnet: "Nervous System Reset" PDF - COMPLETE
 3. [ ] Article: "Anxious Attachment: Signs and How to Heal"
 4. [ ] Article: "Avoidant Attachment: Understanding the Pattern"
 5. [ ] Article: "Healing the Father Wound"
@@ -235,14 +219,14 @@ What members get:
 ### Next Month
 
 6. [ ] Article: "Healing the Mother Wound"
-7. [ ] Article: "How to Do Shadow Work: A Complete Guide"
+7. [x] Article: "How to Do Shadow Work: A Complete Guide" - EXISTS
 8. [ ] Article: "Why You Choose Unavailable Partners"
-9. [ ] Lead magnet: 7-day email course from archetype quiz
+9. [ ] Email sequences for lead magnets in ConvertKit
 10. [ ] Shadow Work Workbook (first draft)
 
 ### Month 3
 
-11. [ ] Article: "Nervous System Regulation: A Practical Guide"
+11. [x] Article: "Nervous System Regulation: A Practical Guide" - EXISTS
 12. [ ] Article: "Psychedelic Integration Guide"
 13. [ ] Article: "Disorganized Attachment: The Hidden Pattern"
 14. [ ] Shadow Work Workbook (complete)
@@ -258,51 +242,57 @@ What members get:
 |--------|---------|--------|
 | Subscription (150 members × $15) | $2,250 | $27,000 |
 | Workbooks (30/mo × $25 avg) | $750 | $9,000 |
-| Mini-courses (15/mo × $55 avg) | $825 | $9,900 |
-| Flagship course (10/mo × $247) | $2,470 | $29,640 |
+| Standard courses (20/mo × $65 avg) | $1,300 | $15,600 |
+| Flagship courses (8/mo × $265 avg) | $2,120 | $25,440 |
 | Affiliates | $200 | $2,400 |
-| **Total** | **$6,495** | **$77,940** |
+| **Total** | **$6,620** | **$79,440** |
 
 ### Year 2 Goals (Growth)
 
 | Stream | Monthly | Annual |
 |--------|---------|--------|
 | Subscription (400 members × $15) | $6,000 | $72,000 |
-| Products + Courses | $4,000 | $48,000 |
+| Products + Courses | $5,000 | $60,000 |
 | Affiliates | $500 | $6,000 |
-| **Total** | **$10,500** | **$126,000** |
+| **Total** | **$11,500** | **$138,000** |
 
 ---
 
 ## Tech Requirements
 
-### For Payments - NOT STARTED
-- Stripe (handles subscriptions + one-time)
-- Stripe Customer Portal for subscription management
+### For Payments - COMPLETE
+- [x] Stripe checkout integration
+- [x] Stripe Customer Portal for subscription management
+- [x] Purchase verification (client-side + webhook)
+- [x] Purchase tracking in database
 
 ### For Content Gating - PARTIAL
-- ✅ User authentication (Google OAuth)
-- ⏳ Membership status check in Next.js
-- ⏳ Protected routes for premium content
-- ⏳ Download protection for PDFs
+- [x] User authentication (Google OAuth)
+- [ ] Membership status check in Next.js
+- [ ] Protected routes for premium course content
+- [ ] Download protection for PDFs
 
 ### For Email - PARTIAL
-- ✅ ConvertKit (already set up)
-- ⏳ Email sequences for each lead magnet
-- ⏳ Welcome sequence for new subscribers
-- ⏳ Launch sequences for products
+- [x] ConvertKit (already set up)
+- [x] Lead magnet email capture
+- [ ] Email sequences for each lead magnet
+- [ ] Welcome sequence for new subscribers
+- [ ] Launch sequences for products
 
 ### For Community - NOT STARTED
-- Discord with role sync to Stripe
-- Free tier vs Member tier channels
+- [ ] Discord with role sync to Stripe
+- [ ] Free tier vs Member tier channels
 
 ### For Courses - COMPLETE
-- ✅ Self-hosted in Next.js (chosen approach)
-- ✅ Course pages with module navigation
-- ✅ Progress tracking with database persistence
-- ✅ Completion badges on profile
-- ✅ Mark complete functionality
-- ⏳ Payment integration (courses show prices but no checkout)
+- [x] Self-hosted in Next.js (chosen approach)
+- [x] Course pages with module navigation
+- [x] Progress tracking with database persistence
+- [x] Completion badges on profile
+- [x] Mark complete functionality
+- [x] Payment integration with Stripe
+- [x] Interactive exercises (Journal, Checklist, Checkbox)
+- [x] Quiz system with certificate gating
+- [x] Learning paths
 
 ---
 
@@ -319,15 +309,15 @@ What members get:
 
 ## Next Steps (Updated Dec 2024)
 
-### Immediate Priority
-1. **Stripe Integration** - Enable course purchases
-2. **Lead Magnet PDFs** - Create downloadable content for email capture
-3. **Email Sequences** - Set up in ConvertKit for course promotion
+### Pre-Launch (Content Gating)
+1. **Lock course content** - Gate modules behind purchase
+2. **Test full purchase flow** - End-to-end verification
 
 ### Content
-4. Write SEO-targeted articles (attachment styles, shadow work guide)
-5. Create workbook PDFs (Shadow Work, Integration Journal)
+3. Write SEO-targeted articles (attachment styles priority)
+4. Create workbook PDFs (Shadow Work, Integration Journal)
+5. Set up email sequences in ConvertKit
 
 ### Technical
-6. Protected routes for premium content
+6. Add interactive exercises to remaining course modules
 7. AI guide integration (avatar work in progress)

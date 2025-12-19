@@ -33,8 +33,8 @@ const navItems: NavItem[] = [
     ],
   },
   { label: 'Courses', href: '/courses' },
+  { label: 'Free', href: '/free' },
   { label: 'Library', href: '/library' },
-  { label: 'Shop', href: '/shop' },
   { label: 'About', href: '/about' },
 ];
 

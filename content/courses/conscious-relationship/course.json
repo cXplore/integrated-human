@@ -1,0 +1,160 @@
+{
+  "id": "conscious-relationship",
+  "title": "Conscious Relationship",
+  "subtitle": "Love as a path of growth",
+  "description": "Move beyond unconscious patterns into intentional partnership. This course covers how to use relationship as a vehicle for growth, navigate conflict consciously, maintain polarity and passion, and build something that lasts.",
+  "category": "Relationships",
+  "price": 77,
+  "currency": "USD",
+  "duration": "6-8 weeks",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "unconscious-relating",
+      "title": "How We Relate Unconsciously",
+      "description": "Patterns, projections, and what we bring to partnership",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "relationship-as-path",
+      "title": "Relationship as a Growth Path",
+      "description": "Using partnership for mutual evolution",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "conscious-conflict",
+      "title": "Navigating Conflict Consciously",
+      "description": "Fighting without destroying the relationship",
+      "duration": "35 min"
+    },
+    {
+      "id": 4,
+      "slug": "polarity-and-passion",
+      "title": "Polarity and Passion",
+      "description": "Maintaining attraction in long-term relationship",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "repair-and-rupture",
+      "title": "Rupture and Repair",
+      "description": "How to come back from disconnection",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "growing-together",
+      "title": "Growing Together",
+      "description": "Evolving as individuals and as partners",
+      "duration": "25 min"
+    },
+    {
+      "id": 7,
+      "slug": "building-lasting-love",
+      "title": "Building Lasting Love",
+      "description": "What makes relationships endure and deepen",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Identify your unconscious relationship patterns",
+    "Use relationship triggers as opportunities for growth",
+    "Navigate conflict without damaging connection",
+    "Understand and work with polarity dynamics",
+    "Repair after ruptures and disconnection",
+    "Balance individual growth with partnership",
+    "Build foundations for lasting love"
+  ],
+  "requirements": [
+    "Currently in a relationship or preparing for one",
+    "Willingness to examine your patterns honestly",
+    "Attachment Repair course helpful but not required",
+    "Partner participation optional but beneficial"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What does 'unconscious relating' refer to?",
+        "options": [
+          "Being asleep around your partner",
+          "Patterns from the past running your relationship without awareness",
+          "Not talking enough",
+          "Being too relaxed"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "How can relationship serve as a growth path?",
+        "options": [
+          "Your partner fixes your problems",
+          "Triggers and challenges reveal what needs healing in yourself",
+          "You become more like your partner",
+          "It can't - growth is individual"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What makes conflict 'conscious' rather than destructive?",
+        "options": [
+          "Never getting angry",
+          "Staying curious about underlying needs, taking breaks when flooded, repairing after",
+          "Always agreeing",
+          "Winning the argument"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is 'polarity' in relationship context?",
+        "options": [
+          "Political disagreement",
+          "The attractive tension between different energies (often masculine/feminine)",
+          "Living at opposite ends of the house",
+          "Always disagreeing"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What does healthy 'repair' after rupture involve?",
+        "options": [
+          "Pretending it didn't happen",
+          "Acknowledging hurt, taking responsibility, and reconnecting intentionally",
+          "Waiting until both forget",
+          "Apologizing without meaning it"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "How do you balance individual growth with partnership?",
+        "options": [
+          "Sacrifice yourself for the relationship",
+          "Support each other's growth while maintaining connection and shared direction",
+          "Grow completely independently",
+          "One person grows, the other supports"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "What contributes most to lasting love?",
+        "options": [
+          "Never having problems",
+          "Consistent repair, continued choosing each other, and growing together",
+          "Perfect compatibility from the start",
+          "Staying exactly the same"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

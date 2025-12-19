@@ -1,0 +1,209 @@
+{
+  "id": "the-sovereign-woman",
+  "title": "The Sovereign Woman",
+  "subtitle": "A complete curriculum for feminine reclamation",
+  "description": "A comprehensive 12-week program for women ready to reclaim their full power. This flagship course integrates body wisdom, emotional alchemy, shadow work, and sacred feminine archetypes. Move from people-pleasing and self-abandonment into authentic sovereignty.",
+  "category": "Flagship",
+  "price": 297,
+  "currency": "USD",
+  "duration": "12 weeks",
+  "level": "Advanced",
+  "featured": true,
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "reclaiming-your-body",
+      "title": "Reclaiming Your Body",
+      "description": "Coming home to the body you were taught to distrust",
+      "duration": "40 min"
+    },
+    {
+      "id": 2,
+      "slug": "nervous-system-feminine",
+      "title": "Nervous System and Feminine Rhythm",
+      "description": "Regulation that honors cyclical nature",
+      "duration": "45 min"
+    },
+    {
+      "id": 3,
+      "slug": "the-feminine-shadow",
+      "title": "The Feminine Shadow",
+      "description": "The parts you were told to hide",
+      "duration": "45 min"
+    },
+    {
+      "id": 4,
+      "slug": "mother-wound-deep-dive",
+      "title": "Mother Wound Deep Dive",
+      "description": "Healing the core feminine wound",
+      "duration": "50 min"
+    },
+    {
+      "id": 5,
+      "slug": "reclaiming-rage",
+      "title": "Reclaiming Your Rage",
+      "description": "The anger you weren't allowed to feel",
+      "duration": "40 min"
+    },
+    {
+      "id": 6,
+      "slug": "desire-and-pleasure",
+      "title": "Desire and Pleasure",
+      "description": "Wanting without apology",
+      "duration": "45 min"
+    },
+    {
+      "id": 7,
+      "slug": "the-seven-archetypes-integrated",
+      "title": "Integrating the Seven Archetypes",
+      "description": "Maiden to Mystic—accessing your full range",
+      "duration": "50 min"
+    },
+    {
+      "id": 8,
+      "slug": "intuition-and-knowing",
+      "title": "Trusting Your Knowing",
+      "description": "Reclaiming intuition as intelligence",
+      "duration": "40 min"
+    },
+    {
+      "id": 9,
+      "slug": "boundaries-and-fierce-love",
+      "title": "Boundaries and Fierce Love",
+      "description": "Protecting your energy without closing your heart",
+      "duration": "45 min"
+    },
+    {
+      "id": 10,
+      "slug": "relationships-from-sovereignty",
+      "title": "Relationships from Sovereignty",
+      "description": "Loving without losing yourself",
+      "duration": "45 min"
+    },
+    {
+      "id": 11,
+      "slug": "sisterhood-and-lineage",
+      "title": "Sisterhood and Lineage",
+      "description": "Healing through feminine connection",
+      "duration": "35 min"
+    },
+    {
+      "id": 12,
+      "slug": "the-sovereign-woman",
+      "title": "The Sovereign Woman",
+      "description": "Integrating your full feminine power",
+      "duration": "40 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Reclaim your body as a source of wisdom and pleasure",
+    "Regulate your nervous system honoring feminine cycles",
+    "Integrate shadow material including rage and desire",
+    "Heal mother wounds at the root",
+    "Access and embody all seven feminine archetypes",
+    "Trust your intuition as valid intelligence",
+    "Set boundaries without guilt or hardening",
+    "Show up in relationships from wholeness not need"
+  ],
+  "requirements": [
+    "Prior inner work experience required",
+    "Commitment to 12 weeks of consistent practice",
+    "Journal for daily reflection",
+    "Willingness to feel what's been suppressed",
+    "Private space for emotional and somatic work"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What does 'sovereignty' mean in this context?",
+        "options": [
+          "Being alone and independent",
+          "Self-governance—making choices from your center rather than others' expectations",
+          "Political power",
+          "Never needing anyone"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Why is reclaiming the body important for women?",
+        "options": [
+          "For physical appearance",
+          "Women are often taught to distrust, control, or disconnect from their bodies",
+          "It's not important",
+          "Only for physical health"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is the feminine shadow typically composed of?",
+        "options": [
+          "Only jealousy",
+          "Rage, hunger, sexuality, power, selfishness—anything 'unladylike'",
+          "Weakness",
+          "Past relationships"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "How does the mother wound typically manifest?",
+        "options": [
+          "Hating your mother",
+          "Difficulty with self-worth, competing with women, caretaking at expense of self",
+          "Physical symptoms only",
+          "It doesn't affect adults"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "Why is reclaiming rage important for women?",
+        "options": [
+          "To become aggressive",
+          "Suppressed anger becomes depression, illness, or indirect expression",
+          "Women shouldn't feel rage",
+          "To fight with partners"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What does it mean to 'trust your knowing'?",
+        "options": [
+          "Always being right",
+          "Treating intuition and felt sense as valid forms of intelligence",
+          "Never listening to others",
+          "Thinking more carefully"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "What is 'fierce love' in the context of boundaries?",
+        "options": [
+          "Aggressive love",
+          "Love that includes protection, limits, and refusal to abandon yourself",
+          "Tough love that's actually mean",
+          "Love only for strong people"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 8,
+        "question": "Why is sisterhood important for feminine development?",
+        "options": [
+          "Competition with men",
+          "Women heal and develop through connection with other women who can witness and support",
+          "It's not important",
+          "To complain about men"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

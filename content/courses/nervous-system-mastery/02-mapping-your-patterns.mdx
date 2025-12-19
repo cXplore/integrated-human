@@ -137,61 +137,90 @@ Many people swing between the two:
 
 ---
 
-## Exercise: Your Personal Nervous System Map
+<Exercise title="Your Personal Nervous System Map">
 
 Take 20-30 minutes for this detailed mapping.
 
 ### Part 1: Your Triggers
 
-List your top 5 sympathetic triggers (things that activate fight/flight):
-1.
-2.
-3.
-4.
-5.
+<Journal
+  id="ns-sympathetic-triggers"
+  prompt="List your top 5 sympathetic triggers (things that activate fight/flight):"
+  placeholder="1.&#10;2.&#10;3.&#10;4.&#10;5."
+  rows={6}
+/>
 
-List your top 5 dorsal triggers (things that cause shutdown):
-1.
-2.
-3.
-4.
-5.
+<Journal
+  id="ns-dorsal-triggers"
+  prompt="List your top 5 dorsal triggers (things that cause shutdown):"
+  placeholder="1.&#10;2.&#10;3.&#10;4.&#10;5."
+  rows={6}
+/>
 
 ### Part 2: Your Tells
 
-What are your earliest signs of sympathetic activation?
-- In your body:
-- In your thoughts:
-- In your behavior:
+<Journal
+  id="ns-sympathetic-tells"
+  prompt="What are your earliest signs of sympathetic activation?
+• In your body:
+• In your thoughts:
+• In your behavior:"
+  placeholder="In my body:&#10;&#10;In my thoughts:&#10;&#10;In my behavior:"
+  rows={6}
+/>
 
-What are your earliest signs of dorsal shutdown?
-- In your body:
-- In your thoughts:
-- In your behavior:
+<Journal
+  id="ns-dorsal-tells"
+  prompt="What are your earliest signs of dorsal shutdown?
+• In your body:
+• In your thoughts:
+• In your behavior:"
+  placeholder="In my body:&#10;&#10;In my thoughts:&#10;&#10;In my behavior:"
+  rows={6}
+/>
 
 ### Part 3: Your Default
 
-Which state do you tend toward?
-- [ ] Sympathetic (running hot)
-- [ ] Dorsal (running cold)
-- [ ] Swing between both
-- [ ] Mostly regulated (ventral vagal)
+<Checklist
+  id="ns-default-state"
+  title="Which state do you tend toward?"
+  items={[
+    "Sympathetic (running hot) - often anxious, on edge, difficulty relaxing",
+    "Dorsal (running cold) - often tired, depleted, difficulty getting motivated",
+    "Swing between both - boom-bust patterns, rarely in the middle",
+    "Mostly regulated (ventral vagal) - generally calm with good recovery"
+  ]}
+/>
 
-What percentage of your day do you estimate you spend dysregulated?
+<Journal
+  id="ns-dysregulation-estimate"
+  prompt="What percentage of your day do you estimate you spend dysregulated? What does that look like for you?"
+  placeholder="I spend roughly ___% of my day dysregulated. This usually looks like..."
+  rows={4}
+/>
 
 ### Part 4: Your History
 
-What experiences might have shaped your nervous system patterns?
-
-How did your caregivers regulate (or fail to regulate)?
-
-What was the emotional temperature of your childhood home?
+<Journal
+  id="ns-history"
+  prompt="Reflect on what shaped your nervous system:
+• What experiences might have shaped your patterns?
+• How did your caregivers regulate (or fail to regulate)?
+• What was the emotional temperature of your childhood home?"
+  placeholder="Experiences that shaped my patterns:&#10;&#10;How caregivers regulated me:&#10;&#10;The emotional temperature growing up:"
+  rows={10}
+/>
 
 ### Part 5: Current Influences
 
-What in your current life supports regulation?
+<Journal
+  id="ns-current-influences"
+  prompt="What in your current life supports regulation? What promotes dysregulation?"
+  placeholder="What supports my regulation:&#10;&#10;What promotes dysregulation:"
+  rows={6}
+/>
 
-What in your current life promotes dysregulation?
+</Exercise>
 
 ---
 

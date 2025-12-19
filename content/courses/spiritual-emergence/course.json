@@ -1,0 +1,141 @@
+{
+  "id": "spiritual-emergence",
+  "title": "Spiritual Emergence",
+  "subtitle": "Navigating awakening without losing your ground",
+  "description": "Spiritual openings can be destabilizing. This course helps you navigate kundalini awakenings, non-dual glimpses, dark nights, and other spiritual phenomena—staying grounded while allowing transformation. Not a replacement for mental health support when needed.",
+  "category": "Soul",
+  "price": 77,
+  "currency": "USD",
+  "duration": "6-8 weeks",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "what-is-spiritual-emergence",
+      "title": "What Is Spiritual Emergence",
+      "description": "When spiritual opening becomes overwhelming",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "types-of-emergence",
+      "title": "Types of Spiritual Emergence",
+      "description": "Kundalini, non-dual, psychic, dark night",
+      "duration": "40 min"
+    },
+    {
+      "id": 3,
+      "slug": "grounding-practices",
+      "title": "Grounding and Stabilization",
+      "description": "Coming back to earth without shutting down",
+      "duration": "40 min"
+    },
+    {
+      "id": 4,
+      "slug": "integrating-experiences",
+      "title": "Integrating Non-Ordinary Experiences",
+      "description": "Making sense of what happened",
+      "duration": "35 min"
+    },
+    {
+      "id": 5,
+      "slug": "dark-night",
+      "title": "The Dark Night",
+      "description": "When awakening includes despair",
+      "duration": "35 min"
+    },
+    {
+      "id": 6,
+      "slug": "sustainable-spirituality",
+      "title": "Sustainable Spirituality",
+      "description": "Building a practice that supports rather than destabilizes",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand spiritual emergence vs. emergency",
+    "Recognize different types of spiritual opening",
+    "Use grounding practices that don't shut down awakening",
+    "Integrate non-ordinary experiences meaningfully",
+    "Navigate dark nights and spiritual depression",
+    "Build sustainable spiritual practice"
+  ],
+  "requirements": [
+    "Some spiritual practice or experiences",
+    "Distinction between emergence and emergency—seek clinical help if severely impaired",
+    "Grounding basics helpful (Nervous System Mastery)",
+    "Open to multiple spiritual frameworks"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is the difference between spiritual emergence and spiritual emergency?",
+        "options": [
+          "They're the same",
+          "Emergence is transformative but manageable; emergency involves severe impairment of functioning",
+          "Emergency is more spiritual",
+          "Emergence is fake"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is a kundalini awakening?",
+        "options": [
+          "A yoga pose",
+          "The activation of dormant energy, often causing intense physical, emotional, and energetic symptoms",
+          "A type of meditation",
+          "A mental illness"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "Why is grounding important during spiritual emergence?",
+        "options": [
+          "To stop the experience",
+          "To maintain functional capacity and integrate experiences without destabilization",
+          "Grounding is anti-spiritual",
+          "It's not important"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is the 'dark night of the soul'?",
+        "options": [
+          "Depression",
+          "A spiritual stage involving loss of meaning, dryness, and sometimes despair—often preceding deeper opening",
+          "Having bad dreams",
+          "Being evil"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "How should non-ordinary experiences be approached?",
+        "options": [
+          "As literal truth",
+          "With openness and discernment, integrating meaning without becoming attached or ungrounded",
+          "As mental illness",
+          "As proof you're special"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What makes spiritual practice sustainable?",
+        "options": [
+          "Intense practices",
+          "Practices matched to your current capacity with attention to integration and grounding",
+          "Practicing as much as possible",
+          "Following one teacher exactly"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "id": "embodiment-basics",
+  "title": "Embodiment Basics",
+  "subtitle": "Coming home to the body you live in",
+  "description": "Many of us live from the neck up, disconnected from the body. This beginner course teaches fundamental embodiment practices—how to inhabit your body, feel what you're feeling, and use the body as a resource rather than just a vehicle.",
+  "category": "Body",
+  "price": 47,
+  "currency": "USD",
+  "duration": "4 weeks",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "why-embodiment-matters",
+      "title": "Why Embodiment Matters",
+      "description": "The cost of living disconnected from your body",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "basic-body-awareness",
+      "title": "Basic Body Awareness",
+      "description": "Learning to feel what you're feeling",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "grounding-practices",
+      "title": "Grounding Practices",
+      "description": "Coming down from the head into the body",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "body-as-resource",
+      "title": "The Body as Resource",
+      "description": "Using somatic awareness for guidance and regulation",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "daily-embodiment",
+      "title": "Daily Embodiment Practice",
+      "description": "Staying connected throughout your day",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand why embodiment is essential for wellbeing",
+    "Develop basic interoceptive awareness",
+    "Practice grounding techniques",
+    "Use body awareness for decision-making and regulation",
+    "Build sustainable daily embodiment habits"
+  ],
+  "requirements": [
+    "No prior experience needed",
+    "Willingness to slow down and feel",
+    "10-15 minutes daily for practice"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is 'embodiment'?",
+        "options": [
+          "Physical fitness",
+          "Living in and through your body rather than just your mind",
+          "Body building",
+          "Having a body"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is 'interoception'?",
+        "options": [
+          "Reading others' emotions",
+          "The ability to sense internal body states",
+          "A type of meditation",
+          "Intuition"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What causes disconnection from the body?",
+        "options": [
+          "Nothing - everyone is connected",
+          "Trauma, chronic stress, cultural conditioning, or too much mental activity",
+          "Physical injury only",
+          "Lack of exercise"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is 'grounding'?",
+        "options": [
+          "Electrical safety",
+          "Bringing awareness into the body and connection with the physical present moment",
+          "Sitting on the ground",
+          "A punishment"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "How can the body inform decisions?",
+        "options": [
+          "It can't - only the mind thinks",
+          "Through felt sense, gut feelings, and physical responses to options",
+          "By being stronger",
+          "Through muscle testing only"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What helps maintain embodiment throughout the day?",
+        "options": [
+          "Never sitting still",
+          "Regular check-ins, movement breaks, and attention to physical sensations",
+          "Constant exercise",
+          "Thinking about the body"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  }
+}
