@@ -39,9 +39,10 @@ app/
     └── course/             # Interactive exercise components
 
 content/
-├── articles/               # MDX files (75+ articles)
-├── courses/                # 35 courses with JSON + MDX modules
-└── lead-magnets/           # 4 lead magnet markdown files
+├── posts/                  # MDX files (75+ articles)
+├── courses/                # 35 courses with JSON + MDX modules (226 module files)
+├── lead-magnets/           # 4 lead magnet markdown files
+└── products/               # Product descriptions (courses, workbooks)
 
 lib/
 ├── courses.ts              # Course/module loading functions
@@ -56,6 +57,7 @@ prisma/schema.prisma        # Database models
 ### Data Models (Prisma)
 ```
 User                # Google OAuth profile + preferences
+Account             # OAuth provider accounts
 Purchase            # Stripe payment records (userId + courseSlug)
 CourseProgress      # userId + courseSlug + moduleSlug + completed
 ExerciseResponse    # Interactive exercise data (journal, checklist)
@@ -63,6 +65,7 @@ Certificate         # Issued after quiz pass, unique certificateId
 QuizAttempt         # Score tracking, pass/fail status
 ArticleProgress     # Reading completion tracking
 ReadingListItem     # Saved articles
+JournalEntry        # Standalone journal entries (profile journaling feature)
 ```
 
 ---
@@ -181,10 +184,10 @@ export async function GET() {
 ### Stripe
 - Test mode keys in `.env.local`
 - Webhook needs Stripe CLI for local testing, or production URL
-- API version: `2025-12-15.clover`
+
 
 ### Build
-- Turbopack for dev, production builds ~3s compile
+- Turbopack for dev
 - 350+ static pages generated
 - Some pages dynamic (API routes, auth-protected)
 
@@ -193,16 +196,17 @@ export async function GET() {
 ## Current State (Dec 2024)
 
 ### Implemented
-- **35 courses** with full module content, quizzes, and navigation
+- **35 courses** with full module content (226 MDX files), quizzes, and navigation
   - 4 Flagship courses ($247-$297)
   - 31 standard courses ($47-$97)
+- **75+ articles** in content/posts/
 - **Interactive exercises** - Journal prompts, checklists, callouts in MDX
 - **Stripe payments** - Checkout, verification, purchase tracking
 - **Lead magnets** - 4 downloadable resources with email capture
 - **Quiz system** with certificate gating
 - **User authentication** (Google OAuth)
 - **Course/article progress tracking**
-- **Profile dashboard** with purchases, certificates, stats
+- **Profile dashboard** with purchases, certificates, stats, standalone journaling
 - **Learning paths** - Curated course sequences
 - **Mega menu navigation** with Free resources link
 
@@ -212,6 +216,7 @@ export async function GET() {
 - AI guide avatar (code exists but not deployed)
 - Membership/subscription tier
 - Digital workbooks (PDF products)
+- SEO-targeted articles (attachment styles, father/mother wound, etc.)
 
 ---
 
@@ -227,6 +232,7 @@ export async function GET() {
 | Lead magnet API | `app/api/lead-magnets/download/route.ts` |
 | Course loader | `lib/courses.ts` |
 | Lead magnet loader | `lib/lead-magnets.ts` |
+| Article loader | `lib/posts.ts` |
 | Interactive components | `app/components/course/MDXComponents.tsx` |
 | Module renderer | `app/courses/[courseSlug]/[moduleSlug]/ModuleContent.tsx` |
 | Purchase button | `app/components/PurchaseButton.tsx` |

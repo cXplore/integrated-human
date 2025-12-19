@@ -47,15 +47,13 @@ Build a sustainable income through high-quality content on personal integration,
 - [x] **Mega menu navigation** - with Free resources link
 
 ### Still Needed
+- [x] Standalone journaling in profile (view all journal entries, free-form journaling, daily prompts)
+
 - [ ] Course content gating (open for testing, lock at launch)
 - [ ] Email sequences in ConvertKit (infrastructure ready)
 - [ ] Digital workbooks (PDF products)
 - [ ] AI guide/avatar (code exists but not deployed)
 
-### Recently Added
-- [x] Standalone journaling in profile (view all journal entries, free-form journaling, daily prompts)
-
----
 
 ## Phase 1: Foundation - MOSTLY COMPLETE
 *Goal: Build email list, create first lead magnets, fill content gaps*
@@ -319,5 +317,5 @@ All specialized courses have been built as part of the 35-course library.
 5. Set up email sequences in ConvertKit
 
 ### Technical
-6. Add interactive exercises to remaining course modules
+6. ~~Add interactive exercises to remaining course modules~~ COMPLETE - 226 MDX module files with exercises
 7. AI guide integration (avatar work in progress)
