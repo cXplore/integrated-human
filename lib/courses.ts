@@ -204,3 +204,42 @@ export function getModuleNavigation(courseSlug: string, currentModuleNumber: num
     total: modules.length,
   };
 }
+
+/**
+ * Find courses related to a given set of categories and tags.
+ * Used to show related courses on article pages.
+ */
+export function getRelatedCourses(
+  categories: string[],
+  tags: string[],
+  limit: number = 3
+): Course[] {
+  const allCourses = getAllCourses();
+
+  const scoredCourses = allCourses.map((course) => {
+    let score = 0;
+
+    // Category match (case-insensitive)
+    const courseCategory = course.metadata.category.toLowerCase();
+    categories.forEach((cat) => {
+      if (courseCategory === cat.toLowerCase()) score += 3;
+    });
+
+    // Tag match
+    const courseTags = (course.metadata.tags || []).map((t) => t.toLowerCase());
+    tags.forEach((tag) => {
+      const tagLower = tag.toLowerCase();
+      if (courseTags.some((ct) => ct.includes(tagLower) || tagLower.includes(ct))) {
+        score += 2;
+      }
+    });
+
+    return { course, score };
+  });
+
+  return scoredCourses
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map(({ course }) => course);
+}

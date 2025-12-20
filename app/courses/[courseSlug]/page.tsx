@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import Navigation from '@/app/components/Navigation';
 import Link from 'next/link';
 import { getAllCourses, getCourseBySlug } from '@/lib/courses';
+import { getRelatedPostsForCourse } from '@/lib/posts';
 import PurchaseButton from '@/app/components/PurchaseButton';
 import PurchaseSuccess from '@/app/components/PurchaseSuccess';
 
@@ -39,6 +40,11 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
   }
 
   const { metadata } = course;
+  const relatedArticles = getRelatedPostsForCourse(
+    metadata.category,
+    metadata.tags || [],
+    3
+  );
 
   return (
     <>
@@ -99,19 +105,21 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
             {/* Main Content */}
             <div className="lg:col-span-2">
               {/* What You'll Learn */}
-              <section className="mb-12">
-                <h2 className="font-serif text-2xl font-light text-white mb-6">
-                  What You'll Learn
-                </h2>
-                <ul className="space-y-3">
-                  {metadata.whatYouLearn.map((item, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="text-green-500 mt-1">✓</span>
-                      <span className="text-gray-300">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </section>
+              {metadata.whatYouLearn && metadata.whatYouLearn.length > 0 && (
+                <section className="mb-12">
+                  <h2 className="font-serif text-2xl font-light text-white mb-6">
+                    What You'll Learn
+                  </h2>
+                  <ul className="space-y-3">
+                    {metadata.whatYouLearn.map((item, index) => (
+                      <li key={index} className="flex items-start gap-3">
+                        <span className="text-green-500 mt-1">✓</span>
+                        <span className="text-gray-300">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
 
               {/* Course Modules */}
               <section className="mb-12">
@@ -121,8 +129,8 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
                 <div className="space-y-4">
                   {metadata.modules.map((module, index) => (
                     <Link
-                      key={module.id}
-                      href={`/courses/${courseSlug}/${module.slug}`}
+                      key={module.id || index}
+                      href={`/courses/${courseSlug}/${module.slug || module.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                       className="group block bg-zinc-900 border border-zinc-800 hover:border-zinc-600 p-5 transition-colors"
                     >
                       <div className="flex items-start gap-4">
@@ -133,12 +141,16 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
                           <h3 className="text-white group-hover:text-gray-300 transition-colors mb-1">
                             {module.title}
                           </h3>
-                          <p className="text-gray-500 text-sm mb-2">
-                            {module.description}
-                          </p>
-                          <span className="text-xs text-gray-600">
-                            {module.duration}
-                          </span>
+                          {module.description && (
+                            <p className="text-gray-500 text-sm mb-2">
+                              {module.description}
+                            </p>
+                          )}
+                          {module.duration && (
+                            <span className="text-xs text-gray-600">
+                              {module.duration}
+                            </span>
+                          )}
                         </div>
                         <div className="flex-shrink-0 text-gray-600 group-hover:text-gray-400 transition-colors">
                           →
@@ -180,19 +192,63 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
               </section>
 
               {/* Requirements */}
-              <section>
-                <h2 className="font-serif text-2xl font-light text-white mb-6">
-                  Requirements
-                </h2>
-                <ul className="space-y-3">
-                  {metadata.requirements.map((req, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="text-gray-600 mt-1">•</span>
-                      <span className="text-gray-400">{req}</span>
-                    </li>
-                  ))}
-                </ul>
-              </section>
+              {metadata.requirements && metadata.requirements.length > 0 && (
+                <section>
+                  <h2 className="font-serif text-2xl font-light text-white mb-6">
+                    Requirements
+                  </h2>
+                  <ul className="space-y-3">
+                    {metadata.requirements.map((req, index) => (
+                      <li key={index} className="flex items-start gap-3">
+                        <span className="text-gray-600 mt-1">•</span>
+                        <span className="text-gray-400">{req}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {/* Related Articles */}
+              {relatedArticles.length > 0 && (
+                <section className="mt-12 pt-12 border-t border-zinc-800">
+                  <h2 className="font-serif text-2xl font-light text-white mb-6">
+                    Related Reading
+                  </h2>
+                  <div className="space-y-4">
+                    {relatedArticles.map((article) => (
+                      <Link
+                        key={article.slug}
+                        href={`/posts/${article.slug}`}
+                        className="group block bg-zinc-900 border border-zinc-800 hover:border-zinc-600 p-5 transition-colors"
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className="flex-1">
+                            <div className="flex flex-wrap gap-2 mb-2">
+                              {article.metadata.categories.map((cat) => (
+                                <span
+                                  key={cat}
+                                  className="text-xs uppercase tracking-wide text-gray-500"
+                                >
+                                  {cat}
+                                </span>
+                              ))}
+                            </div>
+                            <h3 className="font-serif text-lg text-white group-hover:text-gray-300 transition-colors mb-1">
+                              {article.metadata.title}
+                            </h3>
+                            <p className="text-gray-500 text-sm line-clamp-2">
+                              {article.metadata.excerpt}
+                            </p>
+                          </div>
+                          <div className="flex-shrink-0 text-gray-600 text-sm">
+                            {article.readingTime} min
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              )}
             </div>
 
             {/* Sidebar */}

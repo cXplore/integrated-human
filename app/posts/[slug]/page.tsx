@@ -10,6 +10,7 @@ import KeyboardNav from '@/app/components/KeyboardNav';
 import Comments from '@/app/components/Comments';
 import ReadTracker from '@/app/components/ReadTracker';
 import { getAllPosts, getPostBySlug, getRelatedPosts, getSeriesNavigation, getSeriesPostsMinimal } from '@/lib/posts';
+import { getRelatedCourses } from '@/lib/courses';
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import rehypeSlug from 'rehype-slug';
@@ -94,6 +95,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   }
 
   const relatedPosts = getRelatedPosts(slug, 3);
+  const relatedCourses = getRelatedCourses(post.metadata.categories, post.metadata.tags, 2);
   const seriesNav = getSeriesNavigation(slug);
   const seriesPosts = post.metadata.series ? getSeriesPostsMinimal(post.metadata.series) : [];
 
@@ -236,6 +238,49 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                       </div>
                     </Link>
                   )}
+                </div>
+              </div>
+            )}
+
+            {/* Related Courses */}
+            {relatedCourses.length > 0 && (
+              <div className="mt-16 pt-12 border-t border-zinc-800">
+                <h2 className="font-serif text-2xl font-light text-white mb-8">
+                  Go Deeper
+                </h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {relatedCourses.map((course) => (
+                    <Link
+                      key={course.slug}
+                      href={`/courses/${course.slug}`}
+                      className="group p-5 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors"
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xs uppercase tracking-wide text-gray-500">
+                          {course.metadata.category}
+                        </span>
+                        <span className="text-gray-700">·</span>
+                        <span className="text-xs text-gray-500">
+                          {course.metadata.level}
+                        </span>
+                        {course.metadata.price === 0 && (
+                          <>
+                            <span className="text-gray-700">·</span>
+                            <span className="text-xs text-green-500">Free</span>
+                          </>
+                        )}
+                      </div>
+                      <h3 className="font-serif text-lg text-white group-hover:text-gray-300 transition-colors mb-1">
+                        {course.metadata.title}
+                      </h3>
+                      <p className="text-gray-500 text-sm line-clamp-2">
+                        {course.metadata.description}
+                      </p>
+                      <div className="mt-3 text-xs text-gray-600">
+                        {course.metadata.modules.length} modules · {course.metadata.duration}
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               </div>
             )}

@@ -7,6 +7,8 @@ import ReadingStats from './ReadingStats';
 import CourseProgress from './CourseProgress';
 import Certificates from './Certificates';
 import PurchasedCourses from './PurchasedCourses';
+import Recommendations from './Recommendations';
+import OnboardingPrompt from './OnboardingPrompt';
 import { prisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
 
@@ -79,6 +81,9 @@ export default async function ProfilePage() {
             <div className="grid md:grid-cols-3 gap-6">
               {/* Left Column - Progress */}
               <div className="md:col-span-2 space-y-6">
+                {/* Onboarding Prompt - shows if profile incomplete */}
+                <OnboardingPrompt />
+
                 {/* Quick Actions */}
                 <div className="grid grid-cols-3 gap-4">
                   <a
@@ -117,6 +122,11 @@ export default async function ProfilePage() {
                     </div>
                     <p className="text-gray-500 text-sm">Saved for later</p>
                   </a>
+                </div>
+
+                {/* Recommendations Card */}
+                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6">
+                  <Recommendations />
                 </div>
 
                 {/* Purchased Courses Card */}

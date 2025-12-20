@@ -222,3 +222,42 @@ export function searchPosts(query: string): Post[] {
     .sort((a, b) => b.score - a.score)
     .map(({ post }) => post);
 }
+
+/**
+ * Find posts related to a given category and tags.
+ * Used to show related articles on course pages.
+ */
+export function getRelatedPostsForCourse(
+  category: string,
+  tags: string[],
+  limit: number = 3
+): Post[] {
+  const allPosts = getAllPosts();
+
+  const scoredPosts = allPosts.map((post) => {
+    let score = 0;
+
+    // Category match
+    const postCategories = post.metadata.categories.map((c) => c.toLowerCase());
+    if (postCategories.includes(category.toLowerCase())) {
+      score += 3;
+    }
+
+    // Tag match
+    const postTags = post.metadata.tags.map((t) => t.toLowerCase());
+    tags.forEach((tag) => {
+      const tagLower = tag.toLowerCase();
+      if (postTags.some((pt) => pt.includes(tagLower) || tagLower.includes(pt))) {
+        score += 2;
+      }
+    });
+
+    return { post, score };
+  });
+
+  return scoredPosts
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map(({ post }) => post);
+}
