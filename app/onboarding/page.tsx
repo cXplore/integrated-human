@@ -22,13 +22,20 @@ export default async function OnboardingPage() {
     where: { userId: session.user.id },
   });
 
-  // Parse existing profile data if any
+  // Parse existing profile data if any, converting null to undefined for TypeScript
   const existingProfile = profile ? {
-    ...profile,
-    experienceLevels: profile.experienceLevels ? JSON.parse(profile.experienceLevels) : null,
-    currentChallenges: profile.currentChallenges ? JSON.parse(profile.currentChallenges) : null,
-    interests: profile.interests ? JSON.parse(profile.interests) : null,
-    sensitivities: profile.sensitivities ? JSON.parse(profile.sensitivities) : null,
+    primaryIntention: profile.primaryIntention ?? undefined,
+    lifeSituation: profile.lifeSituation ?? undefined,
+    experienceLevels: profile.experienceLevels ? JSON.parse(profile.experienceLevels) : undefined,
+    hasAwakeningExperience: profile.hasAwakeningExperience,
+    awakeningDescription: profile.awakeningDescription ?? undefined,
+    currentChallenges: profile.currentChallenges ? JSON.parse(profile.currentChallenges) : undefined,
+    interests: profile.interests ? JSON.parse(profile.interests) : undefined,
+    depthPreference: profile.depthPreference ?? undefined,
+    learningStyle: profile.learningStyle ?? undefined,
+    timeAvailable: profile.timeAvailable ?? undefined,
+    sensitivities: profile.sensitivities ? JSON.parse(profile.sensitivities) : undefined,
+    onboardingCompleted: profile.onboardingCompleted,
   } : null;
 
   return (
