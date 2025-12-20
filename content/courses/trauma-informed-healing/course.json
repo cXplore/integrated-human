@@ -1,0 +1,56 @@
+{
+  "title": "Trauma-Informed Healing",
+  "description": "Understanding trauma, building safety, and reclaiming your life",
+  "category": "Flagship",
+  "level": "Advanced",
+  "duration": "12 hours",
+  "price": 247,
+  "published": true,
+  "featured": true,
+  "modules": [
+    { "title": "Understanding Trauma", "order": 1 },
+    { "title": "Your Trauma Profile", "order": 2 },
+    { "title": "Safety and Stabilization", "order": 3 },
+    { "title": "The Body Remembers", "order": 4 },
+    { "title": "Working with Triggers", "order": 5 },
+    { "title": "Processing the Past", "order": 6 },
+    { "title": "Healing Relationships", "order": 7 },
+    { "title": "Rebuilding the Self", "order": 8 },
+    { "title": "Post-Traumatic Growth", "order": 9 },
+    { "title": "The Reclaimed Life", "order": 10 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the primary goal of the stabilization phase in trauma recovery?",
+        "options": [
+          "Processing traumatic memories",
+          "Building safety and resources",
+          "Understanding the trauma's origin",
+          "Changing beliefs about the trauma"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What does 'the window of tolerance' refer to?",
+        "options": [
+          "How much trauma someone can experience",
+          "The optimal zone where we can process without overwhelm",
+          "The time it takes to recover from trauma",
+          "The number of triggers someone can handle"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Why is somatic awareness important in trauma healing?",
+        "options": [
+          "Trauma is primarily a thinking problem",
+          "The body stores trauma that the mind may not remember",
+          "Physical exercise cures trauma",
+          "Somatic awareness prevents future trauma"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

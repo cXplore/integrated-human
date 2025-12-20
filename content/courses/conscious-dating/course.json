@@ -1,0 +1,96 @@
+{
+  "title": "Conscious Dating",
+  "description": "Approaching dating with intention, awareness, and authenticity",
+  "category": "Relationships",
+  "level": "Intermediate",
+  "duration": "3.5 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Rethinking Dating",
+      "description": "Moving from reactive to intentional dating",
+      "order": 1
+    },
+    {
+      "title": "Knowing What You Want",
+      "description": "Getting clear on needs, values, and non-negotiables",
+      "order": 2
+    },
+    {
+      "title": "Your Dating Patterns",
+      "description": "Understanding and interrupting unhelpful patterns",
+      "order": 3
+    },
+    {
+      "title": "Authentic Self-Presentation",
+      "description": "Showing up as yourself, not a persona",
+      "order": 4
+    },
+    {
+      "title": "Navigating Early Dating",
+      "description": "Practical wisdom for the beginning stages",
+      "order": 5
+    },
+    {
+      "title": "Making Good Decisions",
+      "description": "Knowing when to continue and when to walk away",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Conscious dating primarily emphasizes:",
+        "options": [
+          "Finding someone as quickly as possible",
+          "Intentionality, self-awareness, and authenticity",
+          "Using strategies to appear more attractive",
+          "Dating as many people as possible"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Values in dating are important because:",
+        "options": [
+          "They make you more attractive to others",
+          "Chemistry can override everything else",
+          "Shared core values predict long-term compatibility",
+          "You should only date people exactly like you"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "When noticing you keep attracting the same type of person:",
+        "options": [
+          "You have bad luck",
+          "Patterns often reflect something in your own psychology worth examining",
+          "You should lower your standards",
+          "It's completely random and meaningless"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Authentic self-presentation in dating means:",
+        "options": [
+          "Revealing all your trauma on the first date",
+          "Being the 'best version' of yourself (hiding flaws)",
+          "Showing up as who you actually are, not a curated persona",
+          "Never sharing anything personal"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "A healthy approach to early dating includes:",
+        "options": [
+          "Deciding immediately if someone is 'the one'",
+          "Ignoring red flags because of chemistry",
+          "Gathering information while staying grounded in your values",
+          "Committing as soon as you feel attraction"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

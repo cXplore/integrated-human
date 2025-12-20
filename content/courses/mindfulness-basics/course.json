@@ -1,0 +1,42 @@
+{
+  "title": "Mindfulness Basics",
+  "description": "An introduction to mindfulness practice for everyday life",
+  "category": "Free",
+  "level": "Beginner",
+  "duration": "2 hours",
+  "price": 0,
+  "published": true,
+  "featured": true,
+  "leadMagnet": true,
+  "leadsTo": "mindfulness-meditation-mastery",
+  "modules": [
+    { "title": "What Is Mindfulness?", "order": 1 },
+    { "title": "Your First Meditation", "order": 2 },
+    { "title": "Mindfulness in Daily Life", "order": 3 },
+    { "title": "Building Your Practice", "order": 4 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the essence of mindfulness?",
+        "options": [
+          "Stopping all thoughts",
+          "Paying attention to the present moment without judgment",
+          "Feeling relaxed and peaceful",
+          "Solving problems through meditation"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What should you do when your mind wanders during meditation?",
+        "options": [
+          "Get frustrated and try harder to focus",
+          "Give up since wandering means you're doing it wrong",
+          "Gently notice and return attention to the present",
+          "Analyze why your mind wandered"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

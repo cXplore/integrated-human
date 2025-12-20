@@ -1,0 +1,76 @@
+{
+  "title": "Sleep Optimization",
+  "description": "Understanding sleep science and building habits for restorative rest",
+  "category": "Body",
+  "level": "Beginner",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "The Science of Sleep",
+      "description": "How sleep works and why it matters",
+      "order": 1
+    },
+    {
+      "title": "Sleep Architecture",
+      "description": "Understanding sleep stages and cycles",
+      "order": 2
+    },
+    {
+      "title": "What Disrupts Sleep",
+      "description": "Common sleep disruptors and how to address them",
+      "order": 3
+    },
+    {
+      "title": "Sleep Hygiene",
+      "description": "Building habits for better sleep",
+      "order": 4
+    },
+    {
+      "title": "Advanced Optimization",
+      "description": "Deeper strategies for sleep quality",
+      "order": 5
+    },
+    {
+      "title": "Your Sleep Protocol",
+      "description": "Creating your personalized sleep practice",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What drives your daily sleep-wake cycle?",
+        "options": [
+          "How tired you feel",
+          "Circadian rhythm and sleep pressure (adenosine)",
+          "Only light exposure",
+          "Caffeine levels"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is the most important sleep hygiene practice?",
+        "options": [
+          "Sleeping pills",
+          "Consistent wake time every day",
+          "Sleeping in on weekends",
+          "Exercising right before bed"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "How does screen light affect sleep?",
+        "options": [
+          "It has no effect",
+          "It helps you relax",
+          "Blue light suppresses melatonin, shifting circadian rhythm",
+          "Only affects children"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

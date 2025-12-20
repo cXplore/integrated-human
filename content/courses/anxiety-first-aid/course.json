@@ -1,0 +1,42 @@
+{
+  "title": "Anxiety First Aid Kit",
+  "description": "Essential tools for managing anxiety in the moment and building long-term calm",
+  "category": "Free",
+  "level": "Beginner",
+  "duration": "2 hours",
+  "price": 0,
+  "published": true,
+  "featured": true,
+  "leadMagnet": true,
+  "leadsTo": "breaking-free-anxiety",
+  "modules": [
+    { "title": "Understanding Your Anxiety", "order": 1 },
+    { "title": "Calming Your Nervous System", "order": 2 },
+    { "title": "Managing Anxious Thoughts", "order": 3 },
+    { "title": "Building Your Anxiety Toolkit", "order": 4 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the purpose of the anxiety response?",
+        "options": [
+          "To make you feel bad",
+          "To protect you from perceived threats",
+          "To prevent you from taking action",
+          "There is no purpose"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What does the 4-7-8 breathing technique help with?",
+        "options": [
+          "Increasing alertness",
+          "Activating the parasympathetic nervous system for calm",
+          "Improving memory",
+          "Building muscle strength"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "title": "People-Pleasing Deep Dive",
+  "description": "Understanding the people-pleasing pattern and reclaiming your authentic self",
+  "category": "Mind",
+  "level": "Intermediate",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "The People-Pleasing Pattern",
+      "description": "Understanding what people-pleasing really is",
+      "order": 1
+    },
+    {
+      "title": "Origins of People-Pleasing",
+      "description": "How the pattern develops",
+      "order": 2
+    },
+    {
+      "title": "The Hidden Costs",
+      "description": "What people-pleasing takes from you",
+      "order": 3
+    },
+    {
+      "title": "Boundaries and Self-Worth",
+      "description": "Building the foundation for change",
+      "order": 4
+    },
+    {
+      "title": "Practical Recovery",
+      "description": "Skills for saying no and being authentic",
+      "order": 5
+    },
+    {
+      "title": "Sustainable Authenticity",
+      "description": "Living as your real self",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is often at the root of people-pleasing?",
+        "options": [
+          "Being naturally kind",
+          "Fear of rejection and need for external validation",
+          "Superior empathy",
+          "Cultural politeness"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is a key cost of chronic people-pleasing?",
+        "options": [
+          "Being too popular",
+          "Loss of authentic self and resentment",
+          "Having too many friends",
+          "Being too successful at work"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is essential for recovery from people-pleasing?",
+        "options": [
+          "Learning to not care about anyone",
+          "Becoming selfish",
+          "Building self-worth independent of others' approval",
+          "Avoiding all relationships"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

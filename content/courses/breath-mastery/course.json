@@ -1,0 +1,76 @@
+{
+  "title": "Breath Mastery",
+  "description": "Harnessing the power of breath for regulation, performance, and wellbeing",
+  "category": "Body",
+  "level": "Beginner",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "The Science of Breath",
+      "description": "Why breath matters and how it works",
+      "order": 1
+    },
+    {
+      "title": "Functional Breathing",
+      "description": "Restoring natural, healthy breathing patterns",
+      "order": 2
+    },
+    {
+      "title": "Breath for Calming",
+      "description": "Techniques for stress reduction and relaxation",
+      "order": 3
+    },
+    {
+      "title": "Breath for Activation",
+      "description": "Techniques for energy and performance",
+      "order": 4
+    },
+    {
+      "title": "Breath and Emotion",
+      "description": "Using breath for emotional regulation",
+      "order": 5
+    },
+    {
+      "title": "A Breathing Practice",
+      "description": "Building breath into your daily life",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What type of breathing activates the parasympathetic nervous system?",
+        "options": [
+          "Fast, shallow chest breathing",
+          "Slow, deep breathing with extended exhale",
+          "Breath holding",
+          "Mouth breathing"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is the ideal breathing pattern for most daily activities?",
+        "options": [
+          "Through the mouth, into the chest",
+          "Fast and shallow",
+          "Through the nose, into the belly, slow and light",
+          "As deeply as possible at all times"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "How does breath affect emotional state?",
+        "options": [
+          "It doesn't - emotions control breath, not vice versa",
+          "Breath directly influences the nervous system and emotional state",
+          "Only hyperventilation affects emotions",
+          "Breath only affects physical not mental states"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "title": "Mindfulness and Meditation Mastery",
+  "description": "Developing a deep, transformative meditation practice",
+  "category": "Flagship",
+  "level": "Advanced",
+  "duration": "12 hours",
+  "price": 197,
+  "published": true,
+  "featured": true,
+  "modules": [
+    {
+      "title": "The Mindful Life",
+      "description": "What mindfulness is and why it matters",
+      "order": 1
+    },
+    {
+      "title": "Foundations of Practice",
+      "description": "Building a sustainable meditation habit",
+      "order": 2
+    },
+    {
+      "title": "Working With the Mind",
+      "description": "Understanding how your mind works in meditation",
+      "order": 3
+    },
+    {
+      "title": "The Breath as Anchor",
+      "description": "Breath-based meditation techniques",
+      "order": 4
+    },
+    {
+      "title": "Body-Based Practice",
+      "description": "Somatic meditation and body awareness",
+      "order": 5
+    },
+    {
+      "title": "Working With Thoughts",
+      "description": "Relating skillfully to the thinking mind",
+      "order": 6
+    },
+    {
+      "title": "Working With Emotions",
+      "description": "Emotional awareness and regulation through practice",
+      "order": 7
+    },
+    {
+      "title": "Deepening Practice",
+      "description": "Advanced techniques and longer sits",
+      "order": 8
+    },
+    {
+      "title": "Mindfulness in Daily Life",
+      "description": "Taking practice off the cushion",
+      "order": 9
+    },
+    {
+      "title": "The Meditative Life",
+      "description": "Living from presence",
+      "order": 10
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Mindfulness is best defined as:",
+        "options": [
+          "Thinking positive thoughts",
+          "Present-moment awareness with acceptance",
+          "Clearing the mind of all thoughts",
+          "Relaxation technique"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The most important factor in developing a meditation practice is:",
+        "options": [
+          "Having a quiet environment",
+          "Feeling peaceful while meditating",
+          "Consistent daily practice",
+          "Long meditation sessions"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "When thoughts arise during meditation, you should:",
+        "options": [
+          "Push them away",
+          "Analyze their meaning",
+          "Feel frustrated",
+          "Notice them and gently return to your anchor"
+        ],
+        "correctAnswer": 3
+      },
+      {
+        "question": "Working with difficult emotions in meditation involves:",
+        "options": [
+          "Avoiding negative feelings",
+          "Turning toward emotions with curiosity and acceptance",
+          "Only meditating when you feel calm",
+          "Changing how you feel"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The ultimate goal of meditation practice is:",
+        "options": [
+          "Perfect concentration",
+          "Never having negative thoughts",
+          "Transformation of how you relate to experience",
+          "Escaping ordinary life"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

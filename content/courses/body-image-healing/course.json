@@ -1,0 +1,96 @@
+{
+  "title": "Body Image Healing",
+  "description": "Developing a healthier relationship with your body beyond appearance",
+  "category": "Body",
+  "level": "Intermediate",
+  "duration": "3.5 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Understanding Body Image",
+      "description": "What body image is and how it develops",
+      "order": 1
+    },
+    {
+      "title": "Where Body Image Comes From",
+      "description": "The cultural, familial, and personal origins of body beliefs",
+      "order": 2
+    },
+    {
+      "title": "The Body Image-Behavior Connection",
+      "description": "How body image affects eating, movement, and life choices",
+      "order": 3
+    },
+    {
+      "title": "Challenging Body Beliefs",
+      "description": "Examining and questioning what you believe about bodies",
+      "order": 4
+    },
+    {
+      "title": "Building Body Respect",
+      "description": "From hatred to neutrality to respect",
+      "order": 5
+    },
+    {
+      "title": "Living Beyond Appearance",
+      "description": "Finding identity and worth outside of how you look",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Body image is primarily about:",
+        "options": [
+          "How your body actually looks",
+          "How you perceive, think, and feel about your body",
+          "Your body weight and measurements",
+          "What others think of your appearance"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which statement about body image is accurate?",
+        "options": [
+          "Changing your body will fix your body image",
+          "Only overweight people struggle with body image",
+          "Body image can be negative regardless of actual appearance",
+          "Body image is fixed and cannot change"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Body neutrality focuses on:",
+        "options": [
+          "Achieving the perfect body",
+          "Loving every aspect of your appearance",
+          "Respecting your body for what it does, not how it looks",
+          "Ignoring your body completely"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Research shows that body dissatisfaction:",
+        "options": [
+          "Motivates lasting healthy behavior change",
+          "Leads to more extreme and less sustainable behaviors",
+          "Only affects women",
+          "Decreases naturally with age"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "A healthy approach to body image includes:",
+        "options": [
+          "Constant body monitoring and checking",
+          "Avoiding mirrors entirely",
+          "Treating your body with basic respect regardless of feelings",
+          "Working harder to achieve the ideal body"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

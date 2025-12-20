@@ -1,0 +1,56 @@
+{
+  "title": "Building Authentic Confidence",
+  "description": "Developing genuine self-assurance from the inside out",
+  "category": "Flagship",
+  "level": "Advanced",
+  "duration": "12 hours",
+  "price": 197,
+  "published": true,
+  "featured": true,
+  "modules": [
+    { "title": "The Nature of True Confidence", "order": 1 },
+    { "title": "Your Confidence Profile", "order": 2 },
+    { "title": "The Roots of Self-Doubt", "order": 3 },
+    { "title": "Building Self-Worth", "order": 4 },
+    { "title": "Developing Competence", "order": 5 },
+    { "title": "The Confident Mindset", "order": 6 },
+    { "title": "Confidence in Action", "order": 7 },
+    { "title": "Social Confidence", "order": 8 },
+    { "title": "Confidence Under Pressure", "order": 9 },
+    { "title": "The Confident Life", "order": 10 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the relationship between authentic confidence and arrogance?",
+        "options": [
+          "They are the same thing expressed differently",
+          "Arrogance masks insecurity while authentic confidence is grounded in self-worth",
+          "Authentic confidence always leads to arrogance over time",
+          "Arrogance is just more extreme confidence"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Which approach builds more sustainable confidence?",
+        "options": [
+          "Focusing on external validation and achievements",
+          "Pretending to be confident until you feel it",
+          "Building internal self-worth alongside competence",
+          "Avoiding situations that make you uncomfortable"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "What role does action play in building confidence?",
+        "options": [
+          "You should wait until confident to take action",
+          "Action builds confidence through evidence of capability",
+          "Action is only helpful after confidence is established",
+          "Action has no relationship to confidence"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

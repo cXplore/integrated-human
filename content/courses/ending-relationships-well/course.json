@@ -1,0 +1,96 @@
+{
+  "title": "Ending Relationships Well",
+  "description": "Navigating breakups with clarity, kindness, and integrity",
+  "category": "Relationships",
+  "level": "Intermediate",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Knowing When to End",
+      "description": "Recognizing when a relationship should end",
+      "order": 1
+    },
+    {
+      "title": "Making the Decision",
+      "description": "Moving from ambivalence to clarity",
+      "order": 2
+    },
+    {
+      "title": "The Ending Conversation",
+      "description": "How to have the breakup conversation with care",
+      "order": 3
+    },
+    {
+      "title": "After the Breakup",
+      "description": "Navigating the immediate aftermath",
+      "order": 4
+    },
+    {
+      "title": "Grieving and Healing",
+      "description": "Processing the loss and finding yourself again",
+      "order": 5
+    },
+    {
+      "title": "Learning and Moving Forward",
+      "description": "What this relationship taught you",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Signs that a relationship may need to end include:",
+        "options": [
+          "Occasional disagreements and conflicts",
+          "Feeling consistently worse about yourself in the relationship",
+          "Finding other people attractive sometimes",
+          "Needing alone time away from your partner"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "When deciding whether to end a relationship:",
+        "options": [
+          "A single argument is sufficient reason to break up",
+          "You should ignore your feelings and focus only on practicalities",
+          "Clarity often emerges through honest reflection, not in the moment",
+          "The decision should be made impulsively to avoid overthinking"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "A respectful breakup conversation includes:",
+        "options": [
+          "Listing all their faults in detail",
+          "Being honest about your decision without being cruel",
+          "Leaving hope for reconciliation to soften the blow",
+          "Breaking up by text to avoid emotional scenes"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Immediately after a breakup, it's generally helpful to:",
+        "options": [
+          "Start dating someone new right away",
+          "Maintain frequent contact with your ex",
+          "Create space and limit contact to allow both people to adjust",
+          "Pretend nothing has changed"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "The grieving process after a breakup:",
+        "options": [
+          "Should be avoided by staying busy",
+          "Is normal and necessary, even if you initiated the breakup",
+          "Only applies to longer relationships",
+          "Means you made the wrong decision"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

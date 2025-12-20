@@ -1,0 +1,76 @@
+{
+  "title": "Perfectionism Recovery",
+  "description": "Breaking free from the perfection trap and embracing good enough",
+  "category": "Mind",
+  "level": "Intermediate",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Understanding Perfectionism",
+      "description": "What perfectionism is and how it operates",
+      "order": 1
+    },
+    {
+      "title": "The Roots of Perfectionism",
+      "description": "Where perfectionism comes from",
+      "order": 2
+    },
+    {
+      "title": "The Costs of Perfectionism",
+      "description": "What perfectionism takes from you",
+      "order": 3
+    },
+    {
+      "title": "Healthy Striving vs. Perfectionism",
+      "description": "Reclaiming excellence without self-destruction",
+      "order": 4
+    },
+    {
+      "title": "Changing Perfectionistic Patterns",
+      "description": "Practical strategies for letting go",
+      "order": 5
+    },
+    {
+      "title": "Living Beyond Perfectionism",
+      "description": "Building a sustainable relationship with effort and achievement",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is a key difference between perfectionism and healthy striving?",
+        "options": [
+          "Perfectionism aims higher",
+          "Healthy striving is motivated by growth, perfectionism by fear",
+          "There is no difference",
+          "Healthy striving doesn't involve effort"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "How does perfectionism often affect productivity?",
+        "options": [
+          "It always increases quality",
+          "It can lead to procrastination and reduced output",
+          "It has no effect",
+          "It only affects creative work"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is often at the root of perfectionism?",
+        "options": [
+          "Superior ability",
+          "Fear of not being good enough or fear of rejection",
+          "Too much success",
+          "Natural talent"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

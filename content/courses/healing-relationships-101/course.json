@@ -1,0 +1,42 @@
+{
+  "title": "Healing Relationships 101",
+  "description": "Essential foundations for healthier connections",
+  "category": "Free",
+  "level": "Beginner",
+  "duration": "2 hours",
+  "price": 0,
+  "published": true,
+  "featured": true,
+  "leadMagnet": true,
+  "leadsTo": "conscious-relationship-mastery",
+  "modules": [
+    { "title": "Understanding Relationship Patterns", "order": 1 },
+    { "title": "Communication Essentials", "order": 2 },
+    { "title": "Boundaries Basics", "order": 3 },
+    { "title": "Building Healthier Connections", "order": 4 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What are relationship patterns often based on?",
+        "options": [
+          "Random chance",
+          "Early experiences and what we learned about relationships",
+          "Genetics only",
+          "The other person's behavior entirely"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is a healthy boundary?",
+        "options": [
+          "A wall that keeps everyone out",
+          "Letting others determine your limits",
+          "A clear limit that protects your well-being while allowing connection",
+          "Telling others what to do"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

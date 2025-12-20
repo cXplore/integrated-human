@@ -1,0 +1,96 @@
+{
+  "title": "Nature Connection",
+  "description": "Rediscovering your place in the natural world",
+  "category": "Soul",
+  "level": "Beginner",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "The Severed Connection",
+      "description": "Understanding how we became disconnected from nature",
+      "order": 1
+    },
+    {
+      "title": "Why Nature Matters",
+      "description": "The physical, mental, and spiritual benefits of nature",
+      "order": 2
+    },
+    {
+      "title": "Attention in Nature",
+      "description": "Learning to truly see and perceive the natural world",
+      "order": 3
+    },
+    {
+      "title": "Practices of Connection",
+      "description": "Ways to deepen your relationship with nature",
+      "order": 4
+    },
+    {
+      "title": "Nature as Teacher",
+      "description": "What the natural world can teach us about life",
+      "order": 5
+    },
+    {
+      "title": "Living in Relationship",
+      "description": "Integrating nature connection into daily life",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "According to the course, nature disconnection is primarily caused by:",
+        "options": [
+          "Evolution making nature unnecessary",
+          "Modern life patterns separating us from the natural world",
+          "Nature becoming more dangerous",
+          "Humans outgrowing their need for nature"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Research shows that time in nature:",
+        "options": [
+          "Has no measurable health effects",
+          "Only benefits physical health, not mental",
+          "Reduces stress, improves mood, and enhances cognition",
+          "Is only beneficial for children"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "The main barrier to attention in nature is:",
+        "options": [
+          "Lack of interesting things to see",
+          "Not having enough knowledge about nature",
+          "Mental noise and habitual inattention",
+          "Poor eyesight"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Forest bathing (shinrin-yoku) emphasizes:",
+        "options": [
+          "Vigorous exercise in forests",
+          "Slow, sensory immersion in forest atmosphere",
+          "Swimming in forest streams",
+          "Collecting forest plants"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "According to the course, humans are:",
+        "options": [
+          "Separate from nature and observers of it",
+          "Part of nature, not separate from it",
+          "Superior to nature and meant to control it",
+          "No longer connected to natural systems"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

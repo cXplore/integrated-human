@@ -1,0 +1,116 @@
+{
+  "title": "Conscious Relationship Mastery",
+  "description": "Building and sustaining deeply fulfilling intimate partnerships",
+  "category": "Flagship",
+  "level": "Advanced",
+  "duration": "12 hours",
+  "price": 247,
+  "published": true,
+  "featured": true,
+  "modules": [
+    {
+      "title": "The Conscious Relationship",
+      "description": "What it means to relate consciously",
+      "order": 1
+    },
+    {
+      "title": "Know Yourself First",
+      "description": "Your patterns, wounds, and what you bring",
+      "order": 2
+    },
+    {
+      "title": "Attachment and Connection",
+      "description": "Understanding how you bond and why",
+      "order": 3
+    },
+    {
+      "title": "Communication That Connects",
+      "description": "Speaking and listening from the heart",
+      "order": 4
+    },
+    {
+      "title": "Conflict as Opportunity",
+      "description": "Turning disagreements into deeper understanding",
+      "order": 5
+    },
+    {
+      "title": "Intimacy and Vulnerability",
+      "description": "Building and maintaining deep connection",
+      "order": 6
+    },
+    {
+      "title": "Sexuality and Connection",
+      "description": "The sexual dimension of conscious relating",
+      "order": 7
+    },
+    {
+      "title": "Growth and Independence",
+      "description": "Maintaining self while in partnership",
+      "order": 8
+    },
+    {
+      "title": "Repair and Forgiveness",
+      "description": "Healing hurts and restoring trust",
+      "order": 9
+    },
+    {
+      "title": "The Long Game",
+      "description": "Sustaining love over time",
+      "order": 10
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "A conscious relationship is characterized by:",
+        "options": [
+          "Never having conflict",
+          "Awareness, intention, and ongoing growth",
+          "Perfect compatibility",
+          "Always feeling in love"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "According to the course, your relationship patterns are primarily shaped by:",
+        "options": [
+          "Current circumstances only",
+          "Early attachment experiences and family dynamics",
+          "Personality tests",
+          "Luck and chance"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The most important aspect of communication in relationships is:",
+        "options": [
+          "Always agreeing with your partner",
+          "Speaking and listening with presence and care",
+          "Winning arguments",
+          "Avoiding difficult topics"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Healthy conflict in relationships:",
+        "options": [
+          "Should never happen",
+          "Destroys relationships",
+          "Can deepen understanding and connection when handled well",
+          "Means the relationship is failing"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Sustaining love over time requires:",
+        "options": [
+          "Finding the perfect partner",
+          "Never changing",
+          "Ongoing intention, growth, and conscious effort",
+          "Avoiding all problems"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

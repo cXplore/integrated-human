@@ -1,0 +1,96 @@
+{
+  "title": "Creativity and Spirit",
+  "description": "Accessing the creative force as spiritual practice",
+  "category": "Soul",
+  "level": "Intermediate",
+  "duration": "3.5 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "The Creative Source",
+      "description": "Understanding creativity as a spiritual force",
+      "order": 1
+    },
+    {
+      "title": "Blocks and Flow",
+      "description": "What stops creativity and how to release it",
+      "order": 2
+    },
+    {
+      "title": "The Creative Process",
+      "description": "How creation happens through us",
+      "order": 3
+    },
+    {
+      "title": "Creative Practice",
+      "description": "Making creativity a regular discipline",
+      "order": 4
+    },
+    {
+      "title": "Creation as Service",
+      "description": "Creating for something beyond yourself",
+      "order": 5
+    },
+    {
+      "title": "The Creative Life",
+      "description": "Living creativity as a way of being",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "According to the course, creativity is best understood as:",
+        "options": [
+          "A talent some people have and others don't",
+          "A force that moves through us that we access",
+          "A skill that can only be learned in school",
+          "Something only for artists"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is the primary cause of creative blocks?",
+        "options": [
+          "Lack of talent",
+          "Fear in various forms",
+          "Not enough time",
+          "Insufficient training"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Flow state in creativity is characterized by:",
+        "options": [
+          "Constant self-criticism",
+          "Timelessness, absorption, and ease",
+          "Thinking about the outcome",
+          "Forcing the work"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The most effective approach to creative practice is:",
+        "options": [
+          "Waiting for inspiration to strike",
+          "Only creating when you feel like it",
+          "Regular showing up regardless of inspiration",
+          "Pushing through exhaustion"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Creation as service means:",
+        "options": [
+          "Only creating what others want",
+          "Never sharing your work",
+          "Creating for something beyond ego gratification",
+          "Giving away all your work for free"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

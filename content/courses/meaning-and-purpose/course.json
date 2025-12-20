@@ -1,0 +1,96 @@
+{
+  "title": "Meaning and Purpose",
+  "description": "Finding what matters and building a life around it",
+  "category": "Soul",
+  "level": "Intermediate",
+  "duration": "3.5 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "The Search for Meaning",
+      "description": "Why meaning matters and where it comes from",
+      "order": 1
+    },
+    {
+      "title": "Values as Compass",
+      "description": "Discovering what truly matters to you",
+      "order": 2
+    },
+    {
+      "title": "Purpose Beyond Goals",
+      "description": "The difference between goals and purpose",
+      "order": 3
+    },
+    {
+      "title": "Sources of Meaning",
+      "description": "Where humans find meaning in life",
+      "order": 4
+    },
+    {
+      "title": "Living Meaningfully",
+      "description": "Practical alignment between values and daily life",
+      "order": 5
+    },
+    {
+      "title": "When Meaning Fades",
+      "description": "Navigating existential doubt and rebuilding purpose",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Research on meaning suggests that:",
+        "options": [
+          "Only certain people are capable of finding meaning",
+          "Meaning comes from a single life purpose",
+          "Meaning can come from multiple sources and changes over time",
+          "Meaning is irrelevant to psychological wellbeing"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "The relationship between meaning and happiness is:",
+        "options": [
+          "Identical - meaning equals happiness",
+          "Opposite - meaningful lives are unhappy",
+          "Related but distinct - meaningful lives often involve difficulty alongside fulfillment",
+          "Completely unrelated"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Values differ from goals in that:",
+        "options": [
+          "Values can be achieved and completed",
+          "Values are ongoing directions while goals are achievable endpoints",
+          "Goals are more important than values",
+          "Values are assigned to you while goals are chosen"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Common sources of meaning include:",
+        "options": [
+          "Only career and achievement",
+          "Relationships, contribution, growth, and transcendence",
+          "Material possessions primarily",
+          "Status and recognition"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "When meaning fades or you experience existential doubt:",
+        "options": [
+          "You should ignore it and stay busy",
+          "It's a sign of permanent damage",
+          "It can be an invitation for reflection and potential growth",
+          "It means you've made wrong life choices"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

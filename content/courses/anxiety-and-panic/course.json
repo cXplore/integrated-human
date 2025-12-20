@@ -1,0 +1,156 @@
+{
+  "id": "anxiety-and-panic",
+  "title": "Understanding & Working with Anxiety",
+  "subtitle": "From Overwhelm to Mastery",
+  "description": "A 6-module course on understanding anxiety at its roots and developing practical skills to work with it. Learn why you're anxious, how panic works, and what actually helps—not just coping strategies, but genuine transformation.",
+  "price": 67,
+  "currency": "USD",
+  "image": "/images/courses/anxiety-and-panic.jpg",
+  "duration": "6 modules",
+  "level": "Beginner",
+  "category": "Mind",
+  "tags": ["anxiety", "panic", "nervous-system", "somatic", "stress", "healing"],
+  "instructor": "Integrated Human",
+  "modules": [
+    {
+      "id": 1,
+      "slug": "what-anxiety-actually-is",
+      "title": "What Anxiety Actually Is",
+      "description": "Understanding anxiety as a nervous system response, not a character flaw",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "your-anxiety-patterns",
+      "title": "Your Anxiety Patterns",
+      "description": "Mapping your triggers, symptoms, and coping mechanisms",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "the-anatomy-of-panic",
+      "title": "The Anatomy of Panic",
+      "description": "What happens during a panic attack and how to navigate it",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "somatic-tools-for-anxiety",
+      "title": "Somatic Tools for Anxiety",
+      "description": "Body-based practices that actually work",
+      "duration": "35 min"
+    },
+    {
+      "id": 5,
+      "slug": "working-with-anxious-thoughts",
+      "title": "Working with Anxious Thoughts",
+      "description": "Cognitive approaches that complement body work",
+      "duration": "25 min"
+    },
+    {
+      "id": 6,
+      "slug": "building-an-anxiety-practice",
+      "title": "Building an Anxiety Practice",
+      "description": "Daily habits and long-term strategies for lasting change",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand anxiety as a nervous system response, not a personal failing",
+    "Recognize your unique anxiety patterns and triggers",
+    "Navigate panic attacks without being controlled by them",
+    "Use evidence-based somatic tools to shift your state",
+    "Work with anxious thoughts effectively",
+    "Build sustainable daily practices for long-term change"
+  ],
+  "requirements": [
+    "Willingness to feel uncomfortable sensations without immediately avoiding them",
+    "A quiet space for practicing regulation techniques",
+    "Openness to body-based approaches alongside cognitive ones"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is anxiety fundamentally?",
+        "options": [
+          "A character weakness",
+          "A nervous system response to perceived threat",
+          "A chemical imbalance only",
+          "An attention-seeking behavior"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is the most effective approach for working with anxiety in the moment?",
+        "options": [
+          "Trying to think positive thoughts",
+          "Body-based (somatic) interventions",
+          "Ignoring the anxiety completely",
+          "Analyzing why you're anxious"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What happens during a panic attack?",
+        "options": [
+          "The brain is actually damaged",
+          "The sympathetic nervous system becomes highly activated",
+          "You lose control of your body",
+          "You are in real physical danger"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "Why is extended exhale breathing effective for anxiety?",
+        "options": [
+          "It distracts you from anxiety",
+          "It activates the parasympathetic nervous system",
+          "It uses up extra energy",
+          "It proves you're in control"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is 'cognitive defusion'?",
+        "options": [
+          "Getting rid of anxious thoughts",
+          "Creating distance from thoughts so you're not controlled by them",
+          "Proving anxious thoughts are wrong",
+          "Replacing negative thoughts with positive ones"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What role does avoidance play in anxiety?",
+        "options": [
+          "It's always helpful for managing symptoms",
+          "It maintains and often worsens anxiety over time",
+          "It has no effect on anxiety",
+          "It's the same as healthy boundaries"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "What is the most important long-term strategy for anxiety?",
+        "options": [
+          "Never feeling anxious again",
+          "Consistent daily practice that builds capacity over time",
+          "Avoiding all stressful situations",
+          "Taking more supplements"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "published": true,
+  "createdAt": "2024-12-19",
+  "updatedAt": "2024-12-19"
+}

@@ -1,0 +1,116 @@
+{
+  "title": "Breaking Free from Anxiety",
+  "description": "Understanding, managing, and overcoming anxiety patterns",
+  "category": "Flagship",
+  "level": "Advanced",
+  "duration": "12 hours",
+  "price": 197,
+  "published": true,
+  "featured": true,
+  "modules": [
+    {
+      "title": "Understanding Anxiety",
+      "description": "What anxiety is and how it works",
+      "order": 1
+    },
+    {
+      "title": "Your Anxiety Profile",
+      "description": "Mapping your unique anxiety patterns",
+      "order": 2
+    },
+    {
+      "title": "The Nervous System",
+      "description": "The biology of anxiety and regulation",
+      "order": 3
+    },
+    {
+      "title": "Anxious Thoughts",
+      "description": "Working with worry, rumination, and catastrophizing",
+      "order": 4
+    },
+    {
+      "title": "Physical Anxiety",
+      "description": "Body-based symptoms and somatic practices",
+      "order": 5
+    },
+    {
+      "title": "Avoidance and Safety Behaviors",
+      "description": "Breaking free from anxiety-driven patterns",
+      "order": 6
+    },
+    {
+      "title": "Building Capacity",
+      "description": "Developing tolerance for discomfort",
+      "order": 7
+    },
+    {
+      "title": "Anxiety in Relationships",
+      "description": "Social anxiety and interpersonal fear",
+      "order": 8
+    },
+    {
+      "title": "Living With Uncertainty",
+      "description": "Accepting what cannot be controlled",
+      "order": 9
+    },
+    {
+      "title": "The Anxiety-Free Life",
+      "description": "Freedom, not from anxiety, but from its grip",
+      "order": 10
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Anxiety is fundamentally:",
+        "options": [
+          "A sign of weakness",
+          "A protective response that can become overactive",
+          "Always harmful",
+          "Something that should be eliminated completely"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The nervous system's 'fight or flight' response:",
+        "options": [
+          "Is always problematic",
+          "Is designed to protect us from threat",
+          "Should never be activated",
+          "Cannot be regulated"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Avoidance behaviors typically:",
+        "options": [
+          "Cure anxiety over time",
+          "Have no effect on anxiety",
+          "Maintain and strengthen anxiety patterns",
+          "Are the best treatment for anxiety"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "The goal of anxiety work is:",
+        "options": [
+          "Never feeling anxious again",
+          "Suppressing all anxious feelings",
+          "Developing a different relationship with anxiety",
+          "Avoiding all triggers"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Living with uncertainty requires:",
+        "options": [
+          "Controlling more of life",
+          "Accepting that control is limited",
+          "Predicting the future accurately",
+          "Eliminating all risk"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

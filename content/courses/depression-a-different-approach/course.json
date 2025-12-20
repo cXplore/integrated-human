@@ -1,0 +1,76 @@
+{
+  "title": "Depression: A Different Approach",
+  "description": "Understanding and working with depression from an integrative, embodied perspective",
+  "category": "Mind",
+  "level": "Intermediate",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Understanding Depression Differently",
+      "description": "Beyond the chemical imbalance myth",
+      "order": 1
+    },
+    {
+      "title": "Depression as Signal",
+      "description": "What depression might be trying to tell you",
+      "order": 2
+    },
+    {
+      "title": "The Body in Depression",
+      "description": "Somatic approaches to depressive states",
+      "order": 3
+    },
+    {
+      "title": "Behavioral Approaches",
+      "description": "Action as antidepressant",
+      "order": 4
+    },
+    {
+      "title": "The Meaning Dimension",
+      "description": "Purpose, values, and recovery",
+      "order": 5
+    },
+    {
+      "title": "Sustainable Wellbeing",
+      "description": "Building a life that supports mental health",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is behavioral activation?",
+        "options": [
+          "Forcing yourself to feel happy",
+          "Taking action according to values regardless of mood",
+          "Avoiding activities until you feel better",
+          "Only doing things that feel enjoyable"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "How does the body relate to depression?",
+        "options": [
+          "Depression is purely mental",
+          "Exercise makes depression worse",
+          "Depression has significant physical components",
+          "Body symptoms are unrelated to mood"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "What role does meaning play in depression?",
+        "options": [
+          "Meaning is irrelevant to depression",
+          "Lack of meaning can contribute to depression",
+          "Finding meaning cures depression instantly",
+          "Meaning only matters after depression is gone"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

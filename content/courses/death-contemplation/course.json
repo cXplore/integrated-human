@@ -1,0 +1,96 @@
+{
+  "title": "Death Contemplation",
+  "description": "Using mortality awareness to live more fully",
+  "category": "Soul",
+  "level": "Advanced",
+  "duration": "3.5 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Why Think About Death",
+      "description": "The paradox of how mortality awareness enhances life",
+      "order": 1
+    },
+    {
+      "title": "Your Relationship with Death",
+      "description": "Examining how you relate to mortality",
+      "order": 2
+    },
+    {
+      "title": "Death as Teacher",
+      "description": "What mortality reveals about what matters",
+      "order": 3
+    },
+    {
+      "title": "Living in Light of Death",
+      "description": "Practical changes that mortality awareness inspires",
+      "order": 4
+    },
+    {
+      "title": "Death and Love",
+      "description": "How mortality shapes relationships and loss",
+      "order": 5
+    },
+    {
+      "title": "Befriending Mortality",
+      "description": "Moving from fear toward acceptance",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Research on mortality awareness suggests that:",
+        "options": [
+          "Thinking about death always increases anxiety",
+          "Acknowledging mortality can increase life satisfaction and meaning",
+          "People should avoid thinking about death entirely",
+          "Death contemplation is only for spiritual practitioners"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Terror Management Theory suggests that:",
+        "options": [
+          "Death anxiety has no effect on behavior",
+          "All humans share an awareness of mortality that affects many life choices",
+          "Only anxious people worry about death",
+          "Death anxiety cannot be addressed"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Death awareness can serve as a teacher by:",
+        "options": [
+          "Making all pursuits seem meaningless",
+          "Clarifying what truly matters and what is trivial",
+          "Causing permanent depression",
+          "Only affecting elderly people"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The relationship between death awareness and love is that:",
+        "options": [
+          "Love becomes less meaningful knowing it will end",
+          "Mortality awareness can deepen appreciation for loved ones",
+          "We should avoid loving to prevent grief",
+          "Death and love are completely unrelated"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Befriending mortality involves:",
+        "options": [
+          "Eliminating all fear of death",
+          "Pretending death won't happen",
+          "Moving toward acceptance while acknowledging the difficulty",
+          "Becoming depressed about life's impermanence"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "title": "Confidence Quickstart",
+  "description": "Essential foundations for building genuine self-confidence",
+  "category": "Free",
+  "level": "Beginner",
+  "duration": "2 hours",
+  "price": 0,
+  "published": true,
+  "featured": true,
+  "leadMagnet": true,
+  "leadsTo": "building-authentic-confidence",
+  "modules": [
+    { "title": "What Real Confidence Is", "order": 1 },
+    { "title": "Your Confidence Blockers", "order": 2 },
+    { "title": "Quick Confidence Techniques", "order": 3 },
+    { "title": "Building Momentum", "order": 4 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is authentic confidence based on?",
+        "options": [
+          "Always succeeding at everything",
+          "Never feeling fear or doubt",
+          "Self-worth combined with real competence",
+          "Others' approval and validation"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "What's the relationship between action and confidence?",
+        "options": [
+          "You must feel confident before taking action",
+          "Action often builds confidence through evidence",
+          "Confidence and action are unrelated",
+          "Only naturally confident people can take action"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

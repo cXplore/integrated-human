@@ -46,3 +46,9 @@ next-env.d.ts
 .vercel
 
 /lib/generated/prisma
+
+# Avatar services (large ML models and binaries)
+/services/
+/public/audio/
+/public/videos/
+/public/models/

@@ -1,0 +1,145 @@
+{
+  "id": "career-and-purpose",
+  "title": "Career & Purpose Transitions",
+  "subtitle": "When Work Stops Working",
+  "description": "A 6-module course for navigating major career transitions and finding work that aligns with who you really are. Whether you're burned out, laid off, or simply know something needs to change—this course helps you move from confusion to clarity.",
+  "price": 67,
+  "currency": "USD",
+  "image": "/images/courses/career-and-purpose.jpg",
+  "duration": "6 modules",
+  "level": "Beginner",
+  "category": "Mind",
+  "tags": ["career", "purpose", "transition", "work", "meaning", "identity", "vocation"],
+  "instructor": "Integrated Human",
+  "modules": [
+    {
+      "id": 1,
+      "slug": "when-work-stops-working",
+      "title": "When Work Stops Working",
+      "description": "Understanding the signs and honoring the transition",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "separating-identity-from-role",
+      "title": "Separating Identity from Role",
+      "description": "You are not your job title",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "finding-what-matters",
+      "title": "Finding What Matters",
+      "description": "Values, gifts, and genuine interests",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "navigating-the-transition",
+      "title": "Navigating the Transition",
+      "description": "The messy middle and how to survive it",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "building-the-new",
+      "title": "Building the New",
+      "description": "From vision to action",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "integration-and-sustainability",
+      "title": "Integration & Sustainability",
+      "description": "Creating work that sustains you long-term",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Recognize the signs that a career transition is calling",
+    "Separate your identity from your job title",
+    "Clarify your values, gifts, and genuine interests",
+    "Navigate the uncertainty of major transitions",
+    "Move from vision to concrete action",
+    "Build a sustainable relationship with work"
+  ],
+  "requirements": [
+    "Openness to questioning your current path",
+    "Willingness to sit with uncertainty",
+    "Commitment to honest self-reflection"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is often the first sign that a career transition is needed?",
+        "options": [
+          "Getting a better job offer",
+          "A persistent sense that something is wrong, even if circumstances look fine",
+          "Being fired",
+          "Making less money than peers"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Why is separating identity from role important during career transitions?",
+        "options": [
+          "To avoid paying taxes",
+          "Because losing a role can feel like losing yourself if they're fused",
+          "To impress interviewers",
+          "It's not important"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is the 'liminal space' in a transition?",
+        "options": [
+          "A physical office space",
+          "The in-between time when you're no longer who you were but not yet who you're becoming",
+          "A meditation practice",
+          "A type of career counseling"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What's the relationship between values and career satisfaction?",
+        "options": [
+          "Values don't affect career satisfaction",
+          "Work that aligns with core values tends to be more fulfilling even if less lucrative",
+          "Only salary matters",
+          "Values change based on whatever job you have"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What approach to career transition is recommended in this course?",
+        "options": [
+          "Quit immediately and figure it out later",
+          "Never take risks",
+          "A combination of inner clarity work AND practical action steps",
+          "Only focus on salary increases"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 6,
+        "question": "What is 'sustainable work'?",
+        "options": [
+          "Work in the environmental sector",
+          "Work you can do forever without burning out or losing yourself",
+          "Work with guaranteed job security",
+          "Part-time work only"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "published": true,
+  "createdAt": "2024-12-19",
+  "updatedAt": "2024-12-19"
+}

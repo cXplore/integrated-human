@@ -1,0 +1,76 @@
+{
+  "title": "Movement Fundamentals",
+  "description": "Building a solid foundation of natural, functional movement for life",
+  "category": "Body",
+  "level": "Beginner",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Why Movement Matters",
+      "description": "The case for natural, functional movement",
+      "order": 1
+    },
+    {
+      "title": "Movement Foundations",
+      "description": "The basic patterns underlying all movement",
+      "order": 2
+    },
+    {
+      "title": "Mobility and Flexibility",
+      "description": "Creating the range of motion you need",
+      "order": 3
+    },
+    {
+      "title": "Building Strength",
+      "description": "Functional strength for real life",
+      "order": 4
+    },
+    {
+      "title": "Movement as Practice",
+      "description": "Creating a sustainable movement practice",
+      "order": 5
+    },
+    {
+      "title": "Integration and Flow",
+      "description": "Bringing it all together",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What are the fundamental movement patterns?",
+        "options": [
+          "Bicep curls and bench press",
+          "Squat, hinge, push, pull, carry, rotate",
+          "Running and jumping only",
+          "Whatever feels good"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is the difference between mobility and flexibility?",
+        "options": [
+          "They're the same thing",
+          "Mobility is passive, flexibility is active",
+          "Mobility is usable range; flexibility is passive range",
+          "Flexibility is more important"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "What makes a movement practice sustainable?",
+        "options": [
+          "Maximum intensity every day",
+          "Consistency, enjoyment, and progressive challenge",
+          "Never changing the routine",
+          "Only doing what's easy"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

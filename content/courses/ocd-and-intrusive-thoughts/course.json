@@ -1,0 +1,76 @@
+{
+  "title": "OCD and Intrusive Thoughts",
+  "description": "Understanding and working with OCD patterns and intrusive thoughts from an integrative perspective",
+  "category": "Mind",
+  "level": "Intermediate",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Understanding OCD and Intrusive Thoughts",
+      "description": "What's really happening in the OCD mind",
+      "order": 1
+    },
+    {
+      "title": "The Anxiety Loop",
+      "description": "How compulsions maintain the cycle",
+      "order": 2
+    },
+    {
+      "title": "ERP Fundamentals",
+      "description": "Exposure and response prevention basics",
+      "order": 3
+    },
+    {
+      "title": "Working with Intrusive Thoughts",
+      "description": "Changing your relationship to unwanted thoughts",
+      "order": 4
+    },
+    {
+      "title": "Nervous System and OCD",
+      "description": "The somatic dimension of obsessive patterns",
+      "order": 5
+    },
+    {
+      "title": "Building a Life Beyond OCD",
+      "description": "Recovery and integration",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What maintains the OCD cycle?",
+        "options": [
+          "Intrusive thoughts themselves",
+          "Compulsions and avoidance behaviors",
+          "Having anxiety",
+          "Thinking about certain topics"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is the goal of ERP?",
+        "options": [
+          "To stop intrusive thoughts completely",
+          "To learn to tolerate anxiety without compulsions",
+          "To avoid triggering situations",
+          "To analyze why thoughts occur"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is true about intrusive thoughts?",
+        "options": [
+          "Only people with OCD have them",
+          "They indicate your true desires",
+          "Everyone has them; OCD is about the response",
+          "They should be analyzed to find meaning"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "title": "Ritual and Practice",
+  "description": "Creating meaningful structure for spiritual life",
+  "category": "Soul",
+  "level": "Beginner",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Why Ritual Matters",
+      "description": "The function and power of ritual in human life",
+      "order": 1
+    },
+    {
+      "title": "Elements of Ritual",
+      "description": "What makes ritual work",
+      "order": 2
+    },
+    {
+      "title": "Daily Practice",
+      "description": "Creating rhythm through regular practice",
+      "order": 3
+    },
+    {
+      "title": "Weekly and Seasonal Rhythms",
+      "description": "Practices that mark larger cycles",
+      "order": 4
+    },
+    {
+      "title": "Life Transitions",
+      "description": "Rituals for major life passages",
+      "order": 5
+    },
+    {
+      "title": "Creating Your Practice",
+      "description": "Designing a personal ritual life",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "According to the course, ritual primarily functions to:",
+        "options": [
+          "Please divine beings",
+          "Mark significance and create meaning through symbolic action",
+          "Follow tradition exactly as done before",
+          "Perform magic"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The most important element of effective ritual is:",
+        "options": [
+          "Elaborate ceremony",
+          "Expensive materials",
+          "Presence and intention",
+          "Large group participation"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Daily practice is most effective when:",
+        "options": [
+          "It lasts at least an hour",
+          "It is consistent and sustainable, even if brief",
+          "It is only done when inspired",
+          "It follows exactly what others do"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Seasonal rituals help us:",
+        "options": [
+          "Control the weather",
+          "Connect to natural cycles and mark time meaningfully",
+          "Avoid seasonal depression",
+          "Celebrate holidays commercially"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Transition rituals are important because:",
+        "options": [
+          "Society requires them",
+          "They help us psychologically cross from one life phase to another",
+          "They are always religious",
+          "They must follow traditional forms"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

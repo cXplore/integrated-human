@@ -1,0 +1,42 @@
+{
+  "title": "Stress Resilience Mastery",
+  "description": "Build unshakeable resilience and transform your relationship with stress",
+  "category": "Mind",
+  "level": "Intermediate",
+  "duration": "4 hours",
+  "price": 67,
+  "published": true,
+  "featured": false,
+  "modules": [
+    { "title": "Understanding Your Stress Response", "order": 1 },
+    { "title": "The Nervous System Foundation", "order": 2 },
+    { "title": "Reframing Stress as Growth", "order": 3 },
+    { "title": "Building Your Resilience Toolkit", "order": 4 },
+    { "title": "Recovery and Restoration", "order": 5 },
+    { "title": "Stress-Proofing Your Life", "order": 6 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the difference between stress and resilience?",
+        "options": [
+          "Stress is bad; resilience is good",
+          "Stress is the challenge; resilience is the capacity to recover",
+          "They are the same thing",
+          "Resilience prevents all stress"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What role does recovery play in building resilience?",
+        "options": [
+          "Recovery is optional if you're tough enough",
+          "Recovery is essential - resilience is built in the rest, not the stress",
+          "Recovery makes you weaker",
+          "Recovery only matters for physical stress"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

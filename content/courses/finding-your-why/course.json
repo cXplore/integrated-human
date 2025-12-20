@@ -1,0 +1,42 @@
+{
+  "title": "Finding Your Why",
+  "description": "A brief introduction to discovering meaning and purpose in your life",
+  "category": "Free",
+  "level": "Beginner",
+  "duration": "2 hours",
+  "price": 0,
+  "published": true,
+  "featured": true,
+  "leadMagnet": true,
+  "leadsTo": "life-purpose-discovery",
+  "modules": [
+    { "title": "Why Purpose Matters", "order": 1 },
+    { "title": "Clues from Your Life", "order": 2 },
+    { "title": "Values and Meaning", "order": 3 },
+    { "title": "Taking the First Steps", "order": 4 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is purpose NOT?",
+        "options": [
+          "A sense of direction",
+          "A single perfect career or role you must find",
+          "Something that gives life meaning",
+          "Connected to contribution"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Where are clues to purpose often found?",
+        "options": [
+          "In what others think you should do",
+          "In random chance",
+          "In your history, passions, and what comes naturally",
+          "Purpose can't be discovered through clues"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

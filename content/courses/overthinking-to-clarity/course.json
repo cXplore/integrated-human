@@ -1,0 +1,42 @@
+{
+  "title": "Overthinking to Clarity",
+  "description": "Break free from mental loops and find peace of mind",
+  "category": "Mind",
+  "level": "Intermediate",
+  "duration": "4 hours",
+  "price": 67,
+  "published": true,
+  "featured": false,
+  "modules": [
+    { "title": "Understanding Your Overthinking", "order": 1 },
+    { "title": "The Anxiety-Overthinking Loop", "order": 2 },
+    { "title": "Thought Defusion Techniques", "order": 3 },
+    { "title": "Decision-Making Without Paralysis", "order": 4 },
+    { "title": "Present Moment Anchoring", "order": 5 },
+    { "title": "Building a Quieter Mind", "order": 6 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the core problem with overthinking?",
+        "options": [
+          "Thinking too much",
+          "Repetitive thinking that doesn't lead to resolution",
+          "Having too many ideas",
+          "Being too intelligent"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is thought defusion?",
+        "options": [
+          "Stopping all thoughts",
+          "Creating distance between you and your thoughts",
+          "Only thinking positive thoughts",
+          "Analyzing thoughts more deeply"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "id": "codependency-recovery",
+  "title": "Codependency Recovery",
+  "subtitle": "Finding Yourself After Losing Yourself in Others",
+  "description": "A 6-module course on understanding and healing codependency. Learn what codependency actually is, where it comes from, how to recognize your patterns, and how to build a self that doesn't disappear in relationships.",
+  "price": 67,
+  "currency": "USD",
+  "image": "/images/courses/codependency-recovery.jpg",
+  "duration": "6 modules",
+  "level": "Beginner",
+  "category": "Relationships",
+  "tags": ["codependency", "relationships", "boundaries", "self-worth", "attachment", "healing"],
+  "instructor": "Integrated Human",
+  "modules": [
+    {
+      "id": 1,
+      "slug": "what-codependency-actually-is",
+      "title": "What Codependency Actually Is",
+      "description": "Beyond the buzzword—understanding the real pattern",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "the-roots-of-codependency",
+      "title": "The Roots of Codependency",
+      "description": "How childhood experiences create the codependent pattern",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "recognizing-your-patterns",
+      "title": "Recognizing Your Patterns",
+      "description": "Mapping your specific codependent behaviors and beliefs",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "building-a-self",
+      "title": "Building a Self",
+      "description": "Developing identity, boundaries, and internal validation",
+      "duration": "35 min"
+    },
+    {
+      "id": 5,
+      "slug": "relationships-after-codependency",
+      "title": "Relationships After Codependency",
+      "description": "Creating healthy connection without losing yourself",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "sustaining-recovery",
+      "title": "Sustaining Recovery",
+      "description": "Long-term practices for maintaining your sense of self",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand what codependency actually is (beyond the stereotypes)",
+    "Recognize how your childhood created codependent patterns",
+    "Identify your specific codependent behaviors and beliefs",
+    "Build a solid sense of self that doesn't disappear in relationships",
+    "Create healthy relationships without losing yourself",
+    "Develop sustainable practices for ongoing recovery"
+  ],
+  "requirements": [
+    "Willingness to look honestly at your relationship patterns",
+    "Openness to exploring childhood experiences",
+    "Commitment to practicing new behaviors"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is codependency at its core?",
+        "options": [
+          "Being too nice to people",
+          "A pattern of organizing your identity and worth around others",
+          "Helping others too much",
+          "Being in a relationship with an addict"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Where does codependency typically originate?",
+        "options": [
+          "Adult relationships",
+          "Genetic factors only",
+          "Childhood experiences where needs weren't met or selfhood wasn't supported",
+          "Random chance"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 3,
+        "question": "What is 'external referencing'?",
+        "options": [
+          "Looking things up online",
+          "Asking others for directions",
+          "Looking to others to know what you feel, want, or should do",
+          "Reading body language"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 4,
+        "question": "What is the difference between caretaking and caregiving?",
+        "options": [
+          "There is no difference",
+          "Caregiving is doing for others what they can't do; caretaking is doing for others what they can and should do for themselves",
+          "Caretaking is professional; caregiving is personal",
+          "Caregiving is for children; caretaking is for adults"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is 'differentiation' in the context of codependency recovery?",
+        "options": [
+          "Being different from everyone else",
+          "The ability to maintain your sense of self while in close relationship with others",
+          "Keeping secrets from your partner",
+          "Disagreeing with everything others say"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "Why might a codependent person feel anxious when their partner is happy without them?",
+        "options": [
+          "They're naturally jealous",
+          "They're bad people",
+          "Their sense of worth is tied to being needed",
+          "They don't love their partner"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 7,
+        "question": "What is a key component of building a solid self?",
+        "options": [
+          "Never needing anyone",
+          "Becoming selfish",
+          "Developing internal validation rather than relying solely on external validation",
+          "Ending all relationships"
+        ],
+        "correctIndex": 2
+      }
+    ]
+  },
+  "published": true,
+  "createdAt": "2024-12-19",
+  "updatedAt": "2024-12-19"
+}

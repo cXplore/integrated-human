@@ -1,0 +1,96 @@
+{
+  "title": "Conflict as Connection",
+  "description": "Transforming disagreements into opportunities for deeper understanding",
+  "category": "Relationships",
+  "level": "Intermediate",
+  "duration": "3.5 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Rethinking Conflict",
+      "description": "Why conflict isn't the enemy of connection",
+      "order": 1
+    },
+    {
+      "title": "Your Conflict Style",
+      "description": "Understanding how you handle disagreement",
+      "order": 2
+    },
+    {
+      "title": "What's Really Happening in Conflict",
+      "description": "The deeper needs beneath the surface issue",
+      "order": 3
+    },
+    {
+      "title": "Fighting Fair",
+      "description": "Ground rules for productive disagreement",
+      "order": 4
+    },
+    {
+      "title": "Communication Tools",
+      "description": "Skills for navigating difficult conversations",
+      "order": 5
+    },
+    {
+      "title": "Repair and Reconnection",
+      "description": "Coming back together after conflict",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "In healthy relationships, conflict:",
+        "options": [
+          "Should never happen",
+          "Indicates incompatibility",
+          "Is inevitable and can strengthen connection when handled well",
+          "Always damages the relationship"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "The 'Four Horsemen' that predict relationship failure include:",
+        "options": [
+          "Disagreement, debate, discussion, and dialogue",
+          "Criticism, contempt, defensiveness, and stonewalling",
+          "Honesty, vulnerability, emotion, and intensity",
+          "Conflict, anger, sadness, and frustration"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Beneath surface conflicts, partners are often fighting about:",
+        "options": [
+          "Who is right and who is wrong",
+          "Deeper needs like connection, respect, or security",
+          "Money and household tasks exclusively",
+          "Problems that have no solution"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "A 'soft startup' in conflict means:",
+        "options": [
+          "Avoiding the issue entirely",
+          "Starting gently with 'I' statements rather than blame",
+          "Speaking so quietly the other person can't hear",
+          "Never expressing negative emotions"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Repair in relationships:",
+        "options": [
+          "Happens automatically after time passes",
+          "Requires someone admitting they were completely wrong",
+          "Is an active process of reconnecting after rupture",
+          "Isn't necessary if the conflict was resolved"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

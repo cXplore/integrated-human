@@ -1,0 +1,119 @@
+{
+  "title": "Money & Worth",
+  "slug": "money-and-worth",
+  "description": "Heal your relationship with money by addressing the deeper issues of self-worth, family patterns, and inherited beliefs.",
+  "instructor": "Integrated Human",
+  "duration": "3-4 weeks",
+  "level": "Intermediate",
+  "category": "Soul",
+  "featured": false,
+  "price": 67,
+  "curriculum": [
+    "Understanding your emotional relationship with money",
+    "Uncovering inherited money patterns and beliefs",
+    "Separating self-worth from net worth",
+    "Healing money wounds and scarcity consciousness",
+    "Building a conscious relationship with money",
+    "Integrating worth and abundance sustainably"
+  ],
+  "outcomes": [
+    "Understand the emotional roots of money patterns",
+    "Identify inherited beliefs about money and worth",
+    "Separate financial status from self-worth",
+    "Heal money wounds and scarcity patterns",
+    "Develop a conscious, healthy money relationship",
+    "Build sustainable financial wellbeing from self-worth"
+  ],
+  "modules": [
+    {
+      "title": "Your Money Story",
+      "slug": "01-your-money-story",
+      "description": "Understanding your emotional relationship with money"
+    },
+    {
+      "title": "Inherited Money Patterns",
+      "slug": "02-inherited-money-patterns",
+      "description": "What you learned about money from family"
+    },
+    {
+      "title": "Worth and Net Worth",
+      "slug": "03-worth-and-net-worth",
+      "description": "Separating who you are from what you have"
+    },
+    {
+      "title": "Money Wounds",
+      "slug": "04-money-wounds",
+      "description": "Healing scarcity, shame, and fear"
+    },
+    {
+      "title": "Conscious Money Relationship",
+      "slug": "05-conscious-money-relationship",
+      "description": "Building healthy money practices"
+    },
+    {
+      "title": "Integration and Abundance",
+      "slug": "06-integration-and-abundance",
+      "description": "Sustainable financial wellbeing from the inside out"
+    }
+  ],
+  "requirements": [
+    "Willingness to examine emotional relationship with money",
+    "Openness to looking at family money patterns",
+    "Some financial stability (not in acute crisis)"
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the main insight about money patterns?",
+        "options": [
+          "Money is purely logical and emotions don't matter",
+          "Our relationship with money is deeply emotional and often inherited",
+          "Everyone should have the same money values",
+          "Financial problems are always about income"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is scarcity consciousness?",
+        "options": [
+          "A healthy awareness of limited resources",
+          "A mindset where there's never enough, regardless of actual resources",
+          "Being smart about spending",
+          "A financial planning strategy"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Why is separating worth from net worth important?",
+        "options": [
+          "It helps you ignore financial realities",
+          "Rich people are always worthy, poor people aren't",
+          "Your value as a person isn't determined by money",
+          "Net worth doesn't matter at all"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "How do family money patterns typically get transmitted?",
+        "options": [
+          "Primarily through formal financial education",
+          "Through observation, atmosphere, and implicit learning",
+          "They don't get transmitted at all",
+          "Only through inheritance"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is a conscious relationship with money?",
+        "options": [
+          "Never thinking about money",
+          "Being obsessed with money",
+          "Aware, intentional engagement with money aligned to values",
+          "Avoiding all spending"
+        ],
+        "correctAnswer": 2
+      }
+    ],
+    "passingScore": 60
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "title": "Chronic Pain and the Mind",
+  "description": "Understanding the mind-body connection in chronic pain and finding paths to relief",
+  "category": "Body",
+  "level": "Intermediate",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Understanding Chronic Pain",
+      "description": "What chronic pain actually is and how it differs from acute pain",
+      "order": 1
+    },
+    {
+      "title": "The Nervous System in Pain",
+      "description": "How your nervous system creates and maintains pain",
+      "order": 2
+    },
+    {
+      "title": "The Mind-Pain Connection",
+      "description": "Emotions, stress, and their role in chronic pain",
+      "order": 3
+    },
+    {
+      "title": "Working with Pain",
+      "description": "Evidence-based approaches to chronic pain management",
+      "order": 4
+    },
+    {
+      "title": "Movement and Pain",
+      "description": "Safe, gradual return to movement",
+      "order": 5
+    },
+    {
+      "title": "Living Well with Pain",
+      "description": "Building a full life alongside chronic pain",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is chronic pain primarily a result of?",
+        "options": [
+          "Ongoing tissue damage",
+          "A sensitized nervous system",
+          "Psychological weakness",
+          "Aging"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Why is gentle movement often helpful for chronic pain?",
+        "options": [
+          "It fixes the underlying damage",
+          "It helps retrain the nervous system and reduces fear",
+          "It distracts from pain",
+          "It builds muscle to protect against injury"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What role do emotions play in chronic pain?",
+        "options": [
+          "They are irrelevant to physical pain",
+          "They can amplify or reduce pain signals",
+          "They only affect acute pain",
+          "They cause all chronic pain"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

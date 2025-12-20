@@ -1,0 +1,42 @@
+{
+  "title": "Self-Worth Foundations",
+  "description": "Discover the roots of your self-worth and begin building unshakeable value",
+  "category": "Free",
+  "level": "Beginner",
+  "duration": "2 hours",
+  "price": 0,
+  "published": true,
+  "featured": true,
+  "leadMagnet": true,
+  "leadsTo": "the-integrated-self",
+  "modules": [
+    { "title": "Understanding Your Worth", "order": 1 },
+    { "title": "Where Self-Worth Comes From", "order": 2 },
+    { "title": "Common Self-Worth Wounds", "order": 3 },
+    { "title": "Beginning to Rebuild", "order": 4 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is self-worth truly based on?",
+        "options": [
+          "Your achievements and accomplishments",
+          "What others think of you",
+          "Your inherent value as a human being",
+          "How you compare to others"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Where do most self-worth issues originate?",
+        "options": [
+          "Adult experiences only",
+          "Genetic factors only",
+          "Early experiences and messages received",
+          "Random chance"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "title": "Mastering Your Emotions",
+  "description": "A comprehensive guide to emotional intelligence, regulation, and freedom",
+  "category": "Flagship",
+  "level": "Advanced",
+  "duration": "10 hours",
+  "price": 197,
+  "published": true,
+  "featured": true,
+  "modules": [
+    {
+      "title": "Understanding Emotions",
+      "description": "What emotions are and how they work",
+      "order": 1
+    },
+    {
+      "title": "Your Emotional Landscape",
+      "description": "Mapping your unique emotional patterns",
+      "order": 2
+    },
+    {
+      "title": "The Nervous System Foundation",
+      "description": "How your body creates emotional experience",
+      "order": 3
+    },
+    {
+      "title": "Emotional Awareness",
+      "description": "Developing the capacity to know what you feel",
+      "order": 4
+    },
+    {
+      "title": "Emotional Regulation",
+      "description": "Managing intensity without suppression",
+      "order": 5
+    },
+    {
+      "title": "Working With Difficult Emotions",
+      "description": "Anger, fear, shame, grief, and more",
+      "order": 6
+    },
+    {
+      "title": "Emotional Expression",
+      "description": "Communicating feelings authentically",
+      "order": 7
+    },
+    {
+      "title": "Emotions in Relationships",
+      "description": "Navigating feelings with others",
+      "order": 8
+    },
+    {
+      "title": "Emotional Freedom",
+      "description": "Moving beyond reactivity to choice",
+      "order": 9
+    },
+    {
+      "title": "Living Emotionally Intelligent",
+      "description": "Integrating emotional mastery into daily life",
+      "order": 10
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "According to the course, emotions are best understood as:",
+        "options": [
+          "Problems to be solved",
+          "Weaknesses to overcome",
+          "Information and energy that serve adaptive purposes",
+          "Things that should be suppressed"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "The nervous system's role in emotions is:",
+        "options": [
+          "Minimal and unimportant",
+          "Foundational to all emotional experience",
+          "Only relevant for negative emotions",
+          "Something we cannot influence"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Emotional regulation means:",
+        "options": [
+          "Suppressing all strong emotions",
+          "Never feeling negative emotions",
+          "Managing intensity while still feeling fully",
+          "Controlling others' emotions"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Emotional expression in relationships should be:",
+        "options": [
+          "Avoided to prevent conflict",
+          "Unfiltered and spontaneous always",
+          "Authentic yet appropriate to context",
+          "Only positive"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Emotional freedom is characterized by:",
+        "options": [
+          "Never having emotions",
+          "Controlling all emotions perfectly",
+          "Choice in how to respond to emotional experience",
+          "Only having positive emotions"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

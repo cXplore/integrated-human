@@ -1,0 +1,42 @@
+{
+  "title": "Introduction to Emotional Intelligence",
+  "description": "Discover the fundamentals of understanding and managing your emotions",
+  "category": "Free",
+  "level": "Beginner",
+  "duration": "2 hours",
+  "price": 0,
+  "published": true,
+  "featured": true,
+  "leadMagnet": true,
+  "leadsTo": "mastering-your-emotions",
+  "modules": [
+    { "title": "What Is Emotional Intelligence?", "order": 1 },
+    { "title": "Recognizing Your Emotions", "order": 2 },
+    { "title": "Understanding Emotional Triggers", "order": 3 },
+    { "title": "Your First Steps to Emotional Mastery", "order": 4 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What are the core components of emotional intelligence?",
+        "options": [
+          "Intelligence, emotion, and logic",
+          "Self-awareness, self-regulation, empathy, and social skills",
+          "Happiness, sadness, anger, and fear",
+          "Thinking, feeling, and acting"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Why is recognizing emotions important?",
+        "options": [
+          "So you can suppress them more effectively",
+          "Because emotions are always correct",
+          "Because you can't manage what you don't notice",
+          "It's not actually important"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

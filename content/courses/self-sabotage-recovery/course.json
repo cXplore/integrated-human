@@ -1,0 +1,42 @@
+{
+  "title": "Self-Sabotage Recovery",
+  "description": "Stop undermining yourself and step into your full potential",
+  "category": "Mind",
+  "level": "Intermediate",
+  "duration": "4 hours",
+  "price": 67,
+  "published": true,
+  "featured": false,
+  "modules": [
+    { "title": "Understanding Self-Sabotage", "order": 1 },
+    { "title": "The Hidden Logic of Self-Destruction", "order": 2 },
+    { "title": "Common Sabotage Patterns", "order": 3 },
+    { "title": "Working with Your Inner Saboteur", "order": 4 },
+    { "title": "Building Self-Trust", "order": 5 },
+    { "title": "Creating Sustainable Change", "order": 6 }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Why does self-sabotage often happen?",
+        "options": [
+          "Because we want to fail",
+          "Because we're lazy",
+          "Because a part of us believes sabotage serves a protective purpose",
+          "Because of bad luck"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "What is the most effective approach to self-sabotage?",
+        "options": [
+          "Using more willpower to push through",
+          "Understanding and working with the protective part that sabotages",
+          "Ignoring it and hoping it goes away",
+          "Punishing yourself when you sabotage"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "title": "Friendship in Adulthood",
+  "description": "Building and maintaining meaningful friendships as a grown-up",
+  "category": "Relationships",
+  "level": "Beginner",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Why Friendship Is Hard Now",
+      "description": "Understanding the unique challenges of adult friendship",
+      "order": 1
+    },
+    {
+      "title": "What You Need from Friends",
+      "description": "Identifying your friendship needs and values",
+      "order": 2
+    },
+    {
+      "title": "Making New Friends",
+      "description": "Practical strategies for meeting and connecting with people",
+      "order": 3
+    },
+    {
+      "title": "Deepening Friendships",
+      "description": "Moving from acquaintance to true friend",
+      "order": 4
+    },
+    {
+      "title": "Maintaining Friendships",
+      "description": "Keeping friendships alive across distance and time",
+      "order": 5
+    },
+    {
+      "title": "Difficult Friendship Situations",
+      "description": "Navigating conflict, distance, and endings",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Adult friendships are often harder to form because:",
+        "options": [
+          "Adults are less friendly than children",
+          "Life structures like school no longer provide automatic repeated contact",
+          "People become incapable of friendship after age 25",
+          "Social media has replaced all in-person connection"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Research on friendship shows that close friendships typically require:",
+        "options": [
+          "Sharing the same political views",
+          "Having known each other since childhood",
+          "Accumulated hours of quality time together",
+          "Similar income levels"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Moving from acquaintance to friend typically involves:",
+        "options": [
+          "Immediately sharing your deepest secrets",
+          "Gradual vulnerability and repeated positive interactions",
+          "Sending friend requests on all platforms",
+          "Waiting for them to make all the moves"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Maintaining long-distance friendships requires:",
+        "options": [
+          "Daily communication or it's not a real friendship",
+          "Intentional effort and accepting that frequency may decrease",
+          "One person doing all the work",
+          "Never discussing difficult topics"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "When a friendship becomes one-sided:",
+        "options": [
+          "You should immediately end it",
+          "It's always your fault",
+          "Having a direct conversation about it is often the healthiest approach",
+          "You should never bring it up"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

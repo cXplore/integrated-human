@@ -1,0 +1,96 @@
+{
+  "title": "Intimacy After Trauma",
+  "description": "Rebuilding closeness when the past affects the present",
+  "category": "Relationships",
+  "level": "Advanced",
+  "duration": "4 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "How Trauma Affects Intimacy",
+      "description": "Understanding the connection between past wounds and present closeness",
+      "order": 1
+    },
+    {
+      "title": "Safety First",
+      "description": "Building the foundation of felt safety in relationship",
+      "order": 2
+    },
+    {
+      "title": "Triggers and Responses",
+      "description": "Understanding and navigating trauma triggers in intimate moments",
+      "order": 3
+    },
+    {
+      "title": "Rebuilding Trust",
+      "description": "Creating safety through consistent, trustworthy connection",
+      "order": 4
+    },
+    {
+      "title": "Physical Intimacy and Trauma",
+      "description": "Approaching physical closeness with awareness and care",
+      "order": 5
+    },
+    {
+      "title": "Growing Together",
+      "description": "Supporting healing while building connection",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Trauma affects intimacy primarily because:",
+        "options": [
+          "Trauma survivors don't want relationships",
+          "Closeness can trigger survival responses learned from past danger",
+          "Trauma permanently prevents intimate connection",
+          "Trauma only affects physical intimacy, not emotional"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The foundation for intimacy after trauma is:",
+        "options": [
+          "Pushing through discomfort quickly",
+          "Avoiding all triggering situations",
+          "Felt safety in the body and relationship",
+          "Forgetting about the past"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "When a trauma survivor is triggered during intimacy, the most helpful response is:",
+        "options": [
+          "Continue to show them there's nothing to fear",
+          "Stop, provide safety, and let them regulate",
+          "Avoid physical contact in the future",
+          "Analyze what went wrong immediately"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Rebuilding trust after trauma involves:",
+        "options": [
+          "Grand gestures of love",
+          "Consistent, predictable, safe behavior over time",
+          "Promising to never hurt them",
+          "Proving the past won't happen again"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "A partner supporting a trauma survivor should:",
+        "options": [
+          "Fix their partner's trauma",
+          "Always put their own needs last",
+          "Provide support while maintaining their own boundaries and wellbeing",
+          "Avoid any topic related to the trauma"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

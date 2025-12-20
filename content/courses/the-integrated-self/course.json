@@ -1,0 +1,116 @@
+{
+  "title": "The Integrated Self",
+  "description": "A comprehensive journey to wholeness across mind, body, relationships, and soul",
+  "category": "Flagship",
+  "level": "Advanced",
+  "duration": "12 hours",
+  "price": 197,
+  "published": true,
+  "featured": true,
+  "modules": [
+    {
+      "title": "The Case for Integration",
+      "description": "Understanding fragmentation and the path to wholeness",
+      "order": 1
+    },
+    {
+      "title": "Mapping Your Fragments",
+      "description": "Discovering the parts of yourself that have split off",
+      "order": 2
+    },
+    {
+      "title": "The Mind Dimension",
+      "description": "Integrating thoughts, beliefs, and mental patterns",
+      "order": 3
+    },
+    {
+      "title": "The Body Dimension",
+      "description": "Reconnecting with embodied experience",
+      "order": 4
+    },
+    {
+      "title": "The Emotional Dimension",
+      "description": "Welcoming the full range of feeling",
+      "order": 5
+    },
+    {
+      "title": "The Shadow Dimension",
+      "description": "Reclaiming what you've rejected about yourself",
+      "order": 6
+    },
+    {
+      "title": "The Relational Dimension",
+      "description": "Integration in connection with others",
+      "order": 7
+    },
+    {
+      "title": "The Soul Dimension",
+      "description": "Connecting to meaning, purpose, and the transcendent",
+      "order": 8
+    },
+    {
+      "title": "Integration Practices",
+      "description": "Daily practices for ongoing wholeness",
+      "order": 9
+    },
+    {
+      "title": "Living Integrated",
+      "description": "Bringing integration into every area of life",
+      "order": 10
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "According to the course, fragmentation primarily results from:",
+        "options": [
+          "Genetic factors",
+          "Adaptive responses to pain, trauma, and social pressure",
+          "Lack of education",
+          "Modern technology"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The shadow contains:",
+        "options": [
+          "Only negative qualities",
+          "Only positive qualities",
+          "Both rejected positive and negative aspects of self",
+          "Nothing of value"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Integration is best understood as:",
+        "options": [
+          "A destination you reach once",
+          "Eliminating unwanted parts of yourself",
+          "An ongoing process of welcoming and connecting",
+          "Becoming perfect"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "The body dimension of integration involves:",
+        "options": [
+          "Achieving physical perfection",
+          "Ignoring physical sensations",
+          "Reconnecting with embodied experience and sensation",
+          "Only exercise and nutrition"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Relational integration means:",
+        "options": [
+          "Being the same with everyone",
+          "Never having conflict",
+          "Showing up authentically while remaining connected",
+          "Avoiding difficult relationships"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

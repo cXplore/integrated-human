@@ -1,0 +1,116 @@
+{
+  "title": "The Art of Self-Discipline",
+  "description": "Building willpower, habits, and the capacity to follow through",
+  "category": "Flagship",
+  "level": "Advanced",
+  "duration": "12 hours",
+  "price": 197,
+  "published": true,
+  "featured": true,
+  "modules": [
+    {
+      "title": "Understanding Self-Discipline",
+      "description": "What discipline really is and why it matters",
+      "order": 1
+    },
+    {
+      "title": "The Willpower Reality",
+      "description": "How willpower works and its limitations",
+      "order": 2
+    },
+    {
+      "title": "Your Discipline Profile",
+      "description": "Mapping where you succeed and struggle",
+      "order": 3
+    },
+    {
+      "title": "The Science of Habits",
+      "description": "Building automatic behaviors that serve you",
+      "order": 4
+    },
+    {
+      "title": "Environment Design",
+      "description": "Shaping your surroundings for success",
+      "order": 5
+    },
+    {
+      "title": "Overcoming Resistance",
+      "description": "Working with procrastination and avoidance",
+      "order": 6
+    },
+    {
+      "title": "Motivation and Meaning",
+      "description": "Connecting discipline to what matters",
+      "order": 7
+    },
+    {
+      "title": "Systems Over Goals",
+      "description": "Building reliable structures for follow-through",
+      "order": 8
+    },
+    {
+      "title": "Recovery and Resilience",
+      "description": "Bouncing back from failures and setbacks",
+      "order": 9
+    },
+    {
+      "title": "The Disciplined Life",
+      "description": "Living with integrity and freedom",
+      "order": 10
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Self-discipline is best understood as:",
+        "options": [
+          "Forcing yourself to do things you hate",
+          "The capacity to act according to your values despite short-term discomfort",
+          "Never having fun",
+          "Punishing yourself for failures"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Willpower is:",
+        "options": [
+          "Unlimited and always available",
+          "A limited resource that depletes with use",
+          "Something you either have or don't",
+          "Not real"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The most effective approach to lasting behavior change is:",
+        "options": [
+          "Relying purely on willpower",
+          "Setting bigger goals",
+          "Building habits and systems that automate good behavior",
+          "Punishing yourself for slip-ups"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Environment design works because:",
+        "options": [
+          "It removes the need for willpower by making good choices easier",
+          "It punishes bad behavior",
+          "It makes everything harder",
+          "It forces you to be disciplined"
+        ],
+        "correctAnswer": 0
+      },
+      {
+        "question": "When you fail at discipline:",
+        "options": [
+          "You should give up",
+          "It proves you lack character",
+          "Learn from it, adjust, and continue",
+          "Punish yourself severely"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

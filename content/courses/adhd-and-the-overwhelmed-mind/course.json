@@ -1,0 +1,76 @@
+{
+  "title": "ADHD and the Overwhelmed Mind",
+  "description": "Understanding and working with ADHD from an integrative, compassionate perspective",
+  "category": "Mind",
+  "level": "Intermediate",
+  "duration": "3 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "modules": [
+    {
+      "title": "Understanding ADHD",
+      "description": "What ADHD actually is—and isn't",
+      "order": 1
+    },
+    {
+      "title": "The ADHD Brain",
+      "description": "How the ADHD mind works differently",
+      "order": 2
+    },
+    {
+      "title": "Executive Function Strategies",
+      "description": "Practical approaches for getting things done",
+      "order": 3
+    },
+    {
+      "title": "Emotional Regulation",
+      "description": "Working with ADHD's emotional intensity",
+      "order": 4
+    },
+    {
+      "title": "Building ADHD-Friendly Systems",
+      "description": "Designing life to work with your brain",
+      "order": 5
+    },
+    {
+      "title": "Integration and Thriving",
+      "description": "Living fully with an ADHD brain",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is ADHD primarily a disorder of?",
+        "options": [
+          "Willpower and laziness",
+          "Intelligence and capability",
+          "Executive function and self-regulation",
+          "Personality and character"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Why do external systems help with ADHD?",
+        "options": [
+          "They make up for character deficits",
+          "They externalize what the ADHD brain struggles to internalize",
+          "They are unnecessary if you try hard enough",
+          "They only help children, not adults"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is true about ADHD and emotions?",
+        "options": [
+          "ADHD doesn't affect emotions",
+          "Emotional dysregulation is a core feature of ADHD",
+          "People with ADHD should suppress emotions",
+          "Emotions only matter for the hyperactive type"
+        ],
+        "correctAnswer": 1
+      }
+    ]
+  }
+}

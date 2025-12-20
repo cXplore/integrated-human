@@ -19,7 +19,7 @@ export default function CoursesPage() {
     return acc;
   }, {} as Record<string, typeof courses>);
 
-  const categories = ['Flagship', 'Mind', 'Body', 'Soul', 'Relationships'];
+  const categories = ['Free', 'Flagship', 'Mind', 'Body', 'Soul', 'Relationships'];
 
   return (
     <>
@@ -87,6 +87,7 @@ export default function CoursesPage() {
                   <div className="max-w-6xl mx-auto">
                     <h2 className="font-serif text-2xl text-white mb-8 flex items-center gap-3">
                       <span className="w-8 h-8 flex items-center justify-center bg-zinc-800 text-lg">
+                        {category === 'Free' && '🎁'}
                         {category === 'Flagship' && '⭐'}
                         {category === 'Mind' && '🧠'}
                         {category === 'Body' && '💪'}

@@ -1,0 +1,116 @@
+{
+  "title": "Healing the Inner Child",
+  "description": "A deep journey to heal childhood wounds and reclaim your whole self",
+  "category": "Flagship",
+  "level": "Advanced",
+  "duration": "10 hours",
+  "price": 197,
+  "published": true,
+  "featured": true,
+  "modules": [
+    {
+      "title": "Understanding the Inner Child",
+      "description": "What the inner child is and why it matters",
+      "order": 1
+    },
+    {
+      "title": "Your Childhood Story",
+      "description": "Remembering and understanding what happened",
+      "order": 2
+    },
+    {
+      "title": "Childhood Wounds",
+      "description": "Identifying the injuries that still affect you",
+      "order": 3
+    },
+    {
+      "title": "Unmet Needs",
+      "description": "What you needed but didn't get",
+      "order": 4
+    },
+    {
+      "title": "How Wounds Show Up Now",
+      "description": "Present-day patterns rooted in childhood",
+      "order": 5
+    },
+    {
+      "title": "Meeting Your Inner Child",
+      "description": "Developing a relationship with your younger self",
+      "order": 6
+    },
+    {
+      "title": "Reparenting Yourself",
+      "description": "Giving yourself what you needed then",
+      "order": 7
+    },
+    {
+      "title": "Healing the Wounds",
+      "description": "Processing pain and releasing what no longer serves",
+      "order": 8
+    },
+    {
+      "title": "Reclaiming Joy and Play",
+      "description": "Recovering the aliveness that was lost",
+      "order": 9
+    },
+    {
+      "title": "Living as a Whole Adult",
+      "description": "Integrating inner child work into daily life",
+      "order": 10
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "The inner child represents:",
+        "options": [
+          "A literal child inside you",
+          "The part of you that remains from childhood, carrying memories and wounds",
+          "Only negative childhood experiences",
+          "Something that disappears in adulthood"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Childhood wounds continue to affect us because:",
+        "options": [
+          "We refuse to grow up",
+          "We consciously choose to stay wounded",
+          "Unprocessed experiences remain active in our psyche",
+          "Adults never change"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Reparenting yourself means:",
+        "options": [
+          "Blaming your parents",
+          "Becoming a literal parent",
+          "Learning to give yourself what you needed as a child",
+          "Ignoring your inner child"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Inner child healing is blocked by:",
+        "options": [
+          "Too much self-compassion",
+          "Denial of pain or minimizing childhood experiences",
+          "Excessive self-care",
+          "Being too happy"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "The goal of inner child work is:",
+        "options": [
+          "Remaining childlike forever",
+          "Eliminating the inner child",
+          "Integration of wounded parts to live as a whole adult",
+          "Perfect recall of childhood"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}

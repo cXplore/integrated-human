@@ -1,0 +1,119 @@
+{
+  "title": "Family Systems Healing",
+  "slug": "family-systems-healing",
+  "description": "Understand your role in family dynamics and free yourself from inherited patterns while maintaining connection.",
+  "instructor": "Integrated Human",
+  "duration": "3-4 weeks",
+  "level": "Intermediate",
+  "category": "Relationships",
+  "featured": false,
+  "price": 67,
+  "curriculum": [
+    "Understanding family systems theory and dynamics",
+    "Identifying your role and function in the family",
+    "Recognizing intergenerational patterns and legacies",
+    "Developing differentiation while staying connected",
+    "Changing your part in repetitive family dynamics",
+    "Building healthy relationships with family of origin"
+  ],
+  "outcomes": [
+    "Understand how family systems work and why patterns persist",
+    "Identify your specific role and how it shaped you",
+    "Recognize inherited patterns across generations",
+    "Develop healthy differentiation from family",
+    "Change your part in dysfunctional dynamics",
+    "Create more conscious relationships with family"
+  ],
+  "modules": [
+    {
+      "title": "Understanding Family Systems",
+      "slug": "01-understanding-family-systems",
+      "description": "How families function as interconnected systems"
+    },
+    {
+      "title": "Your Role in the System",
+      "slug": "02-your-role-in-the-system",
+      "description": "Identifying the function you serve"
+    },
+    {
+      "title": "Intergenerational Patterns",
+      "slug": "03-intergenerational-patterns",
+      "description": "What gets passed down and why"
+    },
+    {
+      "title": "Differentiation",
+      "slug": "04-differentiation",
+      "description": "Becoming yourself while staying connected"
+    },
+    {
+      "title": "Changing Your Part",
+      "slug": "05-changing-your-part",
+      "description": "Breaking patterns by changing your moves"
+    },
+    {
+      "title": "Integration with Family of Origin",
+      "slug": "06-integration-with-family-of-origin",
+      "description": "Building conscious family relationships"
+    }
+  ],
+  "requirements": [
+    "Willingness to examine family dynamics honestly",
+    "Basic self-awareness about relationship patterns",
+    "Openness to seeing your own role in dynamics"
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the main insight of family systems theory?",
+        "options": [
+          "Individuals should be understood in isolation",
+          "Family members function as interconnected parts of a system",
+          "All family problems come from parents",
+          "Cutting off from family is the best solution"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is differentiation?",
+        "options": [
+          "Completely separating from your family",
+          "Agreeing with everything your family believes",
+          "Being a self while staying connected to others",
+          "Making yourself different to stand out"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Why do family patterns tend to repeat across generations?",
+        "options": [
+          "Genetics alone determines behavior",
+          "Unprocessed material gets unconsciously transmitted",
+          "Children consciously choose to repeat patterns",
+          "There is no evidence that patterns repeat"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "What is a triangle in family systems?",
+        "options": [
+          "A healthy three-person relationship",
+          "A way to reduce anxiety by involving a third party",
+          "A geometric arrangement of furniture",
+          "A type of family meeting"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "How does changing your part affect family dynamics?",
+        "options": [
+          "It has no effect on others",
+          "It forces others to also change immediately",
+          "It shifts the entire system because all parts are connected",
+          "It only affects you, not the system"
+        ],
+        "correctAnswer": 2
+      }
+    ],
+    "passingScore": 60
+  }
+}

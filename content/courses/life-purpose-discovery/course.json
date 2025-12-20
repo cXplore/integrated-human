@@ -1,0 +1,116 @@
+{
+  "title": "Life Purpose Discovery",
+  "description": "Finding meaning, direction, and calling in your life",
+  "category": "Flagship",
+  "level": "Advanced",
+  "duration": "12 hours",
+  "price": 247,
+  "published": true,
+  "featured": true,
+  "modules": [
+    {
+      "title": "The Quest for Meaning",
+      "description": "Why purpose matters and what it really is",
+      "order": 1
+    },
+    {
+      "title": "Looking Back",
+      "description": "Mining your history for purpose clues",
+      "order": 2
+    },
+    {
+      "title": "Your Core Values",
+      "description": "Identifying what truly matters to you",
+      "order": 3
+    },
+    {
+      "title": "Strengths and Gifts",
+      "description": "Discovering your unique capabilities",
+      "order": 4
+    },
+    {
+      "title": "What Calls You",
+      "description": "Passions, interests, and fascinations",
+      "order": 5
+    },
+    {
+      "title": "Contribution and Service",
+      "description": "Purpose beyond yourself",
+      "order": 6
+    },
+    {
+      "title": "Vision and Possibility",
+      "description": "Imagining your purposeful future",
+      "order": 7
+    },
+    {
+      "title": "Obstacles to Purpose",
+      "description": "Working with fear, doubt, and practical concerns",
+      "order": 8
+    },
+    {
+      "title": "From Purpose to Path",
+      "description": "Translating meaning into action",
+      "order": 9
+    },
+    {
+      "title": "Living Your Purpose",
+      "description": "A life of meaning and direction",
+      "order": 10
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Purpose is best understood as:",
+        "options": [
+          "A single job or career",
+          "A sense of meaning and direction that guides your life",
+          "Something you either have or don't",
+          "Following what others expect"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Your values are important for purpose because:",
+        "options": [
+          "They don't matter for purpose",
+          "They tell you what to avoid",
+          "They reveal what truly matters to you and guide meaningful action",
+          "They limit your options"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Discovering your strengths helps with purpose because:",
+        "options": [
+          "It makes you arrogant",
+          "It shows what you can uniquely contribute",
+          "It's not related to purpose",
+          "It limits your growth"
+        ],
+        "correctAnswer": 1
+      },
+      {
+        "question": "Contribution and service relate to purpose by:",
+        "options": [
+          "Being unrelated to personal purpose",
+          "Making purpose about helping others, not yourself",
+          "Connecting your gifts to the needs of the world",
+          "Being the only source of purpose"
+        ],
+        "correctAnswer": 2
+      },
+      {
+        "question": "Purpose is:",
+        "options": [
+          "Discovered once and never changes",
+          "Impossible to find",
+          "An ongoing process of discovery and living",
+          "Only for special people"
+        ],
+        "correctAnswer": 2
+      }
+    ]
+  }
+}
