@@ -153,12 +153,118 @@ Keep it simple:
 No need to overthink simple exchanges. Save the depth for when it's invited.`;
 }
 
+// User journey context type
+export interface UserJourneyContext {
+  name?: string;
+  primaryIntention?: string;
+  lifeSituation?: string;
+  experienceLevels?: Record<string, number>;
+  hasAwakeningExperience?: boolean;
+  currentChallenges?: string[];
+  interests?: string[];
+  depthPreference?: string;
+  completedCourses?: string[];
+  inProgressCourses?: string[];
+  recentArticles?: string[];
+  journalThemes?: string[];
+}
+
+/**
+ * Build user-specific context for the AI companion.
+ */
+export function buildUserContext(journey: UserJourneyContext): string {
+  const parts: string[] = [];
+
+  if (journey.name) {
+    parts.push(`You are speaking with ${journey.name}.`);
+  }
+
+  if (journey.primaryIntention) {
+    const intentions: Record<string, string> = {
+      healing: 'working through pain, trauma, or difficulty',
+      growth: 'becoming more of who they can be',
+      understanding: 'making sense of themselves and life',
+      crisis: 'in the midst of something acute',
+      curiosity: 'exploring without a specific goal',
+    };
+    parts.push(`Their primary intention here is ${intentions[journey.primaryIntention] || journey.primaryIntention}.`);
+  }
+
+  if (journey.lifeSituation) {
+    const situations: Record<string, string> = {
+      stable: 'relatively steady',
+      transition: 'between something old and something new',
+      crisis: 'things falling apart',
+      rebuilding: 'putting things back together',
+    };
+    parts.push(`Currently, their life is ${situations[journey.lifeSituation] || journey.lifeSituation}.`);
+  }
+
+  if (journey.experienceLevels) {
+    const levels: string[] = [];
+    const levelDescriptions = ['no', 'minimal', 'some', 'moderate', 'extensive'];
+    for (const [area, level] of Object.entries(journey.experienceLevels)) {
+      if (level >= 4) {
+        levels.push(`${levelDescriptions[level - 1]} experience with ${area.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
+      }
+    }
+    if (levels.length > 0) {
+      parts.push(`They have ${levels.join(', ')}.`);
+    }
+  }
+
+  if (journey.hasAwakeningExperience) {
+    parts.push('They have had transcendent or awakening experiences.');
+  }
+
+  if (journey.currentChallenges && journey.currentChallenges.length > 0) {
+    parts.push(`They are currently working with: ${journey.currentChallenges.join(', ')}.`);
+  }
+
+  if (journey.interests && journey.interests.length > 0) {
+    parts.push(`They are drawn to: ${journey.interests.join(', ')}.`);
+  }
+
+  if (journey.depthPreference) {
+    const depths: Record<string, string> = {
+      foundational: 'building basics, new to this work',
+      intermediate: 'ready to go deeper',
+      deep: 'seeking depth',
+      advanced: 'doing subtle work',
+    };
+    parts.push(`Their preferred depth is ${depths[journey.depthPreference] || journey.depthPreference}.`);
+  }
+
+  if (journey.completedCourses && journey.completedCourses.length > 0) {
+    parts.push(`They have completed: ${journey.completedCourses.slice(0, 5).join(', ')}${journey.completedCourses.length > 5 ? ` and ${journey.completedCourses.length - 5} more` : ''}.`);
+  }
+
+  if (journey.inProgressCourses && journey.inProgressCourses.length > 0) {
+    parts.push(`They are currently working through: ${journey.inProgressCourses.join(', ')}.`);
+  }
+
+  if (journey.recentArticles && journey.recentArticles.length > 0) {
+    parts.push(`They recently read: ${journey.recentArticles.slice(0, 3).join(', ')}.`);
+  }
+
+  if (parts.length === 0) {
+    return '';
+  }
+
+  return `
+About this person's journey:
+${parts.join('\n')}
+
+Use this context naturally. Don't explicitly mention you know these things unless relevant. Let it inform your responses subtly.`;
+}
+
 /**
  * Construct the complete system prompt with all layers.
  */
 export function buildSystemPrompt(
   stance: Stance,
-  context?: string
+  context?: string,
+  userContext?: string
 ): string {
   const stanceInfo = STANCES[stance];
 
@@ -183,6 +289,15 @@ export function buildSystemPrompt(
       context,
       "",
       "You can reference these topics naturally when relevant to the conversation.",
+    );
+  }
+
+  if (userContext) {
+    promptParts.push(
+      "",
+      "---",
+      "",
+      userContext,
     );
   }
 

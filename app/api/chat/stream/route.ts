@@ -1,15 +1,97 @@
 import { NextRequest } from 'next/server';
+import { auth } from '@/auth';
+import { prisma } from '@/lib/prisma';
 import {
   detectStance,
   isCasualMessage,
   buildCasualPrompt,
   buildSystemPrompt,
+  buildUserContext,
   SITE_CONTEXT,
+  type UserJourneyContext,
 } from '@/lib/presence';
 
 // LM Studio endpoint
 const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://10.221.168.219:1234/v1/chat/completions';
 const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'qwen/qwen3-32b';
+
+/**
+ * Fetch user journey context from the database
+ */
+async function getUserJourneyContext(userId: string): Promise<UserJourneyContext | null> {
+  try {
+    // Fetch user with profile and progress data
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        profile: true,
+        courseProgress: {
+          where: { completed: true },
+          select: { courseSlug: true },
+        },
+        articleProgress: {
+          where: { completed: true },
+          orderBy: { completedAt: 'desc' },
+          take: 5,
+          select: { slug: true },
+        },
+      },
+    });
+
+    if (!user) return null;
+
+    // Get unique completed courses
+    const completedCourses = [...new Set(user.courseProgress.map(cp => cp.courseSlug))];
+
+    // Get in-progress courses (have some progress but not complete)
+    const allCourseProgress = await prisma.courseProgress.findMany({
+      where: { userId },
+      select: { courseSlug: true, completed: true },
+    });
+
+    const courseProgressMap = new Map<string, { total: number; completed: number }>();
+    for (const cp of allCourseProgress) {
+      const current = courseProgressMap.get(cp.courseSlug) || { total: 0, completed: 0 };
+      current.total++;
+      if (cp.completed) current.completed++;
+      courseProgressMap.set(cp.courseSlug, current);
+    }
+
+    const inProgressCourses = Array.from(courseProgressMap.entries())
+      .filter(([, progress]) => progress.completed > 0 && progress.completed < progress.total)
+      .map(([slug]) => slug);
+
+    const context: UserJourneyContext = {
+      name: user.name || undefined,
+      recentArticles: user.articleProgress.map(ap => ap.slug),
+      completedCourses,
+      inProgressCourses,
+    };
+
+    // Add profile data if exists
+    if (user.profile) {
+      context.primaryIntention = user.profile.primaryIntention || undefined;
+      context.lifeSituation = user.profile.lifeSituation || undefined;
+      context.hasAwakeningExperience = user.profile.hasAwakeningExperience;
+      context.depthPreference = user.profile.depthPreference || undefined;
+
+      if (user.profile.experienceLevels) {
+        context.experienceLevels = JSON.parse(user.profile.experienceLevels);
+      }
+      if (user.profile.currentChallenges) {
+        context.currentChallenges = JSON.parse(user.profile.currentChallenges);
+      }
+      if (user.profile.interests) {
+        context.interests = JSON.parse(user.profile.interests);
+      }
+    }
+
+    return context;
+  } catch (error) {
+    console.error('Error fetching user journey context:', error);
+    return null;
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,12 +104,23 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    // Get user session for personalization (optional - works without auth too)
+    const session = await auth();
+    let userContext = '';
+
+    if (session?.user?.id) {
+      const journeyContext = await getUserJourneyContext(session.user.id);
+      if (journeyContext) {
+        userContext = buildUserContext(journeyContext);
+      }
+    }
+
     // Detect stance and build appropriate prompt
     const isCasual = isCasualMessage(message);
     const stance = isCasual ? 'companion' : detectStance(message);
     const systemPrompt = isCasual
       ? buildCasualPrompt()
-      : buildSystemPrompt(stance, SITE_CONTEXT);
+      : buildSystemPrompt(stance, SITE_CONTEXT, userContext);
 
     // Build messages array for the LLM
     // Add /no_think to user message to disable qwen's thinking mode for faster responses
