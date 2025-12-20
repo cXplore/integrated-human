@@ -10,10 +10,22 @@
   "leadMagnet": true,
   "leadsTo": "mastering-your-emotions",
   "modules": [
-    { "title": "What Is Emotional Intelligence?", "order": 1 },
-    { "title": "Recognizing Your Emotions", "order": 2 },
-    { "title": "Understanding Emotional Triggers", "order": 3 },
-    { "title": "Your First Steps to Emotional Mastery", "order": 4 }
+    {
+      "title": "What Is Emotional Intelligence?",
+      "order": 1
+    },
+    {
+      "title": "Recognizing Your Emotions",
+      "order": 2
+    },
+    {
+      "title": "Understanding Emotional Triggers",
+      "order": 3
+    },
+    {
+      "title": "Your First Steps to Emotional Mastery",
+      "order": 4
+    }
   ],
   "quiz": {
     "questions": [
@@ -38,5 +50,6 @@
         "correctAnswer": 2
       }
     ]
-  }
+  },
+  "subtitle": "Feel more, understand better"
 }

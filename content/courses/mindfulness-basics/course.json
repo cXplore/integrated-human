@@ -10,10 +10,22 @@
   "leadMagnet": true,
   "leadsTo": "mindfulness-meditation-mastery",
   "modules": [
-    { "title": "What Is Mindfulness?", "order": 1 },
-    { "title": "Your First Meditation", "order": 2 },
-    { "title": "Mindfulness in Daily Life", "order": 3 },
-    { "title": "Building Your Practice", "order": 4 }
+    {
+      "title": "What Is Mindfulness?",
+      "order": 1
+    },
+    {
+      "title": "Your First Meditation",
+      "order": 2
+    },
+    {
+      "title": "Mindfulness in Daily Life",
+      "order": 3
+    },
+    {
+      "title": "Building Your Practice",
+      "order": 4
+    }
   ],
   "quiz": {
     "questions": [
@@ -38,5 +50,6 @@
         "correctAnswer": 2
       }
     ]
-  }
+  },
+  "subtitle": "Start where you are, with what you have"
 }

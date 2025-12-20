@@ -10,10 +10,22 @@
   "leadMagnet": true,
   "leadsTo": "breaking-free-anxiety",
   "modules": [
-    { "title": "Understanding Your Anxiety", "order": 1 },
-    { "title": "Calming Your Nervous System", "order": 2 },
-    { "title": "Managing Anxious Thoughts", "order": 3 },
-    { "title": "Building Your Anxiety Toolkit", "order": 4 }
+    {
+      "title": "Understanding Your Anxiety",
+      "order": 1
+    },
+    {
+      "title": "Calming Your Nervous System",
+      "order": 2
+    },
+    {
+      "title": "Managing Anxious Thoughts",
+      "order": 3
+    },
+    {
+      "title": "Building Your Anxiety Toolkit",
+      "order": 4
+    }
   ],
   "quiz": {
     "questions": [
@@ -38,5 +50,6 @@
         "correctAnswer": 1
       }
     ]
-  }
+  },
+  "subtitle": "Calm in your pocket when you need it most"
 }

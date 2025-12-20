@@ -8,12 +8,30 @@
   "published": true,
   "featured": false,
   "modules": [
-    { "title": "Understanding Your Overthinking", "order": 1 },
-    { "title": "The Anxiety-Overthinking Loop", "order": 2 },
-    { "title": "Thought Defusion Techniques", "order": 3 },
-    { "title": "Decision-Making Without Paralysis", "order": 4 },
-    { "title": "Present Moment Anchoring", "order": 5 },
-    { "title": "Building a Quieter Mind", "order": 6 }
+    {
+      "title": "Understanding Your Overthinking",
+      "order": 1
+    },
+    {
+      "title": "The Anxiety-Overthinking Loop",
+      "order": 2
+    },
+    {
+      "title": "Thought Defusion Techniques",
+      "order": 3
+    },
+    {
+      "title": "Decision-Making Without Paralysis",
+      "order": 4
+    },
+    {
+      "title": "Present Moment Anchoring",
+      "order": 5
+    },
+    {
+      "title": "Building a Quieter Mind",
+      "order": 6
+    }
   ],
   "quiz": {
     "questions": [
@@ -38,5 +56,6 @@
         "correctAnswer": 1
       }
     ]
-  }
+  },
+  "subtitle": "Quiet the noise, find the signal"
 }

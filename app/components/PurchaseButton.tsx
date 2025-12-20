@@ -97,13 +97,15 @@ export default function PurchaseButton({
     );
   }
 
+  const priceDisplay = price === 0 ? 'Free' : `$${price} ${currency}`;
+
   return (
     <button
       onClick={handlePurchase}
       disabled={loading}
       className={`${className} ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
-      {loading ? 'Processing...' : `Enroll Now · $${price} ${currency}`}
+      {loading ? 'Processing...' : `Enroll Now${price === 0 ? '' : ` · ${priceDisplay}`}`}
     </button>
   );
 }

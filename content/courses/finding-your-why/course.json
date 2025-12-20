@@ -10,10 +10,22 @@
   "leadMagnet": true,
   "leadsTo": "life-purpose-discovery",
   "modules": [
-    { "title": "Why Purpose Matters", "order": 1 },
-    { "title": "Clues from Your Life", "order": 2 },
-    { "title": "Values and Meaning", "order": 3 },
-    { "title": "Taking the First Steps", "order": 4 }
+    {
+      "title": "Why Purpose Matters",
+      "order": 1
+    },
+    {
+      "title": "Clues from Your Life",
+      "order": 2
+    },
+    {
+      "title": "Values and Meaning",
+      "order": 3
+    },
+    {
+      "title": "Taking the First Steps",
+      "order": 4
+    }
   ],
   "quiz": {
     "questions": [
@@ -38,5 +50,6 @@
         "correctAnswer": 2
       }
     ]
-  }
+  },
+  "subtitle": "Discover what makes your life meaningful"
 }

@@ -10,10 +10,22 @@
   "leadMagnet": true,
   "leadsTo": "the-integrated-self",
   "modules": [
-    { "title": "Understanding Your Worth", "order": 1 },
-    { "title": "Where Self-Worth Comes From", "order": 2 },
-    { "title": "Common Self-Worth Wounds", "order": 3 },
-    { "title": "Beginning to Rebuild", "order": 4 }
+    {
+      "title": "Understanding Your Worth",
+      "order": 1
+    },
+    {
+      "title": "Where Self-Worth Comes From",
+      "order": 2
+    },
+    {
+      "title": "Common Self-Worth Wounds",
+      "order": 3
+    },
+    {
+      "title": "Beginning to Rebuild",
+      "order": 4
+    }
   ],
   "quiz": {
     "questions": [
@@ -38,5 +50,6 @@
         "correctAnswer": 2
       }
     ]
-  }
+  },
+  "subtitle": "You are worthy, full stop"
 }

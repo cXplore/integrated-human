@@ -174,6 +174,8 @@ function EnrollButton({
     }
   };
 
+  const priceDisplay = price === 0 ? '' : ` · $${price} ${currency}`;
+
   return (
     <button
       onClick={handlePurchase}
@@ -182,7 +184,7 @@ function EnrollButton({
         loading ? 'opacity-50 cursor-not-allowed' : ''
       }`}
     >
-      {loading ? 'Processing...' : `Enroll Now · $${price} ${currency}`}
+      {loading ? 'Processing...' : `Enroll Now${priceDisplay}`}
     </button>
   );
 }

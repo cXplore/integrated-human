@@ -10,10 +10,22 @@
   "leadMagnet": true,
   "leadsTo": "building-authentic-confidence",
   "modules": [
-    { "title": "What Real Confidence Is", "order": 1 },
-    { "title": "Your Confidence Blockers", "order": 2 },
-    { "title": "Quick Confidence Techniques", "order": 3 },
-    { "title": "Building Momentum", "order": 4 }
+    {
+      "title": "What Real Confidence Is",
+      "order": 1
+    },
+    {
+      "title": "Your Confidence Blockers",
+      "order": 2
+    },
+    {
+      "title": "Quick Confidence Techniques",
+      "order": 3
+    },
+    {
+      "title": "Building Momentum",
+      "order": 4
+    }
   ],
   "quiz": {
     "questions": [
@@ -38,5 +50,6 @@
         "correctAnswer": 1
       }
     ]
-  }
+  },
+  "subtitle": "Quick wins for lasting self-assurance"
 }

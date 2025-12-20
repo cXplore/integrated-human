@@ -124,8 +124,8 @@ export default function CoursesPage() {
 
                           <div className="flex items-center justify-between mt-4 pt-4 border-t border-zinc-800">
                             <div className="flex items-center gap-2">
-                              <span className="text-white font-medium">
-                                ${course.metadata.price}
+                              <span className={`font-medium ${course.metadata.price === 0 ? 'text-green-500' : 'text-white'}`}>
+                                {course.metadata.price === 0 ? 'Free' : `$${course.metadata.price}`}
                               </span>
                             </div>
                             <span className="text-sm text-gray-500">

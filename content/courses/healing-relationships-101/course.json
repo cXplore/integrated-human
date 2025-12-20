@@ -10,10 +10,22 @@
   "leadMagnet": true,
   "leadsTo": "conscious-relationship-mastery",
   "modules": [
-    { "title": "Understanding Relationship Patterns", "order": 1 },
-    { "title": "Communication Essentials", "order": 2 },
-    { "title": "Boundaries Basics", "order": 3 },
-    { "title": "Building Healthier Connections", "order": 4 }
+    {
+      "title": "Understanding Relationship Patterns",
+      "order": 1
+    },
+    {
+      "title": "Communication Essentials",
+      "order": 2
+    },
+    {
+      "title": "Boundaries Basics",
+      "order": 3
+    },
+    {
+      "title": "Building Healthier Connections",
+      "order": 4
+    }
   ],
   "quiz": {
     "questions": [
@@ -38,5 +50,6 @@
         "correctAnswer": 2
       }
     ]
-  }
+  },
+  "subtitle": "The foundations of healthy connection"
 }

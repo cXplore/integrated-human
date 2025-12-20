@@ -8,16 +8,46 @@
   "published": true,
   "featured": true,
   "modules": [
-    { "title": "Understanding Trauma", "order": 1 },
-    { "title": "Your Trauma Profile", "order": 2 },
-    { "title": "Safety and Stabilization", "order": 3 },
-    { "title": "The Body Remembers", "order": 4 },
-    { "title": "Working with Triggers", "order": 5 },
-    { "title": "Processing the Past", "order": 6 },
-    { "title": "Healing Relationships", "order": 7 },
-    { "title": "Rebuilding the Self", "order": 8 },
-    { "title": "Post-Traumatic Growth", "order": 9 },
-    { "title": "The Reclaimed Life", "order": 10 }
+    {
+      "title": "Understanding Trauma",
+      "order": 1
+    },
+    {
+      "title": "Your Trauma Profile",
+      "order": 2
+    },
+    {
+      "title": "Safety and Stabilization",
+      "order": 3
+    },
+    {
+      "title": "The Body Remembers",
+      "order": 4
+    },
+    {
+      "title": "Working with Triggers",
+      "order": 5
+    },
+    {
+      "title": "Processing the Past",
+      "order": 6
+    },
+    {
+      "title": "Healing Relationships",
+      "order": 7
+    },
+    {
+      "title": "Rebuilding the Self",
+      "order": 8
+    },
+    {
+      "title": "Post-Traumatic Growth",
+      "order": 9
+    },
+    {
+      "title": "The Reclaimed Life",
+      "order": 10
+    }
   ],
   "quiz": {
     "questions": [
@@ -52,5 +82,6 @@
         "correctAnswer": 1
       }
     ]
-  }
+  },
+  "subtitle": "Safety first, healing follows"
 }

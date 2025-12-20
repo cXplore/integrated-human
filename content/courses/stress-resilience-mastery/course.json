@@ -8,12 +8,30 @@
   "published": true,
   "featured": false,
   "modules": [
-    { "title": "Understanding Your Stress Response", "order": 1 },
-    { "title": "The Nervous System Foundation", "order": 2 },
-    { "title": "Reframing Stress as Growth", "order": 3 },
-    { "title": "Building Your Resilience Toolkit", "order": 4 },
-    { "title": "Recovery and Restoration", "order": 5 },
-    { "title": "Stress-Proofing Your Life", "order": 6 }
+    {
+      "title": "Understanding Your Stress Response",
+      "order": 1
+    },
+    {
+      "title": "The Nervous System Foundation",
+      "order": 2
+    },
+    {
+      "title": "Reframing Stress as Growth",
+      "order": 3
+    },
+    {
+      "title": "Building Your Resilience Toolkit",
+      "order": 4
+    },
+    {
+      "title": "Recovery and Restoration",
+      "order": 5
+    },
+    {
+      "title": "Stress-Proofing Your Life",
+      "order": 6
+    }
   ],
   "quiz": {
     "questions": [
@@ -38,5 +56,6 @@
         "correctAnswer": 1
       }
     ]
-  }
+  },
+  "subtitle": "Bend without breaking"
 }

@@ -8,16 +8,46 @@
   "published": true,
   "featured": true,
   "modules": [
-    { "title": "The Nature of True Confidence", "order": 1 },
-    { "title": "Your Confidence Profile", "order": 2 },
-    { "title": "The Roots of Self-Doubt", "order": 3 },
-    { "title": "Building Self-Worth", "order": 4 },
-    { "title": "Developing Competence", "order": 5 },
-    { "title": "The Confident Mindset", "order": 6 },
-    { "title": "Confidence in Action", "order": 7 },
-    { "title": "Social Confidence", "order": 8 },
-    { "title": "Confidence Under Pressure", "order": 9 },
-    { "title": "The Confident Life", "order": 10 }
+    {
+      "title": "The Nature of True Confidence",
+      "order": 1
+    },
+    {
+      "title": "Your Confidence Profile",
+      "order": 2
+    },
+    {
+      "title": "The Roots of Self-Doubt",
+      "order": 3
+    },
+    {
+      "title": "Building Self-Worth",
+      "order": 4
+    },
+    {
+      "title": "Developing Competence",
+      "order": 5
+    },
+    {
+      "title": "The Confident Mindset",
+      "order": 6
+    },
+    {
+      "title": "Confidence in Action",
+      "order": 7
+    },
+    {
+      "title": "Social Confidence",
+      "order": 8
+    },
+    {
+      "title": "Confidence Under Pressure",
+      "order": 9
+    },
+    {
+      "title": "The Confident Life",
+      "order": 10
+    }
   ],
   "quiz": {
     "questions": [
@@ -52,5 +82,6 @@
         "correctAnswer": 1
       }
     ]
-  }
+  },
+  "subtitle": "Real confidence comes from within"
 }
