@@ -29,6 +29,7 @@ export async function GET(request: NextRequest) {
     moduleSlug: p.moduleSlug,
     completed: p.completed,
     completedAt: p.completedAt,
+    updatedAt: p.updatedAt,
   })));
 }
 
