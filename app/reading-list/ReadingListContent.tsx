@@ -2,7 +2,7 @@
 
 import { useReadingList } from '../components/ReadingListContext';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useSession } from 'next-auth/react';
 
 interface PostInfo {
@@ -13,11 +13,17 @@ interface PostInfo {
   readingTime: number;
 }
 
+type SortOption = 'recent' | 'category' | 'reading-time';
+type FilterOption = 'all' | string;
+
 export default function ReadingListContent() {
   const { savedSlugs, readSlugs, removeFromList, markAsRead, unmarkAsRead } = useReadingList();
   const { data: session } = useSession();
   const [posts, setPosts] = useState<PostInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [sortBy, setSortBy] = useState<SortOption>('recent');
+  const [filterCategory, setFilterCategory] = useState<FilterOption>('all');
+  const [showCompleted, setShowCompleted] = useState(true);
 
   useEffect(() => {
     async function fetchPosts() {
@@ -41,6 +47,51 @@ export default function ReadingListContent() {
     fetchPosts();
   }, [savedSlugs]);
 
+  // Get all unique categories from saved posts
+  const allCategories = useMemo(() => {
+    const categories = new Set<string>();
+    posts.forEach(post => {
+      post.categories.forEach(cat => categories.add(cat));
+    });
+    return Array.from(categories).sort();
+  }, [posts]);
+
+  // Filter and sort posts
+  const filteredPosts = useMemo(() => {
+    let result = [...posts];
+
+    // Filter by category
+    if (filterCategory !== 'all') {
+      result = result.filter(post => post.categories.includes(filterCategory));
+    }
+
+    // Sort
+    switch (sortBy) {
+      case 'category':
+        result.sort((a, b) => a.categories[0].localeCompare(b.categories[0]));
+        break;
+      case 'reading-time':
+        result.sort((a, b) => a.readingTime - b.readingTime);
+        break;
+      case 'recent':
+      default:
+        // Keep original order (most recently added first from API)
+        break;
+    }
+
+    return result;
+  }, [posts, filterCategory, sortBy]);
+
+  const unreadPosts = filteredPosts.filter(p => !readSlugs.includes(p.slug));
+  const completedPosts = filteredPosts.filter(p => readSlugs.includes(p.slug));
+
+  // Stats
+  const totalReadingTime = posts.reduce((acc, p) => acc + p.readingTime, 0);
+  const completedCount = posts.filter(p => readSlugs.includes(p.slug)).length;
+  const completedReadingTime = posts
+    .filter(p => readSlugs.includes(p.slug))
+    .reduce((acc, p) => acc + p.readingTime, 0);
+
   if (isLoading) {
     return (
       <div className="text-gray-400 py-12 text-center">
@@ -52,11 +103,16 @@ export default function ReadingListContent() {
   if (savedSlugs.length === 0) {
     return (
       <div className="text-center py-12">
+        <div className="w-16 h-16 mx-auto mb-6 bg-zinc-900 rounded-full flex items-center justify-center">
+          <svg className="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+          </svg>
+        </div>
         <p className="text-gray-400 mb-6">
           Your reading list is empty. Save articles to read later by clicking the bookmark icon.
         </p>
         <Link
-          href="/"
+          href="/library"
           className="inline-block px-6 py-3 border border-zinc-700 text-gray-300 hover:text-white hover:border-zinc-500 transition-colors"
         >
           Browse articles
@@ -65,33 +121,95 @@ export default function ReadingListContent() {
     );
   }
 
-  const completedCount = posts.filter(p => readSlugs.includes(p.slug)).length;
-  const unreadPosts = posts.filter(p => !readSlugs.includes(p.slug));
-  const completedPosts = posts.filter(p => readSlugs.includes(p.slug));
-
   return (
     <div className="space-y-6">
-      {/* Progress summary */}
+      {/* Stats Overview */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="bg-zinc-900 border border-zinc-800 p-4">
+          <div className="text-2xl font-light text-white">{posts.length}</div>
+          <div className="text-sm text-gray-500">Saved</div>
+        </div>
+        <div className="bg-zinc-900 border border-zinc-800 p-4">
+          <div className="text-2xl font-light text-green-500">{completedCount}</div>
+          <div className="text-sm text-gray-500">Completed</div>
+        </div>
+        <div className="bg-zinc-900 border border-zinc-800 p-4">
+          <div className="text-2xl font-light text-white">{totalReadingTime} min</div>
+          <div className="text-sm text-gray-500">Total Time</div>
+        </div>
+        <div className="bg-zinc-900 border border-zinc-800 p-4">
+          <div className="text-2xl font-light text-white">{completedReadingTime} min</div>
+          <div className="text-sm text-gray-500">Time Read</div>
+        </div>
+      </div>
+
+      {/* Progress bar */}
       {posts.length > 0 && (
-        <div className="flex items-center gap-4 p-4 bg-zinc-900 border border-zinc-800">
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <span className="text-white font-medium">
-                {completedCount} of {posts.length} completed
-              </span>
-              <span className="text-gray-500">
-                ({Math.round((completedCount / posts.length) * 100)}%)
-              </span>
-            </div>
-            <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-green-600 transition-all duration-300"
-                style={{ width: `${(completedCount / posts.length) * 100}%` }}
-              />
-            </div>
+        <div className="p-4 bg-zinc-900 border border-zinc-800">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-white font-medium">
+              {completedCount} of {posts.length} completed
+            </span>
+            <span className="text-gray-500">
+              ({Math.round((completedCount / posts.length) * 100)}%)
+            </span>
+          </div>
+          <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-green-600 transition-all duration-300"
+              style={{ width: `${(completedCount / posts.length) * 100}%` }}
+            />
           </div>
         </div>
       )}
+
+      {/* Filters and Sort */}
+      <div className="flex flex-wrap items-center gap-4 p-4 bg-zinc-900/50 border border-zinc-800">
+        {/* Category Filter */}
+        <div className="flex items-center gap-2">
+          <label className="text-sm text-gray-500">Category:</label>
+          <select
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            className="bg-zinc-800 border border-zinc-700 text-gray-300 text-sm px-3 py-1.5 rounded focus:outline-none focus:border-zinc-500"
+          >
+            <option value="all">All ({posts.length})</option>
+            {allCategories.map(cat => {
+              const count = posts.filter(p => p.categories.includes(cat)).length;
+              return (
+                <option key={cat} value={cat}>
+                  {cat} ({count})
+                </option>
+              );
+            })}
+          </select>
+        </div>
+
+        {/* Sort */}
+        <div className="flex items-center gap-2">
+          <label className="text-sm text-gray-500">Sort:</label>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortOption)}
+            className="bg-zinc-800 border border-zinc-700 text-gray-300 text-sm px-3 py-1.5 rounded focus:outline-none focus:border-zinc-500"
+          >
+            <option value="recent">Recently Added</option>
+            <option value="category">By Category</option>
+            <option value="reading-time">By Reading Time</option>
+          </select>
+        </div>
+
+        {/* Show Completed Toggle */}
+        <label className="flex items-center gap-2 cursor-pointer ml-auto">
+          <input
+            type="checkbox"
+            checked={showCompleted}
+            onChange={(e) => setShowCompleted(e.target.checked)}
+            className="w-4 h-4 bg-zinc-800 border-zinc-700 rounded text-green-600 focus:ring-0 focus:ring-offset-0"
+          />
+          <span className="text-sm text-gray-400">Show completed</span>
+        </label>
+      </div>
 
       {/* Unread articles */}
       {unreadPosts.length > 0 && (
@@ -152,7 +270,7 @@ export default function ReadingListContent() {
       )}
 
       {/* Completed articles */}
-      {completedPosts.length > 0 && (
+      {showCompleted && completedPosts.length > 0 && (
         <div>
           <h2 className="text-sm uppercase tracking-wide text-gray-500 mb-4">
             Completed ({completedPosts.length})
@@ -210,6 +328,19 @@ export default function ReadingListContent() {
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Empty state after filtering */}
+      {filteredPosts.length === 0 && posts.length > 0 && (
+        <div className="text-center py-8 text-gray-500">
+          No articles match your current filters.
+          <button
+            onClick={() => setFilterCategory('all')}
+            className="ml-2 text-gray-400 hover:text-white underline"
+          >
+            Clear filters
+          </button>
         </div>
       )}
 
