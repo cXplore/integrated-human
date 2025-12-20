@@ -31,6 +31,7 @@ model User {
   purchases         Purchase[]
   exerciseResponses ExerciseResponse[]
   journalEntries    JournalEntry[]
+  profile           UserProfile?
 }
 
 model Account {
@@ -180,4 +181,52 @@ model JournalEntry {
 
   @@index([userId])
   @@index([userId, createdAt])
+}
+
+// User Profile - "Learn to Know" onboarding data
+// This captures where the user is in their journey to personalize recommendations
+model UserProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Onboarding completed?
+  onboardingCompleted Boolean @default(false)
+
+  // What brings you here? (primary intention)
+  primaryIntention String? // healing, growth, understanding, crisis, curiosity
+
+  // Current life situation
+  lifeSituation String? // stable, transition, crisis, rebuilding
+
+  // Experience levels (1-5 scale, stored as JSON)
+  // e.g., {"meditation": 3, "therapy": 4, "bodywork": 2, "psychedelics": 1, "spiritualPractice": 2}
+  experienceLevels String? @db.Text
+
+  // Has had transcendent/awakening experiences?
+  hasAwakeningExperience Boolean @default(false)
+  awakeningDescription   String? @db.Text
+
+  // Current challenges (JSON array)
+  // e.g., ["anxiety", "relationships", "purpose", "grief", "identity"]
+  currentChallenges String? @db.Text
+
+  // What they're most drawn to (JSON array of categories/topics)
+  // e.g., ["shadow-work", "nervous-system", "relationships", "meaning"]
+  interests String? @db.Text
+
+  // Preferred depth level
+  depthPreference String? // foundational, intermediate, deep, advanced
+
+  // How they learn best
+  learningStyle String? // reading, reflection, exercises, community
+
+  // Time available for practice
+  timeAvailable String? // minimal, moderate, dedicated
+
+  // Any specific areas to avoid or be careful with
+  sensitivities String? @db.Text
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
