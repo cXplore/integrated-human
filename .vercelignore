@@ -1,0 +1,17 @@
+# Avatar services (large ML models and binaries)
+services/
+public/audio/
+public/videos/
+public/models/
+
+# Development files
+*.zip
+*.mp4
+*.wav
+*.glb
+
+# Node modules handled by Vercel
+node_modules/
+
+# Local data
+data/
