@@ -9,6 +9,7 @@ import Certificates from './Certificates';
 import PurchasedCourses from './PurchasedCourses';
 import Recommendations from './Recommendations';
 import OnboardingPrompt from './OnboardingPrompt';
+import StreakTracker from './StreakTracker';
 import { prisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
 
@@ -122,6 +123,11 @@ export default async function ProfilePage() {
                     </div>
                     <p className="text-gray-500 text-sm">Saved for later</p>
                   </a>
+                </div>
+
+                {/* Streak Tracker Card */}
+                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6">
+                  <StreakTracker />
                 </div>
 
                 {/* Recommendations Card */}
