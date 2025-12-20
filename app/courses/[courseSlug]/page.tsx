@@ -7,6 +7,7 @@ import { getAllCourses, getCourseBySlug } from '@/lib/courses';
 import { getRelatedPostsForCourse } from '@/lib/posts';
 import PurchaseButton from '@/app/components/PurchaseButton';
 import PurchaseSuccess from '@/app/components/PurchaseSuccess';
+import ContentCompanion from '@/app/components/ContentCompanion';
 
 export async function generateStaticParams() {
   const courses = getAllCourses();
@@ -330,6 +331,11 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
           </div>
         </div>
       </main>
+      <ContentCompanion
+        contentType="course"
+        contentTitle={metadata.title}
+        contentSlug={courseSlug}
+      />
     </>
   );
 }

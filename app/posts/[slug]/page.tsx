@@ -17,6 +17,7 @@ import rehypeSlug from 'rehype-slug';
 import ArticleImage from '@/app/components/ArticleImage';
 import YouTube from '@/app/components/YouTube';
 import Image from 'next/image';
+import ContentCompanion from '@/app/components/ContentCompanion';
 
 const BASE_URL = 'https://integrated-human.vercel.app';
 
@@ -342,6 +343,11 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           nextSlug={seriesNav.next?.slug}
         />
       )}
+      <ContentCompanion
+        contentType="article"
+        contentTitle={post.metadata.title}
+        contentSlug={slug}
+      />
     </>
   );
 }

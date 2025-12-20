@@ -14,6 +14,7 @@ import {
 import ModuleCompleteButton from './ModuleCompleteButton';
 import ModuleContent from './ModuleContent';
 import ModuleAccessGuard from './ModuleAccessGuard';
+import ContentCompanion from '@/app/components/ContentCompanion';
 
 export async function generateStaticParams() {
   const courses = getAllCourses();
@@ -293,6 +294,12 @@ export default async function ModulePage({
           </div>
         </div>
       </main>
+      <ContentCompanion
+        contentType="module"
+        contentTitle={module.title}
+        contentSlug={courseSlug}
+        moduleSlug={moduleSlug}
+      />
     </>
   );
 }
