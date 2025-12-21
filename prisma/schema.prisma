@@ -22,19 +22,20 @@ model User {
   newsletterSubscribed Boolean @default(false)
 
   // Relations
-  accounts          Account[]
-  readingList       ReadingListItem[]
-  articleProgress   ArticleProgress[]
-  courseProgress    CourseProgress[]
-  certificates      Certificate[]
-  quizAttempts      QuizAttempt[]
-  purchases         Purchase[]
-  exerciseResponses ExerciseResponse[]
-  journalEntries    JournalEntry[]
-  profile           UserProfile?
-  subscription      Subscription?
-  aiCredits         AICredits?
-  assessmentResults AssessmentResult[]
+  accounts           Account[]
+  readingList        ReadingListItem[]
+  articleProgress    ArticleProgress[]
+  courseProgress     CourseProgress[]
+  certificates       Certificate[]
+  quizAttempts       QuizAttempt[]
+  purchases          Purchase[]
+  exerciseResponses  ExerciseResponse[]
+  journalEntries     JournalEntry[]
+  profile            UserProfile?
+  subscription       Subscription?
+  aiCredits          AICredits?
+  assessmentResults  AssessmentResult[]
+  sharedReflections  SharedReflection[]
 }
 
 model Account {
@@ -317,4 +318,34 @@ model AssessmentResult {
   @@unique([userId, type]) // One result per type per user (updates replace)
   @@index([userId])
   @@index([userId, type])
+}
+
+// Anonymous Reflections - shared with the community
+model SharedReflection {
+  id          String   @id @default(cuid())
+  userId      String
+  content     String   @db.Text // The reflection text
+  topic       String?  // shadow, growth, relationships, meaning, healing, etc.
+  mood        String?  // grateful, struggling, hopeful, confused, peaceful
+  responses   SharedReflectionResponse[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt(sort: Desc)])
+  @@index([topic, createdAt(sort: Desc)])
+}
+
+// Responses to shared reflections (also anonymous)
+model SharedReflectionResponse {
+  id           String   @id @default(cuid())
+  reflectionId String
+  userId       String
+  content      String   @db.Text
+  createdAt    DateTime @default(now())
+
+  reflection SharedReflection @relation(fields: [reflectionId], references: [id], onDelete: Cascade)
+
+  @@index([reflectionId, createdAt])
 }

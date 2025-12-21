@@ -181,6 +181,7 @@ export default async function ModulePage({
                 moduleSlug={moduleSlug}
                 moduleNumber={module.moduleNumber}
                 courseTitle={course.metadata.title}
+                courseTier={course.metadata.tier}
                 price={course.metadata.price}
                 currency={course.metadata.currency}
               >

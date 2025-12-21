@@ -9,9 +9,15 @@ interface ModuleAccessGuardProps {
   moduleSlug: string;
   moduleNumber: number;
   courseTitle: string;
+  courseTier?: string; // intro, beginner, intermediate, advanced, flagship
   price: number;
   currency: string;
   children: React.ReactNode;
+}
+
+interface AccessResult {
+  hasAccess: boolean;
+  reason: 'subscription' | 'purchase' | 'free' | 'preview' | 'none';
 }
 
 export default function ModuleAccessGuard({
@@ -19,41 +25,76 @@ export default function ModuleAccessGuard({
   moduleSlug,
   moduleNumber,
   courseTitle,
+  courseTier = 'intermediate',
   price,
   currency,
   children,
 }: ModuleAccessGuardProps) {
   const { data: session, status } = useSession();
-  const [purchased, setPurchased] = useState(false);
-  const [checkingPurchase, setCheckingPurchase] = useState(true);
+  const [access, setAccess] = useState<AccessResult | null>(null);
+  const [checkingAccess, setCheckingAccess] = useState(true);
 
   // First module is always free
   const isPreviewModule = moduleNumber === 1;
 
+  // Intro tier courses are always free
+  const isFreeCourse = courseTier === 'intro';
+
   useEffect(() => {
-    async function checkPurchase() {
-      if (session?.user) {
+    async function checkAccess() {
+      // Free courses or preview modules always accessible
+      if (isFreeCourse) {
+        setAccess({ hasAccess: true, reason: 'free' });
+        setCheckingAccess(false);
+        return;
+      }
+
+      if (isPreviewModule) {
+        setAccess({ hasAccess: true, reason: 'preview' });
+        setCheckingAccess(false);
+        return;
+      }
+
+      if (!session?.user) {
+        setAccess({ hasAccess: false, reason: 'none' });
+        setCheckingAccess(false);
+        return;
+      }
+
+      try {
+        // Check via API which considers both purchase and subscription
+        const res = await fetch(`/api/courses/${courseSlug}/access`);
+        const data = await res.json();
+        setAccess({
+          hasAccess: data.hasAccess,
+          reason: data.reason,
+        });
+      } catch (error) {
+        console.error('Error checking access:', error);
+        // Fallback to purchase check only
         try {
           const res = await fetch(`/api/purchases?courseSlug=${courseSlug}`);
           const data = await res.json();
-          setPurchased(data.purchased);
-        } catch (error) {
-          console.error('Error checking purchase:', error);
+          setAccess({
+            hasAccess: data.purchased,
+            reason: data.purchased ? 'purchase' : 'none',
+          });
+        } catch {
+          setAccess({ hasAccess: false, reason: 'none' });
         }
       }
-      setCheckingPurchase(false);
+      setCheckingAccess(false);
     }
 
     if (status !== 'loading') {
-      checkPurchase();
+      checkAccess();
     }
-  }, [session, status, courseSlug]);
+  }, [session, status, courseSlug, isFreeCourse, isPreviewModule]);
 
-  // Show content if: it's the preview module, OR user has purchased
-  const hasAccess = isPreviewModule || purchased;
+  const hasAccess = access?.hasAccess ?? false;
 
   // While checking, show loading for non-preview modules
-  if (!isPreviewModule && (status === 'loading' || checkingPurchase)) {
+  if (!isPreviewModule && (status === 'loading' || checkingAccess)) {
     return (
       <div className="animate-pulse">
         <div className="h-4 bg-zinc-800 rounded w-3/4 mb-4"></div>
@@ -115,6 +156,22 @@ export default function ModuleAccessGuard({
             className="text-gray-400 hover:text-white text-sm transition-colors"
           >
             View Course Details →
+          </Link>
+        </div>
+
+        {/* Subscription option */}
+        <div className="mt-8 pt-6 border-t border-zinc-800">
+          <p className="text-gray-500 text-sm mb-3">
+            Or unlock all courses with a subscription
+          </p>
+          <Link
+            href="/pricing"
+            className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 text-sm transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+            </svg>
+            View Membership Options →
           </Link>
         </div>
 

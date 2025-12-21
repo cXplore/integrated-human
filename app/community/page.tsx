@@ -1,5 +1,6 @@
 import Navigation from '../components/Navigation';
 import Link from 'next/link';
+import CommunityReflections from './CommunityReflections';
 
 export default function CommunityPage() {
   return (
@@ -14,6 +15,11 @@ export default function CommunityPage() {
             <p className="text-xl text-gray-400 mb-12 leading-relaxed">
               Growth is easier when you're not alone. Connect with others walking the same path.
             </p>
+
+            {/* Shared Reflections */}
+            <div className="mb-16">
+              <CommunityReflections />
+            </div>
 
             {/* Discord */}
             <div className="bg-zinc-900 border border-zinc-800 p-8 md:p-12 mb-8">

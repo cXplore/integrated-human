@@ -34,9 +34,31 @@ export default function ArchetypesPage() {
           </p>
         </div>
 
+        {/* Exploration Option */}
+        <div className="bg-gradient-to-r from-amber-900/20 to-zinc-900 border border-amber-800/50 p-6 mb-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h2 className="font-serif text-xl text-white mb-1">Want to go deeper?</h2>
+              <p className="text-gray-400 text-sm">
+                Skip the quiz. Have a real conversation about your patterns, relationships, and struggles.
+              </p>
+            </div>
+            <Link
+              href="/archetype-exploration"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium transition-colors whitespace-nowrap"
+            >
+              Guided Exploration
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+          </div>
+          <p className="text-xs text-gray-500 mt-3">Uses AI credits</p>
+        </div>
+
         {/* About Section */}
         <div className="bg-zinc-900/50 border border-zinc-800 p-6 mb-12">
-          <h2 className="font-serif text-xl text-white mb-3">How It Works</h2>
+          <h2 className="font-serif text-xl text-white mb-3">How the Quiz Works</h2>
           <div className="space-y-3 text-gray-400 text-sm">
             <p>
               The four masculine archetypes are King, Warrior, Magician, and Lover.
@@ -48,8 +70,8 @@ export default function ArchetypesPage() {
               us to wholeness and to genuine relationship with the opposite sex.
             </p>
             <p>
-              <strong className="text-white">12 questions, ~3 minutes.</strong> Your results
-              will show your primary archetypes and your inner opposite.
+              <strong className="text-white">12 questions, ~10-15 minutes.</strong> Your results
+              will show your primary archetypes, shadow patterns, and inner opposite.
             </p>
           </div>
         </div>

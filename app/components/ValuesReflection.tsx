@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 interface ReflectionStep {
@@ -9,6 +10,12 @@ interface ReflectionStep {
   prompt: string;
   subPrompts?: string[];
   placeholder: string;
+}
+
+interface SavedValuesResult {
+  responses: Record<number, string>;
+  coreValues?: string;
+  savedAt: string;
 }
 
 const reflectionSteps: ReflectionStep[] = [
@@ -64,10 +71,71 @@ const reflectionSteps: ReflectionStep[] = [
 ];
 
 export default function ValuesReflection() {
+  const { data: session } = useSession();
   const [started, setStarted] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [responses, setResponses] = useState<Record<number, string>>({});
+  const [coreValues, setCoreValues] = useState('');
   const [showSummary, setShowSummary] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [hasSavedResult, setHasSavedResult] = useState(false);
+  const [loadingSaved, setLoadingSaved] = useState(true);
+
+  // Load saved result on mount
+  useEffect(() => {
+    async function loadSaved() {
+      if (!session?.user) {
+        setLoadingSaved(false);
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/assessments?type=values');
+        const data = await res.json();
+        if (data.result?.results) {
+          const savedData = data.result.results as SavedValuesResult;
+          setHasSavedResult(true);
+          setResponses(savedData.responses || {});
+          setCoreValues(savedData.coreValues || '');
+        }
+      } catch (error) {
+        console.error('Error loading saved values:', error);
+      }
+      setLoadingSaved(false);
+    }
+    loadSaved();
+  }, [session]);
+
+  const handleSave = async () => {
+    if (!session?.user) return;
+
+    setSaving(true);
+    try {
+      const res = await fetch('/api/assessments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'values',
+          results: {
+            responses,
+            coreValues,
+            savedAt: new Date().toISOString(),
+          },
+          summary: coreValues || undefined,
+        }),
+      });
+
+      if (res.ok) {
+        setSaved(true);
+        setHasSavedResult(true);
+        setTimeout(() => setSaved(false), 3000);
+      }
+    } catch (error) {
+      console.error('Error saving values:', error);
+    }
+    setSaving(false);
+  };
 
   const handleNext = () => {
     if (currentStep < reflectionSteps.length - 1) {
@@ -93,7 +161,9 @@ export default function ValuesReflection() {
     setStarted(false);
     setCurrentStep(0);
     setResponses({});
+    setCoreValues('');
     setShowSummary(false);
+    setSaved(false);
   };
 
   const hasContent = Object.values(responses).some(r => r.trim().length > 0);
@@ -114,20 +184,30 @@ export default function ValuesReflection() {
               Not what should matter. Not what looks good. What's true.
             </p>
             <p>
-              There are no right answers. Your responses are private — they stay in your browser
-              and disappear when you leave. This is just for you.
+              There are no right answers.{' '}
+              {session?.user
+                ? 'You can save your responses to your profile when you\'re done.'
+                : 'Your responses are private — they stay in your browser and disappear when you leave.'}
             </p>
           </div>
         </div>
 
-        <div className="pt-4">
+        <div className="pt-4 space-y-4">
+          {hasSavedResult && (
+            <button
+              onClick={() => setShowSummary(true)}
+              className="block w-full max-w-xs mx-auto px-8 py-4 bg-amber-600 text-white hover:bg-amber-500 transition-colors"
+            >
+              View Your Previous Reflection
+            </button>
+          )}
           <button
             onClick={() => setStarted(true)}
-            className="px-8 py-4 bg-zinc-800 border border-zinc-700 text-white hover:bg-zinc-700 hover:border-zinc-600 transition-colors"
+            className="block w-full max-w-xs mx-auto px-8 py-4 bg-zinc-800 border border-zinc-700 text-white hover:bg-zinc-700 hover:border-zinc-600 transition-colors"
           >
-            Begin
+            {hasSavedResult ? 'Start Fresh' : 'Begin'}
           </button>
-          <p className="text-gray-600 text-sm mt-4">
+          <p className="text-gray-600 text-sm">
             5 prompts · Take as long as you need
           </p>
         </div>
@@ -171,11 +251,56 @@ export default function ValuesReflection() {
             Looking at everything you wrote — if you had to distill your deepest values
             into 3-5 words or phrases, what would they be?
           </p>
-          <p className="text-gray-500 text-sm italic">
+          <p className="text-gray-500 text-sm italic mb-4">
             Examples: Truth. Presence. Creative expression. Deep connection.
             Adventure. Service. Mastery. Love without conditions.
           </p>
+          <textarea
+            value={coreValues}
+            onChange={(e) => setCoreValues(e.target.value)}
+            placeholder="Your core values..."
+            className="w-full h-24 bg-zinc-900 border border-zinc-800 p-4 text-gray-300 placeholder-gray-600 focus:border-zinc-600 focus:outline-none resize-none leading-relaxed"
+          />
         </div>
+
+        {/* Save Button */}
+        {session?.user && hasContent && (
+          <div className="bg-gradient-to-r from-amber-900/20 to-zinc-900 border border-amber-800/50 p-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h3 className="font-serif text-lg text-white mb-1">Save Your Reflection</h3>
+                <p className="text-gray-400 text-sm">
+                  Keep this reflection in your profile to revisit and compare over time.
+                </p>
+              </div>
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                className={`px-6 py-3 transition-colors whitespace-nowrap ${
+                  saved
+                    ? 'bg-green-600 text-white'
+                    : 'bg-amber-600 hover:bg-amber-500 text-white'
+                } ${saving ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
+                {saving ? 'Saving...' : saved ? 'Saved!' : hasSavedResult ? 'Update' : 'Save to Profile'}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {!session?.user && hasContent && (
+          <div className="bg-zinc-900/50 border border-zinc-800 p-6 text-center">
+            <p className="text-gray-400 text-sm mb-3">
+              Want to save this reflection to revisit later?
+            </p>
+            <Link
+              href="/login?callbackUrl=/values"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-zinc-900 text-sm font-medium hover:bg-gray-200 transition-colors"
+            >
+              Sign in to save
+            </Link>
+          </div>
+        )}
 
         {/* Context */}
         <div className="border-t border-zinc-800 pt-8">
