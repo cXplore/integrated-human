@@ -9,7 +9,12 @@
   "duration": "5 modules",
   "level": "Beginner",
   "category": "Mind",
-  "tags": ["shadow-work", "psychology", "self-awareness", "integration"],
+  "tags": [
+    "shadow-work",
+    "psychology",
+    "self-awareness",
+    "integration"
+  ],
   "instructor": "Integrated Human",
   "modules": [
     {
@@ -144,5 +149,6 @@
   },
   "published": true,
   "createdAt": "2024-12-18",
-  "updatedAt": "2024-12-18"
+  "updatedAt": "2024-12-18",
+  "tier": "beginner"
 }

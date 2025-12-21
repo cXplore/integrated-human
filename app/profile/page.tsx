@@ -10,6 +10,8 @@ import PurchasedCourses from './PurchasedCourses';
 import Recommendations from './Recommendations';
 import OnboardingPrompt from './OnboardingPrompt';
 import StreakTracker from './StreakTracker';
+import SelfDiscovery from './SelfDiscovery';
+import AICredits from './AICredits';
 import { prisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
 
@@ -125,6 +127,11 @@ export default async function ProfilePage() {
                   </a>
                 </div>
 
+                {/* Self-Discovery Card */}
+                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6">
+                  <SelfDiscovery />
+                </div>
+
                 {/* Streak Tracker Card */}
                 <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6">
                   <StreakTracker />
@@ -158,6 +165,11 @@ export default async function ProfilePage() {
 
               {/* Right Column - Account */}
               <div className="space-y-6">
+                {/* AI Credits */}
+                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6">
+                  <AICredits />
+                </div>
+
                 {/* Account Settings */}
                 <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6">
                   <h2 className="text-sm uppercase tracking-wide text-gray-500 mb-4">

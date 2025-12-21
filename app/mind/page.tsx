@@ -27,28 +27,34 @@ export default function MindPage() {
             <h1 className="font-serif text-5xl md:text-6xl font-light text-white mb-6">
               Mind
             </h1>
-            <p className="text-xl text-gray-300 leading-relaxed mb-8">
+            <p className="text-xl text-gray-300 leading-relaxed mb-12">
               Your inner landscape: psychology, patterns, shadow work, attachment.
               Understanding why you do what you do — and how to change it.
             </p>
 
-            {/* Archetype Quiz CTA */}
+            {/* Archetype Assessment Feature */}
             <Link
               href="/archetypes"
-              className="block mb-16 p-6 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors group"
+              className="group block mb-16 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors p-6"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h3 className="font-serif text-xl text-white mb-2 group-hover:text-gray-300 transition-colors">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs uppercase tracking-wide text-amber-500">Interactive</span>
+                  </div>
+                  <h2 className="font-serif text-xl text-white group-hover:text-gray-200 transition-colors mb-2">
                     Archetype Assessment
-                  </h3>
-                  <p className="text-gray-500 text-sm">
-                    Discover which archetypal energies are most active in your psyche. 12 questions, ~3 minutes.
+                  </h2>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Discover which archetypal energies are most active in your psyche.
+                    King, Warrior, Magician, Lover — or Queen, Mother, Lover, Maiden, Huntress, Mystic, Wild Woman.
                   </p>
                 </div>
-                <svg className="w-5 h-5 text-gray-600 group-hover:text-white transition-colors flex-shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
+                <div className="flex-shrink-0 text-gray-600 group-hover:text-white transition-colors">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
               </div>
             </Link>
 

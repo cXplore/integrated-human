@@ -9,7 +9,14 @@
   "duration": "8 weeks",
   "level": "Intermediate",
   "category": "Flagship",
-  "tags": ["integration", "shadow-work", "nervous-system", "relationships", "meaning", "transformation"],
+  "tags": [
+    "integration",
+    "shadow-work",
+    "nervous-system",
+    "relationships",
+    "meaning",
+    "transformation"
+  ],
   "instructor": "Integrated Human",
   "modules": [
     {
@@ -180,5 +187,6 @@
   },
   "published": true,
   "createdAt": "2024-12-18",
-  "updatedAt": "2024-12-18"
+  "updatedAt": "2024-12-18",
+  "tier": "flagship"
 }

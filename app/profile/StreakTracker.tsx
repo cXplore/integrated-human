@@ -66,57 +66,49 @@ export default function StreakTracker() {
 
   return (
     <div className="space-y-6">
-      {/* Streak Display */}
+      {/* Consistency Display */}
       <div>
         <h2 className="text-sm uppercase tracking-wide text-gray-500 mb-4">
-          Your Streak
+          Your Practice
         </h2>
 
         <div className="flex items-center gap-6">
-          {/* Current Streak */}
+          {/* Current consistency */}
           <div className="text-center">
-            <div className="flex items-center justify-center gap-2">
-              <span className="text-4xl font-light text-white">
-                {data.currentStreak}
-              </span>
-              {data.currentStreak > 0 && (
-                <span className="text-2xl">🔥</span>
-              )}
+            <div className="text-4xl font-light text-white">
+              {data.currentStreak}
             </div>
             <div className="text-sm text-gray-500">
-              {data.currentStreak === 1 ? 'day' : 'days'}
+              {data.currentStreak === 1 ? 'day' : 'days'} consistent
             </div>
           </div>
 
-          {/* Longest Streak */}
-          {data.longestStreak > 0 && (
+          {/* Days active */}
+          {data.daysActive > 0 && (
             <div className="text-center border-l border-zinc-800 pl-6">
               <div className="text-2xl font-light text-gray-400">
-                {data.longestStreak}
+                {data.daysActive}
               </div>
               <div className="text-xs text-gray-600">
-                longest
+                days active
               </div>
             </div>
           )}
         </div>
 
-        {/* Streak message */}
+        {/* Gentle message */}
         <p className="text-sm text-gray-500 mt-3">
           {data.currentStreak === 0 && !data.hasActivityToday && (
-            "Start your streak today with any activity!"
+            "Whenever you're ready, the work will be here."
           )}
           {data.currentStreak === 0 && data.hasActivityToday && (
-            "Great start! Keep it going tomorrow."
+            "You showed up today. That's what matters."
           )}
           {data.currentStreak > 0 && data.currentStreak < 7 && (
-            `${7 - data.currentStreak} more ${data.currentStreak === 6 ? 'day' : 'days'} to reach a week!`
+            "Small, consistent steps. No rush."
           )}
-          {data.currentStreak >= 7 && data.currentStreak < 30 && (
-            "Amazing week streak! Keep the momentum going."
-          )}
-          {data.currentStreak >= 30 && (
-            "Incredible dedication! A month of consistent practice."
+          {data.currentStreak >= 7 && (
+            "A rhythm is forming. Trust the process."
           )}
         </p>
       </div>

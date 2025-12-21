@@ -32,6 +32,9 @@ model User {
   exerciseResponses ExerciseResponse[]
   journalEntries    JournalEntry[]
   profile           UserProfile?
+  subscription      Subscription?
+  aiCredits         AICredits?
+  assessmentResults AssessmentResult[]
 }
 
 model Account {
@@ -229,4 +232,89 @@ model UserProfile {
   sensitivities String? @db.Text
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Subscription tiers: seeker, practitioner, master
+model Subscription {
+  id                   String    @id @default(cuid())
+  userId               String    @unique
+  tier                 String    // seeker, practitioner, master
+  status               String    @default("active") // active, canceled, past_due, paused
+  stripeSubscriptionId String    @unique
+  stripeCustomerId     String
+  stripePriceId        String
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  cancelAtPeriodEnd    Boolean   @default(false)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([stripeSubscriptionId])
+}
+
+// AI Credits - token-based system
+// 1 credit = 1,000 tokens, but we track in tokens for precision
+model AICredits {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  tokenBalance       Int      @default(0) // Current available tokens
+  monthlyTokens      Int      @default(0) // Tokens included with subscription tier (reset monthly)
+  monthlyUsed        Int      @default(0) // Tokens used this billing period
+  purchasedTokens    Int      @default(0) // Purchased tokens (never expire)
+  lastMonthlyReset   DateTime @default(now()) // When monthly tokens were last reset
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// Track AI usage for billing and analytics
+model AIUsage {
+  id           String   @id @default(cuid())
+  userId       String
+  inputTokens  Int      // Actual input tokens used
+  outputTokens Int      // Actual output tokens used
+  totalTokens  Int      // inputTokens + outputTokens
+  cost         Float    // Actual cost in dollars (for analytics)
+  model        String   @default("claude-sonnet-4.5")
+  context      String?  // chat, course-help, journal-reflection, etc.
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, createdAt])
+}
+
+// Credit purchases (tokens)
+model CreditPurchase {
+  id               String   @id @default(cuid())
+  userId           String
+  credits          Int      // Number of credits purchased (1 credit = 1,000 tokens)
+  tokens           Int      // Actual tokens added (credits * 1000)
+  amount           Int      // Amount in cents
+  stripePaymentId  String   @unique
+  createdAt        DateTime @default(now())
+
+  @@index([userId])
+}
+
+// Assessment Results - stores user's self-discovery assessment outcomes
+model AssessmentResult {
+  id          String   @id @default(cuid())
+  userId      String
+  type        String   // archetype, attachment, nervous-system, values
+  results     String   @db.Text // JSON string with full results
+  summary     String?  @db.Text // Brief summary for display
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type]) // One result per type per user (updates replace)
+  @@index([userId])
+  @@index([userId, type])
 }

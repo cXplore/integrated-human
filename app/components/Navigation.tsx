@@ -32,9 +32,16 @@ const navItems: NavItem[] = [
       { label: 'Learning Paths', href: '/learning-paths', description: 'Structured journeys' },
     ],
   },
-  { label: 'Courses', href: '/courses' },
+  {
+    label: 'Courses',
+    dropdown: [
+      { label: 'All Courses', href: '/courses', description: 'Browse all courses' },
+      { label: 'Bundles', href: '/bundles', description: 'Save with course bundles' },
+    ],
+  },
   { label: 'Free', href: '/free' },
   { label: 'Library', href: '/library' },
+  { label: 'Membership', href: '/pricing' },
   { label: 'About', href: '/about' },
 ];
 
@@ -44,6 +51,30 @@ function MegaMenu({ items, isOpen, onClose }: { items: DropdownItem[]; isOpen: b
   // Separate pillars from tools
   const pillars = items.filter(item => ['Mind', 'Body', 'Soul', 'Relationships'].includes(item.label));
   const tools = items.filter(item => !['Mind', 'Body', 'Soul', 'Relationships'].includes(item.label));
+
+  // Use mega menu for Explore (has pillars), simple dropdown for others
+  const isMegaMenu = pillars.length > 0;
+
+  if (!isMegaMenu) {
+    // Simple dropdown for Courses and other nav items
+    return (
+      <div className="absolute top-full left-0 mt-2 w-56 bg-zinc-900 border border-zinc-800 shadow-xl z-50 py-2">
+        {items.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            onClick={onClose}
+            className="block px-4 py-2.5 hover:bg-zinc-800 transition-colors"
+          >
+            <span className="text-white text-sm">{item.label}</span>
+            {item.description && (
+              <span className="block text-xs text-gray-500 mt-0.5">{item.description}</span>
+            )}
+          </Link>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[700px] bg-zinc-900 border border-zinc-800 shadow-xl z-50 p-6">

@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import { stripe, formatAmountForStripe } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
 import { getCourseBySlug } from '@/lib/courses';
+import { getBundleWithCourses } from '@/lib/bundles';
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,8 +16,80 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { courseSlug } = await request.json();
+    const body = await request.json();
+    const { type, courseSlug, bundleId, bundleTitle, price: bundlePrice } = body;
 
+    // Handle bundle purchase
+    if (type === 'bundle') {
+      if (!bundleId) {
+        return NextResponse.json(
+          { error: 'Bundle ID is required' },
+          { status: 400 }
+        );
+      }
+
+      const bundle = getBundleWithCourses(bundleId);
+      if (!bundle) {
+        return NextResponse.json(
+          { error: 'Bundle not found' },
+          { status: 404 }
+        );
+      }
+
+      // Check if user already owns all courses in the bundle
+      const existingPurchases = await prisma.purchase.findMany({
+        where: {
+          userId: session.user.id,
+          courseSlug: { in: bundle.courses },
+        },
+      });
+
+      const ownedCourses = existingPurchases.map((p) => p.courseSlug);
+      const unownedCourses = bundle.courses.filter((c) => !ownedCourses.includes(c));
+
+      if (unownedCourses.length === 0) {
+        return NextResponse.json(
+          { error: 'You already own all courses in this bundle' },
+          { status: 400 }
+        );
+      }
+
+      // Create Stripe checkout session for bundle
+      const checkoutSession = await stripe.checkout.sessions.create({
+        mode: 'payment',
+        payment_method_types: ['card'],
+        line_items: [
+          {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: bundle.title,
+                description: `Bundle includes ${bundle.courseDetails.length} courses: ${bundle.courseDetails.map((c) => c.metadata.title).join(', ')}`,
+              },
+              unit_amount: formatAmountForStripe(bundle.bundlePrice),
+            },
+            quantity: 1,
+          },
+        ],
+        metadata: {
+          userId: session.user.id,
+          type: 'bundle',
+          bundleId: bundle.id,
+          bundleTitle: bundle.title,
+          courseSlugs: bundle.courses.join(','),
+        },
+        customer_email: session.user.email || undefined,
+        success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/bundles/${bundleId}?purchase=success&session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/bundles/${bundleId}?purchase=cancelled`,
+      });
+
+      return NextResponse.json({
+        sessionId: checkoutSession.id,
+        url: checkoutSession.url,
+      });
+    }
+
+    // Handle single course purchase
     if (!courseSlug) {
       return NextResponse.json(
         { error: 'Course slug is required' },
@@ -72,6 +145,7 @@ export async function POST(request: NextRequest) {
       ],
       metadata: {
         userId: session.user.id,
+        type: 'course',
         courseSlug: courseSlug,
         courseName: metadata.title,
       },

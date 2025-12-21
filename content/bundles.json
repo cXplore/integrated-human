@@ -1,0 +1,138 @@
+[
+  {
+    "id": "shadow-integration-path",
+    "title": "The Shadow Integration Path",
+    "subtitle": "Complete journey from discovery to integration",
+    "description": "Master shadow work from beginner to advanced. This bundle takes you through understanding your shadow, working with your inner parts, and integrating what you discover for lasting transformation.",
+    "courses": [
+      "shadow-work-foundations",
+      "parts-work",
+      "inner-critic-work",
+      "self-worth-and-shame"
+    ],
+    "originalPrice": 188,
+    "bundlePrice": 127,
+    "savings": 61,
+    "featured": true,
+    "category": "Mind"
+  },
+  {
+    "id": "nervous-system-restoration",
+    "title": "Nervous System Restoration",
+    "subtitle": "Regulate, restore, and build resilience",
+    "description": "A comprehensive approach to healing your nervous system. From understanding trauma responses to building somatic awareness and breathwork mastery.",
+    "courses": [
+      "nervous-system-mastery",
+      "somatic-healing",
+      "breathwork-mastery",
+      "embodiment-basics"
+    ],
+    "originalPrice": 188,
+    "bundlePrice": 127,
+    "savings": 61,
+    "featured": true,
+    "category": "Body"
+  },
+  {
+    "id": "relationship-healing-bundle",
+    "title": "Relationship Healing Bundle",
+    "subtitle": "From attachment wounds to conscious connection",
+    "description": "Transform your relationships by understanding attachment patterns, healing codependency, and learning conscious communication and connection.",
+    "courses": [
+      "attachment-repair",
+      "codependency-recovery",
+      "conscious-relationship",
+      "communication-mastery"
+    ],
+    "originalPrice": 188,
+    "bundlePrice": 127,
+    "savings": 61,
+    "featured": true,
+    "category": "Relationships"
+  },
+  {
+    "id": "anxiety-freedom-path",
+    "title": "Anxiety Freedom Path",
+    "subtitle": "Comprehensive anxiety healing toolkit",
+    "description": "Everything you need to understand and work with anxiety. From first-aid techniques to deep nervous system work and ongoing regulation practices.",
+    "courses": [
+      "anxiety-first-aid",
+      "anxiety-and-panic",
+      "breaking-free-anxiety",
+      "overthinking-to-clarity"
+    ],
+    "originalPrice": 188,
+    "bundlePrice": 127,
+    "savings": 61,
+    "featured": false,
+    "category": "Mind"
+  },
+  {
+    "id": "emotional-mastery-bundle",
+    "title": "Emotional Mastery Bundle",
+    "subtitle": "Feel, process, and express with skill",
+    "description": "Develop emotional intelligence and regulation skills. Learn to work with anger, release stuck emotions, and build a healthy relationship with your inner world.",
+    "courses": [
+      "mastering-emotions",
+      "intro-emotional-intelligence",
+      "anger-and-aggression",
+      "emotional-release"
+    ],
+    "originalPrice": 188,
+    "bundlePrice": 127,
+    "savings": 61,
+    "featured": false,
+    "category": "Mind"
+  },
+  {
+    "id": "purpose-and-meaning-bundle",
+    "title": "Purpose & Meaning Bundle",
+    "subtitle": "Discover your path and live it fully",
+    "description": "Find clarity on your life direction. Explore purpose, meaning, and how to align your daily life with what truly matters to you.",
+    "courses": [
+      "life-purpose",
+      "finding-your-why",
+      "meaning-and-purpose",
+      "career-and-purpose"
+    ],
+    "originalPrice": 188,
+    "bundlePrice": 127,
+    "savings": 61,
+    "featured": false,
+    "category": "Soul"
+  },
+  {
+    "id": "self-worth-recovery-bundle",
+    "title": "Self-Worth Recovery Bundle",
+    "subtitle": "Rebuild from the foundation up",
+    "description": "Heal shame, recover from people-pleasing, build authentic confidence, and develop unshakeable self-worth from the inside out.",
+    "courses": [
+      "self-worth-foundations",
+      "self-worth-and-shame",
+      "people-pleasing-recovery",
+      "building-authentic-confidence"
+    ],
+    "originalPrice": 188,
+    "bundlePrice": 127,
+    "savings": 61,
+    "featured": false,
+    "category": "Mind"
+  },
+  {
+    "id": "mindfulness-meditation-bundle",
+    "title": "Mindfulness & Meditation Bundle",
+    "subtitle": "Build a lasting contemplative practice",
+    "description": "Develop meditation skills from fundamentals to mastery. Learn presence practices, mindfulness techniques, and create sustainable daily rituals.",
+    "courses": [
+      "meditation-fundamentals",
+      "mindfulness-basics",
+      "mindfulness-meditation-mastery",
+      "presence-practices"
+    ],
+    "originalPrice": 188,
+    "bundlePrice": 127,
+    "savings": 61,
+    "featured": false,
+    "category": "Soul"
+  }
+]

@@ -27,10 +27,36 @@ export default function BodyPage() {
             <h1 className="font-serif text-5xl md:text-6xl font-light text-white mb-6">
               Body
             </h1>
-            <p className="text-xl text-gray-300 leading-relaxed mb-16">
+            <p className="text-xl text-gray-300 leading-relaxed mb-12">
               Your physical foundation: training, movement, breath, recovery.
               The body is where everything else lives — treat it like home.
             </p>
+
+            {/* Nervous System Check-In Feature */}
+            <Link
+              href="/nervous-system"
+              className="group block mb-16 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors p-6"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs uppercase tracking-wide text-emerald-500">Interactive</span>
+                  </div>
+                  <h2 className="font-serif text-xl text-white group-hover:text-gray-200 transition-colors mb-2">
+                    Nervous System Check-In
+                  </h2>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    Where is your body right now? A quick check-in to understand your current
+                    nervous system state and what might help. Takes 2 minutes.
+                  </p>
+                </div>
+                <div className="flex-shrink-0 text-gray-600 group-hover:text-white transition-colors">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
 
             {/* Learning Path */}
             {physicalFoundation.length > 0 && (

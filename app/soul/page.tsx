@@ -27,10 +27,36 @@ export default function SoulPage() {
             <h1 className="font-serif text-5xl md:text-6xl font-light text-white mb-6">
               Soul
             </h1>
-            <p className="text-xl text-gray-300 leading-relaxed mb-16">
+            <p className="text-xl text-gray-300 leading-relaxed mb-12">
               Your depth: meditation, psychedelics, meaning, philosophy, silence.
               Everything in you that knows there's more to life than performance.
             </p>
+
+            {/* Values Reflection Feature */}
+            <Link
+              href="/values"
+              className="group block mb-16 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors p-6"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs uppercase tracking-wide text-purple-400">Reflection</span>
+                  </div>
+                  <h2 className="font-serif text-xl text-white group-hover:text-gray-200 transition-colors mb-2">
+                    Values Reflection
+                  </h2>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    What actually matters to you? A guided contemplation to clarify your
+                    deepest values and examine how you're living them.
+                  </p>
+                </div>
+                <div className="flex-shrink-0 text-gray-600 group-hover:text-white transition-colors">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
 
             {/* Learning Path */}
             {soulFoundations.length > 0 && (

@@ -10,10 +10,106 @@ import {
   SITE_CONTEXT,
   type UserJourneyContext,
 } from '@/lib/presence';
+import {
+  calculateTokenCost,
+  INPUT_TOKEN_COST,
+  OUTPUT_TOKEN_COST,
+} from '@/lib/subscriptions';
 
 // LM Studio endpoint
 const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://10.221.168.219:1234/v1/chat/completions';
 const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'qwen/qwen3-32b';
+
+// Rough token estimation (4 chars ≈ 1 token for English text)
+function estimateTokens(text: string): number {
+  return Math.ceil(text.length / 4);
+}
+
+/**
+ * Check if user has enough credits and return their balance
+ */
+async function checkCredits(userId: string): Promise<{ hasCredits: boolean; balance: number }> {
+  const credits = await prisma.aICredits.findUnique({
+    where: { userId },
+  });
+
+  if (!credits) {
+    return { hasCredits: false, balance: 0 };
+  }
+
+  return {
+    hasCredits: credits.tokenBalance > 0,
+    balance: credits.tokenBalance,
+  };
+}
+
+/**
+ * Deduct tokens from user's balance and record usage
+ */
+async function deductTokens(
+  userId: string,
+  inputTokens: number,
+  outputTokens: number,
+  context?: string
+): Promise<void> {
+  const totalTokens = inputTokens + outputTokens;
+  const cost = calculateTokenCost(inputTokens, outputTokens);
+
+  // Get current credits to determine deduction order
+  const credits = await prisma.aICredits.findUnique({
+    where: { userId },
+  });
+
+  if (!credits) {
+    // Create credits record if doesn't exist (shouldn't happen, but safety)
+    await prisma.aICredits.create({
+      data: {
+        userId,
+        tokenBalance: 0,
+        monthlyTokens: 0,
+        monthlyUsed: totalTokens,
+        purchasedTokens: 0,
+      },
+    });
+  } else {
+    // Deduct from monthly tokens first, then purchased
+    let monthlyDeduction = 0;
+    let remainingDeduction = totalTokens;
+
+    // How much monthly tokens are available (monthlyTokens - monthlyUsed)?
+    const monthlyAvailable = Math.max(0, credits.monthlyTokens - credits.monthlyUsed);
+
+    if (monthlyAvailable > 0) {
+      monthlyDeduction = Math.min(monthlyAvailable, remainingDeduction);
+      remainingDeduction -= monthlyDeduction;
+    }
+
+    await prisma.aICredits.update({
+      where: { userId },
+      data: {
+        tokenBalance: { decrement: totalTokens },
+        monthlyUsed: { increment: monthlyDeduction },
+        // If we need to dip into purchased tokens
+        purchasedTokens: remainingDeduction > 0
+          ? { decrement: remainingDeduction }
+          : undefined,
+      },
+    });
+  }
+
+  // Record usage for analytics
+  await prisma.aIUsage.create({
+    data: {
+      userId,
+      inputTokens,
+      outputTokens,
+      totalTokens,
+      cost,
+      model: LM_STUDIO_MODEL,
+      context: context || 'chat',
+    },
+  });
+}
 
 /**
  * Fetch user journey context from the database
@@ -95,7 +191,7 @@ async function getUserJourneyContext(userId: string): Promise<UserJourneyContext
 
 export async function POST(request: NextRequest) {
   try {
-    const { message, history = [] } = await request.json();
+    const { message, history = [], context: chatContext } = await request.json();
 
     if (!message || typeof message !== 'string') {
       return new Response(JSON.stringify({ error: 'Message is required' }), {
@@ -104,15 +200,48 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Get user session for personalization (optional - works without auth too)
+    // Get user session - REQUIRED for credit-based chat
     const session = await auth();
-    let userContext = '';
 
-    if (session?.user?.id) {
-      const journeyContext = await getUserJourneyContext(session.user.id);
-      if (journeyContext) {
-        userContext = buildUserContext(journeyContext);
-      }
+    if (!session?.user?.id) {
+      return new Response(
+        JSON.stringify({
+          error: 'Authentication required',
+          code: 'AUTH_REQUIRED',
+          message: 'Please sign in to use the AI companion.',
+        }),
+        {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    const userId = session.user.id;
+
+    // Check if user has credits
+    const { hasCredits, balance } = await checkCredits(userId);
+
+    if (!hasCredits) {
+      return new Response(
+        JSON.stringify({
+          error: 'Insufficient credits',
+          code: 'NO_CREDITS',
+          message: 'You\'ve run out of AI credits. Purchase more to continue.',
+          balance: 0,
+        }),
+        {
+          status: 402, // Payment Required
+          headers: { 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    // Get user context for personalization
+    let userContext = '';
+    const journeyContext = await getUserJourneyContext(userId);
+    if (journeyContext) {
+      userContext = buildUserContext(journeyContext);
     }
 
     // Detect stance and build appropriate prompt
@@ -163,13 +292,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create a transform stream that filters out <think> tags
+    // Calculate input tokens (system prompt + history + user message)
+    const inputText = messages.map(m => m.content).join(' ');
+    const inputTokens = estimateTokens(inputText);
+
+    // Create a transform stream that filters out <think> tags and tracks output
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
 
     let buffer = '';
     let inThinkTag = false;
-    let thinkTagBuffer = '';
+    let totalOutputContent = ''; // Track all output for token counting
 
     const transformStream = new TransformStream({
       async transform(chunk, controller) {
@@ -182,11 +315,31 @@ export async function POST(request: NextRequest) {
             if (data === '[DONE]') {
               // Send any remaining buffer (shouldn't happen if tags are balanced)
               if (buffer && !inThinkTag) {
+                totalOutputContent += buffer;
                 controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content: buffer })}\n\n`));
                 buffer = '';
               }
-              // Send stance info at the end
-              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ done: true, stance })}\n\n`));
+
+              // Calculate output tokens and deduct credits
+              const outputTokens = estimateTokens(totalOutputContent);
+              const totalTokens = inputTokens + outputTokens;
+
+              // Deduct tokens in background (don't block response)
+              deductTokens(userId, inputTokens, outputTokens, chatContext).catch(err => {
+                console.error('Error deducting tokens:', err);
+              });
+
+              // Send final info including token usage
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify({
+                done: true,
+                stance,
+                usage: {
+                  inputTokens,
+                  outputTokens,
+                  totalTokens,
+                  remainingBalance: balance - totalTokens,
+                },
+              })}\n\n`));
               return;
             }
 
@@ -217,6 +370,7 @@ export async function POST(request: NextRequest) {
                       // Output everything before the think tag
                       const before = buffer.slice(0, openIndex);
                       if (before) {
+                        totalOutputContent += before;
                         controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content: before })}\n\n`));
                       }
                       buffer = buffer.slice(openIndex + 7);
@@ -227,6 +381,7 @@ export async function POST(request: NextRequest) {
                       const safeLength = Math.max(0, buffer.length - 6);
                       if (safeLength > 0) {
                         const toSend = buffer.slice(0, safeLength);
+                        totalOutputContent += toSend;
                         controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content: toSend })}\n\n`));
                         buffer = buffer.slice(safeLength);
                       }
@@ -244,6 +399,7 @@ export async function POST(request: NextRequest) {
       flush(controller) {
         // Send any remaining buffer that's not in a think tag
         if (buffer && !inThinkTag) {
+          totalOutputContent += buffer;
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content: buffer })}\n\n`));
         }
       }

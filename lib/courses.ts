@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { CourseTier } from './subscriptions';
 
 const coursesDirectory = path.join(process.cwd(), 'content/courses');
 
@@ -35,6 +36,7 @@ export interface CourseMetadata {
   duration: string;
   level: string;
   category: string;
+  tier: CourseTier;
   tags?: string[];
   instructor?: string;
   modules: CourseModule[];

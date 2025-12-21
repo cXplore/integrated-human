@@ -9,7 +9,15 @@
   "duration": "6 modules",
   "level": "Beginner",
   "category": "Mind",
-  "tags": ["career", "purpose", "transition", "work", "meaning", "identity", "vocation"],
+  "tags": [
+    "career",
+    "purpose",
+    "transition",
+    "work",
+    "meaning",
+    "identity",
+    "vocation"
+  ],
   "instructor": "Integrated Human",
   "modules": [
     {
@@ -141,5 +149,6 @@
   },
   "published": true,
   "createdAt": "2024-12-19",
-  "updatedAt": "2024-12-19"
+  "updatedAt": "2024-12-19",
+  "tier": "beginner"
 }

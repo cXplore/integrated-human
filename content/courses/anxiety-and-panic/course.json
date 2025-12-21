@@ -9,7 +9,14 @@
   "duration": "6 modules",
   "level": "Beginner",
   "category": "Mind",
-  "tags": ["anxiety", "panic", "nervous-system", "somatic", "stress", "healing"],
+  "tags": [
+    "anxiety",
+    "panic",
+    "nervous-system",
+    "somatic",
+    "stress",
+    "healing"
+  ],
   "instructor": "Integrated Human",
   "modules": [
     {
@@ -152,5 +159,6 @@
   },
   "published": true,
   "createdAt": "2024-12-19",
-  "updatedAt": "2024-12-19"
+  "updatedAt": "2024-12-19",
+  "tier": "beginner"
 }

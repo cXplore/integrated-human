@@ -9,7 +9,13 @@
   "duration": "6 modules",
   "level": "Beginner",
   "category": "Body",
-  "tags": ["nervous-system", "regulation", "polyvagal", "somatic", "stress"],
+  "tags": [
+    "nervous-system",
+    "regulation",
+    "polyvagal",
+    "somatic",
+    "stress"
+  ],
   "instructor": "Integrated Human",
   "modules": [
     {
@@ -151,5 +157,6 @@
   },
   "published": true,
   "createdAt": "2024-12-18",
-  "updatedAt": "2024-12-18"
+  "updatedAt": "2024-12-18",
+  "tier": "beginner"
 }

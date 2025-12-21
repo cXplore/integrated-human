@@ -27,11 +27,37 @@ export default function RelationshipsPage() {
             <h1 className="font-serif text-5xl md:text-6xl font-light text-white mb-6">
               Relationships
             </h1>
-            <p className="text-xl text-gray-300 leading-relaxed mb-16">
+            <p className="text-xl text-gray-300 leading-relaxed mb-12">
               The arena where mind, body and soul all show themselves at once.
               Attraction, attachment, intimacy, conflict, separation and staying.
               How we love without losing ourselves.
             </p>
+
+            {/* Attachment Style Feature */}
+            <Link
+              href="/attachment"
+              className="group block mb-16 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors p-6"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs uppercase tracking-wide text-rose-400">Interactive</span>
+                  </div>
+                  <h2 className="font-serif text-xl text-white group-hover:text-gray-200 transition-colors mb-2">
+                    Attachment Style Exploration
+                  </h2>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    How do you relate to closeness and independence? Understand your patterns
+                    in intimacy and where your growth edge lives.
+                  </p>
+                </div>
+                <div className="flex-shrink-0 text-gray-600 group-hover:text-white transition-colors">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
 
             {/* Learning Path */}
             {relationshipFoundations.length > 0 && (

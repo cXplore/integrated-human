@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import JournalInsights from './JournalInsights';
 
 interface JournalEntry {
   id: string;
@@ -50,7 +51,7 @@ const MOODS = [
 ];
 
 export default function JournalView() {
-  const [activeTab, setActiveTab] = useState<'write' | 'entries' | 'course'>('write');
+  const [activeTab, setActiveTab] = useState<'write' | 'entries' | 'insights' | 'course'>('write');
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [courseEntries, setCourseEntries] = useState<CourseJournalEntry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -192,6 +193,19 @@ export default function JournalView() {
         >
           My Entries ({entries.length})
           {activeTab === 'entries' && (
+            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-500" />
+          )}
+        </button>
+        <button
+          onClick={() => setActiveTab('insights')}
+          className={`px-4 py-3 text-sm font-medium transition-colors relative ${
+            activeTab === 'insights'
+              ? 'text-white'
+              : 'text-gray-500 hover:text-gray-300'
+          }`}
+        >
+          Insights
+          {activeTab === 'insights' && (
             <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-500" />
           )}
         </button>
@@ -400,6 +414,9 @@ export default function JournalView() {
           )}
         </div>
       )}
+
+      {/* Insights Tab */}
+      {activeTab === 'insights' && <JournalInsights />}
 
       {/* Course Journals Tab */}
       {activeTab === 'course' && (
