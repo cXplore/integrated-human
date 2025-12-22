@@ -80,9 +80,12 @@ lib/
 ├── lead-magnets.ts         # Lead magnet loading
 ├── posts.ts                # Article loading functions
 ├── stripe.ts               # Stripe client + helpers
-├── subscriptions.ts        # Subscription tier definitions
+├── subscriptions.ts        # Subscription tier + AI credit config
 ├── presence.ts             # AI context building
-└── prisma.ts               # Database client
+├── prisma.ts               # Database client
+├── rate-limit.ts           # In-memory rate limiting
+├── sanitize.ts             # Input sanitization + safeJsonParse
+└── env.ts                  # Environment variable validation
 
 prisma/schema.prisma        # Database models
 ```
@@ -119,14 +122,16 @@ AIUsage             # Usage tracking for analytics
 - **Where I'm Stuck** - Describes struggle → matched to relevant content
 - **Assessment Synthesis** - Combines multiple assessments into integrated profile
 
-All AI features use token credits (monthly allocation + purchasable).
+All AI features use token credits (monthly allocation for members, purchasable for everyone).
 
-### Subscription Tiers
+### Subscription Model (Single Tier)
 ```
-Seeker (Free)      - All articles, intro courses, 50 AI credits/month
-Practitioner ($15) - + intermediate courses, 100 AI credits/month
-Integration ($29)  - All courses, 500 AI credits/month, all PDFs
+Free               - 50 articles, 5 intro courses, free resources, no AI
+Member ($19/month) - Everything: all courses, all articles, 500 AI credits/month
+                     Yearly: $190 (2 months free)
 ```
+
+AI credits purchasable separately: $0.025 per credit (1,000 tokens).
 
 ### Development Spectrum Framework
 Courses are tagged with which stage(s) of development they serve:
@@ -141,24 +146,29 @@ Used for personalized recommendations and preventing inappropriate content match
 
 Key principle: Don't push optimization on people in collapse.
 
-### Course Tiers
+### Course Tiers (Content Categories, Not Pricing)
+Courses are categorized by depth/complexity, not individually priced:
 ```
-Intro ($29)       - Entry-level, short duration, completion record
-Beginner ($47)    - Foundation courses, completion record
-Intermediate ($67)- Deeper exploration, completion record
-Advanced ($97)    - Comprehensive + assessment, full certificate
-Flagship ($247)   - Our deepest work, full certificate, most extensive
+Intro       - Entry-level, short duration, completion record
+Beginner    - Foundation courses, completion record
+Intermediate- Deeper exploration, completion record
+Advanced    - Comprehensive + assessment, full certificate
+Flagship    - Our deepest work, full certificate, most extensive
 ```
 
+All courses included with membership ($19/month). Free users can access 5 intro courses.
+
 ### Payment Flow (Stripe)
-1. User clicks "Enroll Now" on course page
-2. PurchaseButton checks auth, redirects to login if needed
-3. POST `/api/checkout` creates Stripe Checkout Session
-4. User completes payment on Stripe
-5. Redirect back with `?purchase=success&session_id={ID}`
-6. PurchaseSuccess component calls `/api/checkout/verify`
-7. Verify endpoint confirms with Stripe, creates Purchase record
-8. Webhook (production) also creates Purchase as backup
+**Subscriptions:**
+1. User clicks "Become a Member" on pricing page
+2. POST `/api/subscriptions/checkout` creates Stripe subscription session
+3. User completes payment on Stripe
+4. Webhook creates Subscription record, unlocks all content + AI credits
+
+**AI Credits (one-time purchase):**
+1. User purchases credits from profile or pricing page
+2. POST `/api/credits/checkout` creates Stripe payment session
+3. Webhook adds tokens to AICredits balance
 
 ### Certificate Tiering System
 Two credential types based on course tier:
@@ -287,26 +297,26 @@ return new Response(response.body?.pipeThrough(transformStream), {
 ## Current State (Dec 2024)
 
 ### Implemented
-- **92 courses** with full module content, quizzes, and navigation
+- **102 courses** with full module content, quizzes, and navigation
   - Tagged with Development Spectrum stages
-  - Tiered pricing: Intro ($29), Beginner ($47), Intermediate ($67), Advanced ($97), Flagship ($247)
+  - All included with $19/month membership
 - **Transparency Section** at /transparency
   - Methodology page (Development Spectrum framework)
   - Quality Standards page
   - Certificate Standards page
   - Course Audits (per-course audit documents)
 - **200+ articles** in content/posts/
-- **7 guided practices** (breathwork, grounding, meditation)
+- **7 guided practices** (breathwork, grounding, somatic work)
 - **Interactive exercises** - Journal prompts, checklists, callouts in MDX
-- **Stripe payments** - Checkout, verification, purchase tracking
-- **Subscription system** - 3 tiers with course access levels
+- **Stripe subscriptions** - Single-tier membership ($19/month or $190/year)
+- **AI credit purchases** - Pay-as-you-go tokens ($0.025 per credit)
 - **Lead magnets** - 4 downloadable resources with email capture
 - **Certificate tiering** - Completion records vs full certificates based on course tier
 - **Quiz system** with certificate gating (advanced/flagship tiers)
 - **User authentication** (Google OAuth)
 - **Onboarding flow** - Multi-step profile setup
 - **Course/article progress tracking** with scroll position sync
-- **Profile dashboard** with purchases, certificates, stats, journaling
+- **Profile dashboard** with subscription, certificates, stats, journaling
 - **Learning paths** - Curated course sequences
 - **Archetype quiz** - Full masculine/feminine assessment
 - **Shadow profile quiz** - 8 shadow patterns
@@ -317,11 +327,12 @@ return new Response(response.body?.pipeThrough(transformStream), {
   - Dream journal with interpretation
   - "Where I'm Stuck" resource finder
   - Assessment synthesis
-- **AI credit system** - Monthly allocation + purchasable tokens
+- **AI credit system** - 500 monthly for members + purchasable tokens
 - **Integration check-ins** - Periodic reflection system
 - **Reading streaks** - Engagement tracking
 - **Site footer** - Full navigation + legal pages
 - **Privacy policy** and **Terms of service**
+- **Security hardening** - Rate limiting, input sanitization, auth on all AI endpoints
 
 ### Not Yet Implemented
 - Email sequences in ConvertKit (infrastructure ready)
@@ -336,9 +347,9 @@ return new Response(response.body?.pipeThrough(transformStream), {
 | Purpose | File |
 |---------|------|
 | Stripe client | `lib/stripe.ts` |
-| Subscription tiers | `lib/subscriptions.ts` |
-| Checkout API | `app/api/checkout/route.ts` |
-| Purchase verify | `app/api/checkout/verify/route.ts` |
+| Subscription config | `lib/subscriptions.ts` |
+| Subscription checkout | `app/api/subscriptions/checkout/route.ts` |
+| Credits checkout | `app/api/credits/checkout/route.ts` |
 | Webhook handler | `app/api/webhook/stripe/route.ts` |
 | Exercise API | `app/api/exercises/route.ts` |
 | Journal API | `app/api/journal/route.ts` |
@@ -350,7 +361,11 @@ return new Response(response.body?.pipeThrough(transformStream), {
 | Practice loader | `lib/practices.ts` |
 | Article loader | `lib/posts.ts` |
 | AI context builder | `lib/presence.ts` |
+| Rate limiting | `lib/rate-limit.ts` |
+| Input sanitization | `lib/sanitize.ts` |
+| Env validation | `lib/env.ts` |
 | Interactive components | `app/components/course/MDXComponents.tsx` |
+| Error boundaries | `app/components/ErrorBoundary.tsx` |
 | Read tracker | `app/components/ReadTracker.tsx` |
 | Content companion | `app/components/ContentCompanion.tsx` |
 | Where I'm Stuck | `app/components/WhereImStuck.tsx` |

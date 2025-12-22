@@ -6,12 +6,14 @@ Creative brainstorming for expanding the platform. Not plans - just possibilitie
 
 ## Recently Implemented (Dec 2024)
 
-- **Interactive exercises** - Journal prompts, checklists, checkboxes that save to database
+- **Single-tier membership** - $19/month for everything (simplified from 3 tiers)
+- **AI credit system** - 500/month for members, purchasable for everyone
+- **102 courses** with Development Spectrum tags
+- **Interactive exercises** - Journal prompts, checklists that save to database
 - **Certificate system** - Quiz-gated certificates with unique IDs
 - **Learning paths** - Curated course sequences
 - **Lead magnets** - 4 downloadable resources with email capture
-- **Stripe payments** - Full checkout flow with purchase verification
-- **Subscription tiers** - 3 levels with course access and AI credits
+- **Stripe subscriptions** - Recurring billing with webhook handling
 - **AI-powered features:**
   - Content companion for articles/courses
   - Journal companion with insights
@@ -19,12 +21,13 @@ Creative brainstorming for expanding the platform. Not plans - just possibilitie
   - "Where I'm Stuck" resource finder
   - Assessment synthesis across quizzes
 - **Reading progress sync** - Scroll position saved and restored
-- **Practice library** - 7 guided practices (breathwork, grounding, etc.)
+- **Practice library** - 7 guided practices (breathwork, grounding, somatic)
 - **Integration check-ins** - Periodic reflection system
 - **Reading streaks** - Engagement tracking
 - **Archetype quiz** - Masculine/feminine assessment
 - **Shadow profile quiz** - 8 shadow patterns
 - **Nervous system check** - Polyvagal-based state assessment
+- **Security hardening** - Rate limiting, input sanitization, auth on AI endpoints
 
 ---
 
@@ -90,9 +93,9 @@ Creative brainstorming for expanding the platform. Not plans - just possibilitie
 
 ## Medium-Term Projects
 
-- **Membership tier** - Monthly subscription with all courses + exclusive content
+- ~~**Membership tier** - Monthly subscription with all courses + exclusive content~~ ✅ DONE
 - **Digital workbooks** - Standalone PDF products
-- **Course bundles** - Package related courses at discount
+- ~~**Course bundles** - Package related courses at discount~~ - N/A with membership model
 
 ---
 
