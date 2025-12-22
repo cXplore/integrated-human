@@ -4,7 +4,7 @@
   "subtitle": "Stop running on empty",
   "description": "Chronic fatigue and low energy are epidemic. This course addresses the real causes—not just caffeine and sleep—covering nervous system drain, emotional exhaustion, energy leaks, and how to build genuine vitality.",
   "category": "Body",
-  "price": 57,
+  "price": 29,
   "currency": "USD",
   "duration": "5 weeks",
   "level": "All Levels",
@@ -137,5 +137,9 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "embodiment",
+    "optimization"
+  ]
 }

@@ -4,7 +4,7 @@
   "category": "Relationships",
   "level": "Intermediate",
   "duration": "3 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": false,
   "modules": [
@@ -94,5 +94,8 @@
     ]
   },
   "subtitle": "Close chapters with grace and integrity",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "integration"
+  ]
 }

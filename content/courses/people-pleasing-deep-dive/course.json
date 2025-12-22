@@ -1,78 +1,63 @@
 {
-  "title": "People-Pleasing Deep Dive",
-  "description": "Understanding the people-pleasing pattern and reclaiming your authentic self",
+  "id": "people-pleasing-deep-dive",
+  "title": "Understanding People-Pleasing",
+  "subtitle": "Recognize the pattern and where it comes from",
+  "description": "An introduction to people-pleasing: what it is, how it develops, and what it costs you. This course helps you recognize the pattern in yourself, understand its origins, and see clearly what needs to change.",
   "category": "Mind",
-  "level": "Intermediate",
-  "duration": "3 hours",
-  "price": 0,
+  "level": "Beginner",
+  "duration": "2 hours",
+  "price": 9,
+  "currency": "USD",
   "published": true,
   "featured": false,
   "modules": [
     {
-      "title": "The People-Pleasing Pattern",
-      "description": "Understanding what people-pleasing really is",
-      "order": 1
+      "id": 1,
+      "slug": "what-is-people-pleasing",
+      "title": "What Is People-Pleasing?",
+      "description": "Distinguishing it from kindness and generosity",
+      "duration": "20 min"
     },
     {
-      "title": "Origins of People-Pleasing",
-      "description": "How the pattern develops",
-      "order": 2
+      "id": 2,
+      "slug": "origins",
+      "title": "How It Develops",
+      "description": "People-pleasing as a survival strategy",
+      "duration": "25 min"
     },
     {
+      "id": 3,
+      "slug": "the-costs",
       "title": "The Hidden Costs",
       "description": "What people-pleasing takes from you",
-      "order": 3
+      "duration": "20 min"
     },
     {
-      "title": "Boundaries and Self-Worth",
-      "description": "Building the foundation for change",
-      "order": 4
-    },
-    {
-      "title": "Practical Recovery",
-      "description": "Skills for saying no and being authentic",
-      "order": 5
-    },
-    {
-      "title": "Sustainable Authenticity",
-      "description": "Living as your real self",
-      "order": 6
+      "id": 4,
+      "slug": "recognizing-the-pattern",
+      "title": "Recognizing Your Pattern",
+      "description": "How people-pleasing shows up in your life",
+      "duration": "25 min"
     }
   ],
-  "quiz": {
-    "questions": [
-      {
-        "question": "What is often at the root of people-pleasing?",
-        "options": [
-          "Being naturally kind",
-          "Fear of rejection and need for external validation",
-          "Superior empathy",
-          "Cultural politeness"
-        ],
-        "correctAnswer": 1
-      },
-      {
-        "question": "What is a key cost of chronic people-pleasing?",
-        "options": [
-          "Being too popular",
-          "Loss of authentic self and resentment",
-          "Having too many friends",
-          "Being too successful at work"
-        ],
-        "correctAnswer": 1
-      },
-      {
-        "question": "What is essential for recovery from people-pleasing?",
-        "options": [
-          "Learning to not care about anyone",
-          "Becoming selfish",
-          "Building self-worth independent of others' approval",
-          "Avoiding all relationships"
-        ],
-        "correctAnswer": 2
-      }
-    ]
-  },
-  "subtitle": "Stop abandoning yourself for others",
-  "tier": "intro"
+  "whatYouLearn": [
+    "Understand what people-pleasing actually is",
+    "Recognize how the pattern developed in you",
+    "See the costs clearly",
+    "Identify where it shows up in your life"
+  ],
+  "requirements": [
+    "Curiosity about your own patterns",
+    "Honesty with yourself"
+  ],
+  "tier": "beginner",
+  "tags": [
+    "people-pleasing",
+    "patterns",
+    "self-awareness",
+    "boundaries"
+  ],
+  "spectrum": [
+    "integration"
+  ]
 }

@@ -1,13 +1,12 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
 import Navigation from '@/app/components/Navigation';
 import Link from 'next/link';
 import { getAllCourses, getCourseBySlug } from '@/lib/courses';
 import { getRelatedPostsForCourse } from '@/lib/posts';
-import PurchaseButton from '@/app/components/PurchaseButton';
-import PurchaseSuccess from '@/app/components/PurchaseSuccess';
+import MembershipCTA from '@/app/components/MembershipCTA';
 import ContentCompanion from '@/app/components/ContentCompanion';
+import { CourseJsonLd, BreadcrumbJsonLd } from '@/app/components/JsonLd';
 
 export async function generateStaticParams() {
   const courses = getAllCourses();
@@ -15,6 +14,8 @@ export async function generateStaticParams() {
     courseSlug: course.slug,
   }));
 }
+
+const BASE_URL = 'https://integrated-human.vercel.app';
 
 export async function generateMetadata({ params }: { params: Promise<{ courseSlug: string }> }): Promise<Metadata> {
   const { courseSlug } = await params;
@@ -26,9 +27,33 @@ export async function generateMetadata({ params }: { params: Promise<{ courseSlu
     };
   }
 
+  const { title, description, category, level, tier, modules, tags } = course.metadata;
+
   return {
-    title: `${course.metadata.title} | Integrated Human`,
-    description: course.metadata.description,
+    title: `${title} | Integrated Human`,
+    description,
+    keywords: [category, level, ...(tags || [])],
+    openGraph: {
+      title,
+      description,
+      url: `${BASE_URL}/courses/${courseSlug}`,
+      siteName: 'Integrated Human',
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `${BASE_URL}/courses/${courseSlug}`,
+    },
+    other: {
+      'course:modules': String(modules.length),
+      'course:level': level,
+      'course:tier': tier,
+    },
   };
 }
 
@@ -49,15 +74,44 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
 
   return (
     <>
-      <Suspense fallback={null}>
-        <PurchaseSuccess courseSlug={courseSlug} />
-      </Suspense>
+      <CourseJsonLd
+        title={metadata.title}
+        description={metadata.description}
+        url={`${BASE_URL}/courses/${courseSlug}`}
+        level={metadata.level}
+        duration={metadata.duration}
+        modules={metadata.modules.length}
+        isFree={metadata.tier === 'intro'}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: BASE_URL },
+          { name: 'Courses', url: `${BASE_URL}/courses` },
+          { name: metadata.title, url: `${BASE_URL}/courses/${courseSlug}` },
+        ]}
+      />
       <Navigation />
       <main className="min-h-screen bg-zinc-950">
         {/* Hero Section */}
         <section className="py-20 px-6 border-b border-zinc-800">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-3 mb-6">
+              {metadata.tier === 'flagship' && (
+                <>
+                  <span className="px-2 py-0.5 text-xs uppercase tracking-wide bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                    Flagship
+                  </span>
+                  <span className="text-gray-700">·</span>
+                </>
+              )}
+              {metadata.tier === 'intro' && (
+                <>
+                  <span className="px-2 py-0.5 text-xs uppercase tracking-wide bg-green-500/20 text-green-400 border border-green-500/30">
+                    Free
+                  </span>
+                  <span className="text-gray-700">·</span>
+                </>
+              )}
               <span className="text-xs uppercase tracking-wide text-gray-500">
                 {metadata.category}
               </span>
@@ -84,12 +138,7 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
             </p>
 
             <div className="flex flex-wrap items-center gap-6">
-              <PurchaseButton
-                courseSlug={courseSlug}
-                price={metadata.price}
-                currency={metadata.currency || 'USD'}
-                className="px-8 py-3 bg-white text-zinc-900 font-medium hover:bg-gray-200 transition-colors"
-              />
+              <MembershipCTA variant="primary" />
 
               <Link
                 href={`/courses/${courseSlug}/${metadata.modules[0].slug}`}
@@ -164,26 +213,44 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
                   {metadata.quiz && (
                     <Link
                       href={`/courses/${courseSlug}/quiz`}
-                      className="group block bg-amber-900/20 border border-amber-800/50 hover:border-amber-600 p-5 transition-colors"
+                      className={`group block p-5 transition-colors ${
+                        metadata.tier === 'flagship'
+                          ? 'bg-amber-900/20 border border-amber-800/50 hover:border-amber-600'
+                          : 'bg-zinc-900 border border-zinc-800 hover:border-zinc-600'
+                      }`}
                     >
                       <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 w-10 h-10 bg-amber-800/50 group-hover:bg-amber-700/50 flex items-center justify-center text-amber-400 group-hover:text-amber-300 transition-colors">
+                        <div className={`flex-shrink-0 w-10 h-10 flex items-center justify-center transition-colors ${
+                          metadata.tier === 'flagship'
+                            ? 'bg-amber-800/50 group-hover:bg-amber-700/50 text-amber-400 group-hover:text-amber-300'
+                            : 'bg-zinc-800 group-hover:bg-zinc-700 text-gray-400 group-hover:text-white'
+                        }`}>
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-amber-400 group-hover:text-amber-300 transition-colors mb-1">
-                            Final Quiz
+                          <h3 className={`transition-colors mb-1 ${
+                            metadata.tier === 'flagship'
+                              ? 'text-amber-400 group-hover:text-amber-300'
+                              : 'text-white group-hover:text-gray-300'
+                          }`}>
+                            {metadata.tier === 'flagship' ? 'Final Assessment' : 'Course Quiz'}
                           </h3>
                           <p className="text-gray-500 text-sm mb-2">
-                            Test your knowledge and earn your certificate
+                            {metadata.tier === 'flagship'
+                              ? 'Complete the assessment to earn your certificate'
+                              : 'Test your understanding of the material'}
                           </p>
                           <span className="text-xs text-gray-600">
                             {metadata.quiz.questions.length} questions · {metadata.quiz.passingScore}% to pass
                           </span>
                         </div>
-                        <div className="flex-shrink-0 text-amber-600 group-hover:text-amber-400 transition-colors">
+                        <div className={`flex-shrink-0 transition-colors ${
+                          metadata.tier === 'flagship'
+                            ? 'text-amber-600 group-hover:text-amber-400'
+                            : 'text-gray-600 group-hover:text-gray-400'
+                        }`}>
                           →
                         </div>
                       </div>
@@ -285,27 +352,38 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
                   </dl>
 
                   <div className="mt-6 pt-6 border-t border-zinc-800">
-                    <PurchaseButton
-                      courseSlug={courseSlug}
-                      price={metadata.price}
-                      currency={metadata.currency || 'USD'}
-                      className="w-full py-3 bg-white text-zinc-900 font-medium hover:bg-gray-200 transition-colors text-center block"
-                    />
+                    <MembershipCTA variant="sidebar" />
                   </div>
                 </div>
 
-                {/* Certificate Info */}
-                {metadata.quiz && (
-                  <div className="bg-zinc-900 border border-zinc-800 p-6 mb-6">
-                    <h3 className="text-white font-medium mb-4">Earn a Certificate</h3>
+                {/* Certificate Info - Only for Flagship courses */}
+                {metadata.tier === 'flagship' && metadata.quiz && (
+                  <div className="bg-amber-900/20 border border-amber-800/50 p-6 mb-6">
+                    <h3 className="text-amber-400 font-medium mb-4">Earn a Certificate</h3>
                     <p className="text-gray-400 text-sm mb-4">
-                      Complete all modules and pass the quiz to earn your certificate of completion.
+                      Complete all modules and pass the comprehensive assessment to earn your certificate. This is a substantive test that requires genuine understanding.
                     </p>
                     <div className="flex items-center gap-2 text-amber-400 text-sm">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       <span>{metadata.quiz.passingScore}% passing score required</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Quiz Info - For non-flagship courses with quizzes */}
+                {metadata.tier !== 'flagship' && metadata.quiz && (
+                  <div className="bg-zinc-900 border border-zinc-800 p-6 mb-6">
+                    <h3 className="text-white font-medium mb-4">Course Quiz</h3>
+                    <p className="text-gray-400 text-sm mb-4">
+                      Test your understanding with the end-of-course quiz.
+                    </p>
+                    <div className="flex items-center gap-2 text-gray-400 text-sm">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>{metadata.quiz.passingScore}% passing score</span>
                     </div>
                   </div>
                 )}

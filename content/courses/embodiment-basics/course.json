@@ -4,7 +4,7 @@
   "subtitle": "Coming home to the body you live in",
   "description": "Many of us live from the neck up, disconnected from the body. This beginner course teaches fundamental embodiment practices—how to inhabit your body, feel what you're feeling, and use the body as a resource rather than just a vehicle.",
   "category": "Body",
-  "price": 47,
+  "price": 19,
   "currency": "USD",
   "duration": "4 weeks",
   "level": "Beginner",
@@ -129,5 +129,9 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "regulation",
+    "integration"
+  ]
 }

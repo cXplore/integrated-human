@@ -4,7 +4,7 @@
   "subtitle": "Caring for yourself when everything feels hard",
   "description": "Standard self-care advice doesn't work for trauma survivors. This course teaches gentle, body-based practices for people whose nervous systems are sensitized. Learn to care for yourself without triggering overwhelm or shutdown.",
   "category": "Body",
-  "price": 67,
+  "price": 29,
   "currency": "USD",
   "duration": "5-6 weeks",
   "level": "All Levels",
@@ -138,5 +138,9 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "regulation",
+    "integration"
+  ]
 }

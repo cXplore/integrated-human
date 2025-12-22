@@ -4,7 +4,7 @@
   "subtitle": "Beyond performance into presence",
   "description": "Explore sexuality as a path of connection rather than performance. This course covers healing sexual shame, understanding desire, building genuine intimacy, and bringing presence to erotic experience.",
   "category": "Relationships",
-  "price": 77,
+  "price": 49,
   "currency": "USD",
   "duration": "6 weeks",
   "level": "Intermediate",
@@ -138,5 +138,9 @@
       }
     ]
   },
-  "tier": "intermediate"
+  "tier": "advanced",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

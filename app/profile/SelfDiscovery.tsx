@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import AssessmentSynthesis from './AssessmentSynthesis';
 
 interface AssessmentSummary {
   archetype: {
@@ -282,6 +283,13 @@ export default function SelfDiscovery() {
       {!data?.hasEnoughData && completedCount < 2 && (
         <div className="text-center py-4 text-gray-500 text-sm">
           Complete {2 - completedCount} more assessment{2 - completedCount > 1 ? 's' : ''} to see personalized insights
+        </div>
+      )}
+
+      {/* AI Synthesis - show when at least one assessment is completed */}
+      {completedCount >= 1 && (
+        <div className="pt-4 border-t border-zinc-800">
+          <AssessmentSynthesis />
         </div>
       )}
     </div>

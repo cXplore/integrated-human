@@ -1,10 +1,10 @@
 {
   "id": "psychedelic-integration",
   "title": "Psychedelic Preparation & Integration",
-  "subtitle": "Making medicine work work",
-  "description": "A comprehensive guide to preparing for, navigating, and integrating psychedelic experiences. This course covers physical and psychological preparation, navigation principles, and the crucial integration process that determines lasting benefit.",
+  "subtitle": "The practical guide to safe and meaningful experiences",
+  "description": "Everything you need to prepare for, navigate, and integrate psychedelic experiences. Covers physical and psychological preparation, set and setting, navigation principles for when things get difficult, and the crucial integration practices that determine whether insights become lasting change.",
   "category": "Soul",
-  "price": 77,
+  "price": 39,
   "currency": "USD",
   "duration": "Self-paced",
   "level": "Intermediate",
@@ -14,46 +14,60 @@
       "id": 1,
       "slug": "understanding-psychedelics",
       "title": "Understanding Psychedelics",
-      "description": "What these substances are and how they work",
+      "description": "What these substances are, how they work, and current research",
       "duration": "30 min"
     },
     {
       "id": 2,
-      "slug": "preparation-physical",
-      "title": "Physical Preparation",
-      "description": "Body, diet, and practical readiness",
+      "slug": "contraindications",
+      "title": "Contraindications & Caution",
+      "description": "When NOT to use psychedelics and red flags to recognize",
       "duration": "25 min"
     },
     {
       "id": 3,
-      "slug": "preparation-psychological",
-      "title": "Psychological Preparation",
-      "description": "Intention, mindset, and mental readiness",
-      "duration": "30 min"
+      "slug": "preparation-physical",
+      "title": "Physical Preparation",
+      "description": "Body, diet, sleep, and practical readiness",
+      "duration": "25 min"
     },
     {
       "id": 4,
+      "slug": "preparation-psychological",
+      "title": "Psychological Preparation",
+      "description": "Intention, mindset, fears, and mental readiness",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "set-and-setting",
+      "title": "Set and Setting",
+      "description": "Creating the container for a safe experience",
+      "duration": "25 min"
+    },
+    {
+      "id": 6,
       "slug": "navigation-principles",
       "title": "Navigation Principles",
       "description": "How to work with the experience as it unfolds",
       "duration": "30 min"
     },
     {
-      "id": 5,
+      "id": 7,
       "slug": "working-with-difficulty",
       "title": "Working with Difficulty",
       "description": "When the experience gets challenging",
       "duration": "30 min"
     },
     {
-      "id": 6,
+      "id": 8,
       "slug": "immediate-integration",
       "title": "Immediate Integration",
       "description": "The first 48 hours after an experience",
       "duration": "25 min"
     },
     {
-      "id": 7,
+      "id": 9,
       "slug": "long-term-integration",
       "title": "Long-Term Integration",
       "description": "Making the insights stick for months and years",
@@ -62,18 +76,17 @@
   ],
   "whatYouLearn": [
     "Understand how psychedelics affect the brain and psyche",
+    "Recognize contraindications and make informed decisions",
     "Prepare physically and mentally for an experience",
-    "Set intention without rigid expectation",
+    "Create safe and supportive set and setting",
     "Navigate challenging material during the experience",
     "Integrate insights in the immediate aftermath",
-    "Build practices for lasting transformation",
-    "Know when integration support is needed"
+    "Build practices for lasting transformation"
   ],
   "requirements": [
-    "This course is educational - all decisions about substances are your own",
-    "Prior inner work experience strongly recommended",
-    "Nervous System Mastery course helpful for regulation skills",
-    "Journal for integration work"
+    "This course is educational—all decisions about substances are your own responsibility",
+    "Prior inner work experience recommended",
+    "Journal for integration exercises"
   ],
   "quiz": {
     "passingScore": 70,
@@ -91,7 +104,7 @@
       },
       {
         "id": 2,
-        "question": "What is 'intention' in preparation context?",
+        "question": "What is 'intention' in the preparation context?",
         "options": [
           "Exactly what you want to experience",
           "A genuine question or opening you bring, held loosely",
@@ -106,7 +119,7 @@
         "options": [
           "Control everything",
           "Fight difficult content",
-          "Surrender - let go, breathe, trust the process",
+          "Surrender—let go, breathe, trust the process",
           "Analyze everything in real-time"
         ],
         "correctIndex": 2
@@ -127,7 +140,7 @@
         "question": "What should you do in the first 24-48 hours after an experience?",
         "options": [
           "Return to normal life immediately",
-          "Protect the space - journal, rest, avoid screens and stimulation",
+          "Protect the space—journal, rest, avoid screens and stimulation",
           "Tell everyone about it",
           "Do another session"
         ],
@@ -143,19 +156,18 @@
           "They were just hallucinations"
         ],
         "correctIndex": 1
-      },
-      {
-        "id": 7,
-        "question": "What is 'spiritual bypassing' in integration context?",
-        "options": [
-          "Being too spiritual",
-          "Using insights to avoid doing real-world work on problems",
-          "Not being spiritual enough",
-          "Skipping ceremonies"
-        ],
-        "correctIndex": 1
       }
     ]
   },
-  "tier": "intermediate"
+  "tier": "intermediate",
+  "tags": [
+    "psychedelics",
+    "integration",
+    "preparation",
+    "harm reduction"
+  ],
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

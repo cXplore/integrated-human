@@ -3,8 +3,8 @@
   "title": "Grief & Loss",
   "subtitle": "Moving through what can't be fixed",
   "description": "A compassionate guide to processing grief—whether from death, divorce, job loss, or the ending of who you used to be. Learn to feel fully, honor what was lost, and eventually find your way forward.",
-  "category": "Body",
-  "price": 67,
+  "category": "Soul",
+  "price": 29,
   "currency": "USD",
   "duration": "Self-paced",
   "level": "All Levels",
@@ -149,5 +149,10 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "collapse",
+    "regulation",
+    "integration"
+  ]
 }

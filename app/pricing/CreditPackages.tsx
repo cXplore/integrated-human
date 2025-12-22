@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import {
   CreditPackage,
   AI_CREDIT_PRICE,
-  TOKENS_PER_CREDIT,
   MIN_CUSTOM_CREDIT_AMOUNT,
   MAX_CUSTOM_CREDIT_AMOUNT,
 } from '@/lib/subscriptions';
@@ -50,16 +49,6 @@ export default function CreditPackages({ packages }: CreditPackagesProps) {
     }
   };
 
-  const formatTokens = (tokens: number) => {
-    if (tokens >= 1000000) {
-      return `${(tokens / 1000000).toFixed(1)}M`;
-    }
-    if (tokens >= 1000) {
-      return `${(tokens / 1000).toFixed(0)}K`;
-    }
-    return tokens.toString();
-  };
-
   const handleCustomPurchase = async () => {
     const amount = parseFloat(customAmount);
     if (isNaN(amount) || amount < MIN_CUSTOM_CREDIT_AMOUNT || amount > MAX_CUSTOM_CREDIT_AMOUNT) {
@@ -98,7 +87,6 @@ export default function CreditPackages({ packages }: CreditPackagesProps) {
   const customCredits = customAmount
     ? Math.floor(parseFloat(customAmount) / AI_CREDIT_PRICE)
     : 0;
-  const customTokens = customCredits * TOKENS_PER_CREDIT;
   const isValidCustomAmount =
     customAmount &&
     !isNaN(parseFloat(customAmount)) &&
@@ -108,45 +96,43 @@ export default function CreditPackages({ packages }: CreditPackagesProps) {
   return (
     <div className="space-y-6">
       <div className="grid md:grid-cols-3 gap-4">
-        {packages.map((pkg) => {
-          const totalTokens = pkg.credits * TOKENS_PER_CREDIT;
-          return (
-            <div
-              key={pkg.id}
-              className="bg-zinc-900 border border-zinc-800 p-6 text-center"
-            >
-              <div className="text-3xl font-light text-white mb-1">
-                {pkg.credits}
-              </div>
-              <div className="text-gray-500 text-sm mb-1">credits</div>
-              <div className="text-gray-600 text-xs mb-4">
-                ({formatTokens(totalTokens)} tokens)
-              </div>
-
-              <div className="text-2xl font-light text-white mb-1">
-                ${pkg.price.toFixed(2)}
-              </div>
-              <div className="text-gray-500 text-sm mb-6">
-                ${AI_CREDIT_PRICE.toFixed(3)} per credit
-              </div>
-
-              <button
-                onClick={() => handlePurchase(pkg)}
-                disabled={loadingId === pkg.id}
-                className="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loadingId === pkg.id ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    Processing...
-                  </span>
-                ) : (
-                  'Buy Credits'
-                )}
-              </button>
+        {packages.map((pkg) => (
+          <div
+            key={pkg.id}
+            className="bg-zinc-900 border border-zinc-800 p-6 text-center"
+          >
+            <div className="text-lg font-medium text-white mb-1">
+              {pkg.name}
             </div>
-          );
-        })}
+            <div className="text-gray-500 text-xs mb-4">
+              {pkg.description}
+            </div>
+
+            <div className="text-3xl font-light text-white mb-1">
+              {pkg.credits}
+            </div>
+            <div className="text-gray-500 text-sm mb-4">credits</div>
+
+            <div className="text-xl font-light text-white mb-4">
+              ${pkg.price.toFixed(2)}
+            </div>
+
+            <button
+              onClick={() => handlePurchase(pkg)}
+              disabled={loadingId === pkg.id}
+              className="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loadingId === pkg.id ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Processing...
+                </span>
+              ) : (
+                'Add Credits'
+              )}
+            </button>
+          </div>
+        ))}
       </div>
 
       {/* Custom amount */}
@@ -175,7 +161,7 @@ export default function CreditPackages({ packages }: CreditPackagesProps) {
 
           {isValidCustomAmount && (
             <div className="text-gray-400 text-sm">
-              = {customCredits.toLocaleString()} credits ({formatTokens(customTokens)} tokens)
+              = {customCredits.toLocaleString()} credits
             </div>
           )}
 

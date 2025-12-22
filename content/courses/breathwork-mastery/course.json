@@ -4,7 +4,7 @@
   "subtitle": "Your breath is the remote control for your nervous system",
   "description": "Learn to use your breath as a tool for regulation, energy, emotional release, and altered states. This course covers practical techniques from calming to activating, giving you a complete toolkit for any situation.",
   "category": "Body",
-  "price": 57,
+  "price": 29,
   "currency": "USD",
   "duration": "4-5 weeks",
   "level": "Beginner",
@@ -149,5 +149,10 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "regulation",
+    "integration",
+    "embodiment"
+  ]
 }

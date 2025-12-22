@@ -4,7 +4,7 @@
   "category": "Body",
   "level": "Beginner",
   "duration": "3 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": false,
   "modules": [
@@ -74,5 +74,9 @@
     ]
   },
   "subtitle": "Move the way your body was designed to",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "regulation",
+    "embodiment"
+  ]
 }

@@ -4,7 +4,7 @@
   "category": "Flagship",
   "level": "Advanced",
   "duration": "12 hours",
-  "price": 197,
+  "price": 79,
   "published": true,
   "featured": true,
   "modules": [
@@ -114,5 +114,9 @@
     ]
   },
   "subtitle": "From anxious to grounded, step by step",
-  "tier": "flagship"
+  "tier": "flagship",
+  "spectrum": [
+    "regulation",
+    "integration"
+  ]
 }

@@ -1,10 +1,10 @@
 {
   "title": "Confidence Quickstart",
   "description": "Essential foundations for building genuine self-confidence",
-  "category": "Free",
+  "category": "Mind",
   "level": "Beginner",
   "duration": "2 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": true,
   "leadMagnet": true,
@@ -52,5 +52,9 @@
     ]
   },
   "subtitle": "Quick wins for lasting self-assurance",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "regulation",
+    "integration"
+  ]
 }

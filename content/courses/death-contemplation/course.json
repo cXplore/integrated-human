@@ -4,7 +4,7 @@
   "category": "Soul",
   "level": "Advanced",
   "duration": "3.5 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": false,
   "modules": [
@@ -94,5 +94,9 @@
     ]
   },
   "subtitle": "Let death teach you how to live",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

@@ -94,5 +94,9 @@
     ]
   },
   "subtitle": "What matters most in your one wild life",
-  "tier": "intro"
+  "tier": "intro",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

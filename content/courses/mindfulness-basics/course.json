@@ -1,7 +1,7 @@
 {
   "title": "Mindfulness Basics",
   "description": "An introduction to mindfulness practice for everyday life",
-  "category": "Free",
+  "category": "Soul",
   "level": "Beginner",
   "duration": "2 hours",
   "price": 0,
@@ -52,5 +52,9 @@
     ]
   },
   "subtitle": "Start where you are, with what you have",
-  "tier": "intro"
+  "tier": "intro",
+  "spectrum": [
+    "regulation",
+    "integration"
+  ]
 }

@@ -4,7 +4,7 @@
   "subtitle": "The body remembers what the mind forgets",
   "description": "Learn to work with trauma, tension, and stuck emotions through the body rather than just the mind. This course teaches practical somatic techniques for releasing what's been held and restoring natural flow.",
   "category": "Body",
-  "price": 77,
+  "price": 49,
   "currency": "USD",
   "duration": "6-8 weeks",
   "level": "Intermediate",
@@ -138,5 +138,10 @@
       }
     ]
   },
-  "tier": "intermediate"
+  "tier": "advanced",
+  "spectrum": [
+    "regulation",
+    "integration",
+    "embodiment"
+  ]
 }

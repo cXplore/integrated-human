@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import { safeJsonParse } from '@/lib/sanitize';
 
 export type AssessmentType = 'archetype' | 'attachment' | 'nervous-system' | 'values';
 
@@ -45,7 +46,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({
         result: {
           ...result,
-          results: JSON.parse(result.results),
+          results: safeJsonParse(result.results, {}),
         },
       });
     }
@@ -59,7 +60,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       results: results.map(r => ({
         ...r,
-        results: JSON.parse(r.results),
+        results: safeJsonParse(r.results, {}),
       })),
     });
   } catch (error) {
@@ -127,7 +128,7 @@ export async function POST(request: NextRequest) {
       success: true,
       result: {
         ...result,
-        results: JSON.parse(result.results),
+        results: safeJsonParse(result.results, {}),
       },
     });
   } catch (error) {

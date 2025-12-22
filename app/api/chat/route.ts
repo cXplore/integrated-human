@@ -1,4 +1,5 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/auth';
 import {
   detectStance,
   isCasualMessage,
@@ -7,20 +8,36 @@ import {
   formatResponse,
   SITE_CONTEXT,
 } from '@/lib/presence';
+import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
 
-// LM Studio endpoint
-const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://10.221.168.219:1234/v1/chat/completions';
+// LM Studio endpoint - requires LM_STUDIO_URL env var in production
+const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
 const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'qwen/qwen3-32b';
 
 export async function POST(request: NextRequest) {
   try {
+    // Require authentication
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    // Rate limit by user
+    const rateLimit = checkRateLimit(`chat:${session.user.id}`, RATE_LIMITS.chat);
+    if (!rateLimit.success) {
+      return rateLimitResponse(rateLimit);
+    }
+
     const { message, history = [] } = await request.json();
 
     if (!message || typeof message !== 'string') {
-      return new Response(JSON.stringify({ error: 'Message is required' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      });
+      return NextResponse.json(
+        { error: 'Message is required' },
+        { status: 400 }
+      );
     }
 
     // Detect stance and build appropriate prompt
@@ -57,17 +74,10 @@ export async function POST(request: NextRequest) {
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('LM Studio error:', errorText);
-      return new Response(
-        JSON.stringify({
-          error: 'Failed to get response from AI',
-          details: response.status === 404 ? 'LM Studio not running or no model loaded' : errorText,
-        }),
-        {
-          status: 502,
-          headers: { 'Content-Type': 'application/json' },
-        }
+      console.error('LM Studio error:', response.status);
+      return NextResponse.json(
+        { error: 'AI service temporarily unavailable' },
+        { status: 502 }
       );
     }
 
@@ -75,27 +85,15 @@ export async function POST(request: NextRequest) {
     const aiResponse = data.choices?.[0]?.message?.content || '';
     const formattedResponse = formatResponse(aiResponse);
 
-    return new Response(
-      JSON.stringify({
-        response: formattedResponse,
-        stance,
-      }),
-      {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+    return NextResponse.json({
+      response: formattedResponse,
+      stance,
+    });
   } catch (error) {
     console.error('Chat API error:', error);
-    return new Response(
-      JSON.stringify({
-        error: 'Internal server error',
-        details: error instanceof Error ? error.message : 'Unknown error',
-      }),
-      {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      }
+    return NextResponse.json(
+      { error: 'Something went wrong' },
+      { status: 500 }
     );
   }
 }

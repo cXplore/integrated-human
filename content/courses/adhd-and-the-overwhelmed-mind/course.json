@@ -4,7 +4,7 @@
   "category": "Mind",
   "level": "Intermediate",
   "duration": "3 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": false,
   "modules": [
@@ -74,5 +74,9 @@
     ]
   },
   "subtitle": "Work with your brain, not against it",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "regulation",
+    "integration"
+  ]
 }

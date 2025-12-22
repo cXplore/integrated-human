@@ -1,0 +1,232 @@
+{
+  "id": "consciousness-and-the-psychedelic-experience",
+  "title": "Consciousness & The Psychedelic Experience",
+  "subtitle": "The complete journey from seeking to integration to awakening",
+  "description": "A comprehensive exploration of consciousness work through the lens of psychedelic experience. This flagship course covers the full arc: understanding why we seek expanded states, building genuine foundation, preparing for and navigating experiences, working with the depths, integrating profound insights, and ultimately discovering that what we seek was here all along. Combines practical wisdom with philosophical depth.",
+  "category": "Flagship",
+  "price": 79,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Advanced",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "the-longing",
+      "title": "The Longing",
+      "description": "What we're really seeking when we seek altered states",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "maps-of-consciousness",
+      "title": "Maps of Consciousness",
+      "description": "Different frameworks for understanding the territory",
+      "duration": "35 min"
+    },
+    {
+      "id": 3,
+      "slug": "the-psychedelic-renaissance",
+      "title": "The Psychedelic Renaissance",
+      "description": "Current research, therapeutic use, and what we're learning",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "building-the-vessel",
+      "title": "Building the Vessel",
+      "description": "Why foundation matters and how to build it",
+      "duration": "35 min"
+    },
+    {
+      "id": 5,
+      "slug": "preparation-mastery",
+      "title": "Preparation Mastery",
+      "description": "Physical, psychological, and practical readiness",
+      "duration": "35 min"
+    },
+    {
+      "id": 6,
+      "slug": "the-art-of-navigation",
+      "title": "The Art of Navigation",
+      "description": "Working skillfully with whatever arises",
+      "duration": "35 min"
+    },
+    {
+      "id": 7,
+      "slug": "meeting-the-shadow",
+      "title": "Meeting the Shadow",
+      "description": "Working with the parts we've hidden from ourselves",
+      "duration": "35 min"
+    },
+    {
+      "id": 8,
+      "slug": "dissolution-and-rebirth",
+      "title": "Dissolution and Rebirth",
+      "description": "Ego death, mystical union, and the encounter with the infinite",
+      "duration": "35 min"
+    },
+    {
+      "id": 9,
+      "slug": "the-morning-after",
+      "title": "The Morning After",
+      "description": "Immediate integration and protecting the insights",
+      "duration": "30 min"
+    },
+    {
+      "id": 10,
+      "slug": "embodying-the-insights",
+      "title": "Embodying the Insights",
+      "description": "Translating revelation into changed living",
+      "duration": "35 min"
+    },
+    {
+      "id": 11,
+      "slug": "the-traps",
+      "title": "The Traps",
+      "description": "Spiritual bypassing, inflation, addiction, and other pitfalls",
+      "duration": "30 min"
+    },
+    {
+      "id": 12,
+      "slug": "beyond-the-medicine",
+      "title": "Beyond the Medicine",
+      "description": "When you don't need the substance anymore",
+      "duration": "30 min"
+    },
+    {
+      "id": 13,
+      "slug": "what-was-here-all-along",
+      "title": "What Was Here All Along",
+      "description": "The consciousness that needs no alteration",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand the deeper drives behind consciousness exploration",
+    "Navigate different maps and frameworks of consciousness",
+    "Build genuine foundation for deep work",
+    "Master preparation for psychedelic experiences",
+    "Work skillfully with whatever arises—including shadow and trauma",
+    "Understand ego dissolution and mystical experiences",
+    "Integrate profound insights into daily life",
+    "Recognize and avoid common traps and pitfalls",
+    "Develop a sustainable, evolving relationship with these practices",
+    "Discover the awareness that was present all along"
+  ],
+  "requirements": [
+    "This course is educational—all decisions about substances are your own responsibility",
+    "Prior inner work experience strongly recommended",
+    "Openness to both practical and philosophical perspectives",
+    "Journal for reflection and integration work",
+    "Willingness to question your assumptions"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is often the deeper drive behind seeking altered states?",
+        "options": [
+          "Escape from problems",
+          "A longing for connection, meaning, or remembering something forgotten",
+          "Curiosity about drugs",
+          "Peer pressure"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Why does 'building the vessel' matter before deep work?",
+        "options": [
+          "It doesn't really matter",
+          "To make the experience more fun",
+          "A stable foundation allows you to go deeper and integrate what you find",
+          "It's just tradition"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 3,
+        "question": "What is the core skill for navigating difficult psychedelic material?",
+        "options": [
+          "Fighting against it",
+          "Distraction",
+          "Surrender—breathing, relaxing, and moving toward rather than away",
+          "Ending the experience"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 4,
+        "question": "What is 'ego dissolution'?",
+        "options": [
+          "Becoming arrogant",
+          "Permanent brain damage",
+          "The temporary dissolution of the usual sense of separate self",
+          "A dangerous side effect"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 5,
+        "question": "Why do insights often fade without integration?",
+        "options": [
+          "They weren't real insights",
+          "Insights require embodiment through practice and changed behavior to become lasting",
+          "The substance wore off",
+          "You didn't take enough"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 6,
+        "question": "What is 'spiritual bypassing'?",
+        "options": [
+          "Advancing too quickly spiritually",
+          "Using spiritual concepts to avoid dealing with psychological wounds",
+          "Skipping meditation practice",
+          "Having mystical experiences"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 7,
+        "question": "What does 'beyond the medicine' mean?",
+        "options": [
+          "Taking stronger substances",
+          "Rejecting psychedelics entirely",
+          "Reaching a point where the substance is no longer needed to access what it revealed",
+          "Becoming a psychedelic guide"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 8,
+        "question": "What is meant by 'what was here all along'?",
+        "options": [
+          "Psychedelics don't show you anything new",
+          "The awareness/presence that psychedelics reveal is always available—the medicine just removes what obscures it",
+          "Nothing changes",
+          "The experience isn't real"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "tier": "flagship",
+  "tags": [
+    "consciousness",
+    "psychedelics",
+    "awakening",
+    "integration",
+    "shadow work",
+    "meditation",
+    "ego dissolution",
+    "mystical experience"
+  ],
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
+}

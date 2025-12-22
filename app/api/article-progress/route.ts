@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
+interface ArticleProgressRecord {
+  slug: string;
+  completed: boolean;
+  completedAt: Date | null;
+  scrollProgress: number;
+  lastReadAt: Date;
+}
+
 export async function GET() {
   const session = await auth();
   if (!session?.user?.id) {
@@ -10,13 +18,15 @@ export async function GET() {
 
   const progress = await prisma.articleProgress.findMany({
     where: { userId: session.user.id },
-    orderBy: { updatedAt: "desc" },
+    orderBy: { lastReadAt: "desc" },
   });
 
-  return NextResponse.json(progress.map((p: { slug: string; completed: boolean; completedAt: Date | null }) => ({
+  return NextResponse.json(progress.map((p: ArticleProgressRecord) => ({
     slug: p.slug,
     completed: p.completed,
     completedAt: p.completedAt,
+    scrollProgress: p.scrollProgress,
+    lastReadAt: p.lastReadAt,
   })));
 }
 
@@ -26,10 +36,28 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { slug, completed } = await request.json();
+  const { slug, completed, scrollProgress } = await request.json();
   if (!slug) {
     return NextResponse.json({ error: "Slug is required" }, { status: 400 });
   }
+
+  // Get existing progress to preserve scroll position if not provided
+  const existing = await prisma.articleProgress.findUnique({
+    where: {
+      userId_slug: {
+        userId: session.user.id,
+        slug,
+      },
+    },
+  });
+
+  // Only update scroll progress if it's higher than existing (don't go backwards)
+  const newScrollProgress = scrollProgress !== undefined
+    ? Math.max(scrollProgress, existing?.scrollProgress ?? 0)
+    : existing?.scrollProgress ?? 0;
+
+  // Mark as completed if scroll progress hits 90%+
+  const shouldMarkComplete = newScrollProgress >= 90 || completed === true;
 
   const progress = await prisma.articleProgress.upsert({
     where: {
@@ -39,14 +67,18 @@ export async function POST(request: NextRequest) {
       },
     },
     update: {
-      completed: completed ?? true,
-      completedAt: completed ? new Date() : null,
+      completed: shouldMarkComplete ? true : existing?.completed ?? false,
+      completedAt: shouldMarkComplete && !existing?.completedAt ? new Date() : existing?.completedAt,
+      scrollProgress: newScrollProgress,
+      lastReadAt: new Date(),
     },
     create: {
       userId: session.user.id,
       slug,
-      completed: completed ?? true,
-      completedAt: completed ? new Date() : null,
+      completed: shouldMarkComplete,
+      completedAt: shouldMarkComplete ? new Date() : null,
+      scrollProgress: newScrollProgress,
+      lastReadAt: new Date(),
     },
   });
 
@@ -54,6 +86,8 @@ export async function POST(request: NextRequest) {
     slug: progress.slug,
     completed: progress.completed,
     completedAt: progress.completedAt,
+    scrollProgress: progress.scrollProgress,
+    lastReadAt: progress.lastReadAt,
   });
 }
 

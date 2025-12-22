@@ -26,8 +26,13 @@ export function getAllBundles(): Bundle[] {
     return [];
   }
 
-  const fileContents = fs.readFileSync(bundlesPath, 'utf8');
-  return JSON.parse(fileContents) as Bundle[];
+  try {
+    const fileContents = fs.readFileSync(bundlesPath, 'utf8');
+    return JSON.parse(fileContents) as Bundle[];
+  } catch (error) {
+    console.error('Failed to parse bundles.json:', error);
+    return [];
+  }
 }
 
 export function getBundleById(id: string): Bundle | undefined {

@@ -4,7 +4,7 @@
   "subtitle": "Understanding and working with what you can't stop",
   "description": "Addictions and compulsions are attempts to meet real needs through harmful means. This course helps you understand the function of your addictive patterns, address underlying needs, and build genuine alternatives. Not a replacement for clinical treatment of severe addiction.",
   "category": "Mind",
-  "price": 67,
+  "price": 39,
   "currency": "USD",
   "duration": "6 weeks",
   "level": "Intermediate",
@@ -138,5 +138,9 @@
       }
     ]
   },
-  "tier": "intermediate"
+  "tier": "intermediate",
+  "spectrum": [
+    "regulation",
+    "integration"
+  ]
 }

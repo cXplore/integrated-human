@@ -1,6 +1,7 @@
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import Navigation from '@/app/components/Navigation';
+import { AIErrorBoundary } from '@/app/components/ErrorBoundary';
 import type { Metadata } from 'next';
 import JournalView from './JournalView';
 
@@ -45,7 +46,9 @@ export default async function JournalPage() {
         {/* Content */}
         <div className="px-6 pb-24">
           <div className="max-w-4xl mx-auto">
-            <JournalView />
+            <AIErrorBoundary>
+              <JournalView />
+            </AIErrorBoundary>
           </div>
         </div>
       </main>

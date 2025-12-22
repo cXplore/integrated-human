@@ -1,6 +1,7 @@
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import { safeJsonParse } from '@/lib/sanitize';
 import Navigation from '../components/Navigation';
 import OnboardingFlow from './OnboardingFlow';
 import type { Metadata } from 'next';
@@ -26,15 +27,15 @@ export default async function OnboardingPage() {
   const existingProfile = profile ? {
     primaryIntention: profile.primaryIntention ?? undefined,
     lifeSituation: profile.lifeSituation ?? undefined,
-    experienceLevels: profile.experienceLevels ? JSON.parse(profile.experienceLevels) : undefined,
+    experienceLevels: safeJsonParse(profile.experienceLevels, undefined),
     hasAwakeningExperience: profile.hasAwakeningExperience,
     awakeningDescription: profile.awakeningDescription ?? undefined,
-    currentChallenges: profile.currentChallenges ? JSON.parse(profile.currentChallenges) : undefined,
-    interests: profile.interests ? JSON.parse(profile.interests) : undefined,
+    currentChallenges: safeJsonParse(profile.currentChallenges, undefined),
+    interests: safeJsonParse(profile.interests, undefined),
     depthPreference: profile.depthPreference ?? undefined,
     learningStyle: profile.learningStyle ?? undefined,
     timeAvailable: profile.timeAvailable ?? undefined,
-    sensitivities: profile.sensitivities ? JSON.parse(profile.sensitivities) : undefined,
+    sensitivities: safeJsonParse(profile.sensitivities, undefined),
     onboardingCompleted: profile.onboardingCompleted,
   } : null;
 

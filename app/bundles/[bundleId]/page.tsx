@@ -2,7 +2,7 @@ import Navigation from '@/app/components/Navigation';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllBundles, getBundleWithCourses } from '@/lib/bundles';
-import BundlePurchaseButton from './BundlePurchaseButton';
+import MembershipCTA from '@/app/components/MembershipCTA';
 import type { Metadata } from 'next';
 
 interface PageProps {
@@ -66,7 +66,7 @@ export default async function BundleDetailPage({ params }: PageProps) {
             </div>
 
             <div className="inline-block px-3 py-1 text-xs uppercase tracking-wide text-amber-500 bg-amber-500/10 border border-amber-500/20 mb-4">
-              Save ${bundle.savings} ({Math.round((bundle.savings / bundle.originalPrice) * 100)}% off)
+              Learning Path
             </div>
 
             <h1 className="font-serif text-4xl md:text-5xl font-light text-white mb-4">
@@ -99,21 +99,10 @@ export default async function BundleDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Price and CTA */}
-            <div className="flex items-center gap-6 flex-wrap">
-              <div>
-                <span className="text-gray-500 line-through">
-                  ${bundle.originalPrice}
-                </span>
-                <span className="text-3xl font-light text-white ml-3">
-                  ${bundle.bundlePrice}
-                </span>
-              </div>
-              <BundlePurchaseButton
-                bundleId={bundle.id}
-                bundleTitle={bundle.title}
-                price={bundle.bundlePrice}
-              />
+            {/* CTA */}
+            <div className="flex items-center gap-4">
+              <MembershipCTA variant="primary" />
+              <span className="text-gray-500 text-sm">Included with membership</span>
             </div>
           </div>
         </section>
@@ -205,10 +194,7 @@ export default async function BundleDetailPage({ params }: PageProps) {
                     </div>
 
                     <div className="text-right flex-shrink-0">
-                      <span className="text-gray-500 line-through text-sm">
-                        ${course.metadata.price}
-                      </span>
-                      <div className="text-xs text-green-500 mt-1">Included</div>
+                      <div className="text-xs text-green-500">Included</div>
                     </div>
                   </div>
                 </div>
@@ -221,27 +207,12 @@ export default async function BundleDetailPage({ params }: PageProps) {
         <section className="py-16 px-6 border-t border-zinc-800 bg-zinc-900/30">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-serif text-2xl text-white mb-4">
-              Ready to Begin Your Journey?
+              Ready to Begin?
             </h2>
             <p className="text-gray-400 mb-8 max-w-xl mx-auto">
-              Get lifetime access to all {bundle.courseDetails.length} courses in this bundle
-              and save ${bundle.savings}.
+              Access all {bundle.courseDetails.length} courses in this learning path with your membership.
             </p>
-            <div className="flex items-center justify-center gap-4 flex-wrap">
-              <div>
-                <span className="text-gray-500 line-through">
-                  ${bundle.originalPrice}
-                </span>
-                <span className="text-3xl font-light text-white ml-3">
-                  ${bundle.bundlePrice}
-                </span>
-              </div>
-              <BundlePurchaseButton
-                bundleId={bundle.id}
-                bundleTitle={bundle.title}
-                price={bundle.bundlePrice}
-              />
-            </div>
+            <MembershipCTA variant="primary" />
           </div>
         </section>
       </main>

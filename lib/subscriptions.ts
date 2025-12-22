@@ -1,6 +1,8 @@
-// Subscription tier configuration
+// Subscription configuration - Simple single-tier system
+// Free: 50 articles, 5 intro courses, free resources, no AI
+// Member ($19): Everything unlocked, 500 AI credits/month
 
-export type SubscriptionTier = 'seeker' | 'practitioner' | 'master';
+export type SubscriptionTier = 'member';
 export type CourseTier = 'intro' | 'beginner' | 'intermediate' | 'advanced' | 'flagship';
 
 export interface TierConfig {
@@ -11,94 +13,35 @@ export interface TierConfig {
   yearlyPrice: number;
   monthlyTokens: number; // Tokens included per month (1 credit = 1,000 tokens)
   features: string[];
-  courseAccess: {
-    included: CourseTier[];
-    discounts: Record<CourseTier, number>; // percentage off
-  };
-  bundleDiscount: number; // percentage off bundles
 }
 
 export const SUBSCRIPTION_TIERS: Record<SubscriptionTier, TierConfig> = {
-  seeker: {
-    id: 'seeker',
-    name: 'Seeker',
-    description: 'Perfect for starting your journey',
-    monthlyPrice: 9,
-    yearlyPrice: 90, // 2 months free
-    monthlyTokens: 50000, // 50 credits = 50,000 tokens
-    features: [
-      'All articles',
-      'Intro & Beginner courses included',
-      '30-40% off advanced courses',
-      '30% off bundles',
-      '50 AI credits/month',
-    ],
-    courseAccess: {
-      included: ['intro', 'beginner'],
-      discounts: {
-        intro: 0,
-        beginner: 0,
-        intermediate: 30,
-        advanced: 40,
-        flagship: 30,
-      },
-    },
-    bundleDiscount: 30,
-  },
-  practitioner: {
-    id: 'practitioner',
-    name: 'Practitioner',
-    description: 'For committed personal growth',
-    monthlyPrice: 29,
-    yearlyPrice: 290, // 2 months free
-    monthlyTokens: 100000, // 100 credits = 100,000 tokens
-    features: [
-      'All articles',
-      'Intro, Beginner & Intermediate courses included',
-      '50% off advanced & flagship courses',
-      '50% off bundles',
-      '100 AI credits/month',
-      'Intermediate PDFs & resources',
-    ],
-    courseAccess: {
-      included: ['intro', 'beginner', 'intermediate'],
-      discounts: {
-        intro: 0,
-        beginner: 0,
-        intermediate: 0,
-        advanced: 50,
-        flagship: 50,
-      },
-    },
-    bundleDiscount: 50,
-  },
-  master: {
-    id: 'master',
-    name: 'Master',
+  member: {
+    id: 'member',
+    name: 'Member',
     description: 'Full access to everything',
-    monthlyPrice: 99,
-    yearlyPrice: 990, // 2 months free
-    monthlyTokens: 500000, // 500 credits = 500,000 tokens
+    monthlyPrice: 19,
+    yearlyPrice: 190, // 2 months free
+    monthlyTokens: 500000, // 500 credits
     features: [
       'All articles',
-      'All courses included',
-      'All bundles included',
+      'All courses including Flagship',
+      'Certificates on Flagship courses',
+      'All learning paths',
+      'All PDFs & resources',
       '500 AI credits/month',
-      'All PDFs, books & resources',
-      'Priority support',
+      'Journal companion',
+      'Dream interpretation',
     ],
-    courseAccess: {
-      included: ['intro', 'beginner', 'intermediate', 'advanced', 'flagship'],
-      discounts: {
-        intro: 0,
-        beginner: 0,
-        intermediate: 0,
-        advanced: 0,
-        flagship: 0,
-      },
-    },
-    bundleDiscount: 100, // 100% = included
   },
+};
+
+// Free tier content limits
+export const FREE_TIER = {
+  articleLimit: 50,
+  courseLimit: 5, // 5 intro courses
+  courseTiers: ['intro'] as CourseTier[], // Only intro courses
+  aiCredits: 0,
 };
 
 // AI Credit pricing - Token-based system
@@ -144,21 +87,40 @@ export const CACHE_HIT_COST = 0.0000003;    // $0.30 per 1M tokens (90% cheaper 
 
 export interface CreditPackage {
   id: string;
+  name: string;
   credits: number;  // 1 credit = 1,000 tokens
   price: number;    // in dollars
+  description: string;
 }
 
 // Pre-defined credit packages (never expire)
 export const CREDIT_PACKAGES: CreditPackage[] = [
-  { id: 'credits-200', credits: 200, price: 5 },     // 200K tokens for $5
-  { id: 'credits-500', credits: 500, price: 12.50 }, // 500K tokens for $12.50
-  { id: 'credits-1000', credits: 1000, price: 25 },  // 1M tokens for $25
+  {
+    id: 'credits-100',
+    name: 'Light',
+    credits: 100,
+    price: 2.50,
+    description: 'Good for occasional use'
+  },
+  {
+    id: 'credits-250',
+    name: 'Regular',
+    credits: 250,
+    price: 6,
+    description: 'Most popular top-up'
+  },
+  {
+    id: 'credits-500',
+    name: 'Heavy',
+    credits: 500,
+    price: 12,
+    description: 'For intensive journaling & exploration'
+  },
 ];
 
-// Custom credit purchases: user can enter any dollar amount ($5 minimum)
-// Credits = (amount / AI_CREDIT_PRICE) = amount × 40 credits per dollar
-export const MIN_CUSTOM_CREDIT_AMOUNT = 5; // minimum $5
-export const MAX_CUSTOM_CREDIT_AMOUNT = 100; // maximum $100
+// Custom credit purchases: user can enter any dollar amount ($2.50 minimum)
+export const MIN_CUSTOM_CREDIT_AMOUNT = 2.50; // minimum $2.50
+export const MAX_CUSTOM_CREDIT_AMOUNT = 50; // maximum $50
 
 /**
  * Calculate the actual dollar cost for token usage
@@ -204,58 +166,32 @@ export function calculateCreditsUsed(
 }
 
 /**
- * Check if a subscription tier has access to a course tier
+ * Check if user has a paid subscription
  */
-export function hasAccessToCourse(
+export function hasSubscription(subscriptionTier: SubscriptionTier | null): boolean {
+  return subscriptionTier === 'member';
+}
+
+/**
+ * Check if user can access a specific course tier
+ * With single tier, members can access everything
+ */
+export function canAccessCourseTier(
   subscriptionTier: SubscriptionTier | null,
   courseTier: CourseTier
 ): boolean {
+  // Intro courses are always free
+  if (courseTier === 'intro') return true;
+
+  // No subscription = only intro
   if (!subscriptionTier) return false;
-  const config = SUBSCRIPTION_TIERS[subscriptionTier];
-  return config.courseAccess.included.includes(courseTier);
+
+  // Members can access everything
+  return true;
 }
 
 /**
- * Get the discount percentage for a course tier given a subscription
- */
-export function getCourseDiscount(
-  subscriptionTier: SubscriptionTier | null,
-  courseTier: CourseTier
-): number {
-  if (!subscriptionTier) return 0;
-  const config = SUBSCRIPTION_TIERS[subscriptionTier];
-  return config.courseAccess.discounts[courseTier] || 0;
-}
-
-/**
- * Get the bundle discount for a subscription tier
- */
-export function getBundleDiscount(subscriptionTier: SubscriptionTier | null): number {
-  if (!subscriptionTier) return 0;
-  return SUBSCRIPTION_TIERS[subscriptionTier].bundleDiscount;
-}
-
-/**
- * Calculate the discounted price for a course
- */
-export function getDiscountedPrice(
-  originalPrice: number,
-  subscriptionTier: SubscriptionTier | null,
-  courseTier: CourseTier
-): number {
-  if (!subscriptionTier) return originalPrice;
-
-  // If course is included, price is 0
-  if (hasAccessToCourse(subscriptionTier, courseTier)) {
-    return 0;
-  }
-
-  const discount = getCourseDiscount(subscriptionTier, courseTier);
-  return Math.round(originalPrice * (1 - discount / 100) * 100) / 100;
-}
-
-/**
- * Get monthly tokens for a tier
+ * Get monthly tokens for a subscription tier
  */
 export function getMonthlyTokens(tier: SubscriptionTier): number {
   return SUBSCRIPTION_TIERS[tier].monthlyTokens;

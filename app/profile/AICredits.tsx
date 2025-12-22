@@ -92,7 +92,7 @@ export default function AICredits() {
       </div>
 
       {/* Recent Usage */}
-      {data.recentUsage.messageCount > 0 && (
+      {data.recentUsage?.messageCount > 0 && (
         <div className="pt-3 border-t border-zinc-800">
           <div className="text-xs text-gray-500 mb-2">Last 30 days</div>
           <div className="flex justify-between text-sm text-gray-400">

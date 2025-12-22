@@ -5,6 +5,11 @@ import { CourseTier } from './subscriptions';
 
 const coursesDirectory = path.join(process.cwd(), 'content/courses');
 
+// Module-level cache for courses (persists across requests in the same Node.js process)
+let coursesCache: Course[] | null = null;
+let coursesCacheTime: number = 0;
+const CACHE_TTL = 60 * 1000; // 1 minute cache TTL in development, effectively permanent in production build
+
 export interface CourseModule {
   id: number;
   slug: string;
@@ -24,6 +29,9 @@ export interface CourseQuiz {
   passingScore: number;
   questions: QuizQuestion[];
 }
+
+// Development Spectrum stages
+export type SpectrumStage = 'collapse' | 'regulation' | 'integration' | 'embodiment' | 'optimization';
 
 export interface CourseMetadata {
   id: string;
@@ -46,6 +54,8 @@ export interface CourseMetadata {
   published: boolean;
   createdAt?: string;
   updatedAt?: string;
+  // Development Spectrum - which stage(s) is this course appropriate for
+  spectrum?: SpectrumStage[];
 }
 
 export interface Course {
@@ -71,6 +81,12 @@ function calculateReadingTime(content: string): number {
 }
 
 export function getAllCourses(): Course[] {
+  // Return cached courses if available and not expired
+  const now = Date.now();
+  if (coursesCache && (now - coursesCacheTime) < CACHE_TTL) {
+    return coursesCache;
+  }
+
   if (!fs.existsSync(coursesDirectory)) {
     return [];
   }
@@ -88,7 +104,13 @@ export function getAllCourses(): Course[] {
       }
 
       const fileContents = fs.readFileSync(coursePath, 'utf8');
-      const metadata = JSON.parse(fileContents) as CourseMetadata;
+      let metadata: CourseMetadata;
+      try {
+        metadata = JSON.parse(fileContents) as CourseMetadata;
+      } catch (error) {
+        console.error(`Failed to parse course.json for ${dirName}:`, error);
+        return null;
+      }
 
       if (!metadata.published) {
         return null;
@@ -102,7 +124,13 @@ export function getAllCourses(): Course[] {
     .filter((course): course is Course => course !== null);
 
   // Sort by title alphabetically if no createdAt date
-  return courses.sort((a, b) => a.metadata.title.localeCompare(b.metadata.title));
+  const sortedCourses = courses.sort((a, b) => a.metadata.title.localeCompare(b.metadata.title));
+
+  // Update cache
+  coursesCache = sortedCourses;
+  coursesCacheTime = now;
+
+  return sortedCourses;
 }
 
 export function getCourseBySlug(slug: string): Course | undefined {
@@ -205,6 +233,26 @@ export function getModuleNavigation(courseSlug: string, currentModuleNumber: num
     current: modules[currentIndex],
     total: modules.length,
   };
+}
+
+/**
+ * Get courses filtered by Development Spectrum stage
+ */
+export function getCoursesBySpectrum(stage: SpectrumStage): Course[] {
+  const allCourses = getAllCourses();
+  return allCourses.filter((course) =>
+    course.metadata.spectrum?.includes(stage)
+  );
+}
+
+/**
+ * Get courses matching any of the given spectrum stages
+ */
+export function getCoursesBySpectrumStages(stages: SpectrumStage[]): Course[] {
+  const allCourses = getAllCourses();
+  return allCourses.filter((course) =>
+    course.metadata.spectrum?.some((s) => stages.includes(s))
+  );
 }
 
 /**

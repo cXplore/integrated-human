@@ -4,7 +4,7 @@
   "subtitle": "Building a practice that actually works",
   "description": "Cut through the confusion and build a meditation practice that fits your life. This course covers the core techniques, common obstacles, and how to make meditation a sustainable habit rather than another thing you fail at.",
   "category": "Soul",
-  "price": 47,
+  "price": 19,
   "currency": "USD",
   "duration": "4 weeks",
   "level": "Beginner",
@@ -129,5 +129,9 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "regulation",
+    "integration"
+  ]
 }

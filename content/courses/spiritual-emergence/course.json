@@ -4,7 +4,7 @@
   "subtitle": "Navigating awakening without losing your ground",
   "description": "Spiritual openings can be destabilizing. This course helps you navigate kundalini awakenings, non-dual glimpses, dark nights, and other spiritual phenomena—staying grounded while allowing transformation. Not a replacement for mental health support when needed.",
   "category": "Soul",
-  "price": 77,
+  "price": 39,
   "currency": "USD",
   "duration": "6-8 weeks",
   "level": "Intermediate",
@@ -138,5 +138,9 @@
       }
     ]
   },
-  "tier": "intermediate"
+  "tier": "intermediate",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

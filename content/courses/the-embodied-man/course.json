@@ -4,7 +4,7 @@
   "subtitle": "A complete curriculum for masculine development",
   "description": "A comprehensive 12-week program integrating body, mind, and soul for men ready to do the deep work. This flagship course covers nervous system mastery, shadow integration, emotional depth, purpose, and embodied presence. Not for beginners—this is for men ready to transform.",
   "category": "Flagship",
-  "price": 297,
+  "price": 79,
   "currency": "USD",
   "duration": "12 weeks",
   "level": "Advanced",
@@ -206,5 +206,9 @@
       }
     ]
   },
-  "tier": "flagship"
+  "tier": "flagship",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

@@ -2,10 +2,7 @@ import { prisma } from '@/lib/prisma';
 import {
   SubscriptionTier,
   CourseTier,
-  hasAccessToCourse,
-  getCourseDiscount,
-  getBundleDiscount,
-  getDiscountedPrice,
+  hasSubscription,
   calculateTokenCost,
   TOKENS_PER_CREDIT,
 } from '@/lib/subscriptions';
@@ -54,6 +51,8 @@ export async function getUserAccess(userId: string): Promise<UserAccess> {
 
 /**
  * Check if a user has access to a specific course (via subscription or purchase)
+ * - Intro courses: Always free
+ * - All other courses: Require membership
  */
 export async function canAccessCourse(
   userId: string,
@@ -65,7 +64,7 @@ export async function canAccessCourse(
     return { hasAccess: true, reason: 'free' };
   }
 
-  // Check for direct purchase
+  // Check for direct purchase (legacy - keeping for backwards compatibility)
   const purchase = await prisma.purchase.findUnique({
     where: {
       userId_courseSlug: { userId, courseSlug },
@@ -79,7 +78,8 @@ export async function canAccessCourse(
   // Check subscription access
   const access = await getUserAccess(userId);
 
-  if (access.tier && hasAccessToCourse(access.tier, courseTier)) {
+  // Members can access everything
+  if (hasSubscription(access.tier)) {
     return { hasAccess: true, reason: 'subscription' };
   }
 
@@ -87,37 +87,38 @@ export async function canAccessCourse(
 }
 
 /**
- * Get the price a user should pay for a course (with subscription discounts)
+ * Get the price a user should pay for a course
+ * - Free tier users: locked (need membership)
+ * - Members: everything included
  */
 export async function getUserPriceForCourse(
   userId: string | null,
   originalPrice: number,
   courseTier: CourseTier
-): Promise<{ price: number; discount: number; included: boolean }> {
+): Promise<{ price: number; discount: number; included: boolean; locked: boolean }> {
+  // Intro is always free
+  if (courseTier === 'intro') {
+    return { price: 0, discount: 100, included: true, locked: false };
+  }
+
   if (!userId) {
-    return { price: originalPrice, discount: 0, included: false };
+    return { price: originalPrice, discount: 0, included: false, locked: true };
   }
 
   const access = await getUserAccess(userId);
 
-  if (!access.tier) {
-    return { price: originalPrice, discount: 0, included: false };
+  // Members get everything
+  if (hasSubscription(access.tier)) {
+    return { price: 0, discount: 100, included: true, locked: false };
   }
 
-  // Check if course is included in subscription
-  if (hasAccessToCourse(access.tier, courseTier)) {
-    return { price: 0, discount: 100, included: true };
-  }
-
-  // Apply discount
-  const discount = getCourseDiscount(access.tier, courseTier);
-  const price = getDiscountedPrice(originalPrice, access.tier, courseTier);
-
-  return { price, discount, included: false };
+  // No subscription
+  return { price: originalPrice, discount: 0, included: false, locked: true };
 }
 
 /**
  * Get the price a user should pay for a bundle
+ * Bundles are included with any subscription
  */
 export async function getUserPriceForBundle(
   userId: string | null,
@@ -129,20 +130,12 @@ export async function getUserPriceForBundle(
 
   const access = await getUserAccess(userId);
 
-  if (!access.tier) {
-    return { price: originalPrice, discount: 0, included: false };
-  }
-
-  const discount = getBundleDiscount(access.tier);
-
-  // Master tier gets bundles included (100% discount)
-  if (discount === 100) {
+  // Any subscriber gets bundles
+  if (hasSubscription(access.tier)) {
     return { price: 0, discount: 100, included: true };
   }
 
-  const price = Math.round(originalPrice * (1 - discount / 100) * 100) / 100;
-
-  return { price, discount, included: false };
+  return { price: originalPrice, discount: 0, included: false };
 }
 
 /**

@@ -7,17 +7,9 @@ import { SUBSCRIPTION_TIERS, SubscriptionTier } from '@/lib/subscriptions';
 // Stripe Price IDs - these need to be created in Stripe Dashboard
 // For now, we'll create prices dynamically. In production, use pre-created Price IDs.
 const STRIPE_PRICE_IDS: Record<SubscriptionTier, { monthly: string; yearly: string }> = {
-  seeker: {
-    monthly: process.env.STRIPE_PRICE_SEEKER_MONTHLY || '',
-    yearly: process.env.STRIPE_PRICE_SEEKER_YEARLY || '',
-  },
-  practitioner: {
-    monthly: process.env.STRIPE_PRICE_PRACTITIONER_MONTHLY || '',
-    yearly: process.env.STRIPE_PRICE_PRACTITIONER_YEARLY || '',
-  },
-  master: {
-    monthly: process.env.STRIPE_PRICE_MASTER_MONTHLY || '',
-    yearly: process.env.STRIPE_PRICE_MASTER_YEARLY || '',
+  member: {
+    monthly: process.env.STRIPE_PRICE_MEMBER_MONTHLY || '',
+    yearly: process.env.STRIPE_PRICE_MEMBER_YEARLY || '',
   },
 };
 
@@ -37,7 +29,8 @@ export async function POST(request: NextRequest) {
       interval: 'monthly' | 'yearly';
     };
 
-    if (!tier || !SUBSCRIPTION_TIERS[tier]) {
+    // Validate tier (only 'member' now)
+    if (tier !== 'member') {
       return NextResponse.json(
         { error: 'Invalid subscription tier' },
         { status: 400 }
@@ -71,9 +64,11 @@ export async function POST(request: NextRequest) {
 
     // If no pre-configured price, create one dynamically (for development)
     if (!priceId) {
+      const productName = 'Integrated Human Membership';
+
       // First, find or create a product
       const products = await stripe.products.search({
-        query: `name:'Integrated Human ${tierConfig.name}'`,
+        query: `name:'${productName}'`,
       });
 
       let productId: string;
@@ -81,7 +76,7 @@ export async function POST(request: NextRequest) {
         productId = products.data[0].id;
       } else {
         const product = await stripe.products.create({
-          name: `Integrated Human ${tierConfig.name}`,
+          name: productName,
           description: tierConfig.description,
         });
         productId = product.id;

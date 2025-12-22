@@ -4,6 +4,11 @@ import matter from 'gray-matter';
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
 
+// Module-level cache for posts (persists across requests in the same Node.js process)
+let postsCache: Post[] | null = null;
+let postsCacheTime: number = 0;
+const CACHE_TTL = 60 * 1000; // 1 minute cache TTL in development
+
 export interface PostMetadata {
   title: string;
   excerpt: string;
@@ -30,6 +35,12 @@ function calculateReadingTime(content: string): number {
 }
 
 export function getAllPosts(): Post[] {
+  // Return cached posts if available and not expired
+  const now = Date.now();
+  if (postsCache && (now - postsCacheTime) < CACHE_TTL) {
+    return postsCache;
+  }
+
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames
     .filter((fileName) => fileName.endsWith('.mdx'))
@@ -47,13 +58,19 @@ export function getAllPosts(): Post[] {
       };
     });
 
-  return allPostsData.sort((a, b) => {
+  const sortedPosts = allPostsData.sort((a, b) => {
     if (a.metadata.date < b.metadata.date) {
       return 1;
     } else {
       return -1;
     }
   });
+
+  // Update cache
+  postsCache = sortedPosts;
+  postsCacheTime = now;
+
+  return sortedPosts;
 }
 
 export function getPostBySlug(slug: string): Post | undefined {

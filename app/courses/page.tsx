@@ -77,6 +77,20 @@ export default function CoursesPage() {
               </div>
             </section>
 
+            {/* Membership Note */}
+            <section className="py-6 px-6 border-b border-zinc-800/50">
+              <div className="max-w-4xl mx-auto text-center">
+                <p className="text-gray-500 text-sm">
+                  All courses included with{' '}
+                  <Link href="/pricing" className="text-gray-300 hover:text-white underline underline-offset-2">
+                    membership ($19/mo)
+                  </Link>
+                  {' · '}
+                  Intro courses are free
+                </p>
+              </div>
+            </section>
+
             {/* Courses by Category */}
             {categories.map((category) => {
               const categoryCourses = coursesByCategory[category];
@@ -86,13 +100,37 @@ export default function CoursesPage() {
                 <section key={category} className="py-16 px-6 border-b border-zinc-800/50">
                   <div className="max-w-6xl mx-auto">
                     <h2 className="font-serif text-2xl text-white mb-8 flex items-center gap-3">
-                      <span className="w-8 h-8 flex items-center justify-center bg-zinc-800 text-lg">
-                        {category === 'Free' && '🎁'}
-                        {category === 'Flagship' && '⭐'}
-                        {category === 'Mind' && '🧠'}
-                        {category === 'Body' && '💪'}
-                        {category === 'Soul' && '✨'}
-                        {category === 'Relationships' && '💕'}
+                      <span className="w-8 h-8 flex items-center justify-center bg-zinc-800">
+                        {category === 'Free' && (
+                          <svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                          </svg>
+                        )}
+                        {category === 'Flagship' && (
+                          <svg className="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                          </svg>
+                        )}
+                        {category === 'Mind' && (
+                          <svg className="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>
+                        )}
+                        {category === 'Body' && (
+                          <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                          </svg>
+                        )}
+                        {category === 'Soul' && (
+                          <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                          </svg>
+                        )}
+                        {category === 'Relationships' && (
+                          <svg className="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                          </svg>
+                        )}
                       </span>
                       {category}
                     </h2>
@@ -123,11 +161,22 @@ export default function CoursesPage() {
                           </p>
 
                           <div className="flex items-center justify-between mt-4 pt-4 border-t border-zinc-800">
-                            <div className="flex items-center gap-2">
-                              <span className={`font-medium ${course.metadata.price === 0 ? 'text-green-500' : 'text-white'}`}>
-                                {course.metadata.price === 0 ? 'Free' : `$${course.metadata.price}`}
+                            {course.metadata.tier === 'intro' ? (
+                              <span className="text-sm text-green-500">
+                                Free
                               </span>
-                            </div>
+                            ) : course.metadata.tier === 'flagship' ? (
+                              <span className="text-sm text-amber-400 flex items-center gap-1">
+                                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                </svg>
+                                Flagship
+                              </span>
+                            ) : (
+                              <span className="text-sm text-green-500">
+                                Included
+                              </span>
+                            )}
                             <span className="text-sm text-gray-500">
                               {course.metadata.modules.length} modules
                             </span>

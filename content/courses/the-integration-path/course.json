@@ -3,7 +3,7 @@
   "title": "The Integration Path",
   "subtitle": "An 8-Week Journey to Becoming Whole",
   "description": "The flagship course bringing together all four pillars—Mind, Body, Soul, and Relationships—into one comprehensive transformation journey. This is the deep work of integration: understanding your patterns, healing what's wounded, building new capacities, and becoming the person you're meant to be.",
-  "price": 247,
+  "price": 79,
   "currency": "USD",
   "image": "/images/courses/the-integration-path.jpg",
   "duration": "8 weeks",
@@ -188,5 +188,9 @@
   "published": true,
   "createdAt": "2024-12-18",
   "updatedAt": "2024-12-18",
-  "tier": "flagship"
+  "tier": "flagship",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

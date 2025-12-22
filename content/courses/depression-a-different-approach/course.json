@@ -4,7 +4,7 @@
   "category": "Mind",
   "level": "Intermediate",
   "duration": "3 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": false,
   "modules": [
@@ -74,5 +74,10 @@
     ]
   },
   "subtitle": "Beyond symptoms to the roots of healing",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "collapse",
+    "regulation",
+    "integration"
+  ]
 }

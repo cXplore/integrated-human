@@ -4,7 +4,7 @@
   "subtitle": "Learning to actually be here",
   "description": "Most of us live in the past or future, rarely inhabiting the present. This course offers practical techniques for cultivating genuine presence—not as a spiritual achievement, but as a way of being more fully alive.",
   "category": "Soul",
-  "price": 57,
+  "price": 29,
   "currency": "USD",
   "duration": "5 weeks",
   "level": "All Levels",
@@ -137,5 +137,10 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "regulation",
+    "integration",
+    "embodiment"
+  ]
 }

@@ -4,7 +4,7 @@
   "subtitle": "A guided journey into the voices within",
   "description": "You contain multitudes—different voices, feelings, and reactions that sometimes conflict. This course helps you meet these inner parts with curiosity instead of judgment, understand what they're trying to protect, and access the calm, compassionate core that can hold it all.",
   "category": "Mind",
-  "price": 67,
+  "price": 39,
   "currency": "USD",
   "duration": "4-5 weeks",
   "level": "Intermediate",
@@ -149,5 +149,8 @@
       }
     ]
   },
-  "tier": "intermediate"
+  "tier": "intermediate",
+  "spectrum": [
+    "integration"
+  ]
 }

@@ -3,7 +3,7 @@
   "title": "Shadow Work Foundations",
   "subtitle": "Meet the Parts of Yourself You've Been Running From",
   "description": "A 5-module journey into understanding and integrating your shadow. Learn what the shadow is, how to find it, and how to bring it into consciousness for genuine transformation.",
-  "price": 47,
+  "price": 19,
   "currency": "USD",
   "image": "/images/courses/shadow-work-foundations.jpg",
   "duration": "5 modules",
@@ -150,5 +150,8 @@
   "published": true,
   "createdAt": "2024-12-18",
   "updatedAt": "2024-12-18",
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "integration"
+  ]
 }

@@ -1,0 +1,150 @@
+{
+  "id": "dating-for-women",
+  "title": "Dating for Women",
+  "subtitle": "Choose wisely, connect deeply, stay true to yourself",
+  "description": "Dating as a woman means navigating a landscape where you're often pursued but rarely truly seen. This course helps you discern quality partners, maintain your standards without closing off, communicate what you want, and build connections with men who are actually worth your time.",
+  "category": "Relationships",
+  "price": 39,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "your-relationship-with-men",
+      "title": "Your Relationship with Men",
+      "description": "Examining your beliefs, fears, and patterns",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "grounded-femininity",
+      "title": "Grounded Femininity",
+      "description": "Receptivity without passivity, softness without weakness",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "discerning-quality",
+      "title": "Discerning Quality",
+      "description": "Red flags, green flags, and trusting your gut",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "standards-without-walls",
+      "title": "Standards Without Walls",
+      "description": "Knowing what you want without shutting people out",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "communicating-desire",
+      "title": "Communicating What You Want",
+      "description": "Direct without demanding, clear without controlling",
+      "duration": "25 min"
+    },
+    {
+      "id": 6,
+      "slug": "the-pace-of-intimacy",
+      "title": "The Pace of Intimacy",
+      "description": "Physical and emotional—on your terms",
+      "duration": "25 min"
+    },
+    {
+      "id": 7,
+      "slug": "from-dating-to-relationship",
+      "title": "From Dating to Relationship",
+      "description": "Navigating the transition with clarity",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Examine and update your beliefs about men and dating",
+    "Develop grounded feminine presence",
+    "Discern quality partners from time-wasters",
+    "Maintain standards while staying open",
+    "Communicate your wants and needs clearly",
+    "Set the pace of intimacy that works for you",
+    "Navigate the transition to committed relationship"
+  ],
+  "requirements": [
+    "Attraction Fundamentals or solid understanding of what creates connection",
+    "Willingness to examine your patterns honestly",
+    "Commitment to your own standards"
+  ],
+  "tier": "intermediate",
+  "tags": [
+    "dating",
+    "women",
+    "femininity",
+    "standards",
+    "relationships",
+    "discernment"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is 'grounded femininity'?",
+        "options": [
+          "Being passive and agreeable",
+          "Receptivity and softness combined with strength and clear boundaries",
+          "Playing hard to get",
+          "Being emotionally dependent"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What's the difference between standards and walls?",
+        "options": [
+          "There is no difference",
+          "Standards filter for quality while staying open; walls shut everyone out from fear",
+          "Walls are more effective",
+          "Standards are too picky"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "How should you communicate what you want?",
+        "options": [
+          "Drop hints and hope he figures it out",
+          "Direct and clear, without being demanding or controlling",
+          "Never say what you want—let him lead everything",
+          "Give ultimatums"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "Who should set the pace of intimacy?",
+        "options": [
+          "Whoever wants to go faster",
+          "You—based on what feels right for your body and heart",
+          "Social expectations",
+          "It should just happen naturally"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What's a key green flag in a man?",
+        "options": [
+          "He's very persistent even when you say no",
+          "His words and actions align, he respects your boundaries, and he shows up consistently",
+          "He love-bombs you early on",
+          "He's mysterious and unpredictable"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
+}

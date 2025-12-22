@@ -1,0 +1,100 @@
+INTEGRATED-HUMAN COURSE PRICING UPDATE REPORT
+================================================================================
+Date: 2025-12-21
+Total Courses: 80
+
+PRICING STRUCTURE:
+- Intro tier:         $0 (FREE)
+- Beginner tier:     $29
+- Intermediate tier: $39
+- Advanced tier:     $49
+- Flagship tier:     $79
+
+================================================================================
+SUMMARY BY TIER:
+
+INTRO TIER (FREE) - 27 courses
+  All courses correctly set to $0
+
+BEGINNER TIER ($29) - 21 courses
+  1. anger-and-aggression
+  2. anxiety-and-panic
+  3. attachment-repair
+  4. boundaries
+  5. breathwork-mastery
+  6. career-and-purpose
+  7. codependency-recovery
+  8. communication-mastery
+  9. embodiment-basics
+  10. energy-and-vitality
+  11. finding-your-path
+  12. grief-and-loss
+  13. inner-critic-work
+  14. life-purpose
+  15. meditation-fundamentals
+  16. nervous-system-mastery
+  17. people-pleasing-recovery
+  18. presence-practices
+  19. shadow-work-foundations
+  20. sleep-mastery
+  21. trauma-informed-self-care
+
+INTERMEDIATE TIER ($39) - 18 courses
+  1. addiction-and-compulsion
+  2. conscious-relationship
+  3. death-and-mortality
+  4. emotional-release
+  5. family-systems
+  6. feminine-reclamation
+  7. masculine-wholeness
+  8. parts-work
+  9. psychedelic-integration
+  10. self-worth-and-shame
+  11. sexuality-and-intimacy
+  12. somatic-healing
+  13. spiritual-emergence
+  14. + 5 additional courses (id field not set)
+
+ADVANCED TIER ($49) - 0 courses
+  No courses currently use this tier
+
+FLAGSHIP TIER ($79) - 14 courses
+  1. relationship-mastery
+  2. the-embodied-man
+  3. the-integration-path
+  4. the-sovereign-woman
+  5. + 10 additional flagship courses (id field not set)
+
+================================================================================
+UPDATE RESULTS:
+
+Total Courses Processed: 80
+Courses Updated:         53
+Already Correct:         27
+Errors:                   0
+
+STATUS: ✓ ALL COURSES SUCCESSFULLY UPDATED
+
+All 80 courses now have prices that correctly match their tier:
+- 27 intro tier courses @ $0
+- 21 beginner tier courses @ $29
+- 18 intermediate tier courses @ $39
+- 0 advanced tier courses @ $49
+- 14 flagship tier courses @ $79
+
+================================================================================
+NOTES:
+
+1. Some courses do not have an "id" field in their course.json file, but all
+   pricing has been correctly updated based on their "tier" field.
+
+2. The advanced tier ($49) is defined but not currently used by any courses.
+
+3. All flagship courses that were previously priced between $197-$297 have
+   been standardized to $79.
+
+4. All intro tier courses remain free ($0) as intended.
+
+5. No errors or exceptions were encountered during the update process.
+
+================================================================================

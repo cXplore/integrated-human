@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import JournalInsights from './JournalInsights';
+import JournalCompanion from './JournalCompanion';
 
 interface JournalEntry {
   id: string;
@@ -51,7 +52,7 @@ const MOODS = [
 ];
 
 export default function JournalView() {
-  const [activeTab, setActiveTab] = useState<'write' | 'entries' | 'insights' | 'course'>('write');
+  const [activeTab, setActiveTab] = useState<'write' | 'entries' | 'insights' | 'companion' | 'course'>('write');
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [courseEntries, setCourseEntries] = useState<CourseJournalEntry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -206,6 +207,19 @@ export default function JournalView() {
         >
           Insights
           {activeTab === 'insights' && (
+            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-500" />
+          )}
+        </button>
+        <button
+          onClick={() => setActiveTab('companion')}
+          className={`px-4 py-3 text-sm font-medium transition-colors relative ${
+            activeTab === 'companion'
+              ? 'text-white'
+              : 'text-gray-500 hover:text-gray-300'
+          }`}
+        >
+          AI Companion
+          {activeTab === 'companion' && (
             <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-500" />
           )}
         </button>
@@ -417,6 +431,9 @@ export default function JournalView() {
 
       {/* Insights Tab */}
       {activeTab === 'insights' && <JournalInsights />}
+
+      {/* AI Companion Tab */}
+      {activeTab === 'companion' && <JournalCompanion />}
 
       {/* Course Journals Tab */}
       {activeTab === 'course' && (

@@ -4,7 +4,7 @@
   "subtitle": "The foundation you keep ignoring",
   "description": "Sleep is the foundation of everything—mood, cognition, regulation, healing. This course covers the science of sleep, why yours might be broken, and practical protocols for actually getting the rest you need.",
   "category": "Body",
-  "price": 47,
+  "price": 19,
   "currency": "USD",
   "duration": "3-4 weeks",
   "level": "Beginner",
@@ -129,5 +129,9 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "regulation",
+    "embodiment"
+  ]
 }

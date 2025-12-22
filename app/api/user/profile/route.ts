@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { safeJsonParse } from "@/lib/sanitize";
 
 // GET - Fetch user profile (onboarding data)
 export async function GET() {
@@ -21,14 +22,14 @@ export async function GET() {
     });
   }
 
-  // Parse JSON fields
+  // Parse JSON fields safely
   return NextResponse.json({
     exists: true,
     ...profile,
-    experienceLevels: profile.experienceLevels ? JSON.parse(profile.experienceLevels) : null,
-    currentChallenges: profile.currentChallenges ? JSON.parse(profile.currentChallenges) : null,
-    interests: profile.interests ? JSON.parse(profile.interests) : null,
-    sensitivities: profile.sensitivities ? JSON.parse(profile.sensitivities) : null,
+    experienceLevels: safeJsonParse(profile.experienceLevels, null),
+    currentChallenges: safeJsonParse(profile.currentChallenges, null),
+    interests: safeJsonParse(profile.interests, null),
+    sensitivities: safeJsonParse(profile.sensitivities, null),
   });
 }
 
@@ -71,10 +72,10 @@ export async function POST(request: NextRequest) {
     success: true,
     profile: {
       ...profile,
-      experienceLevels: profile.experienceLevels ? JSON.parse(profile.experienceLevels) : null,
-      currentChallenges: profile.currentChallenges ? JSON.parse(profile.currentChallenges) : null,
-      interests: profile.interests ? JSON.parse(profile.interests) : null,
-      sensitivities: profile.sensitivities ? JSON.parse(profile.sensitivities) : null,
+      experienceLevels: safeJsonParse(profile.experienceLevels, null),
+      currentChallenges: safeJsonParse(profile.currentChallenges, null),
+      interests: safeJsonParse(profile.interests, null),
+      sensitivities: safeJsonParse(profile.sensitivities, null),
     },
   });
 }
@@ -121,10 +122,10 @@ export async function PATCH(request: NextRequest) {
     success: true,
     profile: {
       ...profile,
-      experienceLevels: profile.experienceLevels ? JSON.parse(profile.experienceLevels) : null,
-      currentChallenges: profile.currentChallenges ? JSON.parse(profile.currentChallenges) : null,
-      interests: profile.interests ? JSON.parse(profile.interests) : null,
-      sensitivities: profile.sensitivities ? JSON.parse(profile.sensitivities) : null,
+      experienceLevels: safeJsonParse(profile.experienceLevels, null),
+      currentChallenges: safeJsonParse(profile.currentChallenges, null),
+      interests: safeJsonParse(profile.interests, null),
+      sensitivities: safeJsonParse(profile.sensitivities, null),
     },
   });
 }

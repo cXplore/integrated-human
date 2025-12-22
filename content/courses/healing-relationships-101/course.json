@@ -1,7 +1,7 @@
 {
   "title": "Healing Relationships 101",
   "description": "Essential foundations for healthier connections",
-  "category": "Free",
+  "category": "Relationships",
   "level": "Beginner",
   "duration": "2 hours",
   "price": 0,
@@ -52,5 +52,9 @@
     ]
   },
   "subtitle": "The foundations of healthy connection",
-  "tier": "intro"
+  "tier": "intro",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

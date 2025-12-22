@@ -13,7 +13,9 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const topic = searchParams.get('topic');
-    const limit = parseInt(searchParams.get('limit') || '20', 10);
+    // Bounds checking for pagination
+    const rawLimit = parseInt(searchParams.get('limit') || '20', 10);
+    const limit = Math.max(1, Math.min(100, isNaN(rawLimit) ? 20 : rawLimit));
     const cursor = searchParams.get('cursor');
 
     const where = topic && topic !== 'all' ? { topic } : {};

@@ -1,20 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import fs from "fs";
-import path from "path";
-
-interface CourseMetadata {
-  id?: string;
-  title: string;
-  description: string;
-  category: string;
-  price: number;
-  level?: string;
-  published?: boolean;
-  featured?: boolean;
-  leadMagnet?: boolean;
-}
+import { safeJsonParse } from "@/lib/sanitize";
+import { getAllCourses, type Course } from "@/lib/courses";
 
 // Mapping from user interests/challenges to course categories and keywords
 const INTEREST_TO_COURSES: Record<string, string[]> = {
@@ -62,26 +50,14 @@ const DEPTH_LEVEL_MAP: Record<string, string[]> = {
   'advanced': ['Advanced', 'All Levels'],
 };
 
-async function getAllCourses(): Promise<Map<string, CourseMetadata>> {
-  const coursesDir = path.join(process.cwd(), 'content', 'courses');
-  const courses = new Map<string, CourseMetadata>();
-
-  try {
-    const folders = fs.readdirSync(coursesDir);
-    for (const folder of folders) {
-      const courseJsonPath = path.join(coursesDir, folder, 'course.json');
-      if (fs.existsSync(courseJsonPath)) {
-        const courseData = JSON.parse(fs.readFileSync(courseJsonPath, 'utf-8'));
-        if (courseData.published !== false) {
-          courses.set(folder, { ...courseData, id: folder });
-        }
-      }
-    }
-  } catch (error) {
-    console.error('Error reading courses:', error);
+// Use cached courses from lib/courses.ts
+function getCachedCourses(): Map<string, Course> {
+  const courses = getAllCourses();
+  const courseMap = new Map<string, Course>();
+  for (const course of courses) {
+    courseMap.set(course.slug, course);
   }
-
-  return courses;
+  return courseMap;
 }
 
 export async function GET() {
@@ -109,8 +85,8 @@ export async function GET() {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  // Get all available courses
-  const allCourses = await getAllCourses();
+  // Get all available courses (uses cached data from lib/courses)
+  const allCourses = getCachedCourses();
 
   // Get completed and purchased courses
   const completedCourses = new Set(
@@ -121,15 +97,15 @@ export async function GET() {
 
   // Parse profile data
   const profile = user.profile;
-  const interests: string[] = profile?.interests ? JSON.parse(profile.interests) : [];
-  const challenges: string[] = profile?.currentChallenges ? JSON.parse(profile.currentChallenges) : [];
+  const interests: string[] = safeJsonParse(profile?.interests, []);
+  const challenges: string[] = safeJsonParse(profile?.currentChallenges, []);
   const depthPreference = profile?.depthPreference || 'intermediate';
-  const experienceLevels = profile?.experienceLevels ? JSON.parse(profile.experienceLevels) : {};
+  const experienceLevels = safeJsonParse(profile?.experienceLevels, {});
 
   // Score each course based on relevance
   const scoredCourses: Array<{
     slug: string;
-    course: CourseMetadata;
+    course: Course;
     score: number;
     reasons: string[];
   }> = [];
@@ -140,6 +116,7 @@ export async function GET() {
     // Skip already completed courses
     if (completedCourses.has(slug)) continue;
 
+    const meta = course.metadata;
     let score = 0;
     const reasons: string[] = [];
 
@@ -162,23 +139,18 @@ export async function GET() {
     }
 
     // Check depth level compatibility
-    if (course.level && allowedLevels.includes(course.level)) {
+    if (meta.level && allowedLevels.includes(meta.level)) {
       score += 10;
-    } else if (course.level && !allowedLevels.includes(course.level)) {
+    } else if (meta.level && !allowedLevels.includes(meta.level)) {
       score -= 15; // Penalize mismatched depth
     }
 
     // Boost free lead magnets for new users
-    if (course.price === 0 || course.leadMagnet) {
+    if (meta.price === 0) {
       if (startedCourses.size < 3) {
         score += 15;
         reasons.push('Good starting point');
       }
-    }
-
-    // Boost featured courses
-    if (course.featured) {
-      score += 5;
     }
 
     // Penalize already started but not completed courses less
@@ -195,8 +167,8 @@ export async function GET() {
       const categoryInterests = interests.filter(i =>
         ['shadow work', 'relationships', 'spirituality', 'embodiment'].includes(i)
       );
-      if (categoryInterests.some(ci => course.category?.toLowerCase().includes(ci.split(' ')[0]))) {
-        scoredCourses.push({ slug, course, score: 5, reasons: [`Related to ${course.category}`] });
+      if (categoryInterests.some(ci => meta.category?.toLowerCase().includes(ci.split(' ')[0]))) {
+        scoredCourses.push({ slug, course, score: 5, reasons: [`Related to ${meta.category}`] });
       }
     }
   }
@@ -207,11 +179,11 @@ export async function GET() {
   // Take top recommendations
   const recommendations = scoredCourses.slice(0, 6).map(({ slug, course, reasons }) => ({
     slug,
-    title: course.title,
-    description: course.description,
-    category: course.category,
-    price: course.price,
-    level: course.level,
+    title: course.metadata.title,
+    description: course.metadata.description,
+    category: course.metadata.category,
+    price: course.metadata.price,
+    level: course.metadata.level,
     reasons: reasons.slice(0, 2), // Limit to 2 reasons
     purchased: purchasedCourses.has(slug),
     inProgress: startedCourses.has(slug) && !completedCourses.has(slug),
@@ -235,11 +207,11 @@ export async function GET() {
       if (course) {
         recommendations.push({
           slug,
-          title: course.title,
-          description: course.description,
-          category: course.category,
-          price: course.price,
-          level: course.level,
+          title: course.metadata.title,
+          description: course.metadata.description,
+          category: course.metadata.category,
+          price: course.metadata.price,
+          level: course.metadata.level,
           reasons: ['Recommended starting point'],
           purchased: purchasedCourses.has(slug),
           inProgress: startedCourses.has(slug),

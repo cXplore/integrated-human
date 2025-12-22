@@ -4,7 +4,7 @@
   "subtitle": "The complete curriculum for conscious partnership",
   "description": "A comprehensive 10-week program covering everything needed for extraordinary relationships. From attachment healing to communication to polarity to conflict resolution—this flagship course gives you the full toolkit for love that lasts and grows.",
   "category": "Flagship",
-  "price": 247,
+  "price": 79,
   "currency": "USD",
   "duration": "10 weeks",
   "level": "Intermediate",
@@ -192,5 +192,9 @@
       }
     ]
   },
-  "tier": "flagship"
+  "tier": "flagship",
+  "spectrum": [
+    "embodiment",
+    "optimization"
+  ]
 }

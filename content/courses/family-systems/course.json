@@ -4,7 +4,7 @@
   "subtitle": "Understanding the patterns you inherited",
   "description": "Your family shaped you in ways you're still discovering. This course helps you understand family systems dynamics, recognize inherited patterns, navigate difficult family relationships, and break cycles you don't want to continue.",
   "category": "Relationships",
-  "price": 67,
+  "price": 39,
   "currency": "USD",
   "duration": "5-6 weeks",
   "level": "Intermediate",
@@ -138,5 +138,8 @@
       }
     ]
   },
-  "tier": "intermediate"
+  "tier": "intermediate",
+  "spectrum": [
+    "integration"
+  ]
 }

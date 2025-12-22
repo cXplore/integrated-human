@@ -4,7 +4,7 @@
   "category": "Mind",
   "level": "Intermediate",
   "duration": "3 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": false,
   "modules": [
@@ -74,5 +74,8 @@
     ]
   },
   "subtitle": "Good enough is good enough",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "integration"
+  ]
 }

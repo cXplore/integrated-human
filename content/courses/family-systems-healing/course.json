@@ -7,7 +7,7 @@
   "level": "Intermediate",
   "category": "Relationships",
   "featured": false,
-  "price": 67,
+  "price": 49,
   "curriculum": [
     "Understanding family systems theory and dynamics",
     "Identifying your role and function in the family",
@@ -117,5 +117,9 @@
     "passingScore": 60
   },
   "subtitle": "Understand your family, free yourself",
-  "tier": "intermediate"
+  "tier": "advanced",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

@@ -15,8 +15,11 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '50');
-    const offset = parseInt(searchParams.get('offset') || '0');
+    // Bounds checking for pagination
+    const rawLimit = parseInt(searchParams.get('limit') || '50');
+    const rawOffset = parseInt(searchParams.get('offset') || '0');
+    const limit = Math.max(1, Math.min(100, isNaN(rawLimit) ? 50 : rawLimit));
+    const offset = Math.max(0, isNaN(rawOffset) ? 0 : rawOffset);
     const courseSlug = searchParams.get('courseSlug');
 
     const entries = await prisma.exerciseResponse.findMany({

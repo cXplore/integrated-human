@@ -4,7 +4,7 @@
   "subtitle": "Finding what you're here to do",
   "description": "Move beyond aimlessness into clarity. This course guides you through discovering your values, gifts, and calling—not as a single perfect answer, but as an ongoing relationship with meaning.",
   "category": "Soul",
-  "price": 67,
+  "price": 29,
   "currency": "USD",
   "duration": "5-6 weeks",
   "level": "All Levels",
@@ -149,5 +149,9 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

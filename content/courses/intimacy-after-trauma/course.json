@@ -4,7 +4,7 @@
   "category": "Relationships",
   "level": "Advanced",
   "duration": "4 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": false,
   "modules": [
@@ -94,5 +94,9 @@
     ]
   },
   "subtitle": "Reclaim closeness at your own pace",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

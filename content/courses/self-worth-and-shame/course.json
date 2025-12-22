@@ -4,7 +4,7 @@
   "subtitle": "Healing the wound beneath all wounds",
   "description": "Shame is often the hidden driver of our struggles. This course helps you recognize shame, understand its origins, differentiate toxic from healthy shame, and rebuild genuine self-worth from the inside out.",
   "category": "Mind",
-  "price": 67,
+  "price": 39,
   "currency": "USD",
   "duration": "5-6 weeks",
   "level": "Intermediate",
@@ -138,5 +138,9 @@
       }
     ]
   },
-  "tier": "intermediate"
+  "tier": "intermediate",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

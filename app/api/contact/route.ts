@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
+import { verifyCaptcha, isCaptchaEnabled } from '@/lib/captcha';
 
 const MESSAGES_FILE = path.join(process.cwd(), 'data', 'messages.json');
 
@@ -36,7 +38,28 @@ async function saveMessages(messages: ContactMessage[]) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, message } = await request.json();
+    const { name, email, message, captchaToken } = await request.json();
+
+    // Check rate limit by IP (contact form doesn't require auth)
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ||
+               request.headers.get('x-real-ip') ||
+               'unknown';
+    const rateLimit = checkRateLimit(`contact:${ip}`, RATE_LIMITS.contact);
+    if (!rateLimit.success) {
+      return rateLimitResponse(rateLimit);
+    }
+
+    // Verify CAPTCHA if enabled
+    if (isCaptchaEnabled()) {
+      const captchaResult = await verifyCaptcha(captchaToken, 'contact');
+      if (!captchaResult.success) {
+        console.warn('Captcha failed:', captchaResult.error, 'IP:', ip);
+        return NextResponse.json(
+          { error: 'Captcha verification failed. Please try again.' },
+          { status: 400 }
+        );
+      }
+    }
 
     if (!name || !email || !message) {
       return NextResponse.json(

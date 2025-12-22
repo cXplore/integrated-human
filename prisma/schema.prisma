@@ -34,8 +34,12 @@ model User {
   profile            UserProfile?
   subscription       Subscription?
   aiCredits          AICredits?
+  aiUsage            AIUsage[]
+  creditPurchases    CreditPurchase[]
   assessmentResults  AssessmentResult[]
   sharedReflections  SharedReflection[]
+  dreamEntries       DreamEntry[]
+  integrationCheckIns IntegrationCheckIn[]
 }
 
 model Account {
@@ -57,6 +61,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
+  @@index([userId])
 }
 
 model ReadingListItem {
@@ -73,13 +78,15 @@ model ReadingListItem {
 }
 
 model ArticleProgress {
-  id          String   @id @default(cuid())
-  userId      String
-  slug        String
-  completed   Boolean  @default(false)
-  completedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(cuid())
+  userId         String
+  slug           String
+  completed      Boolean  @default(false)
+  completedAt    DateTime?
+  scrollProgress Float    @default(0) // Percentage of article read (0-100)
+  lastReadAt     DateTime @default(now()) // When user last read this article
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -105,13 +112,18 @@ model CourseProgress {
 }
 
 model Certificate {
-  id           String   @id @default(cuid())
-  userId       String
-  courseSlug   String
-  courseName   String
-  userName     String
-  issuedAt     DateTime @default(now())
-  certificateId String  @unique @default(cuid())
+  id            String   @id @default(cuid())
+  userId        String
+  courseSlug    String
+  courseName    String
+  userName      String
+  issuedAt      DateTime @default(now())
+  certificateId String   @unique @default(cuid())
+
+  // Certificate tiering
+  credentialType String  @default("completion") // completion, certificate
+  courseTier     String  @default("beginner")   // intro, beginner, intermediate, advanced, flagship
+  quizScore      Int?    // Score achieved on quiz (if applicable)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -286,6 +298,8 @@ model AIUsage {
   context      String?  // chat, course-help, journal-reflection, etc.
   createdAt    DateTime @default(now())
 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@index([userId])
   @@index([userId, createdAt])
 }
@@ -299,6 +313,8 @@ model CreditPurchase {
   amount           Int      // Amount in cents
   stripePaymentId  String   @unique
   createdAt        DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
@@ -348,4 +364,41 @@ model SharedReflectionResponse {
   reflection SharedReflection @relation(fields: [reflectionId], references: [id], onDelete: Cascade)
 
   @@index([reflectionId, createdAt])
+}
+
+// Integration Check-ins - periodic prompts to reflect on applying learnings
+model IntegrationCheckIn {
+  id           String   @id @default(cuid())
+  userId       String
+  type         String   // weekly, course-completion, milestone
+  promptType   String   // what-shifted, applying-learning, current-edge, gratitude
+  response     String   @db.Text
+  relatedSlug  String?  // Optional: course or content slug this relates to
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, createdAt])
+}
+
+// Dream Journal entries
+model DreamEntry {
+  id              String   @id @default(cuid())
+  userId          String
+  title           String?
+  content         String   @db.Text // The dream description
+  emotions        String?  // JSON array of emotions felt in/about the dream
+  symbols         String?  // JSON array of notable symbols identified
+  interpretation  String?  @db.Text // AI-assisted or user interpretation
+  recurring       Boolean  @default(false)
+  lucid           Boolean  @default(false)
+  dreamDate       DateTime @default(now()) // When the dream occurred
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, dreamDate])
 }

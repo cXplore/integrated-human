@@ -1,9 +1,12 @@
 /**
  * Next.js Instrumentation
- * Avatar services disabled - too resource intensive
+ * Runs on server startup
  */
 
 export async function register() {
-  // Avatar services disabled for performance
-  // MuseTalk loads ~8GB of models and slows everything down
+  // Validate environment variables on server startup
+  if (process.env.NEXT_RUNTIME === 'nodejs') {
+    const { checkEnvOnStartup } = await import('./lib/env');
+    checkEnvOnStartup();
+  }
 }

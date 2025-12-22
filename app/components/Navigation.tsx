@@ -28,21 +28,28 @@ const navItems: NavItem[] = [
       { label: 'Body', href: '/body', description: 'Strength, breath, nervous system' },
       { label: 'Soul', href: '/soul', description: 'Meditation, meaning, presence' },
       { label: 'Relationships', href: '/relationships', description: 'Attachment, intimacy, conflict' },
+      { label: 'All Articles', href: '/library', description: 'Browse the full collection' },
       { label: 'Archetype Quiz', href: '/archetypes', description: 'Discover your profile' },
       { label: 'Learning Paths', href: '/learning-paths', description: 'Structured journeys' },
+      { label: 'Practices', href: '/practices', description: 'Breathwork, grounding, meditation' },
     ],
   },
   {
     label: 'Courses',
     dropdown: [
       { label: 'All Courses', href: '/courses', description: 'Browse all courses' },
+      { label: 'Free Courses', href: '/free', description: 'Start without commitment' },
       { label: 'Bundles', href: '/bundles', description: 'Save with course bundles' },
     ],
   },
-  { label: 'Free', href: '/free' },
-  { label: 'Library', href: '/library' },
   { label: 'Membership', href: '/pricing' },
-  { label: 'About', href: '/about' },
+  {
+    label: 'About',
+    dropdown: [
+      { label: 'About Us', href: '/about', description: 'Who we are and why we exist' },
+      { label: 'Transparency', href: '/transparency', description: 'Our methodology and standards' },
+    ],
+  },
 ];
 
 function MegaMenu({ items, isOpen, onClose }: { items: DropdownItem[]; isOpen: boolean; onClose: () => void }) {

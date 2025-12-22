@@ -49,38 +49,57 @@ export async function POST(request: NextRequest) {
         const credits = parseInt(session.metadata?.credits || '0', 10);
         const packageId = session.metadata?.packageId;
         const tokens = credits * TOKENS_PER_CREDIT; // Convert credits to tokens
+        const paymentIntentId = session.payment_intent as string;
 
         if (credits <= 0) {
           console.error('Invalid credits amount in metadata:', session.id);
           break;
         }
 
+        if (!paymentIntentId) {
+          console.error('Missing payment_intent in session:', session.id);
+          break;
+        }
+
         try {
-          // Add purchased tokens to user's balance
-          await prisma.aICredits.upsert({
-            where: { userId },
-            update: {
-              purchasedTokens: { increment: tokens },
-              tokenBalance: { increment: tokens },
-            },
-            create: {
-              userId,
-              tokenBalance: tokens,
-              monthlyTokens: 0,
-              monthlyUsed: 0,
-              purchasedTokens: tokens,
-            },
+          // IDEMPOTENCY CHECK: Skip if already processed
+          const existingPurchase = await prisma.creditPurchase.findFirst({
+            where: { stripePaymentId: paymentIntentId },
           });
 
-          // Record the credit purchase
-          await prisma.creditPurchase.create({
-            data: {
-              userId,
-              credits,
-              tokens,
-              amount: session.amount_total || 0,
-              stripePaymentId: session.payment_intent as string,
-            },
+          if (existingPurchase) {
+            console.log(`Credit purchase already processed for payment ${paymentIntentId}, skipping`);
+            break;
+          }
+
+          // Use transaction to ensure atomicity
+          await prisma.$transaction(async (tx) => {
+            // Add purchased tokens to user's balance
+            await tx.aICredits.upsert({
+              where: { userId },
+              update: {
+                purchasedTokens: { increment: tokens },
+                tokenBalance: { increment: tokens },
+              },
+              create: {
+                userId,
+                tokenBalance: tokens,
+                monthlyTokens: 0,
+                monthlyUsed: 0,
+                purchasedTokens: tokens,
+              },
+            });
+
+            // Record the credit purchase
+            await tx.creditPurchase.create({
+              data: {
+                userId,
+                credits,
+                tokens,
+                amount: session.amount_total || 0,
+                stripePaymentId: paymentIntentId,
+              },
+            });
           });
 
           console.log(`Credit purchase recorded for user ${userId}, credits: ${credits}, tokens: ${tokens}, package: ${packageId}`);
@@ -90,92 +109,46 @@ export async function POST(request: NextRequest) {
         break;
       }
 
-      // Handle bundle purchase
-      if (purchaseType === 'bundle') {
-        const courseSlugs = session.metadata?.courseSlugs?.split(',') || [];
-        const bundleId = session.metadata?.bundleId;
-
-        if (courseSlugs.length === 0) {
-          console.error('No course slugs in bundle metadata:', session.id);
-          break;
-        }
-
-        // Create purchase records for all courses in the bundle
-        try {
-          for (const courseSlug of courseSlugs) {
-            // Check if already purchased (in case user owned some courses already)
-            const existing = await prisma.purchase.findUnique({
-              where: {
-                userId_courseSlug: { userId, courseSlug },
-              },
-            });
-
-            if (!existing) {
-              await prisma.purchase.create({
-                data: {
-                  userId,
-                  courseSlug,
-                  stripePaymentId: session.payment_intent as string,
-                  stripeCustomerId: session.customer as string | null,
-                  amount: Math.round((session.amount_total || 0) / courseSlugs.length),
-                  currency: session.currency || 'usd',
-                  status: 'completed',
-                },
-              });
-            }
-          }
-          console.log(`Bundle purchase recorded for user ${userId}, bundle ${bundleId}, courses: ${courseSlugs.join(', ')}`);
-        } catch (error) {
-          console.error('Error creating bundle purchase records:', error);
-        }
-        break;
-      }
-
-      // Handle single course purchase
-      const courseSlug = session.metadata?.courseSlug;
-
-      if (!courseSlug) {
-        console.error('Missing courseSlug in checkout session:', session.id);
-        break;
-      }
-
-      // Create purchase record
-      try {
-        await prisma.purchase.create({
-          data: {
-            userId,
-            courseSlug,
-            stripePaymentId: session.payment_intent as string,
-            stripeCustomerId: session.customer as string | null,
-            amount: session.amount_total || 0,
-            currency: session.currency || 'usd',
-            status: 'completed',
-          },
-        });
-        console.log(`Purchase recorded for user ${userId}, course ${courseSlug}`);
-      } catch (error) {
-        // Handle duplicate purchase (user might have already purchased)
-        console.error('Error creating purchase record:', error);
-      }
+      // Unknown purchase type - log it
+      console.warn(`Unknown purchase type in checkout session: ${purchaseType}`, session.id);
       break;
     }
 
     case 'charge.refunded': {
       const charge = event.data.object as Stripe.Charge;
+      const paymentIntentId = charge.payment_intent as string;
 
-      // Update purchase status to refunded
+      if (!paymentIntentId) {
+        console.error('Missing payment_intent in refunded charge:', charge.id);
+        break;
+      }
+
+      // Handle credit purchase refunds - deduct the refunded tokens
       try {
-        await prisma.purchase.updateMany({
-          where: {
-            stripePaymentId: charge.payment_intent as string,
-          },
-          data: {
-            status: 'refunded',
-          },
+        const creditPurchase = await prisma.creditPurchase.findFirst({
+          where: { stripePaymentId: paymentIntentId },
         });
-        console.log(`Purchase refunded for payment ${charge.payment_intent}`);
+
+        if (creditPurchase) {
+          // Refund tokens from the user's balance
+          const user = await prisma.aICredits.findUnique({
+            where: { userId: creditPurchase.userId },
+          });
+
+          if (user) {
+            await prisma.aICredits.update({
+              where: { userId: creditPurchase.userId },
+              data: {
+                purchasedTokens: { decrement: creditPurchase.tokens },
+                tokenBalance: { decrement: Math.min(creditPurchase.tokens, user.tokenBalance) },
+              },
+            });
+          }
+
+          console.log(`Credit purchase refunded for user ${creditPurchase.userId}, tokens: ${creditPurchase.tokens}`);
+        }
       } catch (error) {
-        console.error('Error updating purchase status:', error);
+        console.error('Error processing refund:', error);
       }
       break;
     }
@@ -222,7 +195,7 @@ export async function POST(request: NextRequest) {
           },
         });
 
-        // Initialize or update AI tokens
+        // Initialize or update AI tokens based on tier
         const monthlyTokens = getMonthlyTokens(tier);
 
         // Get existing purchased tokens to preserve them
@@ -311,7 +284,7 @@ export async function POST(request: NextRequest) {
           const tier = subscription.metadata?.tier as SubscriptionTier;
 
           if (userId && tier) {
-            // Reset monthly AI tokens
+            // Reset monthly AI tokens based on tier
             const monthlyTokens = getMonthlyTokens(tier);
             const currentCredits = await prisma.aICredits.findUnique({
               where: { userId },
@@ -331,6 +304,41 @@ export async function POST(request: NextRequest) {
           }
         } catch (error) {
           console.error('Error resetting monthly credits:', error);
+        }
+      }
+      break;
+    }
+
+    case 'invoice.payment_failed': {
+      const invoice = event.data.object as Stripe.Invoice & {
+        subscription?: string | null;
+      };
+
+      if (invoice.subscription) {
+        const subscriptionId = invoice.subscription;
+
+        try {
+          const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+          const userId = subscription.metadata?.userId;
+
+          if (userId) {
+            // Update subscription status to past_due
+            await prisma.subscription.update({
+              where: { userId },
+              data: {
+                status: 'past_due',
+              },
+            });
+
+            // Log for monitoring/alerting - could integrate with email service
+            console.warn(`Payment failed for user ${userId}, subscription ${subscriptionId}`);
+
+            // Note: Stripe will retry the payment automatically based on your settings.
+            // Consider sending the user an email notification here.
+            // After final retry failure, Stripe will send customer.subscription.deleted
+          }
+        } catch (error) {
+          console.error('Error handling payment failure:', error);
         }
       }
       break;

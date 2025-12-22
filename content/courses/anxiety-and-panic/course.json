@@ -3,7 +3,7 @@
   "title": "Understanding & Working with Anxiety",
   "subtitle": "From Overwhelm to Mastery",
   "description": "A 6-module course on understanding anxiety at its roots and developing practical skills to work with it. Learn why you're anxious, how panic works, and what actually helps—not just coping strategies, but genuine transformation.",
-  "price": 67,
+  "price": 29,
   "currency": "USD",
   "image": "/images/courses/anxiety-and-panic.jpg",
   "duration": "6 modules",
@@ -160,5 +160,9 @@
   "published": true,
   "createdAt": "2024-12-19",
   "updatedAt": "2024-12-19",
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "collapse",
+    "regulation"
+  ]
 }

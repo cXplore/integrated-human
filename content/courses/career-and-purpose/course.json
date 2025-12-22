@@ -3,7 +3,7 @@
   "title": "Career & Purpose Transitions",
   "subtitle": "When Work Stops Working",
   "description": "A 6-module course for navigating major career transitions and finding work that aligns with who you really are. Whether you're burned out, laid off, or simply know something needs to change—this course helps you move from confusion to clarity.",
-  "price": 67,
+  "price": 29,
   "currency": "USD",
   "image": "/images/courses/career-and-purpose.jpg",
   "duration": "6 modules",
@@ -150,5 +150,9 @@
   "published": true,
   "createdAt": "2024-12-19",
   "updatedAt": "2024-12-19",
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "embodiment",
+    "optimization"
+  ]
 }

@@ -2,6 +2,22 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { getCourseBySlug, getAllModulesForCourse } from '@/lib/courses';
+import type { CourseTier } from '@/lib/subscriptions';
+
+/**
+ * Credential Type System:
+ * - "completion": Proof of finishing a course (intro, beginner, intermediate tiers)
+ * - "certificate": Official credential with full verification (advanced, flagship tiers)
+ *
+ * This tiering protects the value of certificates by reserving them for
+ * more rigorous, in-depth courses while still acknowledging all completions.
+ */
+function getCredentialType(tier: CourseTier): 'completion' | 'certificate' {
+  if (tier === 'advanced' || tier === 'flagship') {
+    return 'certificate';
+  }
+  return 'completion';
+}
 
 // GET - Fetch user's certificates
 export async function GET() {
@@ -62,7 +78,8 @@ export async function POST(request: Request) {
     }, { status: 400 });
   }
 
-  // Check if quiz is required and passed
+  // Check if quiz is required and passed, get score for certificate
+  let quizScore: number | undefined;
   if (course.metadata.quiz) {
     const quizAttempt = await prisma.quizAttempt.findFirst({
       where: {
@@ -70,6 +87,7 @@ export async function POST(request: Request) {
         courseSlug,
         passed: true,
       },
+      orderBy: { score: 'desc' }, // Get best score
     });
 
     if (!quizAttempt) {
@@ -78,6 +96,8 @@ export async function POST(request: Request) {
         message: 'You must pass the course quiz to earn your certificate',
       }, { status: 400 });
     }
+
+    quizScore = quizAttempt.score;
   }
 
   // Check if certificate already exists
@@ -94,13 +114,20 @@ export async function POST(request: Request) {
     return NextResponse.json(existing);
   }
 
-  // Create certificate
+  // Determine credential type based on course tier
+  const courseTier = course.metadata.tier;
+  const credentialType = getCredentialType(courseTier);
+
+  // Create certificate with tiering information
   const certificate = await prisma.certificate.create({
     data: {
       userId: session.user.id,
       courseSlug,
       courseName: course.metadata.title,
       userName: session.user.name || 'Student',
+      credentialType,
+      courseTier,
+      quizScore,
     },
   });
 

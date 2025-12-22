@@ -3,7 +3,7 @@
   "title": "Codependency Recovery",
   "subtitle": "Finding Yourself After Losing Yourself in Others",
   "description": "A 6-module course on understanding and healing codependency. Learn what codependency actually is, where it comes from, how to recognize your patterns, and how to build a self that doesn't disappear in relationships.",
-  "price": 67,
+  "price": 29,
   "currency": "USD",
   "image": "/images/courses/codependency-recovery.jpg",
   "duration": "6 modules",
@@ -160,5 +160,8 @@
   "published": true,
   "createdAt": "2024-12-19",
   "updatedAt": "2024-12-19",
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "integration"
+  ]
 }

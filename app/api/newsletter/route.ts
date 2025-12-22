@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
 
 // ConvertKit (Kit) - Free up to 1,000 subscribers
 const CONVERTKIT_API_KEY = process.env.CONVERTKIT_API_KEY;
@@ -6,6 +7,15 @@ const CONVERTKIT_FORM_ID = process.env.CONVERTKIT_FORM_ID || '8853407';
 
 export async function POST(request: NextRequest) {
   try {
+    // Check rate limit by IP
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ||
+               request.headers.get('x-real-ip') ||
+               'unknown';
+    const rateLimit = checkRateLimit(`newsletter:${ip}`, RATE_LIMITS.leadMagnet);
+    if (!rateLimit.success) {
+      return rateLimitResponse(rateLimit);
+    }
+
     const { email } = await request.json();
 
     if (!email || typeof email !== 'string') {

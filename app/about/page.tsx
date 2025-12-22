@@ -25,28 +25,21 @@ export default function AboutPage() {
             <div className="space-y-8 text-gray-300 leading-relaxed text-lg">
               {/* Author Section */}
               <div className="pb-12 border-b border-zinc-800">
-                <div className="flex flex-col md:flex-row gap-8 items-start">
-                  <div className="w-32 h-32 bg-zinc-800 rounded-full flex-shrink-0 flex items-center justify-center">
-                    <svg className="w-16 h-16 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                  </div>
-                  <div className="space-y-4">
-                    <h2 className="font-serif text-2xl text-white">The Person Behind This</h2>
-                    <p>
-                      I've spent years in the weeds of personal development — reading the books, doing the practices,
-                      making the mistakes. Therapy, meditation retreats, strength training, psychedelics, failed relationships,
-                      successful ones. The whole messy process of trying to figure out how to actually live well.
-                    </p>
-                    <p>
-                      This site is what I wish I'd found earlier: practical wisdom without the guru energy,
-                      depth without the dogma, and honest acknowledgment that none of us really know what we're doing —
-                      we're just paying closer attention than most.
-                    </p>
-                    <p className="text-gray-500 text-base">
-                      Based in Europe. Writing when something feels true enough to share.
-                    </p>
-                  </div>
+                <div className="space-y-4">
+                  <h2 className="font-serif text-2xl text-white">The Person Behind This</h2>
+                  <p>
+                    I've spent years in the weeds of personal development — reading the books, doing the practices,
+                    making the mistakes. Therapy, meditation retreats, strength training, psychedelics, failed relationships,
+                    successful ones. The whole messy process of trying to figure out how to actually live well.
+                  </p>
+                  <p>
+                    This site is what I wish I'd found earlier: practical wisdom without the guru energy,
+                    depth without the dogma, and honest acknowledgment that none of us really know what we're doing —
+                    we're just paying closer attention than most.
+                  </p>
+                  <p className="text-gray-500 text-base">
+                    Based in Europe. Writing when something feels true enough to share.
+                  </p>
                 </div>
               </div>
 
@@ -155,6 +148,18 @@ export default function AboutPage() {
                     Relationships
                   </Link>
                 </div>
+              </div>
+
+              <div className="pt-8">
+                <p className="text-gray-500 mb-4">
+                  Want to understand how we work?
+                </p>
+                <Link
+                  href="/transparency"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  See our methodology, standards, and credentials →
+                </Link>
               </div>
             </div>
           </div>

@@ -3,7 +3,7 @@
   "title": "Attachment Repair",
   "subtitle": "From Insecure to Earned Secure",
   "description": "A 6-module course on understanding and healing your attachment patterns. Learn how attachment forms, identify your style, and develop the skills for secure relating.",
-  "price": 67,
+  "price": 29,
   "currency": "USD",
   "image": "/images/courses/attachment-repair.jpg",
   "duration": "6 modules",
@@ -159,5 +159,9 @@
   "published": true,
   "createdAt": "2024-12-18",
   "updatedAt": "2024-12-18",
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

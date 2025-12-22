@@ -3,6 +3,8 @@ import Navigation from './components/Navigation';
 import PostCard from './components/PostCard';
 import NewsletterSignup from './components/NewsletterSignup';
 import WisdomQuote from './components/WisdomQuote';
+import ScrollArrow from './components/ScrollArrow';
+import SpectrumVisual from './components/SpectrumVisual';
 import { getAllPosts, getPostBySlug } from '@/lib/posts';
 import { getAllCourses } from '@/lib/courses';
 
@@ -72,11 +74,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
-          <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </div>
+        <ScrollArrow />
       </section>
 
       {/* Wisdom Quote */}
@@ -281,16 +279,22 @@ export default function Home() {
               Browse all courses →
             </Link>
           </div>
+
         </div>
       </section>
 
       {/* Membership - understated */}
       <section className="py-12 px-6 bg-[var(--card-bg)] border-t border-[var(--border-color)]">
-        <div className="max-w-3xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto text-center space-y-3">
           <p className="text-gray-500 text-sm">
             Looking for full access to all articles and courses?{' '}
             <Link href="/pricing" className="text-gray-400 hover:text-white transition-colors underline underline-offset-2">
               See membership options
+            </Link>
+          </p>
+          <p className="text-gray-600 text-sm">
+            <Link href="/transparency" className="hover:text-gray-400 transition-colors">
+              How we work: methodology, sources, and standards →
             </Link>
           </p>
         </div>

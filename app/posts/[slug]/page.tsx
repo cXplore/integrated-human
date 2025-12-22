@@ -18,6 +18,7 @@ import ArticleImage from '@/app/components/ArticleImage';
 import YouTube from '@/app/components/YouTube';
 import Image from 'next/image';
 import ContentCompanion from '@/app/components/ContentCompanion';
+import { ArticleJsonLd, BreadcrumbJsonLd } from '@/app/components/JsonLd';
 
 const BASE_URL = 'https://integrated-human.vercel.app';
 
@@ -102,6 +103,21 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
   return (
     <>
+      <ArticleJsonLd
+        title={post.metadata.title}
+        description={post.metadata.excerpt}
+        url={`${BASE_URL}/posts/${slug}`}
+        datePublished={post.metadata.date}
+        image={post.metadata.image ? `${BASE_URL}${post.metadata.image}` : undefined}
+        tags={post.metadata.tags}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: BASE_URL },
+          { name: post.metadata.categories[0], url: `${BASE_URL}/${post.metadata.categories[0].toLowerCase()}` },
+          { name: post.metadata.title, url: `${BASE_URL}/posts/${slug}` },
+        ]}
+      />
       <ReadingProgress />
       <ReadTracker slug={slug} />
       <Navigation />

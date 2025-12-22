@@ -4,7 +4,7 @@
   "category": "Relationships",
   "level": "Intermediate",
   "duration": "3.5 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": false,
   "modules": [
@@ -94,5 +94,9 @@
     ]
   },
   "subtitle": "Date with intention, connect with authenticity",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

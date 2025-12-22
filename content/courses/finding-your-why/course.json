@@ -1,10 +1,10 @@
 {
   "title": "Finding Your Why",
   "description": "A brief introduction to discovering meaning and purpose in your life",
-  "category": "Free",
+  "category": "Soul",
   "level": "Beginner",
   "duration": "2 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": true,
   "leadMagnet": true,
@@ -52,5 +52,8 @@
     ]
   },
   "subtitle": "Discover what makes your life meaningful",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "integration"
+  ]
 }

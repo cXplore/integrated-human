@@ -1,7 +1,7 @@
 {
   "title": "Introduction to Emotional Intelligence",
   "description": "Discover the fundamentals of understanding and managing your emotions",
-  "category": "Free",
+  "category": "Mind",
   "level": "Beginner",
   "duration": "2 hours",
   "price": 0,
@@ -52,5 +52,8 @@
     ]
   },
   "subtitle": "Feel more, understand better",
-  "tier": "intro"
+  "tier": "intro",
+  "spectrum": [
+    "integration"
+  ]
 }

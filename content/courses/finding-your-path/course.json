@@ -4,7 +4,7 @@
   "subtitle": "When you don't know what you want",
   "description": "For those who feel lost, stuck, or unclear about direction. This course helps you cut through confusion, reconnect with what matters to you, and take steps forward even when the whole path isn't visible.",
   "category": "Soul",
-  "price": 57,
+  "price": 29,
   "currency": "USD",
   "duration": "5 weeks",
   "level": "Beginner",
@@ -137,5 +137,9 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

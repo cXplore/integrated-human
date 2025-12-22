@@ -4,7 +4,7 @@
   "category": "Soul",
   "level": "Intermediate",
   "duration": "3.5 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": false,
   "modules": [
@@ -94,5 +94,9 @@
     ]
   },
   "subtitle": "Create as a path to the sacred",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "embodiment",
+    "optimization"
+  ]
 }

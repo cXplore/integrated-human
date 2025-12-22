@@ -1,10 +1,10 @@
 {
   "id": "people-pleasing-recovery",
   "title": "People-Pleasing Recovery",
-  "subtitle": "Stop abandoning yourself for others' approval",
-  "description": "People-pleasing is a survival strategy that costs you your life. This course helps you understand why you do it, what you're really afraid of, and how to start choosing yourself without becoming selfish or alone.",
-  "category": "Relationships",
-  "price": 57,
+  "subtitle": "From understanding to actual change",
+  "description": "You understand the pattern—now it's time to change it. This course goes deeper into the fears that drive people-pleasing and gives you practical tools for choosing yourself, handling others' reactions, and building sustainable change.",
+  "category": "Mind",
+  "price": 29,
   "currency": "USD",
   "duration": "5 weeks",
   "level": "Beginner",
@@ -62,9 +62,8 @@
     "Build sustainable change over time"
   ],
   "requirements": [
-    "Recognition that you have a people-pleasing pattern",
+    "Understanding People-Pleasing course or clear self-recognition of the pattern",
     "Willingness to disappoint some people",
-    "Boundaries course helpful but not required",
     "Journal for exercises"
   ],
   "quiz": {
@@ -138,5 +137,8 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "integration"
+  ]
 }

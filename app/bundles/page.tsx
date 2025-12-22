@@ -1,11 +1,12 @@
 import Navigation from '../components/Navigation';
 import Link from 'next/link';
 import { getAllBundlesWithCourses } from '@/lib/bundles';
+import MembershipCTA from '../components/MembershipCTA';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Course Bundles | Integrated Human',
-  description: 'Save with curated course bundles. Get related courses together at a discount for a complete learning journey.',
+  title: 'Learning Paths | Integrated Human',
+  description: 'Curated course collections for focused transformation. Each path groups related courses for a complete journey.',
 };
 
 export default function BundlesPage() {
@@ -21,15 +22,16 @@ export default function BundlesPage() {
         <section className="py-20 px-6 border-b border-zinc-800">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-block px-3 py-1 text-xs uppercase tracking-wide text-amber-500 bg-amber-500/10 border border-amber-500/20 mb-6">
-              Save 30%+ on bundles
+              Included with membership
             </div>
             <h1 className="font-serif text-5xl md:text-6xl font-light text-white mb-6">
-              Course Bundles
+              Learning Paths
             </h1>
-            <p className="text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto">
-              Curated paths that work together. Each bundle groups related courses
-              for a complete journey at a significant discount.
+            <p className="text-xl text-gray-400 leading-relaxed max-w-2xl mx-auto mb-8">
+              Curated paths that work together. Each collection groups related courses
+              for a complete journey through a topic.
             </p>
+            <MembershipCTA variant="primary" />
           </div>
         </section>
 
@@ -38,14 +40,15 @@ export default function BundlesPage() {
           <section className="py-16 px-6">
             <div className="max-w-6xl mx-auto">
               <h2 className="font-serif text-2xl text-white mb-8 flex items-center gap-3">
-                <span className="text-amber-500">Popular Bundles</span>
+                <span className="text-amber-500">Popular Paths</span>
               </h2>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {featuredBundles.map((bundle) => (
-                  <div
+                  <Link
                     key={bundle.id}
-                    className="bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-all flex flex-col"
+                    href={`/bundles/${bundle.id}`}
+                    className="group bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-all flex flex-col"
                   >
                     <div className="p-6 flex-1">
                       <div className="flex items-center gap-2 mb-3">
@@ -53,12 +56,12 @@ export default function BundlesPage() {
                           {bundle.category}
                         </span>
                         <span className="text-gray-700">·</span>
-                        <span className="text-xs text-amber-500 font-medium">
-                          Save ${bundle.savings}
+                        <span className="text-xs text-green-500">
+                          {bundle.courseDetails.length} courses
                         </span>
                       </div>
 
-                      <h3 className="font-serif text-xl text-white mb-2">
+                      <h3 className="font-serif text-xl text-white mb-2 group-hover:text-gray-300 transition-colors">
                         {bundle.title}
                       </h3>
 
@@ -71,9 +74,9 @@ export default function BundlesPage() {
                       </p>
 
                       {/* Included courses */}
-                      <div className="space-y-2 mb-6">
+                      <div className="space-y-2">
                         <p className="text-xs uppercase tracking-wide text-gray-600">
-                          {bundle.courseDetails.length} Courses Included:
+                          Courses Included:
                         </p>
                         <ul className="space-y-1">
                           {bundle.courseDetails.map((course) => (
@@ -101,30 +104,13 @@ export default function BundlesPage() {
                       </div>
                     </div>
 
-                    {/* Price and CTA */}
+                    {/* CTA */}
                     <div className="p-6 border-t border-zinc-800 bg-zinc-900/50">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <span className="text-gray-500 line-through text-sm">
-                            ${bundle.originalPrice}
-                          </span>
-                          <span className="text-2xl font-light text-white ml-2">
-                            ${bundle.bundlePrice}
-                          </span>
-                        </div>
-                        <span className="text-xs bg-green-600/20 text-green-400 px-2 py-1 rounded">
-                          {Math.round((bundle.savings / bundle.originalPrice) * 100)}% off
-                        </span>
-                      </div>
-
-                      <Link
-                        href={`/bundles/${bundle.id}`}
-                        className="block w-full py-3 text-center bg-amber-600 hover:bg-amber-500 text-white font-medium transition-colors"
-                      >
-                        View Bundle
-                      </Link>
+                      <span className="block w-full py-3 text-center bg-zinc-800 group-hover:bg-zinc-700 text-white font-medium transition-colors">
+                        View Path →
+                      </span>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -136,7 +122,7 @@ export default function BundlesPage() {
           <section className="py-16 px-6 border-t border-zinc-800/50">
             <div className="max-w-6xl mx-auto">
               <h2 className="font-serif text-2xl text-white mb-8">
-                More Bundles
+                More Paths
               </h2>
 
               <div className="grid md:grid-cols-2 gap-6">
@@ -151,8 +137,8 @@ export default function BundlesPage() {
                         {bundle.category}
                       </span>
                       <span className="text-gray-700">·</span>
-                      <span className="text-xs text-amber-500">
-                        Save ${bundle.savings}
+                      <span className="text-xs text-green-500">
+                        {bundle.courseDetails.length} courses
                       </span>
                     </div>
 
@@ -164,19 +150,9 @@ export default function BundlesPage() {
                       {bundle.subtitle}
                     </p>
 
-                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-zinc-800">
-                      <div>
-                        <span className="text-gray-500 line-through text-sm">
-                          ${bundle.originalPrice}
-                        </span>
-                        <span className="text-xl font-light text-white ml-2">
-                          ${bundle.bundlePrice}
-                        </span>
-                      </div>
-                      <span className="text-sm text-gray-500">
-                        {bundle.courseDetails.length} courses
-                      </span>
-                    </div>
+                    <span className="text-sm text-gray-400 group-hover:text-white transition-colors">
+                      View path →
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -184,31 +160,20 @@ export default function BundlesPage() {
           </section>
         )}
 
-        {/* Why Bundles */}
+        {/* Why Paths */}
         <section className="py-16 px-6 border-t border-zinc-800/50 bg-zinc-900/30">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="font-serif text-2xl text-white mb-6">
-              Why Choose a Bundle?
+              Why Follow a Path?
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
-              <div>
-                <div className="w-12 h-12 mx-auto mb-4 bg-zinc-800 rounded-full flex items-center justify-center text-amber-500">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-white font-medium mb-2">Significant Savings</h3>
-                <p className="text-gray-500 text-sm">
-                  Save 30% or more compared to buying courses individually.
-                </p>
-              </div>
               <div>
                 <div className="w-12 h-12 mx-auto mb-4 bg-zinc-800 rounded-full flex items-center justify-center text-amber-500">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
-                <h3 className="text-white font-medium mb-2">Curated Paths</h3>
+                <h3 className="text-white font-medium mb-2">Curated Sequence</h3>
                 <p className="text-gray-500 text-sm">
                   Courses selected to build on each other for deeper transformation.
                 </p>
@@ -216,12 +181,23 @@ export default function BundlesPage() {
               <div>
                 <div className="w-12 h-12 mx-auto mb-4 bg-zinc-800 rounded-full flex items-center justify-center text-amber-500">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h3 className="text-white font-medium mb-2">Lifetime Access</h3>
+                <h3 className="text-white font-medium mb-2">Faster Progress</h3>
                 <p className="text-gray-500 text-sm">
-                  All courses in the bundle are yours forever, including updates.
+                  No guessing what to do next. Follow the sequence for best results.
+                </p>
+              </div>
+              <div>
+                <div className="w-12 h-12 mx-auto mb-4 bg-zinc-800 rounded-full flex items-center justify-center text-amber-500">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-white font-medium mb-2">Complete Coverage</h3>
+                <p className="text-gray-500 text-sm">
+                  Address a topic from multiple angles for lasting change.
                 </p>
               </div>
             </div>

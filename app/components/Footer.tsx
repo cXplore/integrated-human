@@ -57,8 +57,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/start-here" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Start Here
+                <Link href="/practices" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Practices
+                </Link>
+              </li>
+              <li>
+                <Link href="/books" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Recommended Books
                 </Link>
               </li>
               <li>
@@ -66,26 +71,36 @@ export default function Footer() {
                   Archetype Quiz
                 </Link>
               </li>
+              <li>
+                <Link href="/stuck" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Where I'm Stuck
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Connect */}
           <div>
-            <h4 className="text-white font-medium mb-4">Connect</h4>
+            <h4 className="text-white font-medium mb-4">About</h4>
             <ul className="space-y-3">
               <li>
                 <Link href="/about" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  About
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/transparency" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Transparency
+                </Link>
+              </li>
+              <li>
+                <Link href="/pricing" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Membership
                 </Link>
               </li>
               <li>
                 <Link href="/connect" className="text-gray-400 hover:text-white transition-colors text-sm">
                   Contact
-                </Link>
-              </li>
-              <li>
-                <Link href="/feed.xml" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  RSS Feed
                 </Link>
               </li>
             </ul>
@@ -97,9 +112,14 @@ export default function Footer() {
           <p className="text-gray-600 text-sm">
             © {new Date().getFullYear()} Integrated Human. All rights reserved.
           </p>
-          <p className="text-gray-600 text-sm italic">
-            Small steps. Real talk. No pretending.
-          </p>
+          <div className="flex items-center gap-6 text-gray-600 text-sm">
+            <Link href="/privacy" className="hover:text-white transition-colors">
+              Privacy
+            </Link>
+            <Link href="/terms" className="hover:text-white transition-colors">
+              Terms
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -4,7 +4,7 @@
   "subtitle": "Transform self-attack into self-leadership",
   "description": "Learn to recognize, understand, and transform the harsh inner voice that keeps you small. This course teaches you practical techniques for shifting from self-criticism to self-compassion without losing your drive for growth.",
   "category": "Mind",
-  "price": 57,
+  "price": 19,
   "currency": "USD",
   "duration": "3-4 weeks",
   "level": "Beginner",
@@ -130,5 +130,8 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "integration"
+  ]
 }

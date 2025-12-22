@@ -1,0 +1,150 @@
+{
+  "id": "dating-for-men",
+  "title": "Dating for Men",
+  "subtitle": "Approach, connect, and build real relationships",
+  "description": "A grounded approach to dating for men—no manipulation, no games, no pretending to be someone you're not. This course covers approaching with confidence, genuine conversation, reading signals, handling rejection, and building connections that could actually go somewhere.",
+  "category": "Relationships",
+  "price": 39,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Intermediate",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "your-relationship-with-women",
+      "title": "Your Relationship with Women",
+      "description": "Examining your beliefs, fears, and patterns",
+      "duration": "30 min"
+    },
+    {
+      "id": 2,
+      "slug": "grounded-masculinity",
+      "title": "Grounded Masculinity",
+      "description": "Strength without aggression, presence without performance",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "the-approach",
+      "title": "The Approach",
+      "description": "Starting conversations without being creepy",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "genuine-conversation",
+      "title": "Genuine Conversation",
+      "description": "Connection over impression",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "reading-signals",
+      "title": "Reading Signals",
+      "description": "Understanding interest, disinterest, and everything between",
+      "duration": "25 min"
+    },
+    {
+      "id": 6,
+      "slug": "handling-rejection",
+      "title": "Handling Rejection",
+      "description": "It's not about you (usually)",
+      "duration": "25 min"
+    },
+    {
+      "id": 7,
+      "slug": "from-dating-to-relationship",
+      "title": "From Dating to Relationship",
+      "description": "When and how to move forward",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Examine and update your beliefs about women and dating",
+    "Develop grounded masculine presence",
+    "Approach women with confidence and respect",
+    "Have genuine conversations that create connection",
+    "Read signals accurately",
+    "Handle rejection without it destroying you",
+    "Transition from dating to relationship"
+  ],
+  "requirements": [
+    "Attraction Fundamentals or solid understanding of what creates connection",
+    "Willingness to face fears and take action",
+    "Commitment to respect and authenticity"
+  ],
+  "tier": "intermediate",
+  "tags": [
+    "dating",
+    "men",
+    "masculinity",
+    "approach",
+    "relationships",
+    "confidence"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is 'grounded masculinity'?",
+        "options": [
+          "Being aggressive and dominant",
+          "Strength and presence without aggression or performance",
+          "Being completely emotionless",
+          "Always being in charge"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What makes an approach 'creepy' vs confident?",
+        "options": [
+          "How attractive you are",
+          "Whether you're respecting her autonomy, reading signals, and not being attached to outcome",
+          "The pickup line you use",
+          "The time of day"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What's more important than impressing someone in conversation?",
+        "options": [
+          "Having impressive stories",
+          "Genuine curiosity and presence—actually connecting",
+          "Talking about your achievements",
+          "Being mysterious"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "How should you handle rejection?",
+        "options": [
+          "Keep trying until she says yes",
+          "Understand it's usually not personal, feel the disappointment, and move on with dignity",
+          "Get angry and show her what she's missing",
+          "Never approach anyone again"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What's the key to reading signals accurately?",
+        "options": [
+          "Assume she's always interested",
+          "Pay attention to body language, verbal cues, and energy—and respect what you see",
+          "Ignore signals and persist",
+          "Ask her friends"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
+}

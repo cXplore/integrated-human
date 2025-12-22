@@ -182,8 +182,6 @@ export default async function ModulePage({
                 moduleNumber={module.moduleNumber}
                 courseTitle={course.metadata.title}
                 courseTier={course.metadata.tier}
-                price={course.metadata.price}
-                currency={course.metadata.currency}
               >
                 <div className="prose prose-invert prose-lg max-w-none
                   prose-headings:font-serif prose-headings:font-light prose-headings:text-white

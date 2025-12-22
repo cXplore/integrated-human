@@ -4,7 +4,7 @@
   "subtitle": "Reclaiming the power you were taught to hide",
   "description": "Reconnect with the full spectrum of feminine energy—including the parts that were shamed, suppressed, or made dangerous. This course guides women through reclaiming intuition, desire, anger, and wild wisdom.",
   "category": "Mind",
-  "price": 77,
+  "price": 49,
   "currency": "USD",
   "duration": "6-8 weeks",
   "level": "Intermediate",
@@ -157,5 +157,9 @@
       }
     ]
   },
-  "tier": "intermediate"
+  "tier": "advanced",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

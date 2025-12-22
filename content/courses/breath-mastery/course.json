@@ -74,5 +74,9 @@
     ]
   },
   "subtitle": "Your breath is the remote control for your nervous system",
-  "tier": "intro"
+  "tier": "intro",
+  "spectrum": [
+    "regulation",
+    "integration"
+  ]
 }

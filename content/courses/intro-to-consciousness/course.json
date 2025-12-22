@@ -1,0 +1,64 @@
+{
+  "id": "intro-to-consciousness",
+  "title": "Introduction to Psychedelics",
+  "subtitle": "Why we seek these experiences and what's actually possible",
+  "description": "An honest exploration of why humans have always sought psychedelic experiences. This course examines what people are actually looking for when they turn to these substances, the current state of research, the real risks and benefits, and how to think clearly about whether this path is right for you.",
+  "category": "Soul",
+  "price": 0,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "the-call",
+      "title": "The Call to Expand",
+      "description": "Why humans have always sought altered states of consciousness",
+      "duration": "20 min"
+    },
+    {
+      "id": 2,
+      "slug": "what-were-seeking",
+      "title": "What We're Actually Seeking",
+      "description": "Beyond escape—the deeper drives behind consciousness exploration",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "the-paths",
+      "title": "The Many Paths",
+      "description": "Overview of meditation, breathwork, psychedelics, and other approaches",
+      "duration": "25 min"
+    },
+    {
+      "id": 4,
+      "slug": "honest-assessment",
+      "title": "An Honest Assessment",
+      "description": "Benefits, risks, and how to think clearly about this territory",
+      "duration": "20 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand why consciousness exploration calls to so many people",
+    "Distinguish between escape and genuine seeking",
+    "Get an overview of different paths and approaches",
+    "Think more clearly about risks and benefits",
+    "Know where to go deeper based on your situation"
+  ],
+  "requirements": [
+    "Curiosity about consciousness and altered states",
+    "Openness to examining your own motivations"
+  ],
+  "tier": "intro",
+  "tags": [
+    "consciousness",
+    "altered states",
+    "psychedelics",
+    "meditation",
+    "introduction"
+  ],
+  "spectrum": [
+    "integration"
+  ]
+}

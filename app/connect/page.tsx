@@ -1,36 +1,85 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import Script from 'next/script';
 import Navigation from '../components/Navigation';
+
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+
+// Extend Window interface for grecaptcha
+declare global {
+  interface Window {
+    grecaptcha?: {
+      ready: (callback: () => void) => void;
+      execute: (siteKey: string, options: { action: string }) => Promise<string>;
+    };
+  }
+}
 
 export default function ConnectPage() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [recaptchaLoaded, setRecaptchaLoaded] = useState(!RECAPTCHA_SITE_KEY);
+
+  const getCaptchaToken = useCallback(async (): Promise<string | null> => {
+    if (!RECAPTCHA_SITE_KEY || !window.grecaptcha) {
+      return null;
+    }
+
+    return new Promise((resolve) => {
+      window.grecaptcha!.ready(async () => {
+        try {
+          const token = await window.grecaptcha!.execute(RECAPTCHA_SITE_KEY, {
+            action: 'contact',
+          });
+          resolve(token);
+        } catch (error) {
+          console.error('reCAPTCHA error:', error);
+          resolve(null);
+        }
+      });
+    });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
+    setErrorMessage('');
 
     try {
+      // Get captcha token if reCAPTCHA is configured
+      const captchaToken = await getCaptchaToken();
+
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, captchaToken }),
       });
 
       if (response.ok) {
         setStatus('success');
         setFormData({ name: '', email: '', message: '' });
       } else {
+        const data = await response.json();
+        setErrorMessage(data.error || 'Something went wrong. Please try again.');
         setStatus('error');
       }
     } catch {
+      setErrorMessage('Something went wrong. Please try again.');
       setStatus('error');
     }
   };
 
   return (
     <>
+      {/* Load reCAPTCHA v3 script if site key is configured */}
+      {RECAPTCHA_SITE_KEY && (
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`}
+          onLoad={() => setRecaptchaLoaded(true)}
+        />
+      )}
       <Navigation />
       <main className="min-h-screen bg-zinc-950">
         <section className="py-20 px-6">
@@ -60,7 +109,7 @@ export default function ConnectPage() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {status === 'error' && (
-                    <p className="text-red-400 text-sm">Something went wrong. Please try again.</p>
+                    <p className="text-red-400 text-sm">{errorMessage}</p>
                   )}
 
                   <div>
@@ -113,11 +162,24 @@ export default function ConnectPage() {
 
                   <button
                     type="submit"
-                    disabled={status === 'loading'}
+                    disabled={status === 'loading' || (!!RECAPTCHA_SITE_KEY && !recaptchaLoaded)}
                     className="w-full px-8 py-3 bg-white text-black font-medium hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {status === 'loading' ? 'Sending...' : 'Send Message'}
                   </button>
+
+                  {RECAPTCHA_SITE_KEY && (
+                    <p className="text-xs text-gray-600 text-center mt-4">
+                      Protected by reCAPTCHA.{' '}
+                      <a href="https://policies.google.com/privacy" className="underline" target="_blank" rel="noopener noreferrer">
+                        Privacy
+                      </a>{' '}
+                      &{' '}
+                      <a href="https://policies.google.com/terms" className="underline" target="_blank" rel="noopener noreferrer">
+                        Terms
+                      </a>
+                    </p>
+                  )}
                 </form>
               )}
             </div>

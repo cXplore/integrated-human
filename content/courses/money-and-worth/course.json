@@ -7,7 +7,7 @@
   "level": "Intermediate",
   "category": "Soul",
   "featured": false,
-  "price": 67,
+  "price": 39,
   "curriculum": [
     "Understanding your emotional relationship with money",
     "Uncovering inherited money patterns and beliefs",
@@ -117,5 +117,9 @@
     "passingScore": 60
   },
   "subtitle": "Heal your relationship with money and yourself",
-  "tier": "intermediate"
+  "tier": "intermediate",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

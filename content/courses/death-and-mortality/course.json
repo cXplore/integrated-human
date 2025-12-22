@@ -4,7 +4,7 @@
   "subtitle": "Living fully by facing the end",
   "description": "Death awareness is a powerful teacher that most of us avoid. This course helps you face mortality consciously—not morbidly, but as a way to clarify what matters, release what doesn't, and live with more presence and purpose.",
   "category": "Soul",
-  "price": 67,
+  "price": 39,
   "currency": "USD",
   "duration": "5-6 weeks",
   "level": "Intermediate",
@@ -138,5 +138,9 @@
       }
     ]
   },
-  "tier": "intermediate"
+  "tier": "intermediate",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import { safeJsonParse } from '@/lib/sanitize';
 import {
   generateInsights,
   type ArchetypeData,
@@ -36,7 +37,7 @@ export async function GET() {
     let nervousSystemData: NervousSystemData | undefined;
 
     for (const assessment of assessments) {
-      const results = JSON.parse(assessment.results);
+      const results = safeJsonParse(assessment.results, {});
 
       switch (assessment.type) {
         case 'archetype':

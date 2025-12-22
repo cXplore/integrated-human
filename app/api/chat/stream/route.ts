@@ -15,9 +15,11 @@ import {
   INPUT_TOKEN_COST,
   OUTPUT_TOKEN_COST,
 } from '@/lib/subscriptions';
+import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
+import { sanitizeUserInput, sanitizeMessageHistory, safeJsonParse } from '@/lib/sanitize';
 
-// LM Studio endpoint
-const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://10.221.168.219:1234/v1/chat/completions';
+// LM Studio endpoint - requires LM_STUDIO_URL env var in production
+const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
 const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'qwen/qwen3-32b';
 
 // Rough token estimation (4 chars ≈ 1 token for English text)
@@ -172,13 +174,13 @@ async function getUserJourneyContext(userId: string): Promise<UserJourneyContext
       context.depthPreference = user.profile.depthPreference || undefined;
 
       if (user.profile.experienceLevels) {
-        context.experienceLevels = JSON.parse(user.profile.experienceLevels);
+        context.experienceLevels = safeJsonParse(user.profile.experienceLevels, {});
       }
       if (user.profile.currentChallenges) {
-        context.currentChallenges = JSON.parse(user.profile.currentChallenges);
+        context.currentChallenges = safeJsonParse(user.profile.currentChallenges, []);
       }
       if (user.profile.interests) {
-        context.interests = JSON.parse(user.profile.interests);
+        context.interests = safeJsonParse(user.profile.interests, []);
       }
     }
 
@@ -191,13 +193,20 @@ async function getUserJourneyContext(userId: string): Promise<UserJourneyContext
 
 export async function POST(request: NextRequest) {
   try {
-    const { message, history = [], context: chatContext } = await request.json();
+    const { message: rawMessage, history: rawHistory = [], context: chatContext } = await request.json();
 
-    if (!message || typeof message !== 'string') {
+    if (!rawMessage || typeof rawMessage !== 'string') {
       return new Response(JSON.stringify({ error: 'Message is required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
+    }
+
+    // Sanitize user input
+    const { sanitized: message, warnings } = sanitizeUserInput(rawMessage, { maxLength: 4000 });
+    const history = sanitizeMessageHistory(rawHistory);
+    if (warnings.length > 0) {
+      console.warn('Input sanitization warnings:', warnings);
     }
 
     // Get user session - REQUIRED for credit-based chat
@@ -218,6 +227,12 @@ export async function POST(request: NextRequest) {
     }
 
     const userId = session.user.id;
+
+    // Check rate limit
+    const rateLimit = checkRateLimit(`chat:${userId}`, RATE_LIMITS.chat);
+    if (!rateLimit.success) {
+      return rateLimitResponse(rateLimit);
+    }
 
     // Check if user has credits
     const { hasCredits, balance } = await checkCredits(userId);
@@ -262,20 +277,38 @@ export async function POST(request: NextRequest) {
       { role: 'user', content: `${message} /no_think` },
     ];
 
-    // Call LM Studio with streaming
-    const response = await fetch(LM_STUDIO_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: LM_STUDIO_MODEL,
-        messages,
-        temperature: 0.7,
-        max_tokens: 500,
-        stream: true,
-      }),
-    });
+    // Call LM Studio with streaming (30s timeout)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+    let response: Response;
+    try {
+      response = await fetch(LM_STUDIO_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: LM_STUDIO_MODEL,
+          messages,
+          temperature: 0.7,
+          max_tokens: 500,
+          stream: true,
+        }),
+        signal: controller.signal,
+      });
+    } catch (error) {
+      clearTimeout(timeoutId);
+      if (error instanceof Error && error.name === 'AbortError') {
+        return new Response(
+          JSON.stringify({ error: 'AI request timed out', details: 'Please try again' }),
+          { status: 504, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     if (!response.ok) {
       const errorText = await response.text();

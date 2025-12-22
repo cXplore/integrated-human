@@ -4,7 +4,7 @@
   "subtitle": "A complete curriculum for feminine reclamation",
   "description": "A comprehensive 12-week program for women ready to reclaim their full power. This flagship course integrates body wisdom, emotional alchemy, shadow work, and sacred feminine archetypes. Move from people-pleasing and self-abandonment into authentic sovereignty.",
   "category": "Flagship",
-  "price": 297,
+  "price": 79,
   "currency": "USD",
   "duration": "12 weeks",
   "level": "Advanced",
@@ -206,5 +206,9 @@
       }
     ]
   },
-  "tier": "flagship"
+  "tier": "flagship",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

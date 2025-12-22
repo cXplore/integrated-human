@@ -1,10 +1,10 @@
 {
   "title": "Self-Worth Foundations",
   "description": "Discover the roots of your self-worth and begin building unshakeable value",
-  "category": "Free",
+  "category": "Mind",
   "level": "Beginner",
   "duration": "2 hours",
-  "price": 0,
+  "price": 9,
   "published": true,
   "featured": true,
   "leadMagnet": true,
@@ -52,5 +52,8 @@
     ]
   },
   "subtitle": "You are worthy, full stop",
-  "tier": "intro"
+  "tier": "beginner",
+  "spectrum": [
+    "integration"
+  ]
 }

@@ -18,9 +18,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: 'Certificate Not Found' };
   }
 
+  const isCertificate = certificate.credentialType === 'certificate';
+  const docType = isCertificate ? 'Certificate' : 'Completion Record';
+
   return {
-    title: `Certificate - ${certificate.courseName} | Integrated Human`,
-    description: `Certificate of completion for ${certificate.courseName} awarded to ${certificate.userName}`,
+    title: `${docType} - ${certificate.courseName} | Integrated Human`,
+    description: `${docType} for ${certificate.courseName} awarded to ${certificate.userName}`,
   };
 }
 
@@ -41,6 +44,9 @@ export default async function CertificatePage({ params }: Props) {
       courseName={certificate.courseName}
       userName={certificate.userName}
       issuedAt={certificate.issuedAt.toISOString()}
+      credentialType={(certificate.credentialType as 'completion' | 'certificate') || 'completion'}
+      courseTier={certificate.courseTier || 'beginner'}
+      quizScore={certificate.quizScore}
     />
   );
 }

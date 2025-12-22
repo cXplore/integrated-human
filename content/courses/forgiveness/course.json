@@ -1,0 +1,141 @@
+{
+  "id": "forgiveness",
+  "title": "The Practice of Forgiveness",
+  "subtitle": "Free yourself from what they did",
+  "description": "Forgiveness isn't about them—it's about you. It's not condoning what happened or letting someone back in. It's releasing the grip that resentment has on your life. This course guides you through real forgiveness, including the hardest kind: forgiving yourself.",
+  "category": "Soul",
+  "price": 29,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "what-forgiveness-is",
+      "title": "What Forgiveness Actually Is",
+      "description": "And what it isn't—clearing up the confusion",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "why-forgiveness-matters",
+      "title": "Why Forgiveness Matters",
+      "description": "The cost of holding on to resentment",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "feeling-the-pain",
+      "title": "Feeling the Pain First",
+      "description": "You can't forgive what you haven't fully felt",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "the-process",
+      "title": "The Forgiveness Process",
+      "description": "A practical path to letting go",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "forgiving-yourself",
+      "title": "Forgiving Yourself",
+      "description": "The hardest and most important forgiveness",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "living-forgiven",
+      "title": "Living Forgiven",
+      "description": "What's possible when you're no longer carrying it",
+      "duration": "20 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand what forgiveness is and isn't",
+    "See clearly the cost of unforgiveness",
+    "Feel and process the original pain",
+    "Practice genuine forgiveness",
+    "Forgive yourself for your own mistakes",
+    "Live without the weight of resentment"
+  ],
+  "requirements": [
+    "Someone or something to forgive (including yourself)",
+    "Willingness to feel pain before releasing it",
+    "Journal for the process"
+  ],
+  "tier": "beginner",
+  "tags": [
+    "forgiveness",
+    "resentment",
+    "healing",
+    "letting go",
+    "self-forgiveness"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is forgiveness NOT?",
+        "options": [
+          "A process that takes time",
+          "Condoning what happened or letting the person back in",
+          "Something you do for yourself",
+          "A way to release resentment"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Why does unforgiveness hurt you more than the other person?",
+        "options": [
+          "It doesn't",
+          "You carry the resentment in your body and psyche; they've often moved on",
+          "They feel your resentment telepathically",
+          "Unforgiveness is actually healthy"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "Why is feeling the pain important before forgiving?",
+        "options": [
+          "It's not important",
+          "You can't truly release what you haven't fully acknowledged and felt",
+          "Pain should be avoided",
+          "To make them feel guilty"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "Why is forgiving yourself often the hardest?",
+        "options": [
+          "It's not—forgiving others is harder",
+          "You know all your thoughts and motivations, and can't hide from yourself",
+          "Self-forgiveness isn't real",
+          "You don't need to forgive yourself"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What becomes possible when you've truly forgiven?",
+        "options": [
+          "Nothing changes",
+          "Freedom—your energy is no longer tied to the past",
+          "You forget what happened",
+          "You become friends with them"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
+}

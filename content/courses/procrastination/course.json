@@ -1,0 +1,132 @@
+{
+  "id": "procrastination",
+  "title": "Overcoming Procrastination",
+  "subtitle": "Stop avoiding, start doing",
+  "description": "Procrastination isn't laziness—it's usually fear, perfectionism, or overwhelm in disguise. This course helps you understand why you procrastinate, work with the emotions driving avoidance, and build systems that make starting easier than avoiding.",
+  "category": "Mind",
+  "price": 19,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "why-you-procrastinate",
+      "title": "Why You Procrastinate",
+      "description": "It's not laziness—here's what it actually is",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "fear-and-perfectionism",
+      "title": "Fear & Perfectionism",
+      "description": "The hidden drivers of avoidance",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "working-with-resistance",
+      "title": "Working with Resistance",
+      "description": "What to do when you don't want to start",
+      "duration": "25 min"
+    },
+    {
+      "id": 4,
+      "slug": "making-starting-easy",
+      "title": "Making Starting Easy",
+      "description": "Environment, systems, and tiny first steps",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "sustainable-momentum",
+      "title": "Sustainable Momentum",
+      "description": "Keeping going without burning out",
+      "duration": "20 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand the real reasons behind procrastination",
+    "Work with the fears and perfectionism driving avoidance",
+    "Handle resistance when it arises",
+    "Design your environment for action",
+    "Build sustainable momentum"
+  ],
+  "requirements": [
+    "Something you've been avoiding",
+    "Willingness to start before you feel ready"
+  ],
+  "tier": "beginner",
+  "tags": [
+    "procrastination",
+    "productivity",
+    "fear",
+    "perfectionism",
+    "action"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is procrastination usually NOT about?",
+        "options": [
+          "Fear of failure",
+          "Laziness or lack of willpower",
+          "Perfectionism",
+          "Overwhelm"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "How does perfectionism lead to procrastination?",
+        "options": [
+          "Perfectionists are too organized",
+          "If it can't be perfect, it feels safer not to start at all",
+          "Perfectionists finish too fast",
+          "It doesn't"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What's the key to working with resistance?",
+        "options": [
+          "Force yourself harder",
+          "Wait until you feel motivated",
+          "Acknowledge it, feel it, and take a tiny action anyway",
+          "Give up"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 4,
+        "question": "What makes starting easier?",
+        "options": [
+          "Waiting for inspiration",
+          "Lowering the bar—tiny first steps, prepared environment, removing friction",
+          "Setting bigger goals",
+          "More coffee"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What's the difference between sustainable momentum and burnout?",
+        "options": [
+          "The amount of work",
+          "Sustainable momentum includes rest, self-compassion, and realistic pacing",
+          "There is no difference",
+          "Burnout means you're working hard enough"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
+}

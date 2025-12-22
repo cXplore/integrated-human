@@ -74,5 +74,10 @@
     ]
   },
   "subtitle": "Rest deeply, wake ready",
-  "tier": "intro"
+  "tier": "intro",
+  "spectrum": [
+    "regulation",
+    "embodiment",
+    "optimization"
+  ]
 }

@@ -1,0 +1,151 @@
+{
+  "id": "psychedelic-deep-work",
+  "title": "Psychedelics & Deep Inner Work",
+  "subtitle": "Working with shadow, trauma, and the depths",
+  "description": "For those ready to go beyond basic preparation into the deeper territories. This course covers working with shadow material, trauma considerations, ego dissolution, mystical experiences, and the integration challenges that arise from profound experiences. Not for beginners—requires solid foundation and prior experience.",
+  "category": "Soul",
+  "price": 49,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Advanced",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "beyond-basics",
+      "title": "Beyond the Basics",
+      "description": "What changes when you go deeper",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "shadow-encounters",
+      "title": "Shadow Encounters",
+      "description": "Meeting the parts of yourself you've avoided",
+      "duration": "35 min"
+    },
+    {
+      "id": 3,
+      "slug": "trauma-considerations",
+      "title": "Trauma Considerations",
+      "description": "When old wounds surface—and when to seek support",
+      "duration": "35 min"
+    },
+    {
+      "id": 4,
+      "slug": "ego-dissolution",
+      "title": "Ego Dissolution",
+      "description": "Understanding and navigating the loss of self",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "mystical-experiences",
+      "title": "Mystical Experiences",
+      "description": "Unity consciousness, entities, and the ineffable",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "challenging-integration",
+      "title": "Challenging Integration",
+      "description": "When integration is hard—spiritual emergency and support",
+      "duration": "30 min"
+    },
+    {
+      "id": 7,
+      "slug": "integration-traps",
+      "title": "Integration Traps",
+      "description": "Spiritual bypassing, inflation, and other pitfalls",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Navigate encounters with shadow material",
+    "Understand trauma considerations and when to seek help",
+    "Work skillfully with ego dissolution experiences",
+    "Integrate mystical and non-ordinary experiences",
+    "Recognize and avoid common integration traps",
+    "Know when professional support is needed"
+  ],
+  "requirements": [
+    "Completed Psychedelic Preparation & Integration course",
+    "Prior psychedelic experience recommended",
+    "Established meditation or contemplative practice",
+    "Access to integration support if needed"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is shadow material in the context of psychedelic work?",
+        "options": [
+          "Hallucinations that aren't real",
+          "Repressed or denied parts of the psyche that surface for integration",
+          "Bad trips that should be avoided",
+          "Negative energy from external sources"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "When trauma surfaces during a psychedelic experience, what's most important?",
+        "options": [
+          "Push through it no matter what",
+          "Stop immediately and never try again",
+          "Have support available and know your limits—some trauma needs professional help",
+          "Pretend it didn't happen"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 3,
+        "question": "What is ego dissolution?",
+        "options": [
+          "Becoming arrogant",
+          "The temporary dissolution of the sense of separate self",
+          "Losing your personality permanently",
+          "A sign something went wrong"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What is 'spiritual bypassing'?",
+        "options": [
+          "Going too fast spiritually",
+          "Using spiritual concepts to avoid dealing with real psychological issues",
+          "Skipping meditation",
+          "Having too many mystical experiences"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is 'inflation' as an integration trap?",
+        "options": [
+          "Feeling overwhelmed",
+          "Believing you've become special, enlightened, or above ordinary life",
+          "Taking too much",
+          "Talking too much about experiences"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "tier": "advanced",
+  "tags": [
+    "psychedelics",
+    "shadow work",
+    "trauma",
+    "ego dissolution",
+    "mystical experience",
+    "integration",
+    "advanced"
+  ],
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
+}

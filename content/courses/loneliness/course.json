@@ -1,0 +1,140 @@
+{
+  "id": "loneliness",
+  "title": "Working with Loneliness",
+  "subtitle": "From isolation to connection",
+  "description": "Loneliness is an epidemic, but it's not about how many people are around you—it's about the quality of connection, including with yourself. This course helps you understand loneliness, befriend solitude, build genuine connections, and address the deeper needs that loneliness points to.",
+  "category": "Mind",
+  "price": 29,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-loneliness",
+      "title": "Understanding Loneliness",
+      "description": "What loneliness is really telling you",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "loneliness-vs-solitude",
+      "title": "Loneliness vs Solitude",
+      "description": "Learning to be alone without being lonely",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "connection-with-self",
+      "title": "Connection with Yourself",
+      "description": "You can't escape yourself—might as well befriend yourself",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "barriers-to-connection",
+      "title": "Barriers to Connection",
+      "description": "What keeps you from letting people in",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "building-real-connections",
+      "title": "Building Real Connections",
+      "description": "Quality over quantity—creating bonds that matter",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "the-deeper-need",
+      "title": "The Deeper Need",
+      "description": "What loneliness is pointing toward",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand what loneliness is really about",
+    "Distinguish loneliness from healthy solitude",
+    "Develop a better relationship with yourself",
+    "Identify and work with barriers to connection",
+    "Build meaningful relationships",
+    "Address the deeper needs beneath loneliness"
+  ],
+  "requirements": [
+    "Honest acknowledgment of loneliness",
+    "Willingness to look inward",
+    "Journal for reflection"
+  ],
+  "tier": "beginner",
+  "tags": [
+    "loneliness",
+    "connection",
+    "solitude",
+    "relationships",
+    "isolation"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is loneliness really about?",
+        "options": [
+          "Not having enough friends",
+          "A lack of quality connection, including with yourself",
+          "Being introverted",
+          "Living alone"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What's the difference between loneliness and solitude?",
+        "options": [
+          "They're the same thing",
+          "Loneliness is painful isolation; solitude is peaceful, chosen aloneness",
+          "Solitude is worse",
+          "Loneliness only happens to introverts"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "Why is connection with yourself important for addressing loneliness?",
+        "options": [
+          "It isn't—you need other people",
+          "If you can't be present with yourself, you'll feel lonely even with others",
+          "Self-connection replaces the need for people",
+          "It's only for introverts"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What often keeps people from building real connections?",
+        "options": [
+          "Not knowing where to meet people",
+          "Fear, shame, past hurt, and walls built for protection",
+          "Being too busy",
+          "Living in the wrong city"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What deeper need might loneliness be pointing to?",
+        "options": [
+          "The need for more social media",
+          "A need for meaning, belonging, or reconnection with something larger",
+          "The need for a romantic partner",
+          "Nothing deeper—it's just about people"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "spectrum": [
+    "integration"
+  ]
+}

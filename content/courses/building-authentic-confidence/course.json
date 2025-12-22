@@ -4,7 +4,7 @@
   "category": "Flagship",
   "level": "Advanced",
   "duration": "12 hours",
-  "price": 197,
+  "price": 79,
   "published": true,
   "featured": true,
   "modules": [
@@ -84,5 +84,9 @@
     ]
   },
   "subtitle": "Real confidence comes from within",
-  "tier": "flagship"
+  "tier": "flagship",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

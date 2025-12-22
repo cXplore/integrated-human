@@ -10,8 +10,6 @@ interface ModuleAccessGuardProps {
   moduleNumber: number;
   courseTitle: string;
   courseTier?: string; // intro, beginner, intermediate, advanced, flagship
-  price: number;
-  currency: string;
   children: React.ReactNode;
 }
 
@@ -26,8 +24,6 @@ export default function ModuleAccessGuard({
   moduleNumber,
   courseTitle,
   courseTier = 'intermediate',
-  price,
-  currency,
   children,
 }: ModuleAccessGuardProps) {
   const { data: session, status } = useSession();
@@ -62,7 +58,7 @@ export default function ModuleAccessGuard({
       }
 
       try {
-        // Check via API which considers both purchase and subscription
+        // Check via API which considers subscription
         const res = await fetch(`/api/courses/${courseSlug}/access`);
         const data = await res.json();
         setAccess({
@@ -71,17 +67,7 @@ export default function ModuleAccessGuard({
         });
       } catch (error) {
         console.error('Error checking access:', error);
-        // Fallback to purchase check only
-        try {
-          const res = await fetch(`/api/purchases?courseSlug=${courseSlug}`);
-          const data = await res.json();
-          setAccess({
-            hasAccess: data.purchased,
-            reason: data.purchased ? 'purchase' : 'none',
-          });
-        } catch {
-          setAccess({ hasAccess: false, reason: 'none' });
-        }
+        setAccess({ hasAccess: false, reason: 'none' });
       }
       setCheckingAccess(false);
     }
@@ -142,36 +128,21 @@ export default function ModuleAccessGuard({
         </h3>
 
         <p className="text-gray-400 mb-6 max-w-md mx-auto">
-          Enroll in <span className="text-white">{courseTitle}</span> to access this module and all course content, including quizzes and certificates.
+          Get membership to access <span className="text-white">{courseTitle}</span> and all courses, including quizzes and completion tracking.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <EnrollButton
-            courseSlug={courseSlug}
-            price={price}
-            currency={currency}
-          />
+          <Link
+            href="/pricing"
+            className="px-8 py-3 bg-white text-zinc-900 font-medium hover:bg-gray-200 transition-colors"
+          >
+            Become a Member — $19/mo
+          </Link>
           <Link
             href={`/courses/${courseSlug}`}
             className="text-gray-400 hover:text-white text-sm transition-colors"
           >
             View Course Details →
-          </Link>
-        </div>
-
-        {/* Subscription option */}
-        <div className="mt-8 pt-6 border-t border-zinc-800">
-          <p className="text-gray-500 text-sm mb-3">
-            Or unlock all courses with a subscription
-          </p>
-          <Link
-            href="/pricing"
-            className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 text-sm transition-colors"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-            </svg>
-            View Membership Options →
           </Link>
         </div>
 
@@ -183,65 +154,5 @@ export default function ModuleAccessGuard({
         </p>
       </div>
     </div>
-  );
-}
-
-// Separate component for the enroll button to handle checkout
-function EnrollButton({
-  courseSlug,
-  price,
-  currency,
-}: {
-  courseSlug: string;
-  price: number;
-  currency: string;
-}) {
-  const { data: session } = useSession();
-  const [loading, setLoading] = useState(false);
-
-  const handlePurchase = async () => {
-    if (!session) {
-      window.location.href = `/login?callbackUrl=/courses/${courseSlug}`;
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ courseSlug }),
-      });
-
-      const data = await res.json();
-
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data.error || 'Failed to start checkout');
-      }
-    } catch (error) {
-      console.error('Checkout error:', error);
-      alert('Failed to start checkout');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const priceDisplay = price === 0 ? '' : ` · $${price} ${currency}`;
-
-  return (
-    <button
-      onClick={handlePurchase}
-      disabled={loading}
-      className={`px-8 py-3 bg-white text-zinc-900 font-medium hover:bg-gray-200 transition-colors ${
-        loading ? 'opacity-50 cursor-not-allowed' : ''
-      }`}
-    >
-      {loading ? 'Processing...' : `Enroll Now${priceDisplay}`}
-    </button>
   );
 }

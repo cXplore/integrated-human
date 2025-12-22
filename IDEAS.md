@@ -4,19 +4,33 @@ Creative brainstorming for expanding the platform. Not plans - just possibilitie
 
 ---
 
-## Recently Implemented
+## Recently Implemented (Dec 2024)
 
 - **Interactive exercises** - Journal prompts, checklists, checkboxes that save to database
 - **Certificate system** - Quiz-gated certificates with unique IDs
 - **Learning paths** - Curated course sequences
 - **Lead magnets** - 4 downloadable resources with email capture
 - **Stripe payments** - Full checkout flow with purchase verification
+- **Subscription tiers** - 3 levels with course access and AI credits
+- **AI-powered features:**
+  - Content companion for articles/courses
+  - Journal companion with insights
+  - Dream journal with interpretation
+  - "Where I'm Stuck" resource finder
+  - Assessment synthesis across quizzes
+- **Reading progress sync** - Scroll position saved and restored
+- **Practice library** - 7 guided practices (breathwork, grounding, etc.)
+- **Integration check-ins** - Periodic reflection system
+- **Reading streaks** - Engagement tracking
+- **Archetype quiz** - Masculine/feminine assessment
+- **Shadow profile quiz** - 8 shadow patterns
+- **Nervous system check** - Polyvagal-based state assessment
 
 ---
 
 ## Engagement Features
 
-- **Streak system** - Daily check-ins with integration prompts
+- **Streak system** - ✅ DONE - Daily check-ins with integration prompts
 - **Progress visualizations** - Integration wheel showing balance across 4 pillars
 - **Community challenges** - Monthly themes like "30 days of shadow work" with shared progress
 - **Gamification** - Points, badges, levels based on course completion and exercise engagement
@@ -25,8 +39,8 @@ Creative brainstorming for expanding the platform. Not plans - just possibilitie
 
 - **Audio versions** - TTS for articles, guided meditations embedded in courses
 - **Video content** - Short embodiment practices, breathwork guides
-- **Interactive dialogues** - Parts work conversations, inner critic chat (AI-powered)
-- **Assessment tools** - Shadow profile quiz, nervous system state check
+- **Interactive dialogues** - ✅ PARTIAL - Parts work conversations via AI companion
+- **Assessment tools** - ✅ DONE - Shadow profile quiz, nervous system check, archetype assessment
 - **Printable workbooks** - PDF exports of journal entries and exercise responses
 
 ## Monetization Ideas

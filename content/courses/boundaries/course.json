@@ -4,7 +4,7 @@
   "subtitle": "Protect your energy without building walls",
   "description": "Learn to set, communicate, and maintain healthy boundaries in all your relationships. This course teaches you to say no without guilt, ask for what you need, and protect your energy while staying connected.",
   "category": "Relationships",
-  "price": 57,
+  "price": 19,
   "currency": "USD",
   "duration": "3-4 weeks",
   "level": "Beginner",
@@ -130,5 +130,9 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

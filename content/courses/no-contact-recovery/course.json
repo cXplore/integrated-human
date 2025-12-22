@@ -1,0 +1,142 @@
+{
+  "id": "no-contact-recovery",
+  "title": "No Contact & Moving On",
+  "subtitle": "Heal from relationships that needed to end",
+  "description": "Whether you initiated the breakup or they did, moving on is one of the hardest things humans do. This course guides you through no-contact principles, surviving the withdrawal, processing what happened, and rebuilding yourself into someone who doesn't need them back.",
+  "category": "Relationships",
+  "price": 29,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "why-no-contact",
+      "title": "Why No Contact Works",
+      "description": "The science and psychology behind cutting ties",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "the-withdrawal",
+      "title": "Surviving the Withdrawal",
+      "description": "Love is a drug—here's how to detox",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "the-urge-to-reach-out",
+      "title": "The Urge to Reach Out",
+      "description": "What to do when you want to break no contact",
+      "duration": "25 min"
+    },
+    {
+      "id": 4,
+      "slug": "processing-the-relationship",
+      "title": "Processing What Happened",
+      "description": "Understanding the relationship clearly, without rose-colored glasses",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "grieving-properly",
+      "title": "Grieving Properly",
+      "description": "Let yourself feel it so you can move through it",
+      "duration": "25 min"
+    },
+    {
+      "id": 6,
+      "slug": "rebuilding-yourself",
+      "title": "Rebuilding Yourself",
+      "description": "Becoming someone who doesn't need them back",
+      "duration": "30 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand why no contact is essential for healing",
+    "Survive the intense withdrawal period",
+    "Handle urges to reach out without acting on them",
+    "Process the relationship with clarity",
+    "Grieve properly instead of avoiding the pain",
+    "Rebuild your identity and life"
+  ],
+  "requirements": [
+    "A relationship that has ended or needs to end",
+    "Willingness to feel difficult emotions",
+    "Journal for processing"
+  ],
+  "tier": "beginner",
+  "tags": [
+    "breakup",
+    "no contact",
+    "moving on",
+    "heartbreak",
+    "recovery",
+    "relationships"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "Why is no contact essential for healing after a breakup?",
+        "options": [
+          "To make your ex miss you",
+          "To break the psychological and physiological addiction and allow healing",
+          "To punish your ex",
+          "It's not actually necessary"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What is the 'withdrawal' period after a breakup?",
+        "options": [
+          "When you withdraw money from shared accounts",
+          "The brain experiencing actual withdrawal symptoms similar to drug addiction",
+          "When you withdraw from social activities",
+          "A banking term"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "When you feel the urge to reach out to your ex, what should you do?",
+        "options": [
+          "Reach out—it means you're meant to be together",
+          "Wait 24 hours, feel the urge fully, write it out, and usually it passes",
+          "Block them on everything immediately",
+          "Send a casual text to test the waters"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "Why is grieving important after a breakup?",
+        "options": [
+          "It's not—you should stay positive",
+          "Unfelt grief doesn't disappear, it gets stored and surfaces later",
+          "To show your ex how much they hurt you",
+          "Grieving is only for death"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What does 'rebuilding yourself' mean after a breakup?",
+        "options": [
+          "Changing everything about yourself",
+          "Becoming someone who is whole on their own, not needing the ex back",
+          "Getting revenge by being more successful",
+          "Immediately finding a new partner"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "spectrum": [
+    "collapse",
+    "regulation"
+  ]
+}

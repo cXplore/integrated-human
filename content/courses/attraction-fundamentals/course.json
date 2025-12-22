@@ -1,0 +1,133 @@
+{
+  "id": "attraction-fundamentals",
+  "title": "Attraction Fundamentals",
+  "subtitle": "Understand what actually creates connection",
+  "description": "Beyond tricks and tactics—what actually creates attraction between people. This course covers the psychology of attraction, presence and authenticity, polarity and energy, and why being yourself (your real self) is more attractive than any technique.",
+  "category": "Relationships",
+  "price": 19,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "what-is-attraction",
+      "title": "What Is Attraction Really?",
+      "description": "Beyond looks—the deeper forces at play",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "presence-and-authenticity",
+      "title": "Presence & Authenticity",
+      "description": "Why being fully here is inherently attractive",
+      "duration": "25 min"
+    },
+    {
+      "id": 3,
+      "slug": "polarity-and-energy",
+      "title": "Polarity & Energy",
+      "description": "The dance of masculine and feminine",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "confidence-without-arrogance",
+      "title": "Confidence Without Arrogance",
+      "description": "Grounded self-assurance that draws people in",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "the-myth-of-techniques",
+      "title": "The Myth of Techniques",
+      "description": "Why tactics fail and authenticity wins",
+      "duration": "20 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand what creates genuine attraction",
+    "Develop presence that naturally draws people",
+    "Understand masculine/feminine polarity",
+    "Build real confidence, not performance",
+    "See through manipulation tactics"
+  ],
+  "requirements": [
+    "Interest in understanding attraction",
+    "Willingness to look at yourself honestly"
+  ],
+  "tier": "beginner",
+  "tags": [
+    "attraction",
+    "dating",
+    "polarity",
+    "confidence",
+    "authenticity",
+    "relationships"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is attraction primarily based on?",
+        "options": [
+          "Physical appearance only",
+          "A combination of presence, energy, confidence, and authenticity",
+          "How much money you have",
+          "Using the right techniques"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "Why is presence attractive?",
+        "options": [
+          "It shows you have nowhere else to be",
+          "Being fully present with someone makes them feel seen and valued",
+          "It's a manipulation technique",
+          "Presence isn't actually attractive"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "What is polarity in attraction?",
+        "options": [
+          "Being opposites politically",
+          "The energetic dance between masculine and feminine energies",
+          "Living far apart from each other",
+          "Having opposite personalities"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What's the difference between confidence and arrogance?",
+        "options": [
+          "There is no difference",
+          "Confidence is grounded self-assurance; arrogance is insecurity masked as superiority",
+          "Arrogance is more attractive",
+          "Confidence is quieter"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "Why do 'techniques' and 'tactics' often fail in dating?",
+        "options": [
+          "They don't—they work great",
+          "People can sense inauthenticity, and manipulation erodes real connection",
+          "You're not using them correctly",
+          "They only work on certain people"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
+}

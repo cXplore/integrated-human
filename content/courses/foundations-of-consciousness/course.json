@@ -1,0 +1,82 @@
+{
+  "id": "foundations-of-consciousness",
+  "title": "Psychedelic Foundations",
+  "subtitle": "Building capacity before going deep",
+  "description": "Before exploring psychedelics, you need a foundation. This course builds the skills and capacities that make psychedelic experiences safe and meaningful: meditation basics, breathwork fundamentals, nervous system regulation, and the ability to stay present with intensity. Essential preparation before your first experience or before going deeper.",
+  "category": "Soul",
+  "price": 19,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "why-foundation-matters",
+      "title": "Why Foundation Matters",
+      "description": "The difference between recreation and transformation",
+      "duration": "20 min"
+    },
+    {
+      "id": 2,
+      "slug": "meditation-essentials",
+      "title": "Meditation Essentials",
+      "description": "Building the capacity to observe without grasping",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "breathwork-basics",
+      "title": "Breathwork Basics",
+      "description": "Using breath to shift states and build regulation",
+      "duration": "30 min"
+    },
+    {
+      "id": 4,
+      "slug": "nervous-system-capacity",
+      "title": "Nervous System Capacity",
+      "description": "Expanding your window of tolerance for intensity",
+      "duration": "30 min"
+    },
+    {
+      "id": 5,
+      "slug": "staying-present",
+      "title": "Staying Present with Difficulty",
+      "description": "Practice with discomfort before the stakes get high",
+      "duration": "25 min"
+    },
+    {
+      "id": 6,
+      "slug": "assessing-readiness",
+      "title": "Assessing Your Readiness",
+      "description": "Honest self-evaluation for deeper work",
+      "duration": "20 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Establish a basic meditation practice",
+    "Use breathwork to shift and regulate states",
+    "Understand your nervous system and its limits",
+    "Build capacity to stay present with intensity",
+    "Honestly assess your readiness for deeper work",
+    "Know what to work on before going further"
+  ],
+  "requirements": [
+    "Completed Introduction to Consciousness or equivalent curiosity",
+    "Willingness to establish daily practice",
+    "Journal for reflection"
+  ],
+  "tier": "beginner",
+  "tags": [
+    "consciousness",
+    "meditation",
+    "breathwork",
+    "nervous system",
+    "preparation",
+    "foundation"
+  ],
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
+}

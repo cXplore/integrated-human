@@ -4,7 +4,7 @@
   "subtitle": "Love as a path of growth",
   "description": "Move beyond unconscious patterns into intentional partnership. This course covers how to use relationship as a vehicle for growth, navigate conflict consciously, maintain polarity and passion, and build something that lasts.",
   "category": "Relationships",
-  "price": 77,
+  "price": 39,
   "currency": "USD",
   "duration": "6-8 weeks",
   "level": "Intermediate",
@@ -157,5 +157,9 @@
       }
     ]
   },
-  "tier": "intermediate"
+  "tier": "intermediate",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ]
 }

@@ -4,7 +4,7 @@
   "subtitle": "Say what you mean, hear what they're saying",
   "description": "Learn to communicate in ways that create connection instead of distance. This course covers speaking authentically, listening deeply, navigating difficult conversations, and expressing needs without attack or blame.",
   "category": "Relationships",
-  "price": 57,
+  "price": 29,
   "currency": "USD",
   "duration": "4-5 weeks",
   "level": "All Levels",
@@ -137,5 +137,9 @@
       }
     ]
   },
-  "tier": "beginner"
+  "tier": "beginner",
+  "spectrum": [
+    "embodiment",
+    "optimization"
+  ]
 }

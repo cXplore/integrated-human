@@ -1,0 +1,140 @@
+{
+  "id": "jealousy-and-trust",
+  "title": "Jealousy & Trust",
+  "subtitle": "From insecurity to secure relating",
+  "description": "Jealousy isn't just about your partner—it's about your wounds, your attachment style, and your relationship with yourself. This course helps you understand jealousy, work with the insecurity beneath it, rebuild trust (in yourself and others), and relate from security rather than fear.",
+  "category": "Relationships",
+  "price": 29,
+  "currency": "USD",
+  "duration": "Self-paced",
+  "level": "Beginner",
+  "published": true,
+  "modules": [
+    {
+      "id": 1,
+      "slug": "understanding-jealousy",
+      "title": "Understanding Jealousy",
+      "description": "What jealousy is really about",
+      "duration": "25 min"
+    },
+    {
+      "id": 2,
+      "slug": "the-wound-beneath",
+      "title": "The Wound Beneath",
+      "description": "Attachment, abandonment, and not-enoughness",
+      "duration": "30 min"
+    },
+    {
+      "id": 3,
+      "slug": "jealousy-in-the-moment",
+      "title": "Jealousy in the Moment",
+      "description": "What to do when jealousy hits",
+      "duration": "25 min"
+    },
+    {
+      "id": 4,
+      "slug": "trust-in-yourself",
+      "title": "Trust in Yourself",
+      "description": "Knowing you'll be okay no matter what",
+      "duration": "25 min"
+    },
+    {
+      "id": 5,
+      "slug": "trust-in-others",
+      "title": "Trust in Others",
+      "description": "Discernment, vulnerability, and earned trust",
+      "duration": "30 min"
+    },
+    {
+      "id": 6,
+      "slug": "secure-relating",
+      "title": "Relating from Security",
+      "description": "When trust replaces fear",
+      "duration": "25 min"
+    }
+  ],
+  "whatYouLearn": [
+    "Understand what jealousy is really pointing to",
+    "Work with the attachment wounds beneath jealousy",
+    "Handle jealousy in real-time without acting out",
+    "Build trust in yourself and your ability to handle anything",
+    "Develop healthy trust in others",
+    "Relate from security instead of fear"
+  ],
+  "requirements": [
+    "Experience with jealousy in relationships",
+    "Willingness to look at your own patterns",
+    "Journal for exercises"
+  ],
+  "tier": "beginner",
+  "tags": [
+    "jealousy",
+    "trust",
+    "attachment",
+    "insecurity",
+    "relationships"
+  ],
+  "quiz": {
+    "passingScore": 70,
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is jealousy usually really about?",
+        "options": [
+          "Your partner's behavior",
+          "Your own wounds, attachment style, and fears of not being enough",
+          "Not trusting anyone",
+          "Being controlling"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 2,
+        "question": "What wound often underlies jealousy?",
+        "options": [
+          "Past cheating",
+          "Fear of abandonment, not-enoughness, or attachment insecurity",
+          "Being cheated on",
+          "Lack of communication"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 3,
+        "question": "When jealousy hits in the moment, what should you do?",
+        "options": [
+          "Immediately confront your partner",
+          "Pause, feel it in your body, and respond rather than react",
+          "Check their phone",
+          "Pretend it's not happening"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 4,
+        "question": "What does 'trust in yourself' mean in this context?",
+        "options": [
+          "Trusting you won't get jealous",
+          "Knowing you'll be okay no matter what happens—even worst-case scenarios",
+          "Trusting your jealousy is always right",
+          "Not needing anyone"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 5,
+        "question": "What is 'earned trust'?",
+        "options": [
+          "Trusting everyone immediately",
+          "Trust that's built over time through consistent actions and demonstrated reliability",
+          "Never trusting anyone",
+          "Trust based on words alone"
+        ],
+        "correctIndex": 1
+      }
+    ]
+  },
+  "spectrum": [
+    "integration"
+  ]
+}
