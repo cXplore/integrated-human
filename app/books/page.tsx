@@ -714,24 +714,25 @@ export default function BooksPage() {
         <section className="py-20 px-6">
           <div className="max-w-4xl mx-auto">
             <h1 className="font-serif text-5xl md:text-6xl font-light text-white mb-6">
-              Recommended Books
+              Books Worth Reading
             </h1>
             <p className="text-xl text-gray-400 mb-4">
-              Not self-help. Not quick fixes. Just depth.
+              The books that shaped us—and might shape you.
             </p>
-            <p className="text-gray-500 mb-6">
-              These books have shaped the work. Some are accessible entry points,
-              others demand everything. Take what calls to you.
+            <p className="text-gray-500 mb-8">
+              Some are modern classics you may have heard of. Others are hidden gems.
+              All of them go beyond surface-level advice into the work that actually changes things.
             </p>
 
             {/* Intro for SEO and context */}
             <div className="mb-12 p-6 bg-zinc-900/30 border border-zinc-800">
-              <p className="text-gray-400 text-sm leading-relaxed">
-                Whether you&apos;re beginning shadow work, exploring presence and meditation,
-                healing trauma, or questioning everything you thought you knew about
-                spirituality—these books are our recommendations. Each one has been chosen
-                not for popularity, but for depth and honesty. Click any book to learn more
-                about why we recommend it.
+              <p className="text-gray-400 text-sm leading-relaxed mb-3">
+                These are the books we return to—on psychology, shadow work, meditation,
+                trauma, relationships, and what it means to be human. Some are accessible
+                entry points; others go deep. Start wherever calls to you.
+              </p>
+              <p className="text-gray-500 text-sm">
+                Click any book to see why we recommend it.
               </p>
             </div>
 

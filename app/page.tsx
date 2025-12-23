@@ -24,11 +24,20 @@ export default function Home() {
     .map(slug => getPostBySlug(slug))
     .filter(Boolean);
 
-  // Get featured courses, prioritizing free ones
+  // Get featured courses - curated essentials per pillar
   const allCourses = getAllCourses();
-  const freeCourses = allCourses.filter(c => c.metadata.price === 0).slice(0, 2);
-  const paidCourses = allCourses.filter(c => c.metadata.price > 0).slice(0, 1);
-  const featuredCourses = [...freeCourses, ...paidCourses].slice(0, 3);
+
+  // Curated courses that represent each pillar well (2 each)
+  const pillarCourses = {
+    Mind: ['shadow-work-foundations', 'inner-critic-work'],
+    Body: ['nervous-system-mastery', 'embodiment-basics'],
+    Soul: ['presence-practices', 'meditation-fundamentals'],
+    Relationships: ['attachment-repair', 'boundaries'],
+  };
+
+  const featuredCourses = Object.entries(pillarCourses).flatMap(([, slugs]) =>
+    slugs.map(slug => allCourses.find(c => c.slug === slug)).filter(Boolean)
+  ) as typeof allCourses;
 
   return (
     <>
@@ -241,7 +250,7 @@ export default function Home() {
 
       {/* Courses */}
       <section className="py-16 px-6 bg-[var(--background)]">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Section intro */}
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="font-serif text-3xl font-light text-white mb-4">
@@ -249,33 +258,34 @@ export default function Home() {
             </h2>
             <p className="text-gray-400 leading-relaxed">
               {allCourses.length} structured programs for when you want to go beyond reading.
-              Video lessons, exercises, and practices designed for real change—not just information.
+              Exercises and practices designed for real change—not just information.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
-            {featuredCourses.map((course) => (
-              <Link
-                key={course.slug}
-                href={`/courses/${course.slug}`}
-                className="group block bg-[var(--card-bg)] border border-[var(--border-color)] p-5 hover:border-zinc-600 transition-colors"
-              >
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs uppercase tracking-wide text-gray-500">
-                    {course.metadata.category}
-                  </span>
-                </div>
-                <h3 className="font-serif text-lg text-white group-hover:text-gray-300 transition-colors mb-2">
-                  {course.metadata.title}
-                </h3>
-                <p className="text-gray-500 text-sm line-clamp-2 mb-3">
-                  {course.metadata.subtitle}
-                </p>
-                <div className="flex items-center justify-between text-xs text-gray-600">
-                  <span>{course.metadata.duration}</span>
-                  <span>{course.metadata.price === 0 ? 'Free' : `$${course.metadata.price}`}</span>
-                </div>
-              </Link>
+          {/* Courses by pillar */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+            {Object.entries(pillarCourses).map(([pillar, slugs]) => (
+              <div key={pillar} className="space-y-4">
+                <h3 className="text-gray-500 text-sm uppercase tracking-wide">{pillar}</h3>
+                {slugs.map(slug => {
+                  const course = allCourses.find(c => c.slug === slug);
+                  if (!course) return null;
+                  return (
+                    <Link
+                      key={course.slug}
+                      href={`/courses/${course.slug}`}
+                      className="group block bg-[var(--card-bg)] border border-[var(--border-color)] p-4 hover:border-zinc-600 transition-colors"
+                    >
+                      <h4 className="font-serif text-base text-white group-hover:text-gray-300 transition-colors mb-1">
+                        {course.metadata.title}
+                      </h4>
+                      <p className="text-gray-500 text-sm line-clamp-2">
+                        {course.metadata.subtitle}
+                      </p>
+                    </Link>
+                  );
+                })}
+              </div>
             ))}
           </div>
 
@@ -284,7 +294,7 @@ export default function Home() {
               href="/courses"
               className="text-gray-400 hover:text-white transition-colors text-sm"
             >
-              Browse all courses →
+              Browse all {allCourses.length} courses →
             </Link>
           </div>
 
