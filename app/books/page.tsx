@@ -601,10 +601,10 @@ function BookModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Hero section with cover */}
-        <div className="relative bg-gradient-to-b from-zinc-800 to-zinc-900 p-8">
+        <div className="relative bg-gradient-to-b from-zinc-800 to-zinc-900 p-5 sm:p-8">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-white p-1 z-10"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-white p-1 z-10"
             aria-label="Close"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -612,28 +612,28 @@ function BookModal({
             </svg>
           </button>
 
-          <div className="flex gap-6 items-start">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center sm:items-start">
             {/* Book cover - larger, with shadow */}
             {book.isbn && (
-              <div className="w-32 h-48 bg-zinc-700 flex-shrink-0 relative overflow-hidden shadow-xl">
+              <div className="w-24 h-36 sm:w-32 sm:h-48 bg-zinc-700 flex-shrink-0 relative overflow-hidden shadow-xl">
                 <Image
                   src={getLargeCoverUrl(book.isbn) || ''}
                   alt={`Cover of ${book.title}`}
                   fill
-                  sizes="128px"
+                  sizes="(max-width: 640px) 96px, 128px"
                   className="object-cover"
                   unoptimized
                 />
               </div>
             )}
 
-            <div className="flex-1 pt-2">
-              <h2 className="font-serif text-3xl text-white mb-2 leading-tight">{book.title}</h2>
-              <p className="text-gray-300 text-lg mb-4">by {book.author}</p>
+            <div className="flex-1 text-center sm:text-left sm:pt-2">
+              <h2 className="font-serif text-2xl sm:text-3xl text-white mb-2 leading-tight">{book.title}</h2>
+              <p className="text-gray-300 text-base sm:text-lg mb-3 sm:mb-4">by {book.author}</p>
 
-              {/* Quick note - the hook */}
+              {/* Quick note - the hook - hidden on mobile, shown below description */}
               {book.note && (
-                <p className="text-amber-400/90 text-sm italic leading-relaxed">
+                <p className="hidden sm:block text-amber-400/90 text-sm italic leading-relaxed">
                   &ldquo;{book.note}&rdquo;
                 </p>
               )}
@@ -642,11 +642,18 @@ function BookModal({
         </div>
 
         {/* Main content - like back of book */}
-        <div className="p-8">
+        <div className="p-5 sm:p-8">
+          {/* Note on mobile (shown in header on desktop) */}
+          {book.note && (
+            <p className="sm:hidden text-amber-400/90 text-sm italic leading-relaxed mb-6 text-center">
+              &ldquo;{book.note}&rdquo;
+            </p>
+          )}
+
           {/* Description */}
           {book.description && (
-            <div className="mb-8">
-              <p className="text-gray-300 leading-relaxed text-base">
+            <div className="mb-6 sm:mb-8">
+              <p className="text-gray-300 leading-relaxed text-sm sm:text-base">
                 {book.description}
               </p>
             </div>
@@ -654,7 +661,7 @@ function BookModal({
 
           {/* Why we recommend - personal take */}
           {book.whyWeRecommend && (
-            <div className="mb-8 pl-4 border-l-2 border-amber-600/50">
+            <div className="mb-6 sm:mb-8 pl-4 border-l-2 border-amber-600/50">
               <p className="text-sm text-gray-500 uppercase tracking-wide mb-2">Why we recommend it</p>
               <p className="text-gray-400 leading-relaxed text-sm italic">
                 {book.whyWeRecommend}
@@ -664,14 +671,14 @@ function BookModal({
 
           {/* Related content */}
           {book.relatedContent && book.relatedContent.length > 0 && (
-            <div className="mb-8 p-4 bg-zinc-800/50 rounded">
-              <p className="text-sm text-gray-500 uppercase tracking-wide mb-3">Continue exploring</p>
+            <div className="mb-6 sm:mb-8 p-3 sm:p-4 bg-zinc-800/50 rounded">
+              <p className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide mb-3">Continue exploring</p>
               <div className="flex flex-wrap gap-2">
                 {book.relatedContent.map((item, i) => (
                   <Link
                     key={i}
                     href={item.href}
-                    className="px-3 py-1.5 bg-zinc-700 text-gray-300 text-sm hover:bg-zinc-600 hover:text-white transition-colors rounded"
+                    className="px-2 sm:px-3 py-1 sm:py-1.5 bg-zinc-700 text-gray-300 text-xs sm:text-sm hover:bg-zinc-600 hover:text-white transition-colors rounded"
                     onClick={onClose}
                   >
                     {item.title} →
@@ -682,15 +689,15 @@ function BookModal({
           )}
 
           {/* CTA section */}
-          <div className="pt-4 border-t border-zinc-800">
+          <div className="pt-4 border-t border-zinc-800 text-center sm:text-left">
             <a
               href={getAmazonUrl(book.asin)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-amber-600 hover:bg-amber-500 text-white font-medium transition-colors rounded"
+              className="inline-flex items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-amber-600 hover:bg-amber-500 text-white font-medium transition-colors rounded"
             >
-              <span className="text-lg">Get the book</span>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span className="text-base sm:text-lg">Get the book</span>
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </a>
