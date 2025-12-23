@@ -489,21 +489,7 @@ const categories: Category[] = [
         author: 'Jed McKenna',
         isbn: '9780980184846',
         asin: '0980184843',
-        note: 'Brutal, funny, relentless. Destroys every comfortable spiritual belief. Read when ready.',
-      },
-      {
-        title: 'Spiritually Incorrect Enlightenment',
-        author: 'Jed McKenna',
-        isbn: '9780980184808',
-        asin: '0980184800',
-        note: 'The sequel. More destruction.',
-      },
-      {
-        title: 'Jed McKenna\'s Theory of Everything',
-        author: 'Jed McKenna',
-        isbn: '9780980184822',
-        asin: '0980184827',
-        note: 'McKenna\'s cosmology. Goes further out.',
+        note: 'Brutal, funny, relentless. Destroys every comfortable spiritual belief. The essential one.',
       },
       {
         title: 'The Mystique of Enlightenment',
