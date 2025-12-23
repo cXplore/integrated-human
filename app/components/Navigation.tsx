@@ -42,70 +42,39 @@ const navItems: NavItem[] = [
     megaMenu: {
       sections: [
         {
-          title: 'Four Pillars',
+          title: 'By Domain',
           items: [
-            { label: 'Mind', href: '/mind', description: 'Shadow work, emotions, patterns', icon: '🧠' },
-            { label: 'Body', href: '/body', description: 'Nervous system, embodiment, vitality', icon: '💪' },
-            { label: 'Soul', href: '/soul', description: 'Meditation, meaning, presence', icon: '✨' },
-            { label: 'Relationships', href: '/relationships', description: 'Attachment, intimacy, boundaries', icon: '💚' },
+            { label: 'Mind', href: '/mind', description: 'Shadow, emotions, patterns' },
+            { label: 'Body', href: '/body', description: 'Nervous system, embodiment' },
+            { label: 'Soul', href: '/soul', description: 'Presence, meaning, awareness' },
+            { label: 'Relationships', href: '/relationships', description: 'Attachment, intimacy' },
           ],
         },
         {
-          title: 'Content Library',
+          title: 'Content',
           items: [
-            { label: 'All Articles', href: '/library', description: '200+ in-depth essays' },
-            { label: 'All Courses', href: '/courses', description: '100+ structured programs' },
-            { label: 'Practices', href: '/practices', description: 'Guided exercises & techniques' },
+            { label: 'Articles', href: '/library', description: '200+ essays' },
+            { label: 'Courses', href: '/courses', description: '100+ programs' },
+            { label: 'Practices', href: '/practices', description: 'Guided exercises' },
             { label: 'Books', href: '/books', description: 'Recommended reading' },
-            { label: 'Free Resources', href: '/free', description: 'Start without commitment' },
           ],
         },
         {
-          title: 'Assessments',
+          title: 'Discover',
           items: [
-            { label: 'Archetype Quiz', href: '/archetypes', description: 'Discover your shadow profile' },
-            { label: 'Attachment Style', href: '/attachment', description: 'Understand your patterns' },
-            { label: 'Nervous System', href: '/nervous-system', description: 'Check your regulation state' },
-            { label: 'Shadow Profile', href: '/shadow-profile', description: 'Your integration map' },
-          ],
-        },
-        {
-          title: 'Learning Journeys',
-          items: [
-            { label: 'Learning Paths', href: '/learn/paths', description: 'AI-curated journeys', badge: 'New' },
-            { label: 'Course Bundles', href: '/bundles', description: 'Curated course collections' },
-            { label: 'Legacy Paths', href: '/learning-paths', description: 'Original structured guides' },
-            { label: 'Where to Start', href: '/start-here', description: 'New? Begin here' },
-          ],
-        },
-        {
-          title: 'Interactive & AI',
-          items: [
-            { label: 'AI Companion', href: '/chat', description: 'Personal growth chat', badge: 'New' },
-            { label: 'Archetype Exploration', href: '/archetype-exploration', description: 'Guided discovery' },
-            { label: 'Where I\'m Stuck', href: '/stuck', description: 'AI-guided help' },
-          ],
-        },
-        {
-          title: 'Your Tools',
-          items: [
-            { label: 'Dashboard', href: '/profile', description: 'Your integration health' },
-            { label: 'Journal', href: '/profile/journal', description: 'Reflection & processing' },
-            { label: 'Dream Journal', href: '/profile/dreams', description: 'Dream analysis & symbols' },
-            { label: 'Reading List', href: '/reading-list', description: 'Saved articles' },
-          ],
-        },
-        {
-          title: 'About & Community',
-          items: [
-            { label: 'About Us', href: '/about', description: 'Who we are' },
-            { label: 'Community', href: '/community', description: 'Connect with others' },
-            { label: 'Pricing', href: '/pricing', description: 'Membership options' },
-            { label: 'Shop', href: '/shop', description: 'Merchandise & products' },
-            { label: 'Contact', href: '/connect', description: 'Get in touch' },
+            { label: 'Archetype Quiz', href: '/archetypes', description: 'Know your patterns' },
+            { label: 'Nervous System Check', href: '/nervous-system', description: 'Your current state' },
+            { label: 'Learning Paths', href: '/learn/paths', description: 'Curated journeys' },
+            { label: 'Free Resources', href: '/free', description: 'Start here' },
           ],
         },
       ],
+      featured: {
+        title: 'AI Companion',
+        description: 'Get personalized guidance for your integration journey',
+        href: '/chat',
+        badge: 'New',
+      },
     },
   },
   {
@@ -115,51 +84,37 @@ const navItems: NavItem[] = [
         {
           title: 'Courses',
           items: [
-            { label: 'All Courses', href: '/courses', description: 'Browse 90+ courses' },
+            { label: 'All Courses', href: '/courses', description: 'Browse the full catalog' },
+            { label: 'Course Bundles', href: '/bundles', description: 'Curated collections' },
             { label: 'Free Courses', href: '/free', description: 'Start without commitment' },
-            { label: 'Course Bundles', href: '/bundles', description: 'Save with curated paths' },
           ],
         },
         {
-          title: 'Structured Learning',
+          title: 'Paths',
           items: [
-            { label: 'Learning Paths', href: '/learn/paths', description: 'AI-curated journeys', badge: 'New' },
-            { label: 'Legacy Paths', href: '/learning-paths', description: 'Original structured guides' },
-          ],
-        },
-        {
-          title: 'Interactive',
-          items: [
-            { label: 'AI Companion', href: '/chat', description: 'Personal growth chat', badge: 'New' },
-            { label: 'Archetype Exploration', href: '/archetype-exploration', description: 'Guided discovery' },
+            { label: 'Learning Paths', href: '/learn/paths', description: 'Guided sequences' },
+            { label: 'Where I\'m Stuck', href: '/stuck', description: 'AI finds what you need' },
           ],
         },
       ],
     },
   },
   {
-    label: 'Tools',
+    label: 'Practice',
     megaMenu: {
       sections: [
         {
-          title: 'Daily Practice',
+          title: 'Daily Tools',
           items: [
-            { label: 'Journal', href: '/profile/journal', description: 'Reflection & processing' },
-            { label: 'Dream Journal', href: '/profile/dreams', description: 'Dream analysis & symbols' },
-            { label: 'Quick Check-in', href: '/profile#check-in', description: 'Mood & energy tracking' },
+            { label: 'Journal', href: '/profile/journal', description: 'Reflect & process' },
+            { label: 'Dream Journal', href: '/profile/dreams', description: 'Track & interpret' },
+            { label: 'Practices', href: '/practices', description: 'Guided exercises' },
           ],
         },
         {
-          title: 'AI Features',
+          title: 'Track Progress',
           items: [
-            { label: 'AI Chat', href: '/chat', description: 'Personal companion', badge: 'New' },
-            { label: 'Stuck?', href: '/stuck', description: "When you don't know where to start" },
-          ],
-        },
-        {
-          title: 'Progress',
-          items: [
-            { label: 'Integration Health', href: '/profile', description: 'Your development dashboard' },
+            { label: 'Dashboard', href: '/profile', description: 'Your integration health' },
             { label: 'Reading List', href: '/reading-list', description: 'Saved articles' },
           ],
         },
@@ -167,22 +122,12 @@ const navItems: NavItem[] = [
     },
   },
   {
-    label: 'Community',
-    dropdown: [
-      { label: 'Community Hub', href: '/community', description: 'Connect with others' },
-      { label: 'Contact', href: '/connect', description: 'Get in touch' },
-      { label: 'Shop', href: '/shop', description: 'Merchandise & products' },
-    ],
-  },
-  {
     label: 'About',
     dropdown: [
-      { label: 'About Us', href: '/about', description: 'Who we are and why we exist' },
-      { label: 'Our Values', href: '/values', description: 'What guides our work' },
-      { label: 'Transparency', href: '/transparency', description: 'Methodology & standards' },
-      { label: 'Pricing', href: '/pricing', description: 'Membership options' },
-      { label: 'Terms of Service', href: '/terms', description: 'Legal terms' },
-      { label: 'Privacy Policy', href: '/privacy', description: 'How we handle data' },
+      { label: 'About Us', href: '/about', description: 'Who we are' },
+      { label: 'Our Approach', href: '/transparency', description: 'Methodology & framework' },
+      { label: 'Pricing', href: '/pricing', description: 'Membership' },
+      { label: 'Contact', href: '/connect', description: 'Get in touch' },
     ],
   },
 ];
