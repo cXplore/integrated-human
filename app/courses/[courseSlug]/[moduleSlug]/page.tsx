@@ -15,6 +15,7 @@ import ModuleCompleteButton from './ModuleCompleteButton';
 import ModuleContent from './ModuleContent';
 import ModuleAccessGuard from './ModuleAccessGuard';
 import ContentCompanion from '@/app/components/ContentCompanion';
+import { AIErrorBoundary } from '@/app/components/ErrorBoundary';
 
 export async function generateStaticParams() {
   const courses = getAllCourses();
@@ -293,12 +294,14 @@ export default async function ModulePage({
           </div>
         </div>
       </main>
-      <ContentCompanion
-        contentType="module"
-        contentTitle={module.title}
-        contentSlug={courseSlug}
-        moduleSlug={moduleSlug}
-      />
+      <AIErrorBoundary>
+        <ContentCompanion
+          contentType="module"
+          contentTitle={module.title}
+          contentSlug={courseSlug}
+          moduleSlug={moduleSlug}
+        />
+      </AIErrorBoundary>
     </>
   );
 }

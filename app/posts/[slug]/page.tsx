@@ -18,6 +18,7 @@ import ArticleImage from '@/app/components/ArticleImage';
 import YouTube from '@/app/components/YouTube';
 import Image from 'next/image';
 import ContentCompanion from '@/app/components/ContentCompanion';
+import { AIErrorBoundary } from '@/app/components/ErrorBoundary';
 import { ArticleJsonLd, BreadcrumbJsonLd } from '@/app/components/JsonLd';
 
 const BASE_URL = 'https://integrated-human.vercel.app';
@@ -359,11 +360,13 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           nextSlug={seriesNav.next?.slug}
         />
       )}
-      <ContentCompanion
-        contentType="article"
-        contentTitle={post.metadata.title}
-        contentSlug={slug}
-      />
+      <AIErrorBoundary>
+        <ContentCompanion
+          contentType="article"
+          contentTitle={post.metadata.title}
+          contentSlug={slug}
+        />
+      </AIErrorBoundary>
     </>
   );
 }

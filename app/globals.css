@@ -528,3 +528,48 @@ a:hover {
 .animate-slow-bounce {
   animation: slow-bounce 3s ease-in-out infinite;
 }
+
+/* Mobile bottom navigation safe area padding */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Add padding to main content to account for mobile bottom nav */
+@media (max-width: 767px) {
+  main,
+  footer {
+    padding-bottom: 72px;
+  }
+}
+
+/* Improve touch targets on mobile - minimum 44x44 pixels */
+@media (max-width: 767px) {
+  button,
+  a {
+    min-height: 44px;
+  }
+
+  /* Larger tap targets for interactive elements */
+  .tap-target {
+    position: relative;
+  }
+
+  .tap-target::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+  }
+}
+
+/* Light mode mobile nav */
+.light-mode .bg-zinc-950 {
+  background: #fffefa;
+}
+
+.light-mode nav.fixed {
+  background: #fffefa;
+  border-color: #e8e0d8;
+}

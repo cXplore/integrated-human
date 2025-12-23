@@ -130,20 +130,36 @@ export async function POST(request: NextRequest) {
         });
 
         if (creditPurchase) {
-          // Refund tokens from the user's balance
-          const user = await prisma.aICredits.findUnique({
-            where: { userId: creditPurchase.userId },
-          });
-
-          if (user) {
-            await prisma.aICredits.update({
-              where: { userId: creditPurchase.userId },
-              data: {
-                purchasedTokens: { decrement: creditPurchase.tokens },
-                tokenBalance: { decrement: Math.min(creditPurchase.tokens, user.tokenBalance) },
-              },
-            });
+          // IDEMPOTENCY CHECK: Skip if already processed
+          if (creditPurchase.refunded) {
+            console.log(`Refund already processed for payment ${paymentIntentId}, skipping`);
+            break;
           }
+
+          // Use transaction to ensure atomicity
+          await prisma.$transaction(async (tx) => {
+            // Get current user balance
+            const user = await tx.aICredits.findUnique({
+              where: { userId: creditPurchase.userId },
+            });
+
+            if (user) {
+              // Refund tokens from the user's balance
+              await tx.aICredits.update({
+                where: { userId: creditPurchase.userId },
+                data: {
+                  purchasedTokens: { decrement: creditPurchase.tokens },
+                  tokenBalance: { decrement: Math.min(creditPurchase.tokens, user.tokenBalance) },
+                },
+              });
+            }
+
+            // Mark the credit purchase as refunded
+            await tx.creditPurchase.update({
+              where: { id: creditPurchase.id },
+              data: { refunded: true, refundedAt: new Date() },
+            });
+          });
 
           console.log(`Credit purchase refunded for user ${creditPurchase.userId}, tokens: ${creditPurchase.tokens}`);
         }

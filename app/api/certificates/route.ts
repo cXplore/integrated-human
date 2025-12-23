@@ -20,19 +20,37 @@ function getCredentialType(tier: CourseTier): 'completion' | 'certificate' {
 }
 
 // GET - Fetch user's certificates
-export async function GET() {
+export async function GET(request: Request) {
   const session = await auth();
 
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const certificates = await prisma.certificate.findMany({
-    where: { userId: session.user.id },
-    orderBy: { issuedAt: 'desc' },
-  });
+  const { searchParams } = new URL(request.url);
+  // Bounds checking for pagination
+  const rawLimit = parseInt(searchParams.get('limit') || '50');
+  const rawOffset = parseInt(searchParams.get('offset') || '0');
+  const limit = Math.max(1, Math.min(100, isNaN(rawLimit) ? 50 : rawLimit));
+  const offset = Math.max(0, isNaN(rawOffset) ? 0 : rawOffset);
 
-  return NextResponse.json(certificates);
+  const [certificates, total] = await Promise.all([
+    prisma.certificate.findMany({
+      where: { userId: session.user.id },
+      orderBy: { issuedAt: 'desc' },
+      take: limit,
+      skip: offset,
+    }),
+    prisma.certificate.count({
+      where: { userId: session.user.id },
+    }),
+  ]);
+
+  return NextResponse.json({
+    certificates,
+    total,
+    hasMore: offset + certificates.length < total,
+  });
 }
 
 // POST - Issue a certificate for a completed course

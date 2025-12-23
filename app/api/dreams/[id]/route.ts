@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { safeJsonParse } from '@/lib/sanitize';
+import { validateCSRF, csrfErrorResponse } from '@/lib/csrf';
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -52,6 +53,12 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  * Update a dream entry
  */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   try {
     const session = await auth();
     if (!session?.user?.id) {
@@ -110,6 +117,12 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
  * Delete a dream entry
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   try {
     const session = await auth();
     if (!session?.user?.id) {

@@ -21,6 +21,34 @@ interface DreamStats {
   recurringSymbols: { symbol: string; count: number }[];
 }
 
+// Archetypal meanings for common dream symbols
+const SYMBOL_MEANINGS: Record<string, { archetype: string; themes: string[]; color: string }> = {
+  water: { archetype: 'The Unconscious', themes: ['emotions', 'intuition', 'the unknown'], color: 'text-blue-400' },
+  flying: { archetype: 'Liberation', themes: ['freedom', 'transcendence', 'perspective'], color: 'text-cyan-400' },
+  falling: { archetype: 'Loss of Control', themes: ['anxiety', 'letting go', 'surrender'], color: 'text-amber-400' },
+  chase: { archetype: 'The Shadow', themes: ['avoidance', 'confrontation', 'fear'], color: 'text-red-400' },
+  teeth: { archetype: 'Power/Vulnerability', themes: ['self-image', 'anxiety', 'change'], color: 'text-gray-400' },
+  house: { archetype: 'The Self', themes: ['psyche', 'identity', 'inner rooms'], color: 'text-orange-400' },
+  car: { archetype: 'Life Direction', themes: ['control', 'progress', 'journey'], color: 'text-green-400' },
+  animal: { archetype: 'Instincts', themes: ['nature', 'primal self', 'guides'], color: 'text-emerald-400' },
+  death: { archetype: 'Transformation', themes: ['endings', 'rebirth', 'change'], color: 'text-purple-400' },
+  baby: { archetype: 'New Beginning', themes: ['potential', 'vulnerability', 'creativity'], color: 'text-pink-400' },
+  snake: { archetype: 'Kundalini/Transformation', themes: ['healing', 'wisdom', 'renewal'], color: 'text-lime-400' },
+  spider: { archetype: 'The Weaver', themes: ['creativity', 'fate', 'feminine power'], color: 'text-violet-400' },
+  fire: { archetype: 'Passion/Destruction', themes: ['transformation', 'anger', 'purification'], color: 'text-orange-500' },
+  school: { archetype: 'Learning', themes: ['growth', 'evaluation', 'old patterns'], color: 'text-yellow-400' },
+  work: { archetype: 'Purpose', themes: ['responsibility', 'identity', 'achievement'], color: 'text-slate-400' },
+  family: { archetype: 'Inner Family', themes: ['relationships', 'roles', 'inheritance'], color: 'text-rose-400' },
+  stranger: { archetype: 'Unknown Self', themes: ['shadow', 'potential', 'new aspects'], color: 'text-indigo-400' },
+  lost: { archetype: 'Disorientation', themes: ['uncertainty', 'search', 'direction'], color: 'text-gray-500' },
+  naked: { archetype: 'Exposure', themes: ['vulnerability', 'authenticity', 'shame'], color: 'text-red-300' },
+  bridge: { archetype: 'Transition', themes: ['connection', 'crossing', 'change'], color: 'text-teal-400' },
+  door: { archetype: 'Opportunity', themes: ['threshold', 'choice', 'passage'], color: 'text-amber-300' },
+  stairs: { archetype: 'Ascent/Descent', themes: ['progress', 'levels of consciousness', 'effort'], color: 'text-sky-400' },
+  mirror: { archetype: 'Self-Reflection', themes: ['identity', 'truth', 'perception'], color: 'text-white' },
+  shadow: { archetype: 'The Shadow', themes: ['repressed self', 'dark side', 'integration'], color: 'text-zinc-400' },
+};
+
 const EMOTIONS = [
   { value: 'peaceful', label: 'Peaceful', color: 'text-blue-400' },
   { value: 'anxious', label: 'Anxious', color: 'text-amber-400' },
@@ -42,8 +70,9 @@ export default function DreamJournal() {
   const [dreams, setDreams] = useState<Dream[]>([]);
   const [stats, setStats] = useState<DreamStats | null>(null);
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState<'list' | 'new' | 'detail'>('list');
+  const [view, setView] = useState<'list' | 'new' | 'detail' | 'symbols'>('list');
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
+  const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
 
   // New dream form state
   const [title, setTitle] = useState('');
@@ -250,11 +279,150 @@ export default function DreamJournal() {
     });
   };
 
+  // Helper to get dreams containing a specific symbol
+  const getDreamsWithSymbol = (symbol: string) => {
+    return dreams.filter(d => d.symbols?.includes(symbol));
+  };
+
   if (loading) {
     return (
       <div className="animate-pulse space-y-6">
         <div className="h-12 bg-zinc-800 rounded w-1/3"></div>
         <div className="h-48 bg-zinc-800 rounded"></div>
+      </div>
+    );
+  }
+
+  // Symbol Dictionary View
+  if (view === 'symbols') {
+    const allSymbols = new Map<string, number>();
+    dreams.forEach(d => {
+      d.symbols?.forEach(s => {
+        allSymbols.set(s, (allSymbols.get(s) || 0) + 1);
+      });
+    });
+    const sortedSymbols = [...allSymbols.entries()]
+      .sort((a, b) => b[1] - a[1]);
+
+    return (
+      <div className="space-y-6">
+        <button
+          onClick={() => { setView('list'); setSelectedSymbol(null); }}
+          className="text-gray-500 hover:text-gray-300 transition-colors text-sm flex items-center gap-2"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to dreams
+        </button>
+
+        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6">
+          <h2 className="text-xl text-white font-serif mb-2">Your Dream Symbols</h2>
+          <p className="text-gray-500 text-sm mb-6">
+            Symbols that recur across your dreams often carry personal significance.
+            Click any symbol to see which dreams contain it.
+          </p>
+
+          {sortedSymbols.length === 0 ? (
+            <p className="text-gray-500 text-center py-8">
+              No symbols recorded yet. Add symbols when you record dreams to track patterns.
+            </p>
+          ) : (
+            <div className="space-y-8">
+              {/* Symbol Grid */}
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {sortedSymbols.map(([symbol, count]) => {
+                  const meaning = SYMBOL_MEANINGS[symbol.toLowerCase()];
+                  const isSelected = selectedSymbol === symbol;
+                  return (
+                    <button
+                      key={symbol}
+                      onClick={() => setSelectedSymbol(isSelected ? null : symbol)}
+                      className={`text-left p-4 border transition-all ${
+                        isSelected
+                          ? 'border-purple-500 bg-purple-500/10'
+                          : 'border-zinc-800 hover:border-zinc-600'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <span className={`font-medium ${meaning?.color || 'text-white'}`}>
+                          {symbol}
+                        </span>
+                        <span className="text-xs text-gray-600 bg-zinc-800 px-2 py-0.5 rounded-full">
+                          {count}x
+                        </span>
+                      </div>
+                      {meaning && (
+                        <div className="space-y-1">
+                          <p className="text-xs text-gray-400">{meaning.archetype}</p>
+                          <p className="text-xs text-gray-600">
+                            {meaning.themes.join(' · ')}
+                          </p>
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Selected Symbol Dreams */}
+              {selectedSymbol && (
+                <div className="border-t border-zinc-800 pt-6">
+                  <h3 className="text-white font-medium mb-4">
+                    Dreams with &ldquo;{selectedSymbol}&rdquo;
+                  </h3>
+                  <div className="space-y-2">
+                    {getDreamsWithSymbol(selectedSymbol).map(dream => (
+                      <button
+                        key={dream.id}
+                        onClick={() => { setSelectedDream(dream); setView('detail'); }}
+                        className="w-full text-left p-3 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors"
+                      >
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="text-white text-sm truncate">
+                            {dream.title || 'Untitled Dream'}
+                          </span>
+                          <span className="text-xs text-gray-600 flex-shrink-0">
+                            {formatDate(dream.dreamDate)}
+                          </span>
+                        </div>
+                        <p className="text-gray-500 text-xs line-clamp-1 mt-1">
+                          {dream.content}
+                        </p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Symbol Insights */}
+              <div className="bg-zinc-900/50 border border-zinc-800 p-4">
+                <h3 className="text-sm text-gray-400 uppercase tracking-wide mb-3">
+                  Archetypal Insights
+                </h3>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  {sortedSymbols.length >= 3 ? (
+                    <>
+                      Your most frequent symbols ({sortedSymbols.slice(0, 3).map(s => s[0]).join(', ')})
+                      suggest themes of{' '}
+                      {[...new Set(
+                        sortedSymbols
+                          .slice(0, 3)
+                          .flatMap(([s]) => SYMBOL_MEANINGS[s.toLowerCase()]?.themes || [])
+                      )].slice(0, 4).join(', ')}.
+                      Consider what these patterns might be reflecting in your waking life.
+                    </>
+                  ) : (
+                    <>
+                      Record more dreams with symbols to reveal your personal dream patterns and
+                      the archetypal themes that may be emerging from your unconscious.
+                    </>
+                  )}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -594,16 +762,27 @@ export default function DreamJournal() {
             <div className="text-sm text-gray-500">Dreams recorded</div>
           </div>
           {stats.recurringSymbols.length > 0 && (
-            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 md:col-span-2">
-              <div className="text-sm text-gray-500 mb-2">Recurring symbols</div>
-              <div className="flex flex-wrap gap-2">
-                {stats.recurringSymbols.slice(0, 6).map((s) => (
-                  <span key={s.symbol} className="text-sm text-gray-400">
-                    {s.symbol} <span className="text-gray-600">({s.count})</span>
-                  </span>
-                ))}
+            <button
+              onClick={() => setView('symbols')}
+              className="bg-[var(--card-bg)] border border-[var(--border-color)] p-4 md:col-span-2 text-left hover:border-purple-600/50 transition-colors group"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-gray-500">Recurring symbols</span>
+                <span className="text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  View Symbol Dictionary →
+                </span>
               </div>
-            </div>
+              <div className="flex flex-wrap gap-2">
+                {stats.recurringSymbols.slice(0, 6).map((s) => {
+                  const meaning = SYMBOL_MEANINGS[s.symbol.toLowerCase()];
+                  return (
+                    <span key={s.symbol} className={`text-sm ${meaning?.color || 'text-gray-400'}`}>
+                      {s.symbol} <span className="text-gray-600">({s.count})</span>
+                    </span>
+                  );
+                })}
+              </div>
+            </button>
           )}
         </div>
       )}

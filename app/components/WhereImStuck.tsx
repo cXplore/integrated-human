@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 
 const EXAMPLE_STUCKS = [
@@ -18,6 +18,20 @@ export default function WhereImStuck() {
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const responseRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const isMountedRef = useRef(true);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      // Abort any in-flight request
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (response && responseRef.current) {
@@ -25,9 +39,15 @@ export default function WhereImStuck() {
     }
   }, [response]);
 
-  const handleSubmit = async (text?: string) => {
+  const handleSubmit = useCallback(async (text?: string) => {
     const description = text || input.trim();
     if (!description || isLoading) return;
+
+    // Abort previous request if any
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
 
     setIsExpanded(true);
     setError(null);
@@ -39,18 +59,27 @@ export default function WhereImStuck() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ stuckDescription: description }),
+        signal: abortControllerRef.current.signal,
       });
 
       if (!res.ok) {
         const data = await res.json();
         if (data.code === 'NO_CREDITS') {
-          setError('You\'ve run out of AI credits. Visit your profile to get more.');
+          if (isMountedRef.current) {
+            setError('You\'ve run out of AI credits. Visit your profile to get more.');
+          }
         } else if (data.code === 'AUTH_REQUIRED') {
-          setError('Please sign in to use this feature.');
+          if (isMountedRef.current) {
+            setError('Please sign in to use this feature.');
+          }
         } else {
-          setError(data.error || 'Something went wrong.');
+          if (isMountedRef.current) {
+            setError(data.error || 'Something went wrong.');
+          }
         }
-        setIsLoading(false);
+        if (isMountedRef.current) {
+          setIsLoading(false);
+        }
         return;
       }
 
@@ -72,7 +101,7 @@ export default function WhereImStuck() {
             if (line.startsWith('data: ')) {
               try {
                 const data = JSON.parse(line.slice(6));
-                if (data.content) {
+                if (data.content && isMountedRef.current) {
                   setResponse(prev => prev + data.content);
                 }
               } catch { /* skip */ }
@@ -81,12 +110,20 @@ export default function WhereImStuck() {
         }
       }
     } catch (err) {
+      // Ignore abort errors
+      if (err instanceof Error && err.name === 'AbortError') {
+        return;
+      }
       console.error('Error:', err);
-      setError('Failed to get recommendations. Please try again.');
+      if (isMountedRef.current) {
+        setError('Failed to get recommendations. Please try again.');
+      }
     } finally {
-      setIsLoading(false);
+      if (isMountedRef.current) {
+        setIsLoading(false);
+      }
     }
-  };
+  }, [input, isLoading]);
 
   // Parse recommendations from response to make them clickable
   const parseResponse = (text: string) => {
@@ -137,6 +174,7 @@ export default function WhereImStuck() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="I keep finding myself..."
           rows={3}
+          aria-label="Describe what you're struggling with"
           className="w-full bg-zinc-800 border border-zinc-700 text-white px-4 py-3 focus:outline-none focus:border-zinc-500 placeholder-gray-600 resize-none mb-4"
         />
 
@@ -181,11 +219,17 @@ export default function WhereImStuck() {
         </div>
         <button
           onClick={() => {
+            // Abort any in-flight request when starting over
+            if (abortControllerRef.current) {
+              abortControllerRef.current.abort();
+            }
             setIsExpanded(false);
             setResponse('');
             setInput('');
+            setIsLoading(false);
           }}
           className="text-gray-500 hover:text-gray-300 text-xs"
+          aria-label="Start over with a new question"
         >
           Start Over
         </button>
@@ -220,6 +264,7 @@ export default function WhereImStuck() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
               placeholder="Ask about something else..."
+              aria-label="Ask a follow-up question"
               className="flex-1 bg-zinc-800 border border-zinc-700 text-white px-3 py-2 focus:outline-none focus:border-zinc-500 placeholder-gray-600 text-sm"
             />
             <button

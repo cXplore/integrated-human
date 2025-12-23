@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { validateCSRF, csrfErrorResponse } from "@/lib/csrf";
 
 export async function GET(request: NextRequest) {
   const session = await auth();
@@ -11,6 +12,12 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const courseSlug = searchParams.get('courseSlug');
 
+  // Bounds checking for pagination
+  const rawLimit = parseInt(searchParams.get('limit') || '200');
+  const rawOffset = parseInt(searchParams.get('offset') || '0');
+  const limit = Math.max(1, Math.min(500, isNaN(rawLimit) ? 200 : rawLimit));
+  const offset = Math.max(0, isNaN(rawOffset) ? 0 : rawOffset);
+
   const whereClause: { userId: string; courseSlug?: string } = {
     userId: session.user.id
   };
@@ -19,21 +26,38 @@ export async function GET(request: NextRequest) {
     whereClause.courseSlug = courseSlug;
   }
 
-  const progress = await prisma.courseProgress.findMany({
-    where: whereClause,
-    orderBy: { updatedAt: "desc" },
-  });
+  const [progress, total] = await Promise.all([
+    prisma.courseProgress.findMany({
+      where: whereClause,
+      orderBy: { updatedAt: "desc" },
+      take: limit,
+      skip: offset,
+    }),
+    prisma.courseProgress.count({
+      where: whereClause,
+    }),
+  ]);
 
-  return NextResponse.json(progress.map((p) => ({
-    courseSlug: p.courseSlug,
-    moduleSlug: p.moduleSlug,
-    completed: p.completed,
-    completedAt: p.completedAt,
-    updatedAt: p.updatedAt,
-  })));
+  return NextResponse.json({
+    progress: progress.map((p) => ({
+      courseSlug: p.courseSlug,
+      moduleSlug: p.moduleSlug,
+      completed: p.completed,
+      completedAt: p.completedAt,
+      updatedAt: p.updatedAt,
+    })),
+    total,
+    hasMore: offset + progress.length < total,
+  });
 }
 
 export async function POST(request: NextRequest) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -75,6 +99,12 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

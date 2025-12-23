@@ -19,28 +19,34 @@ const sections = [
     icon: '◈',
   },
   {
+    title: 'The Deeper Work',
+    href: '/transparency/deeper-work',
+    description: 'Beyond the spectrum lies something else—the awareness in which all development appears. Contemplative practice, psychedelics, and awakening.',
+    icon: '○',
+  },
+  {
     title: 'Sources & Influences',
     href: '/transparency/sources',
     description: 'The traditions, researchers, and thinkers that inform our approach. Psychology, neuroscience, contemplative practices, and more.',
-    icon: '○',
+    icon: '◇',
   },
   {
     title: 'Quality Standards',
     href: '/transparency/standards',
     description: 'How our courses are developed, what makes them valuable, and our commitment to evidence-informed content.',
-    icon: '◇',
+    icon: '◆',
   },
   {
     title: 'Certificates & Credentials',
     href: '/transparency/certificates',
     description: 'What our certificates mean, the difference between completion records and full certificates, and verification.',
-    icon: '◆',
+    icon: '◊',
   },
   {
     title: 'Course Audits',
     href: '/transparency/audits',
     description: 'Detailed audit documents for each course: curriculum, methodology, sources, and what the credential represents.',
-    icon: '◊',
+    icon: '▣',
   },
 ];
 

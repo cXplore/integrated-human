@@ -5,6 +5,8 @@ import NewsletterSignup from './components/NewsletterSignup';
 import WisdomQuote from './components/WisdomQuote';
 import ScrollArrow from './components/ScrollArrow';
 import SpectrumVisual from './components/SpectrumVisual';
+import TodaysFocus from './components/TodaysFocus';
+import HomepageChat from './components/HomepageChat';
 import { getAllPosts, getPostBySlug } from '@/lib/posts';
 import { getAllCourses } from '@/lib/courses';
 
@@ -77,6 +79,9 @@ export default function Home() {
         <ScrollArrow />
       </section>
 
+      {/* Personalized Today's Focus for logged-in users */}
+      <TodaysFocus />
+
       {/* Wisdom Quote */}
       <WisdomQuote />
 
@@ -105,6 +110,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* AI Companion Chat */}
+      <HomepageChat />
 
       {/* The Four Pillars */}
       <section className="py-16 px-6 bg-[var(--background)]">

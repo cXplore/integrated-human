@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import Footer from "./components/Footer";
+import MobileNav from "./components/MobileNav";
 import { ReadingListProvider } from "./components/ReadingListContext";
 import { ThemeProvider } from "./components/ThemeProvider";
 import SessionProvider from "./components/SessionProvider";
@@ -56,6 +57,7 @@ export default function RootLayout({
             <ReadingListProvider>
               {children}
               <Footer />
+              <MobileNav />
             </ReadingListProvider>
           </ThemeProvider>
         </SessionProvider>

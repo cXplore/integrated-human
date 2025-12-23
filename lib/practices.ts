@@ -43,6 +43,7 @@ export interface PracticeMetadata {
     nervousSystem?: ('ventral' | 'sympathetic' | 'dorsal')[];
     attachmentStyle?: ('anxious' | 'avoidant' | 'disorganized' | 'secure')[];
     emotions?: string[];
+    timeOfDay?: ('morning' | 'afternoon' | 'evening' | 'night')[];
   };
   // Audio/video if available
   audioUrl?: string;

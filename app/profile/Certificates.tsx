@@ -34,7 +34,9 @@ export default function Certificates() {
         const certResponse = await fetch('/api/certificates');
         let certs: Certificate[] = [];
         if (certResponse.ok) {
-          certs = await certResponse.json();
+          const certJson = await certResponse.json();
+          // API returns { certificates: [...], total, hasMore }
+          certs = certJson.certificates || [];
           setCertificates(certs);
         }
 
@@ -43,7 +45,9 @@ export default function Certificates() {
         const coursesResponse = await fetch('/api/courses');
 
         if (progressResponse.ok && coursesResponse.ok) {
-          const progress = await progressResponse.json();
+          const progressJson = await progressResponse.json();
+          // API returns { progress: [...], total, hasMore }
+          const progress = progressJson.progress || [];
           const courses = await coursesResponse.json();
 
           // Group progress by course

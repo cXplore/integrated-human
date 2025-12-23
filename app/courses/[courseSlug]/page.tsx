@@ -6,6 +6,7 @@ import { getAllCourses, getCourseBySlug } from '@/lib/courses';
 import { getRelatedPostsForCourse } from '@/lib/posts';
 import MembershipCTA from '@/app/components/MembershipCTA';
 import ContentCompanion from '@/app/components/ContentCompanion';
+import { AIErrorBoundary } from '@/app/components/ErrorBoundary';
 import { CourseJsonLd, BreadcrumbJsonLd } from '@/app/components/JsonLd';
 
 export async function generateStaticParams() {
@@ -409,11 +410,13 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
           </div>
         </div>
       </main>
-      <ContentCompanion
-        contentType="course"
-        contentTitle={metadata.title}
-        contentSlug={courseSlug}
-      />
+      <AIErrorBoundary>
+        <ContentCompanion
+          contentType="course"
+          contentTitle={metadata.title}
+          contentSlug={courseSlug}
+        />
+      </AIErrorBoundary>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import { validateCSRF, csrfErrorResponse } from '@/lib/csrf';
 
 // GET - Fetch a specific exercise response
 export async function GET(request: NextRequest) {
@@ -49,6 +50,12 @@ export async function GET(request: NextRequest) {
 
 // POST - Save an exercise response
 export async function POST(request: NextRequest) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   try {
     const session = await auth();
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { safeJsonParse } from '@/lib/sanitize';
+import { validateCSRF, csrfErrorResponse } from '@/lib/csrf';
 
 export type AssessmentType = 'archetype' | 'attachment' | 'nervous-system' | 'values';
 
@@ -77,6 +78,12 @@ export async function GET(request: NextRequest) {
  * Save or update an assessment result
  */
 export async function POST(request: NextRequest) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   try {
     const session = await auth();
 
@@ -145,6 +152,12 @@ export async function POST(request: NextRequest) {
  * Delete an assessment result
  */
 export async function DELETE(request: NextRequest) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   try {
     const session = await auth();
 

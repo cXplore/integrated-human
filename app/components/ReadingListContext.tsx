@@ -59,7 +59,8 @@ export function ReadingListProvider({ children }: { children: ReactNode }) {
         // Fetch reading list
         const listResponse = await fetch('/api/reading-list');
         if (listResponse.ok) {
-          const serverSlugs: string[] = await listResponse.json();
+          const data = await listResponse.json();
+          const serverSlugs: string[] = Array.isArray(data) ? data : (data.items || []);
           setSavedSlugs((localSlugs) => {
             const merged = [...new Set([...localSlugs, ...serverSlugs])];
             return merged;
@@ -69,7 +70,8 @@ export function ReadingListProvider({ children }: { children: ReactNode }) {
         // Fetch article progress (read articles)
         const progressResponse = await fetch('/api/article-progress');
         if (progressResponse.ok) {
-          const serverProgress: { slug: string; completed: boolean }[] = await progressResponse.json();
+          const progressData = await progressResponse.json();
+          const serverProgress: { slug: string; completed: boolean }[] = Array.isArray(progressData) ? progressData : [];
           const completedSlugs = serverProgress.filter(p => p.completed).map(p => p.slug);
           setReadSlugs((localRead) => {
             const merged = [...new Set([...localRead, ...completedSlugs])];

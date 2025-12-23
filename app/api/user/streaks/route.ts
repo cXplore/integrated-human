@@ -7,6 +7,7 @@ interface DayActivity {
   articles: number;
   modules: number;
   journals: number;
+  checkIns: number;
 }
 
 export async function GET() {
@@ -22,7 +23,7 @@ export async function GET() {
   ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
 
   // Fetch all activity in parallel
-  const [articleProgress, courseProgress, journalEntries] = await Promise.all([
+  const [articleProgress, courseProgress, journalEntries, quickCheckIns] = await Promise.all([
     prisma.articleProgress.findMany({
       where: {
         userId,
@@ -44,6 +45,13 @@ export async function GET() {
       },
       select: { updatedAt: true },
     }),
+    prisma.quickCheckIn.findMany({
+      where: {
+        userId,
+        createdAt: { gte: ninetyDaysAgo },
+      },
+      select: { createdAt: true },
+    }),
   ]);
 
   // Group activity by date
@@ -55,22 +63,29 @@ export async function GET() {
 
   articleProgress.forEach(item => {
     const dateKey = getDateKey(item.updatedAt);
-    const existing = activityByDate.get(dateKey) || { date: dateKey, articles: 0, modules: 0, journals: 0 };
+    const existing = activityByDate.get(dateKey) || { date: dateKey, articles: 0, modules: 0, journals: 0, checkIns: 0 };
     existing.articles++;
     activityByDate.set(dateKey, existing);
   });
 
   courseProgress.forEach(item => {
     const dateKey = getDateKey(item.updatedAt);
-    const existing = activityByDate.get(dateKey) || { date: dateKey, articles: 0, modules: 0, journals: 0 };
+    const existing = activityByDate.get(dateKey) || { date: dateKey, articles: 0, modules: 0, journals: 0, checkIns: 0 };
     existing.modules++;
     activityByDate.set(dateKey, existing);
   });
 
   journalEntries.forEach(item => {
     const dateKey = getDateKey(item.updatedAt);
-    const existing = activityByDate.get(dateKey) || { date: dateKey, articles: 0, modules: 0, journals: 0 };
+    const existing = activityByDate.get(dateKey) || { date: dateKey, articles: 0, modules: 0, journals: 0, checkIns: 0 };
     existing.journals++;
+    activityByDate.set(dateKey, existing);
+  });
+
+  quickCheckIns.forEach(item => {
+    const dateKey = getDateKey(item.createdAt);
+    const existing = activityByDate.get(dateKey) || { date: dateKey, articles: 0, modules: 0, journals: 0, checkIns: 0 };
+    existing.checkIns++;
     activityByDate.set(dateKey, existing);
   });
 
@@ -134,7 +149,7 @@ export async function GET() {
     date.setDate(date.getDate() - i);
     const dateKey = getDateKey(date);
     weekActivity.push(
-      activityByDate.get(dateKey) || { date: dateKey, articles: 0, modules: 0, journals: 0 }
+      activityByDate.get(dateKey) || { date: dateKey, articles: 0, modules: 0, journals: 0, checkIns: 0 }
     );
   }
 
@@ -142,7 +157,29 @@ export async function GET() {
   const totalArticles = articleProgress.length;
   const totalModules = courseProgress.length;
   const totalJournals = journalEntries.length;
+  const totalCheckIns = quickCheckIns.length;
   const daysActive = activityByDate.size;
+
+  // Calculate check-in streak separately (for dedicated tracking)
+  let checkInStreak = 0;
+  const checkInDates = new Set(quickCheckIns.map(c => getDateKey(c.createdAt)));
+  const hasCheckInToday = checkInDates.has(todayKey);
+  const hasCheckInYesterday = checkInDates.has(yesterdayKey);
+
+  if (hasCheckInToday || hasCheckInYesterday) {
+    const startDate = hasCheckInToday ? today : yesterday;
+    const checkDate = new Date(startDate);
+
+    while (true) {
+      const dateKey = getDateKey(checkDate);
+      if (checkInDates.has(dateKey)) {
+        checkInStreak++;
+        checkDate.setDate(checkDate.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+  }
 
   return NextResponse.json({
     currentStreak,
@@ -152,6 +189,8 @@ export async function GET() {
     totalArticles,
     totalModules,
     totalJournals,
+    totalCheckIns,
+    checkInStreak,
     hasActivityToday,
   });
 }

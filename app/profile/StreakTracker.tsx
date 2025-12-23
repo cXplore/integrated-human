@@ -7,6 +7,7 @@ interface DayActivity {
   articles: number;
   modules: number;
   journals: number;
+  checkIns: number;
 }
 
 interface StreakData {
@@ -17,6 +18,8 @@ interface StreakData {
   totalArticles: number;
   totalModules: number;
   totalJournals: number;
+  totalCheckIns: number;
+  checkInStreak: number;
   hasActivityToday: boolean;
 }
 
@@ -48,7 +51,7 @@ export default function StreakTracker() {
     return (
       <div>
         <h2 className="text-sm uppercase tracking-wide text-gray-500 mb-4">
-          Your Streak
+          Your Practice
         </h2>
         <div className="flex items-center gap-2 text-gray-400 text-sm">
           <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
@@ -66,14 +69,14 @@ export default function StreakTracker() {
 
   return (
     <div className="space-y-6">
-      {/* Consistency Display */}
+      {/* Streak Display */}
       <div>
         <h2 className="text-sm uppercase tracking-wide text-gray-500 mb-4">
           Your Practice
         </h2>
 
         <div className="flex items-center gap-6">
-          {/* Current consistency */}
+          {/* Practice streak */}
           <div className="text-center">
             <div className="text-4xl font-light text-white">
               {data.currentStreak}
@@ -82,6 +85,18 @@ export default function StreakTracker() {
               {data.currentStreak === 1 ? 'day' : 'days'} consistent
             </div>
           </div>
+
+          {/* Check-in streak (if different and notable) */}
+          {data.checkInStreak > 0 && data.checkInStreak !== data.currentStreak && (
+            <div className="text-center border-l border-zinc-800 pl-6">
+              <div className="text-2xl font-light text-amber-400">
+                {data.checkInStreak}
+              </div>
+              <div className="text-xs text-gray-600">
+                check-in streak
+              </div>
+            </div>
+          )}
 
           {/* Days active */}
           {data.daysActive > 0 && (
@@ -107,35 +122,47 @@ export default function StreakTracker() {
           {data.currentStreak > 0 && data.currentStreak < 7 && (
             "Small, consistent steps. No rush."
           )}
-          {data.currentStreak >= 7 && (
+          {data.currentStreak >= 7 && data.currentStreak < 30 && (
             "A rhythm is forming. Trust the process."
+          )}
+          {data.currentStreak >= 30 && (
+            "The practice is becoming part of you."
           )}
         </p>
       </div>
 
-      {/* Weekly Activity */}
+      {/* Weekly Activity - Enhanced visualization */}
       <div>
         <h3 className="text-xs uppercase tracking-wide text-gray-600 mb-3">
           This Week
         </h3>
         <div className="flex gap-2">
           {data.weekActivity.map((day, index) => {
-            const hasActivity = day.articles > 0 || day.modules > 0 || day.journals > 0;
+            const hasActivity = day.articles > 0 || day.modules > 0 || day.journals > 0 || day.checkIns > 0;
+            const activityCount = day.articles + day.modules + day.journals + day.checkIns;
             const date = new Date(day.date);
             const dayOfWeek = date.getDay();
             const isToday = index === data.weekActivity.length - 1;
 
+            // Intensity based on activity count
+            const intensity = activityCount >= 5 ? 'high' : activityCount >= 2 ? 'medium' : 'low';
+            const intensityColors = {
+              high: 'bg-green-500',
+              medium: 'bg-green-600',
+              low: 'bg-green-700',
+            };
+
             return (
               <div
                 key={day.date}
-                className="flex flex-col items-center gap-1"
-                title={`${new Date(day.date).toLocaleDateString()}: ${day.articles} articles, ${day.modules} modules, ${day.journals} journal entries`}
+                className="flex flex-col items-center gap-1 flex-1"
+                title={`${new Date(day.date).toLocaleDateString()}: ${day.articles} articles, ${day.modules} modules, ${day.journals} journals, ${day.checkIns} check-ins`}
               >
                 <span className="text-xs text-gray-600">{dayNames[dayOfWeek]}</span>
                 <div
-                  className={`w-8 h-8 rounded flex items-center justify-center text-xs font-medium transition-colors ${
+                  className={`w-full aspect-square rounded flex items-center justify-center text-xs font-medium transition-colors max-w-10 ${
                     hasActivity
-                      ? 'bg-green-600 text-white'
+                      ? `${intensityColors[intensity]} text-white`
                       : isToday
                       ? 'bg-zinc-800 border border-zinc-600 text-gray-400'
                       : 'bg-zinc-800 text-gray-600'
@@ -151,9 +178,36 @@ export default function StreakTracker() {
                     ''
                   )}
                 </div>
+                {/* Activity type indicators */}
+                {hasActivity && (
+                  <div className="flex gap-0.5 mt-0.5">
+                    {day.checkIns > 0 && <div className="w-1 h-1 rounded-full bg-amber-400" title="Check-in" />}
+                    {day.articles > 0 && <div className="w-1 h-1 rounded-full bg-blue-400" title="Article" />}
+                    {day.modules > 0 && <div className="w-1 h-1 rounded-full bg-purple-400" title="Module" />}
+                    {day.journals > 0 && <div className="w-1 h-1 rounded-full bg-pink-400" title="Journal" />}
+                  </div>
+                )}
               </div>
             );
           })}
+        </div>
+        <div className="flex items-center gap-4 mt-3 text-xs text-gray-600">
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full bg-amber-400" />
+            <span>Check-in</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full bg-blue-400" />
+            <span>Article</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full bg-purple-400" />
+            <span>Module</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full bg-pink-400" />
+            <span>Journal</span>
+          </div>
         </div>
       </div>
 
@@ -163,21 +217,32 @@ export default function StreakTracker() {
           <h3 className="text-xs uppercase tracking-wide text-gray-600 mb-3">
             Last 90 Days
           </h3>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-4 gap-3">
             <div className="bg-zinc-900/50 p-3 rounded">
               <div className="text-lg font-light text-white">{data.daysActive}</div>
               <div className="text-xs text-gray-500">days active</div>
             </div>
             <div className="bg-zinc-900/50 p-3 rounded">
-              <div className="text-lg font-light text-white">{data.totalArticles}</div>
+              <div className="text-lg font-light text-amber-400">{data.totalCheckIns}</div>
+              <div className="text-xs text-gray-500">check-ins</div>
+            </div>
+            <div className="bg-zinc-900/50 p-3 rounded">
+              <div className="text-lg font-light text-blue-400">{data.totalArticles}</div>
               <div className="text-xs text-gray-500">articles</div>
             </div>
             <div className="bg-zinc-900/50 p-3 rounded">
-              <div className="text-lg font-light text-white">{data.totalModules}</div>
+              <div className="text-lg font-light text-purple-400">{data.totalModules}</div>
               <div className="text-xs text-gray-500">modules</div>
             </div>
           </div>
         </div>
+      )}
+
+      {/* Longest streak (if notable) */}
+      {data.longestStreak > data.currentStreak && data.longestStreak >= 7 && (
+        <p className="text-xs text-gray-600 text-center">
+          Personal best: {data.longestStreak} day streak
+        </p>
       )}
     </div>
   );

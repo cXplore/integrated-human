@@ -349,3 +349,139 @@ The philosophy is "Awake, not woke" - grounded in Jungian psychology, traditiona
 Men are men. Women are women. And each carries a complementary inner dimension (anima/animus) that bridges them to wholeness.
 
 The site features learning paths, an archetype quiz, and articles on integration, shadow work, and becoming whole.`;
+
+/**
+ * Content summary for dynamic context
+ */
+export interface ContentSummary {
+  articles: Array<{ title: string; category: string; slug: string }>;
+  courses: Array<{ title: string; category: string; slug: string }>;
+  practices: Array<{ title: string; category: string; slug: string }>;
+}
+
+/**
+ * User health context for personalization
+ */
+export interface UserHealthContext {
+  stage: string;
+  lowestPillar: string;
+  inCollapse: boolean;
+  nervousSystemState?: string;
+  attachmentStyle?: string;
+  recentMood?: number;
+  recentEnergy?: number;
+  // Freshness/staleness data
+  dataFreshness?: 'fresh' | 'aging' | 'stale' | 'expired';
+  dataConfidence?: number; // 0-1
+  suggestedActions?: string[];
+  freshnessMessage?: string;
+}
+
+/**
+ * Build dynamic content context based on site content and user data
+ */
+export function buildDynamicContext(
+  content: ContentSummary,
+  health?: UserHealthContext
+): string {
+  const parts: string[] = [SITE_CONTEXT];
+
+  // Add content overview with samples
+  if (content.articles.length > 0) {
+    const categories = [...new Set(content.articles.map(a => a.category))];
+    const sampleArticles = content.articles.slice(0, 8).map(a => a.title);
+    parts.push(`
+The site has ${content.articles.length}+ articles across categories like ${categories.slice(0, 6).join(', ')}.
+Sample articles: ${sampleArticles.join(', ')}.`);
+  }
+
+  if (content.courses.length > 0) {
+    const courseList = content.courses.slice(0, 6).map(c => `"${c.title}" (${c.category})`);
+    parts.push(`
+${content.courses.length} courses are available, including: ${courseList.join(', ')}.`);
+  }
+
+  if (content.practices.length > 0) {
+    const practiceList = content.practices.slice(0, 5).map(p => p.title);
+    parts.push(`
+Guided practices available: ${practiceList.join(', ')}.`);
+  }
+
+  // Add health-aware context for personalization
+  if (health) {
+    parts.push(`
+---
+User's Current State (use sensitively, don't mention directly unless asked):`);
+
+    if (health.inCollapse) {
+      parts.push(`This person is in a vulnerable "collapse" state. Be especially gentle, grounding, and avoid pushing growth. Focus on safety and stabilization.`);
+    } else {
+      const stageDescriptions: Record<string, string> = {
+        'regulation': 'building foundations and stability',
+        'integration': 'doing core development work',
+        'embodiment': 'living their wisdom more fully',
+        'optimization': 'refining from a strong base',
+      };
+      parts.push(`They are at the ${stageDescriptions[health.stage] || health.stage} stage.`);
+    }
+
+    if (health.lowestPillar) {
+      const pillarFocus: Record<string, string> = {
+        'mind': 'emotional processing, shadow work, or mental clarity',
+        'body': 'nervous system regulation, physical vitality, or embodiment',
+        'soul': 'meaning, spiritual practice, or presence',
+        'relationships': 'attachment patterns, boundaries, or connection',
+      };
+      parts.push(`Their ${health.lowestPillar} area could use gentle attention - ${pillarFocus[health.lowestPillar] || 'this area'}.`);
+    }
+
+    if (health.nervousSystemState) {
+      const stateDescriptions: Record<string, string> = {
+        'ventral': 'calm and connected (ventral vagal)',
+        'sympathetic': 'somewhat activated or anxious (sympathetic)',
+        'dorsal': 'low energy or shutdown (dorsal)',
+      };
+      parts.push(`Their nervous system tends toward ${stateDescriptions[health.nervousSystemState] || health.nervousSystemState}.`);
+    }
+
+    if (health.attachmentStyle && health.attachmentStyle !== 'secure') {
+      const attachmentNotes: Record<string, string> = {
+        'anxious': 'They may benefit from reassurance and consistency.',
+        'avoidant': 'Respect their need for space; don\'t push too quickly.',
+        'disorganized': 'Maintain calm presence; they may have trauma history.',
+      };
+      parts.push(attachmentNotes[health.attachmentStyle] || '');
+    }
+
+    if (health.recentMood !== undefined && health.recentMood <= 2) {
+      parts.push(`Their recent mood has been low. Be supportive and gentle.`);
+    }
+
+    if (health.recentEnergy !== undefined && health.recentEnergy <= 2) {
+      parts.push(`Their energy is low. Suggest rest-oriented options when relevant.`);
+    }
+
+    // Handle stale data appropriately
+    if (health.dataFreshness && health.dataFreshness !== 'fresh') {
+      parts.push(`
+---
+DATA FRESHNESS NOTICE: ${health.freshnessMessage || 'Health data may be outdated.'}`);
+
+      if (health.dataFreshness === 'stale' || health.dataFreshness === 'expired') {
+        parts.push(`IMPORTANT: The above health context is ${health.dataFreshness === 'expired' ? 'quite' : 'somewhat'} outdated. DO NOT anchor the user to past states. Instead:
+- Ask how they're doing NOW before assuming their current state
+- Acknowledge that things may have changed since they last checked in
+- Gently encourage updating their health data if appropriate
+- Focus on their present experience rather than historical patterns`);
+      } else if (health.dataFreshness === 'aging') {
+        parts.push(`Note: This data is from a few days ago. Consider asking about their current state.`);
+      }
+
+      if (health.suggestedActions && health.suggestedActions.length > 0) {
+        parts.push(`You could gently suggest: ${health.suggestedActions[0]}`);
+      }
+    }
+  }
+
+  return parts.join('\n');
+}

@@ -1,11 +1,24 @@
 import { signIn, auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import Navigation from '../components/Navigation';
+import { prisma } from '@/lib/prisma';
+
+const isDev = process.env.NODE_ENV === 'development';
 
 export default async function LoginPage() {
   const session = await auth();
 
   if (session?.user) {
+    // Check if user has completed onboarding
+    const userProfile = await prisma.userProfile.findUnique({
+      where: { userId: session.user.id },
+      select: { onboardingCompleted: true },
+    });
+
+    // New users go to welcome, returning users go to profile
+    if (!userProfile?.onboardingCompleted) {
+      redirect('/welcome');
+    }
     redirect('/profile');
   }
 
@@ -55,6 +68,30 @@ export default async function LoginPage() {
                 Continue with Google
               </button>
             </form>
+
+            {/* Dev-only test login */}
+            {isDev && (
+              <form
+                action={async () => {
+                  'use server';
+                  await signIn('dev-login', {
+                    email: 'testuser@integrated-human.dev',
+                    redirectTo: '/profile',
+                  });
+                }}
+                className="mt-4"
+              >
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-purple-600 text-white font-medium hover:bg-purple-700 transition-colors border border-purple-500"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                  Dev Login (Test User)
+                </button>
+              </form>
+            )}
 
             <div className="mt-8 pt-8 border-t border-[var(--border-color)] text-center">
               <p className="text-gray-500 text-sm">

@@ -7,9 +7,16 @@ import {
   buildCasualPrompt,
   buildSystemPrompt,
   buildUserContext,
+  buildDynamicContext,
   SITE_CONTEXT,
   type UserJourneyContext,
+  type UserHealthContext,
 } from '@/lib/presence';
+import {
+  gatherHealthData,
+  calculateDataFreshness,
+  type FreshnessLevel,
+} from '@/lib/integration-health';
 import {
   calculateTokenCost,
   INPUT_TOKEN_COST,
@@ -191,9 +198,94 @@ async function getUserJourneyContext(userId: string): Promise<UserJourneyContext
   }
 }
 
+/**
+ * Fetch user health context from the Integration Health system
+ * Includes freshness/staleness data to prevent anchoring users to outdated states
+ */
+async function getUserHealthContext(userId: string): Promise<UserHealthContext | null> {
+  try {
+    // Get latest integration health
+    const health = await prisma.integrationHealth.findFirst({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    if (!health) return null;
+
+    // Calculate data freshness
+    const healthData = await gatherHealthData(userId);
+    const freshness = calculateDataFreshness(healthData);
+
+    // Find lowest pillar
+    const scores = {
+      mind: health.mindScore,
+      body: health.bodyScore,
+      soul: health.soulScore,
+      relationships: health.relationshipsScore,
+    };
+    const lowestPillar = Object.entries(scores)
+      .sort(([, a], [, b]) => a - b)[0][0];
+
+    // Determine overall stage (use most common or lowest)
+    const stages = [health.mindStage, health.bodyStage, health.soulStage, health.relationshipsStage];
+    const inCollapse = stages.includes('collapse');
+
+    // Get recent check-ins for mood/energy
+    const recentCheckIn = await prisma.quickCheckIn.findFirst({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    // Get assessment results for attachment/nervous system
+    const assessments = await prisma.assessmentResult.findMany({
+      where: { userId, type: { in: ['attachment', 'nervous-system'] } },
+    });
+
+    let nervousSystemState: string | undefined;
+    let attachmentStyle: string | undefined;
+
+    for (const a of assessments) {
+      const results = safeJsonParse<{ primary?: string; style?: string }>(a.results, {});
+      if (a.type === 'nervous-system' && results.primary) {
+        nervousSystemState = results.primary;
+      }
+      if (a.type === 'attachment' && results.style) {
+        attachmentStyle = results.style;
+      }
+    }
+
+    // Build freshness message for the AI
+    const freshnessMessages: string[] = [];
+    if (freshness.details.checkIns.level !== 'fresh') {
+      freshnessMessages.push(freshness.details.checkIns.message);
+    }
+    if (freshness.details.activity.level !== 'fresh') {
+      freshnessMessages.push(freshness.details.activity.message);
+    }
+
+    return {
+      stage: health.mindStage, // Use mind as representative
+      lowestPillar,
+      inCollapse,
+      nervousSystemState,
+      attachmentStyle,
+      recentMood: recentCheckIn?.mood,
+      recentEnergy: recentCheckIn?.energy,
+      // Freshness data
+      dataFreshness: freshness.overall as 'fresh' | 'aging' | 'stale' | 'expired',
+      dataConfidence: freshness.overallConfidence,
+      suggestedActions: freshness.suggestedActions,
+      freshnessMessage: freshnessMessages.length > 0 ? freshnessMessages.join('. ') : undefined,
+    };
+  } catch (error) {
+    console.error('Error fetching user health context:', error);
+    return null;
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { message: rawMessage, history: rawHistory = [], context: chatContext } = await request.json();
+    const { message: rawMessage, history: rawHistory = [], context: chatContext, conversationId } = await request.json();
 
     if (!rawMessage || typeof rawMessage !== 'string') {
       return new Response(JSON.stringify({ error: 'Message is required' }), {
@@ -252,6 +344,42 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Handle conversation persistence if conversationId provided
+    let activeConversationId = conversationId;
+    if (chatContext === 'standalone-chat') {
+      // For standalone chat, ensure we have a conversation
+      if (!activeConversationId) {
+        // Create or get active conversation
+        const existing = await prisma.chatConversation.findFirst({
+          where: { userId, isActive: true },
+        });
+
+        if (existing) {
+          activeConversationId = existing.id;
+        } else {
+          const newConv = await prisma.chatConversation.create({
+            data: { userId, isActive: true, mode: 'general' },
+          });
+          activeConversationId = newConv.id;
+        }
+      }
+
+      // Save user message to database
+      await prisma.chatMessage.create({
+        data: {
+          conversationId: activeConversationId,
+          role: 'user',
+          content: message,
+        },
+      });
+
+      // Update conversation timestamp
+      await prisma.chatConversation.update({
+        where: { id: activeConversationId },
+        data: { updatedAt: new Date() },
+      });
+    }
+
     // Get user context for personalization
     let userContext = '';
     const journeyContext = await getUserJourneyContext(userId);
@@ -259,12 +387,20 @@ export async function POST(request: NextRequest) {
       userContext = buildUserContext(journeyContext);
     }
 
+    // Get health context for deeper personalization
+    const healthContext = await getUserHealthContext(userId);
+
+    // Build site context with health awareness
+    const siteContext = healthContext
+      ? buildDynamicContext({ articles: [], courses: [], practices: [] }, healthContext)
+      : SITE_CONTEXT;
+
     // Detect stance and build appropriate prompt
     const isCasual = isCasualMessage(message);
     const stance = isCasual ? 'companion' : detectStance(message);
     const systemPrompt = isCasual
       ? buildCasualPrompt()
-      : buildSystemPrompt(stance, SITE_CONTEXT, userContext);
+      : buildSystemPrompt(stance, siteContext, userContext);
 
     // Build messages array for the LLM
     // Add /no_think to user message to disable qwen's thinking mode for faster responses
@@ -362,10 +498,41 @@ export async function POST(request: NextRequest) {
                 console.error('Error deducting tokens:', err);
               });
 
+              // Save assistant message to database if in standalone chat
+              if (chatContext === 'standalone-chat' && activeConversationId && totalOutputContent) {
+                prisma.chatMessage.create({
+                  data: {
+                    conversationId: activeConversationId,
+                    role: 'assistant',
+                    content: totalOutputContent,
+                    inputTokens,
+                    outputTokens,
+                  },
+                }).then(() => {
+                  // Auto-generate title from first exchange if not set
+                  return prisma.chatConversation.findUnique({
+                    where: { id: activeConversationId },
+                    select: { title: true },
+                  });
+                }).then(conv => {
+                  if (conv && !conv.title && message) {
+                    // Generate simple title from user's first message
+                    const title = message.length > 50 ? message.slice(0, 47) + '...' : message;
+                    return prisma.chatConversation.update({
+                      where: { id: activeConversationId },
+                      data: { title },
+                    });
+                  }
+                }).catch(err => {
+                  console.error('Error saving assistant message:', err);
+                });
+              }
+
               // Send final info including token usage
               controller.enqueue(encoder.encode(`data: ${JSON.stringify({
                 done: true,
                 stance,
+                conversationId: activeConversationId,
                 usage: {
                   inputTokens,
                   outputTokens,

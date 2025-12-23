@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { validateCSRF, csrfErrorResponse } from "@/lib/csrf";
 
 interface ArticleProgressRecord {
   slug: string;
@@ -31,6 +32,12 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -92,6 +99,12 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

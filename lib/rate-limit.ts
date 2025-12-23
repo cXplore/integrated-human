@@ -1,6 +1,8 @@
 /**
  * Simple in-memory rate limiter
- * For production at scale, consider using Redis-based solutions like @upstash/ratelimit
+ *
+ * Good enough for small-to-medium traffic. If you scale to 10K+ users
+ * and need distributed rate limiting, add @upstash/ratelimit.
  */
 
 interface RateLimitEntry {
@@ -12,14 +14,20 @@ interface RateLimitEntry {
 const rateLimitStore = new Map<string, RateLimitEntry>();
 
 // Clean up expired entries periodically
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, entry] of rateLimitStore.entries()) {
-    if (now > entry.resetTime) {
-      rateLimitStore.delete(key);
+if (typeof setInterval !== 'undefined') {
+  const cleanup = setInterval(() => {
+    const now = Date.now();
+    for (const [key, entry] of rateLimitStore.entries()) {
+      if (now > entry.resetTime) {
+        rateLimitStore.delete(key);
+      }
     }
+  }, 60000);
+
+  if (cleanup.unref) {
+    cleanup.unref();
   }
-}, 60000); // Clean up every minute
+}
 
 export interface RateLimitConfig {
   /** Maximum number of requests allowed in the window */
@@ -43,8 +51,7 @@ export function checkRateLimit(
   config: RateLimitConfig
 ): RateLimitResult {
   const now = Date.now();
-  const key = identifier;
-  const entry = rateLimitStore.get(key);
+  const entry = rateLimitStore.get(identifier);
 
   // If no entry or entry has expired, create a new one
   if (!entry || now > entry.resetTime) {
@@ -52,7 +59,7 @@ export function checkRateLimit(
       count: 1,
       resetTime: now + config.windowMs,
     };
-    rateLimitStore.set(key, newEntry);
+    rateLimitStore.set(identifier, newEntry);
     return {
       success: true,
       limit: config.limit,

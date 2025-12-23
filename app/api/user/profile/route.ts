@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { safeJsonParse } from "@/lib/sanitize";
+import { validateCSRF, csrfErrorResponse } from "@/lib/csrf";
 
 // GET - Fetch user profile (onboarding data)
 export async function GET() {
@@ -35,6 +36,12 @@ export async function GET() {
 
 // POST - Create or update user profile
 export async function POST(request: NextRequest) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -82,6 +89,12 @@ export async function POST(request: NextRequest) {
 
 // PATCH - Partial update of user profile
 export async function PATCH(request: NextRequest) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   const session = await auth();
 
   if (!session?.user?.id) {

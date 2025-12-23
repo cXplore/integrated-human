@@ -3,6 +3,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
 import { verifyCaptcha, isCaptchaEnabled } from '@/lib/captcha';
+import { validateCSRF, csrfErrorResponse } from '@/lib/csrf';
 
 const MESSAGES_FILE = path.join(process.cwd(), 'data', 'messages.json');
 
@@ -37,6 +38,12 @@ async function saveMessages(messages: ContactMessage[]) {
 }
 
 export async function POST(request: NextRequest) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   try {
     const { name, email, message, captchaToken } = await request.json();
 

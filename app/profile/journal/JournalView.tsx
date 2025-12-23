@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import JournalInsights from './JournalInsights';
 import JournalCompanion from './JournalCompanion';
+import { AIErrorBoundary } from '@/app/components/ErrorBoundary';
 
 interface JournalEntry {
   id: string;
@@ -433,7 +434,11 @@ export default function JournalView() {
       {activeTab === 'insights' && <JournalInsights />}
 
       {/* AI Companion Tab */}
-      {activeTab === 'companion' && <JournalCompanion />}
+      {activeTab === 'companion' && (
+        <AIErrorBoundary>
+          <JournalCompanion />
+        </AIErrorBoundary>
+      )}
 
       {/* Course Journals Tab */}
       {activeTab === 'course' && (

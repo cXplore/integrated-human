@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { safeJsonParse } from "@/lib/sanitize";
 import { getAllCourses, type Course } from "@/lib/courses";
+import { getOrCreateHealth, type Pillar, type SpectrumStage } from "@/lib/integration-health";
 
 // Mapping from user interests/challenges to course categories and keywords
 const INTEREST_TO_COURSES: Record<string, string[]> = {
@@ -49,6 +50,57 @@ const DEPTH_LEVEL_MAP: Record<string, string[]> = {
   'deep': ['Intermediate', 'Advanced', 'All Levels'],
   'advanced': ['Advanced', 'All Levels'],
 };
+
+// Map pillars to course categories/tags for health-based recommendations
+const PILLAR_TO_COURSES: Record<Pillar, string[]> = {
+  mind: ['shadow-work-foundations', 'the-integrated-self', 'mastering-emotions', 'emotional-intelligence', 'intro-emotional-intelligence', 'healing-inner-child'],
+  body: ['nervous-system-mastery', 'stress-resilience-mastery', 'movement-fundamentals', 'body-wisdom', 'embodiment-mastery', 'sleep-mastery', 'burnout-recovery'],
+  soul: ['mindfulness-meditation-mastery', 'mindfulness-basics', 'presence-practice', 'spiritual-development', 'life-purpose-discovery', 'meaning-and-purpose', 'death-contemplation'],
+  relationships: ['conscious-relationship', 'attachment-repair', 'boundaries', 'healing-relationships-101', 'intimacy-after-trauma', 'codependency-recovery', 'people-pleasing-recovery'],
+};
+
+// Map spectrum stages to appropriate course tiers
+const SPECTRUM_TO_TIER: Record<SpectrumStage, string[]> = {
+  collapse: ['intro', 'beginner'], // Simple, stabilizing content
+  regulation: ['beginner', 'intermediate'], // Building capacity
+  integration: ['intermediate', 'advanced'], // Core work
+  embodiment: ['advanced', 'flagship'], // Deepening
+  optimization: ['flagship', 'advanced'], // Mastery
+};
+
+// Heavy/sensitive content - not appropriate when user is struggling
+// These deal with death, deep trauma, intense shadow work, etc.
+const HEAVY_CONTENT_COURSES = [
+  'death-contemplation',
+  'grief-and-loss',
+  'living-after-loss',
+  'trauma-informed-healing',
+  'intimacy-after-trauma',
+  'shadow-integration', // Deep shadow work (not foundations)
+  'addiction-and-compulsion',
+  'suicidal-ideation-support', // If exists
+];
+
+// Stabilizing/grounding content - prioritize when user is struggling
+const STABILIZING_COURSES = [
+  'nervous-system-mastery',
+  'anxiety-first-aid',
+  'stress-resilience-mastery',
+  'mindfulness-basics',
+  'sleep-mastery',
+  'burnout-recovery',
+  'grounding-practices',
+  'self-compassion-basics',
+];
+
+// Challenges that indicate user has lived experience with heavy topics
+// If they selected these, they're probably ready for related content
+const LIVED_EXPERIENCE_CHALLENGES = [
+  'trauma',
+  'grief',
+  'addiction',
+  'depression',
+];
 
 // Use cached courses from lib/courses.ts
 function getCachedCourses(): Map<string, Course> {
@@ -101,6 +153,28 @@ export async function GET() {
   const challenges: string[] = safeJsonParse(profile?.currentChallenges, []);
   const depthPreference = profile?.depthPreference || 'intermediate';
   const experienceLevels = safeJsonParse(profile?.experienceLevels, {});
+
+  // Get integration health for smarter recommendations
+  let health: Awaited<ReturnType<typeof getOrCreateHealth>> | null = null;
+  try {
+    health = await getOrCreateHealth(session.user.id);
+  } catch {
+    // Health data not available, continue without it
+  }
+
+  // Find the lowest-scoring pillar (area needing most attention)
+  let lowestPillar: Pillar | null = null;
+  let lowestScore = 100;
+  if (health) {
+    const pillars: Pillar[] = ['mind', 'body', 'soul', 'relationships'];
+    for (const pillar of pillars) {
+      const score = health.pillars[pillar].score;
+      if (score < lowestScore) {
+        lowestScore = score;
+        lowestPillar = pillar;
+      }
+    }
+  }
 
   // Score each course based on relevance
   const scoredCourses: Array<{
@@ -157,6 +231,72 @@ export async function GET() {
     if (startedCourses.has(slug) && !completedCourses.has(slug)) {
       score += 30; // Encourage completion
       reasons.push('Continue where you left off');
+    }
+
+    // Health-based recommendations (highest priority)
+    if (health && lowestPillar) {
+      const pillarCourses = PILLAR_TO_COURSES[lowestPillar];
+      if (pillarCourses.includes(slug)) {
+        score += 35; // Strong boost for courses addressing weakest pillar
+        const pillarNames: Record<Pillar, string> = {
+          mind: 'psychological growth',
+          body: 'nervous system & body',
+          soul: 'meaning & spiritual practice',
+          relationships: 'relationship healing',
+        };
+        reasons.push(`Supports your ${pillarNames[lowestPillar]}`);
+      }
+
+      // Check if course tier matches user's spectrum stage for that pillar
+      const pillarStage = health.pillars[lowestPillar].stage;
+      const appropriateTiers = SPECTRUM_TO_TIER[pillarStage];
+      const courseTier = meta.tier?.toLowerCase();
+      if (courseTier && appropriateTiers.includes(courseTier)) {
+        score += 10; // Tier matches development stage
+      } else if (courseTier && !appropriateTiers.includes(courseTier)) {
+        // Don't recommend advanced content to someone in collapse
+        if (pillarStage === 'collapse' && ['advanced', 'flagship'].includes(courseTier)) {
+          score -= 20;
+        }
+      }
+
+      // If user is in collapse in any pillar, boost stabilizing content
+      const pillars: Pillar[] = ['mind', 'body', 'soul', 'relationships'];
+      const inCollapse = pillars.some(p => health.pillars[p].stage === 'collapse');
+      if (inCollapse) {
+        // Boost grounding/stabilizing courses
+        if (STABILIZING_COURSES.includes(slug)) {
+          score += 20;
+          if (!reasons.includes('Helps with stabilization')) {
+            reasons.push('Helps with stabilization');
+          }
+        }
+      }
+
+      // Sensitivity filtering for heavy content
+      const isHeavyContent = HEAVY_CONTENT_COURSES.includes(slug);
+      if (isHeavyContent) {
+        // Check if user has lived experience with this topic
+        const hasLivedExperience = challenges.some(c => LIVED_EXPERIENCE_CHALLENGES.includes(c));
+
+        if (inCollapse) {
+          // User is struggling - strongly de-prioritize heavy content
+          // Unless they specifically selected it as a challenge (lived experience)
+          if (!hasLivedExperience) {
+            score -= 40; // Strong penalty
+          } else {
+            // They have lived experience but are in collapse - gentle penalty
+            score -= 15;
+          }
+        } else if (health.overall.stage === 'regulation') {
+          // User is building capacity - moderate de-prioritization
+          if (!hasLivedExperience) {
+            score -= 20;
+          }
+        }
+        // For integration/embodiment/optimization stages with no lived experience,
+        // we don't actively recommend but don't penalize either
+      }
     }
 
     // Add base score for having any match
@@ -228,5 +368,10 @@ export async function GET() {
       startedCourses: startedCourses.size,
       purchasedCourses: purchasedCourses.size,
     },
+    health: health ? {
+      lowestPillar,
+      lowestScore,
+      overallStage: health.overall.stage,
+    } : null,
   });
 }

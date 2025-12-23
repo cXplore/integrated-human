@@ -35,11 +35,19 @@ model User {
   subscription       Subscription?
   aiCredits          AICredits?
   aiUsage            AIUsage[]
+  chatConversations  ChatConversation[]
   creditPurchases    CreditPurchase[]
   assessmentResults  AssessmentResult[]
   sharedReflections  SharedReflection[]
   dreamEntries       DreamEntry[]
   integrationCheckIns IntegrationCheckIn[]
+
+  // Integration Health System
+  integrationHealth    IntegrationHealth[]
+  pillarHealth         PillarHealth[]
+  healthSessions       HealthSession[]
+  reassessmentTriggers ReassessmentTrigger[]
+  quickCheckIns        QuickCheckIn[]
 }
 
 model Account {
@@ -306,13 +314,15 @@ model AIUsage {
 
 // Credit purchases (tokens)
 model CreditPurchase {
-  id               String   @id @default(cuid())
+  id               String    @id @default(cuid())
   userId           String
-  credits          Int      // Number of credits purchased (1 credit = 1,000 tokens)
-  tokens           Int      // Actual tokens added (credits * 1000)
-  amount           Int      // Amount in cents
-  stripePaymentId  String   @unique
-  createdAt        DateTime @default(now())
+  credits          Int       // Number of credits purchased (1 credit = 1,000 tokens)
+  tokens           Int       // Actual tokens added (credits * 1000)
+  amount           Int       // Amount in cents
+  stripePaymentId  String    @unique
+  refunded         Boolean   @default(false) // Whether this purchase was refunded
+  refundedAt       DateTime? // When the refund was processed
+  createdAt        DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -401,4 +411,192 @@ model DreamEntry {
 
   @@index([userId])
   @@index([userId, dreamDate])
+}
+
+// ============================================================================
+// INTEGRATION HEALTH SYSTEM
+// Tracks user's development across four pillars (Mind, Body, Soul, Relationships)
+// with spectrum stages (Collapse, Regulation, Integration, Embodiment, Optimization)
+// ============================================================================
+
+// Overall Integration Health snapshot - computed periodically from all data sources
+model IntegrationHealth {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+
+  // Pillar scores (0-100) representing overall health in each area
+  mindScore          Int      @default(0)
+  bodyScore          Int      @default(0)
+  soulScore          Int      @default(0)
+  relationshipsScore Int      @default(0)
+
+  // Spectrum stages for each pillar
+  // collapse, regulation, integration, embodiment, optimization
+  mindStage          String   @default("regulation")
+  bodyStage          String   @default("regulation")
+  soulStage          String   @default("regulation")
+  relationshipsStage String   @default("regulation")
+
+  // AI-generated summary of current state and recommendations
+  summary            String?  @db.Text // JSON: { insight, strengths, challenges, nextSteps }
+
+  // Data sources used for this snapshot
+  dataSourcesUsed    String?  @db.Text // JSON array of what was analyzed
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, createdAt])
+}
+
+// Pillar-specific health tracking - more granular per-pillar data
+model PillarHealth {
+  id        String   @id @default(cuid())
+  userId    String
+  pillar    String   // mind, body, soul, relationships
+  createdAt DateTime @default(now())
+
+  // Current spectrum stage
+  stage     String   @default("regulation") // collapse, regulation, integration, embodiment, optimization
+
+  // Sub-dimensions within this pillar (JSON)
+  // Mind: { shadowWork: 65, emotionalIntelligence: 45, cognitiveClarity: 70 }
+  // Body: { nervousSystem: 50, physicalHealth: 60, embodiment: 40 }
+  // Soul: { meaningfulness: 55, spiritualPractice: 30, presence: 45 }
+  // Relationships: { attachmentSecurity: 35, boundaries: 60, intimacy: 40 }
+  dimensions String?  @db.Text
+
+  // Trend direction: improving, stable, declining
+  trend     String   @default("stable")
+
+  // Key insights for this pillar
+  insights  String?  @db.Text
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, pillar])
+  @@index([userId])
+}
+
+// Weekly AI reflection sessions - structured check-ins that update health
+model HealthSession {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+
+  // Session type: weekly-checkin, crisis-support, progress-review, reassessment
+  type      String   @default("weekly-checkin")
+
+  // The conversation - stored as JSON array of messages
+  messages  String   @db.Text // [{ role, content, timestamp }]
+
+  // AI analysis of the session
+  analysis  String?  @db.Text // JSON: { themes, emotionalState, pillarInsights, recommendations }
+
+  // Health updates triggered by this session
+  healthUpdates String? @db.Text // JSON: { pillar: { dimension, change, reason } }
+
+  // Whether session is complete or in progress
+  status    String   @default("in_progress") // in_progress, completed, abandoned
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, createdAt])
+}
+
+// Reassessment prompts and triggers
+model ReassessmentTrigger {
+  id           String   @id @default(cuid())
+  userId       String
+  createdAt    DateTime @default(now())
+
+  // Which assessment to retake
+  assessmentType String // archetype, attachment, nervous-system, pillar-check
+
+  // Why triggered
+  reason       String   // time-based, activity-detected, user-requested, crisis-detected
+
+  // Additional context
+  context      String?  @db.Text
+
+  // Status
+  status       String   @default("pending") // pending, shown, completed, dismissed
+
+  // When shown/actioned
+  shownAt      DateTime?
+  completedAt  DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, status])
+}
+
+// Quick daily mood/energy check-ins (lightweight tracking)
+model QuickCheckIn {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+
+  // Simple 1-5 scales
+  mood      Int      // 1=struggling, 2=low, 3=okay, 4=good, 5=great
+  energy    Int      // 1=exhausted, 2=low, 3=moderate, 4=good, 5=high
+
+  // Optional brief note (max ~200 chars)
+  note      String?
+
+  // Which pillar feels most activated/challenged today
+  pillarFocus String? // mind, body, soul, relationships
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, createdAt])
+}
+
+// ============================================================================
+// CHAT CONVERSATIONS
+// Persistent chat history for standalone AI chat
+// ============================================================================
+
+model ChatConversation {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String?  // Auto-generated or user-set conversation title
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Conversation context/mode
+  mode      String   @default("general") // general, growth, crisis, dream, shadow, etc.
+
+  // Whether this is the active/current conversation
+  isActive  Boolean  @default(true)
+
+  // Messages in this conversation
+  messages  ChatMessage[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, updatedAt])
+  @@index([userId, isActive])
+}
+
+model ChatMessage {
+  id             String   @id @default(cuid())
+  conversationId String
+  role           String   // user, assistant
+  content        String   @db.Text
+  createdAt      DateTime @default(now())
+
+  // Token usage for this message (for assistant messages)
+  inputTokens    Int?
+  outputTokens   Int?
+
+  conversation ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@index([conversationId, createdAt])
 }

@@ -146,6 +146,28 @@ Used for personalized recommendations and preventing inappropriate content match
 
 Key principle: Don't push optimization on people in collapse.
 
+#### The Presence Dimension
+Each stage has two versions—one with presence, one with avoidance. Presence isn't a destination after optimization; it's available at every stage. It's the key that moves you forward.
+
+| Stage | With Presence (progress) | With Avoidance (regression) |
+|-------|--------------------------|----------------------------|
+| Collapse | Surrender—allowing breakdown, accepting help | Drowning—thrashing, isolation, fighting inevitable |
+| Regulation | Safety—grounding, building capacity to feel | Numbing—avoiding sensation, substances, dissociation |
+| Integration | Understanding—feeling through, genuine processing | Rumination—analysis without feeling, intellectualizing |
+| Embodiment | Aliveness—practice with awareness, living truth | Empty ritual—mechanical practice, spiritual bypassing |
+| Optimization | Flow—effortless action, mastery with meaning | Burnout—grinding, achievement as avoidance → collapse |
+
+**Presence moves you up the spectrum. Avoidance pulls you down.** Without presence at any stage, you get stuck or slide backward—eventually cycling back to collapse.
+
+#### Research Foundations
+This framework synthesizes established models:
+- **Polyvagal Theory** (Porges) - Nervous system states
+- **Window of Tolerance** (Siegel) - Processing zone
+- **IFS** (Schwartz) - Parts and protective mechanisms
+- **Spiritual Bypassing** (Welwood) - Using spirituality to avoid psychology
+- **Developmental models** (Wilber, Spiral Dynamics) - Stage-appropriate interventions
+- **Contemplative traditions** - Presence available at every moment
+
 ### Course Tiers (Content Categories, Not Pricing)
 Courses are categorized by depth/complexity, not individually priced:
 ```
@@ -294,7 +316,7 @@ return new Response(response.body?.pipeThrough(transformStream), {
 
 ---
 
-## Current State (Dec 2024)
+## Current State (Dec 2025)
 
 ### Implemented
 - **102 courses** with full module content, quizzes, and navigation
@@ -302,6 +324,7 @@ return new Response(response.body?.pipeThrough(transformStream), {
   - All included with $19/month membership
 - **Transparency Section** at /transparency
   - Methodology page (Development Spectrum framework)
+  - The Deeper Work page (contemplative dimension, two paths)
   - Quality Standards page
   - Certificate Standards page
   - Course Audits (per-course audit documents)

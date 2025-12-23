@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import { validateCSRF, csrfErrorResponse } from '@/lib/csrf';
 
 // Check-in prompts by type
 const CHECK_IN_PROMPTS = {
@@ -96,6 +97,12 @@ export async function GET(request: NextRequest) {
  * Create a new check-in
  */
 export async function POST(request: NextRequest) {
+  // CSRF validation
+  const csrf = validateCSRF(request);
+  if (!csrf.valid) {
+    return csrfErrorResponse(csrf.error);
+  }
+
   try {
     const session = await auth();
 

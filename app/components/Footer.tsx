@@ -67,8 +67,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/archetypes" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Archetype Quiz
+                <Link href="/start-here" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  Assessments
                 </Link>
               </li>
               <li>

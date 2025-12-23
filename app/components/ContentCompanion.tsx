@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -46,8 +46,22 @@ export default function ContentCompanion({
   const [hasInteracted, setHasInteracted] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const isMountedRef = useRef(true);
 
   const prompts = CONTEXTUAL_PROMPTS[contentType] || CONTEXTUAL_PROMPTS.article;
+
+  // Cleanup on unmount
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      // Abort any in-flight request
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -59,9 +73,15 @@ export default function ContentCompanion({
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
+
+    // Abort previous request if any
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
 
     const userMessage = input.trim();
     setInput('');
@@ -83,6 +103,7 @@ export default function ContentCompanion({
           message: `[Context: ${contentContext}]\n\n${userMessage}`,
           history: messages.slice(-6),
         }),
+        signal: abortControllerRef.current.signal,
       });
 
       if (!response.ok) {
@@ -93,7 +114,9 @@ export default function ContentCompanion({
       if (!reader) throw new Error('No response body');
 
       let assistantMessage = '';
-      setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+      if (isMountedRef.current) {
+        setMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+      }
 
       const decoder = new TextDecoder();
 
@@ -110,14 +133,16 @@ export default function ContentCompanion({
               const data = JSON.parse(line.slice(6));
               if (data.content) {
                 assistantMessage += data.content;
-                setMessages(prev => {
-                  const updated = [...prev];
-                  updated[updated.length - 1] = {
-                    role: 'assistant',
-                    content: assistantMessage,
-                  };
-                  return updated;
-                });
+                if (isMountedRef.current) {
+                  setMessages(prev => {
+                    const updated = [...prev];
+                    updated[updated.length - 1] = {
+                      role: 'assistant',
+                      content: assistantMessage,
+                    };
+                    return updated;
+                  });
+                }
               }
             } catch {
               // Skip invalid JSON
@@ -126,15 +151,23 @@ export default function ContentCompanion({
         }
       }
     } catch (err) {
+      // Ignore abort errors
+      if (err instanceof Error && err.name === 'AbortError') {
+        return;
+      }
       console.error('Companion chat error:', err);
-      setMessages(prev => [
-        ...prev.filter(m => m.content !== ''),
-        { role: 'assistant', content: 'Sorry, I couldn\'t respond right now. Please try again.' }
-      ]);
+      if (isMountedRef.current) {
+        setMessages(prev => [
+          ...prev.filter(m => m.content !== ''),
+          { role: 'assistant', content: 'Sorry, I couldn\'t respond right now. Please try again.' }
+        ]);
+      }
     } finally {
-      setIsLoading(false);
+      if (isMountedRef.current) {
+        setIsLoading(false);
+      }
     }
-  };
+  }, [input, isLoading, contentType, contentTitle, moduleSlug, messages]);
 
   const handlePromptClick = (prompt: string) => {
     setInput(prompt);
@@ -256,6 +289,7 @@ export default function ContentCompanion({
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Ask anything..."
+                aria-label="Ask a question about this content"
                 className="flex-1 bg-zinc-900 border border-zinc-700 rounded px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-zinc-500 resize-none"
                 rows={1}
                 disabled={isLoading}

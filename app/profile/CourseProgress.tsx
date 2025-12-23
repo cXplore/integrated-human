@@ -58,7 +58,9 @@ export default function CourseProgress() {
           setIsLoading(false);
           return;
         }
-        const progressData: CourseProgressItem[] = await progressResponse.json();
+        const progressJson = await progressResponse.json();
+        // API returns { progress: [...], total, hasMore }
+        const progressData: CourseProgressItem[] = progressJson.progress || [];
 
         // Fetch all courses to get total modules
         const coursesResponse = await fetch('/api/courses');
