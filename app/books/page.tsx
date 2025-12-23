@@ -11,7 +11,8 @@ interface Book {
   title: string;
   author: string;
   note?: string;
-  description?: string; // Longer description for modal
+  description?: string; // Back-of-book style description
+  whyWeRecommend?: string; // Personal take on why this book matters
   isbn?: string;
   asin: string;
   relatedContent?: { title: string; href: string }[];
@@ -51,6 +52,7 @@ const categories: Category[] = [
         asin: '1577314808',
         note: 'Widely read introduction to presence. Can become its own trap if used to bypass psychology, but useful as a first taste.',
         description: 'Tolle\'s breakthrough book on presence and the pain-body. A global phenomenon that introduced millions to the concept of present-moment awareness. Best read as an entry point, not an endpoint—the psychological work still needs to be done.',
+        whyWeRecommend: 'This book has woken more people up to the possibility of presence than perhaps any other. Yes, it can become a spiritual bypassing trap. But for many, it\'s the first crack in the wall—the first glimpse that there\'s something beyond the endless mental chatter.',
       },
       {
         title: 'The Untethered Soul',
@@ -67,6 +69,7 @@ const categories: Category[] = [
         asin: '1570629692',
         note: 'Buddhist wisdom for crisis. For when everything is collapsing and you\'re tired of running.',
         description: 'Pema Chödrön offers Buddhist wisdom for navigating difficulty, uncertainty, and the groundlessness of life. Written with warmth and honesty, this is the book to read when you\'re in crisis and need someone who understands.',
+        whyWeRecommend: 'When life falls apart, most books offer false comfort or quick fixes. Pema doesn\'t. She sits with you in the darkness and shows you that groundlessness itself can become the ground. This book has been a lifeline for countless people in crisis.',
       },
       {
         title: 'Man and His Symbols',
@@ -75,6 +78,7 @@ const categories: Category[] = [
         asin: '0440351839',
         note: 'Jung\'s most accessible work on the unconscious, symbols, and dreams. Start here for shadow work without academic density.',
         description: 'The only book Jung wrote for a general audience, completed just before his death. An accessible introduction to the collective unconscious, archetypes, and the symbolic language of dreams. The gateway to Jungian psychology.',
+        whyWeRecommend: 'Jung can be impenetrable. This book isn\'t. It\'s the door into understanding why your dreams matter, what archetypes are, and why the unconscious is not your enemy but a source of wisdom. If you\'re curious about shadow work, start here.',
       },
       {
         title: 'Letters to a Young Poet',
@@ -83,6 +87,7 @@ const categories: Category[] = [
         asin: '0393310396',
         note: 'Timeless guidance on solitude, patience, and living the questions. Short but inexhaustible.',
         description: 'Ten letters from Rilke to a young aspiring poet, containing some of the most beautiful guidance ever written on solitude, creativity, and the inner life. "Be patient toward all that is unsolved in your heart." Short enough to read in an hour, deep enough to return to for a lifetime.',
+        whyWeRecommend: 'You can read this in one sitting. You\'ll return to it for decades. Rilke\'s advice transcends poetry—it\'s about how to live with uncertainty, how to let things ripen, how to trust the process. Everyone doing inner work should own a copy.',
       },
       {
         title: 'Flow',
@@ -146,6 +151,7 @@ const categories: Category[] = [
         asin: '0062548476',
         note: 'Brief, powerful introduction to shadow work. How we throw parts of ourselves into "the bag."',
         description: 'Bly\'s brief, poetic introduction to shadow work. The metaphor of "the bag"—how we spend the first half of life throwing parts of ourselves away, and the second half trying to retrieve them. Essential reading for anyone beginning shadow work.',
+        whyWeRecommend: 'Under 100 pages, yet it explains the mechanics of shadow formation better than books ten times its length. The "bag" metaphor will change how you understand your own rejected parts. Start shadow work here.',
       },
       {
         title: 'Iron John',
@@ -162,6 +168,7 @@ const categories: Category[] = [
         asin: '034540987X',
         note: 'The wild feminine through myth and story. Essential for women reclaiming instinctual nature.',
         description: 'Estés, a Jungian analyst and storyteller, uses myths and fairy tales to illuminate the "Wild Woman" archetype—the instinctual, creative feminine that domestication suppresses. Dense, rich, and essential for women doing the work of reclamation.',
+        whyWeRecommend: 'For women who sense that something wild and instinctual has been lost—and want it back. Estés doesn\'t just analyze myths; she transmits something through them. Keep it on your nightstand and read one story at a time.',
       },
       {
         title: 'King, Warrior, Magician, Lover',
@@ -217,6 +224,7 @@ const categories: Category[] = [
         asin: '0143127748',
         note: 'How trauma lives in the body. Why insight alone doesn\'t heal.',
         description: 'Van der Kolk\'s landmark work on trauma. Drawing on decades of research and clinical experience, he shows how trauma reshapes both body and brain—and why traditional talk therapy often isn\'t enough. Essential for understanding why embodiment matters.',
+        whyWeRecommend: 'If you\'ve wondered why understanding your patterns doesn\'t seem to change them, this book explains why. Trauma isn\'t just a story you tell—it lives in your nervous system. Van der Kolk changed how we think about healing.',
       },
       {
         title: 'Waking the Tiger',
@@ -279,6 +287,7 @@ const categories: Category[] = [
         isbn: '9780893860226',
         asin: '0893860220',
         note: 'Dialogues with a Bombay cigarette seller who woke up. Fierce, uncompromising.',
+        whyWeRecommend: 'A cigarette seller in Bombay who became one of the most direct pointers to what you are. This book is a conversation with someone who isn\'t trying to be spiritual, just relentlessly honest. Return to it again and again—it reveals more each time.',
         description: 'Dialogues with Nisargadatta, a cigarette seller in Bombay who woke up. His teaching style is fierce, uncompromising, and devastatingly direct. "You are not what you think you are." One of the most important spiritual books of the 20th century.',
       },
       {
@@ -555,6 +564,7 @@ const categories: Category[] = [
         isbn: '9780980184846',
         asin: '0980184843',
         note: 'Brutal, funny, relentless. Destroys every comfortable spiritual belief. The essential one.',
+        whyWeRecommend: 'Either this book will infuriate you or it will crack something open. McKenna burns down every spiritual comfort zone with dark humor and zero sentimentality. Not for everyone—but if you\'re ready to question everything, there\'s nothing quite like it.',
         description: 'Jed McKenna (a pseudonym) tears apart every comfortable spiritual belief with brutal humor and relentless logic. This book will offend you if you\'re attached to your spiritual self-image. That might be exactly why you need to read it.',
       },
       {
@@ -583,84 +593,111 @@ function BookModal({
 
   return (
     <div
-      className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
       <div
-        className="bg-zinc-900 border border-zinc-700 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-zinc-900 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="flex justify-between items-start p-6 border-b border-zinc-800">
-          <div className="flex gap-4">
-            {book.isbn && (
-              <div className="w-20 h-30 bg-zinc-800 flex-shrink-0 relative overflow-hidden">
-                <Image
-                  src={getLargeCoverUrl(book.isbn) || ''}
-                  alt={`Cover of ${book.title}`}
-                  fill
-                  sizes="80px"
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-            )}
-            <div>
-              <h2 className="font-serif text-2xl text-white mb-1">{book.title}</h2>
-              <p className="text-gray-400">{book.author}</p>
-            </div>
-          </div>
+        {/* Hero section with cover */}
+        <div className="relative bg-gradient-to-b from-zinc-800 to-zinc-900 p-8">
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-white p-1"
+            className="absolute top-4 right-4 text-gray-400 hover:text-white p-1 z-10"
             aria-label="Close"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
+
+          <div className="flex gap-6 items-start">
+            {/* Book cover - larger, with shadow */}
+            {book.isbn && (
+              <div className="w-32 h-48 bg-zinc-700 flex-shrink-0 relative overflow-hidden shadow-xl">
+                <Image
+                  src={getLargeCoverUrl(book.isbn) || ''}
+                  alt={`Cover of ${book.title}`}
+                  fill
+                  sizes="128px"
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+            )}
+
+            <div className="flex-1 pt-2">
+              <h2 className="font-serif text-3xl text-white mb-2 leading-tight">{book.title}</h2>
+              <p className="text-gray-300 text-lg mb-4">by {book.author}</p>
+
+              {/* Quick note - the hook */}
+              {book.note && (
+                <p className="text-amber-400/90 text-sm italic leading-relaxed">
+                  &ldquo;{book.note}&rdquo;
+                </p>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="p-6">
-          <p className="text-gray-300 leading-relaxed mb-6">
-            {book.description || book.note}
-          </p>
+        {/* Main content - like back of book */}
+        <div className="p-8">
+          {/* Description */}
+          {book.description && (
+            <div className="mb-8">
+              <p className="text-gray-300 leading-relaxed text-base">
+                {book.description}
+              </p>
+            </div>
+          )}
 
-          {/* Related content if any */}
+          {/* Why we recommend - personal take */}
+          {book.whyWeRecommend && (
+            <div className="mb-8 pl-4 border-l-2 border-amber-600/50">
+              <p className="text-sm text-gray-500 uppercase tracking-wide mb-2">Why we recommend it</p>
+              <p className="text-gray-400 leading-relaxed text-sm italic">
+                {book.whyWeRecommend}
+              </p>
+            </div>
+          )}
+
+          {/* Related content */}
           {book.relatedContent && book.relatedContent.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-sm text-gray-500 uppercase tracking-wide mb-3">Related on Integrated Human</h3>
+            <div className="mb-8 p-4 bg-zinc-800/50 rounded">
+              <p className="text-sm text-gray-500 uppercase tracking-wide mb-3">Continue exploring</p>
               <div className="flex flex-wrap gap-2">
                 {book.relatedContent.map((item, i) => (
                   <Link
                     key={i}
                     href={item.href}
-                    className="px-3 py-1.5 bg-zinc-800 text-gray-300 text-sm hover:bg-zinc-700 transition-colors"
+                    className="px-3 py-1.5 bg-zinc-700 text-gray-300 text-sm hover:bg-zinc-600 hover:text-white transition-colors rounded"
                     onClick={onClose}
                   >
-                    {item.title}
+                    {item.title} →
                   </Link>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Amazon button */}
-          <a
-            href={getAmazonUrl(book.asin)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white font-medium transition-colors"
-          >
-            <span>View on Amazon</span>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-          <p className="text-gray-600 text-xs mt-3">
-            Affiliate link — we earn from qualifying purchases.
-          </p>
+          {/* CTA section */}
+          <div className="pt-4 border-t border-zinc-800">
+            <a
+              href={getAmazonUrl(book.asin)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-amber-600 hover:bg-amber-500 text-white font-medium transition-colors rounded"
+            >
+              <span className="text-lg">Get the book</span>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+            <p className="text-gray-600 text-xs mt-3">
+              Amazon affiliate link — helps support our work.
+            </p>
+          </div>
         </div>
       </div>
     </div>
