@@ -640,7 +640,7 @@ export default function ChatInterface({ userName }: Props) {
       )}
 
       {/* Input */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black to-transparent pt-8 pb-4 md:pb-6 px-4">
+      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black to-transparent pt-8 pb-[max(1rem,env(safe-area-inset-bottom))] md:pb-6 px-4">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-end gap-3 bg-zinc-900 border border-zinc-700 rounded-2xl p-2">
             <textarea

@@ -436,7 +436,7 @@ export default function Navigation() {
         </div>
 
         {/* Mobile/Tablet Actions */}
-        <div className="flex items-center gap-1 lg:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <UserMenu />
           <ThemeToggle />
           <Link

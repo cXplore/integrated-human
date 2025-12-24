@@ -154,8 +154,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             <p className="text-xl text-gray-400 mb-8 leading-relaxed">
               {post.metadata.excerpt}
             </p>
-            <div className="mb-8 flex items-center justify-between">
-              <div className="flex items-center gap-3 text-gray-500">
+            <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3 text-gray-500 text-sm sm:text-base">
                 <span>
                   {new Date(post.metadata.date).toLocaleDateString('en-US', {
                     year: 'numeric',

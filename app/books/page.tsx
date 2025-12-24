@@ -15,6 +15,7 @@ interface Book {
   whyWeRecommend?: string; // Personal take on why this book matters
   isbn?: string;
   asin: string;
+  localCover?: string; // Local image path for books without Open Library covers
   relatedContent?: { title: string; href: string }[];
 }
 
@@ -29,12 +30,14 @@ function getAmazonUrl(asin: string): string {
   return `https://www.amazon.com/dp/${asin}?tag=${AMAZON_AFFILIATE_TAG}`;
 }
 
-function getCoverUrl(isbn?: string): string | null {
+function getCoverUrl(isbn?: string, localCover?: string): string | null {
+  if (localCover) return localCover;
   if (!isbn) return null;
   return `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
 }
 
-function getLargeCoverUrl(isbn?: string): string | null {
+function getLargeCoverUrl(isbn?: string, localCover?: string): string | null {
+  if (localCover) return localCover;
   if (!isbn) return null;
   return `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
 }
@@ -61,6 +64,7 @@ const categories: Category[] = [
         asin: '1572245379',
         note: 'Clear, practical pointing toward awareness. Good bridge between self-help and deeper work.',
         description: 'Singer offers a practical guide to inner freedom through witnessing thoughts and emotions rather than identifying with them. Clear, accessible, and grounded—a solid bridge between self-help and genuine spiritual inquiry.',
+        whyWeRecommend: 'If you\'ve read self-help books that felt too shallow and spiritual books that felt too abstract, this hits the sweet spot. Singer gives you practical tools without dumbing things down. Many people say this is the book that made meditation finally click.',
       },
       {
         title: 'When Things Fall Apart',
@@ -96,6 +100,7 @@ const categories: Category[] = [
         asin: '0061339202',
         note: 'The psychology of optimal experience. When skill meets challenge and self-consciousness dissolves.',
         description: 'Csikszentmihalyi\'s research on "flow states"—those moments when we\'re so absorbed in an activity that self-consciousness dissolves. Understanding flow helps explain why presence feels good and how to cultivate conditions for it.',
+        whyWeRecommend: 'This is the science behind what contemplatives have known for millennia—that the happiest moments are when the self disappears into absorption. Understanding flow helps you design your life around conditions that invite presence.',
       },
     ],
   },
@@ -111,6 +116,7 @@ const categories: Category[] = [
         asin: '0451217322',
         note: 'Jung on individuation and the dangers of mass-mindedness. Short, potent.',
         description: 'A brief but powerful essay on the individual versus the collective, written in response to the totalitarian movements of the 20th century. Jung argues that self-knowledge is not just personal—it\'s a political and moral necessity.',
+        whyWeRecommend: 'Under 100 pages, but it will rewire how you think about society and the individual. Written in the shadow of totalitarianism, Jung shows why self-knowledge isn\'t navel-gazing—it\'s a moral and political imperative.',
       },
       {
         title: 'Memories, Dreams, Reflections',
@@ -119,6 +125,7 @@ const categories: Category[] = [
         asin: '0679723951',
         note: 'Jung\'s autobiography. His own confrontation with the unconscious.',
         description: 'Jung\'s autobiography, dictated near the end of his life. The story of his own confrontation with the unconscious—the visions, the crisis, the descent into the psyche that birthed his life\'s work. Essential for understanding Jung as a person, not just a theorist.',
+        whyWeRecommend: 'This is where you see Jung the human—not the theorist but the man who descended into his own psyche and emerged with a map. His confrontation with the unconscious is one of the most documented psychological crises in history. It gives permission for your own descent.',
       },
       {
         title: 'The Soul\'s Code',
@@ -127,6 +134,7 @@ const categories: Category[] = [
         asin: '0446673714',
         note: 'Hillman\'s acorn theory — that your calling is already present. Challenging, beautiful.',
         description: 'Hillman\'s "acorn theory" proposes that each life has a unique calling, present from birth. Challenging the reductive view that we\'re shaped entirely by genes and environment. Beautifully written, occasionally frustrating, ultimately liberating.',
+        whyWeRecommend: 'Hillman challenges the modern obsession with explaining everything through trauma and conditioning. What if something in you has always known what you\'re here for? This book won\'t give you easy answers, but it might change the questions you\'re asking.',
       },
       {
         title: 'The Hero with a Thousand Faces',
@@ -135,6 +143,7 @@ const categories: Category[] = [
         asin: '1577315936',
         note: 'The mythological structure of transformation. The hero\'s journey as psychological map.',
         description: 'Campbell\'s comparative mythology reveals the universal pattern of the hero\'s journey: separation, initiation, return. More than literary analysis—it\'s a map of psychological transformation that appears across all cultures.',
+        whyWeRecommend: 'George Lucas used this to write Star Wars. But the real gift is recognizing where you are in your own hero\'s journey. The dark night of the soul, the encounter with the mentor, the return with the boon—it\'s all mapped out here.',
       },
       {
         title: 'Myths to Live By',
@@ -143,6 +152,7 @@ const categories: Category[] = [
         asin: '0140194614',
         note: 'Campbell on how myths still function in modern life. More accessible than Hero.',
         description: 'Lectures from Campbell on how mythology still operates in modern life. More accessible than Hero with a Thousand Faces, this is a good entry point to Campbell\'s thinking on myth, meaning, and the psychological function of stories.',
+        whyWeRecommend: 'If Hero with a Thousand Faces feels too academic, start here. Campbell was a brilliant lecturer, and this book captures his warmth and accessibility. It shows how myths aren\'t dusty relics—they\'re alive in how you live your life right now.',
       },
       {
         title: 'A Little Book on the Human Shadow',
@@ -160,6 +170,7 @@ const categories: Category[] = [
         asin: '0306824264',
         note: 'Masculine initiation through fairy tale. Polarizing but important for men doing the work.',
         description: 'Bly\'s reading of the Grimm fairy tale as a map of masculine initiation. Polarizing and sometimes dated, but contains genuine insight into the wounds of uninitiated masculinity. Best read critically, taking what resonates.',
+        whyWeRecommend: 'This book launched the men\'s movement of the 90s for a reason. Yes, it\'s dated in places. But for men who sense something is missing—an initiation that never happened, a wildness that got civilized away—there\'s gold here.',
       },
       {
         title: 'Women Who Run with the Wolves',
@@ -177,6 +188,7 @@ const categories: Category[] = [
         asin: '0062506064',
         note: 'Archetypal masculine patterns. Useful framework — hold lightly, integrate what lands.',
         description: 'Moore and Gillette\'s Jungian map of mature masculine archetypes and their shadows. A useful framework for understanding masculine energy, though best held lightly. Each archetype has a mature and immature expression; the work is integration.',
+        whyWeRecommend: 'A clear map of the mature masculine—and its shadows. The tyrant, the sadist, the manipulator, the addict: these are the immature expressions of King, Warrior, Magician, Lover. Understanding this framework helps you spot where you\'re stuck.',
       },
       {
         title: 'To Have or To Be?',
@@ -185,6 +197,7 @@ const categories: Category[] = [
         asin: '1472505298',
         note: 'Two modes of existence. Still relevant diagnosis of modern alienation.',
         description: 'Fromm distinguishes between two fundamental modes of existence: having (acquisition, possession, control) and being (experience, connection, presence). A still-relevant diagnosis of modern alienation and consumerism.',
+        whyWeRecommend: 'Written in 1976, this book diagnosed our current crisis before it fully arrived. The having mode—where even experiences become possessions—is the water we swim in. Fromm points to another way.',
       },
       {
         title: 'Gravity and Grace',
@@ -193,6 +206,7 @@ const categories: Category[] = [
         asin: '0415290015',
         note: 'Mystical philosophy. Dense, demanding, occasionally shattering.',
         description: 'Fragments from Weil\'s notebooks, edited after her death. Dense, aphoristic, demanding. Her concept of "decreation"—the ego getting out of the way so grace can flow—is challenging and occasionally shattering.',
+        whyWeRecommend: 'Weil is not easy. But if you\'re ready for a mystic who demands everything, her concept of decreation—getting out of God\'s way—will haunt you. Read one aphorism at a time. Let it work on you.',
       },
       {
         title: 'Toward a Psychology of Awakening',
@@ -201,6 +215,7 @@ const categories: Category[] = [
         asin: '1570628238',
         note: 'Where psychology meets spirituality. Welwood coined "spiritual bypassing" — this book shows the integration.',
         description: 'Welwood, who coined the term "spiritual bypassing," bridges Western psychology and Eastern wisdom. This book shows how psychological work and spiritual practice support each other. Essential for avoiding the trap of using spirituality to avoid psychology.',
+        whyWeRecommend: 'Welwood gave us the term "spiritual bypassing"—and then showed the alternative. If you\'ve wondered how meditation and therapy fit together, or felt the limits of one without the other, this book maps the territory.',
       },
       {
         title: 'Spiritual Bypassing',
@@ -209,6 +224,7 @@ const categories: Category[] = [
         asin: '1556439059',
         note: 'How spirituality becomes avoidance. Essential reading for anyone on this path.',
         description: 'Masters expands on Welwood\'s concept, showing how spiritual beliefs and practices can be used to avoid difficult emotions, developmental challenges, and genuine transformation. If you\'re serious about this path, this book will save you years of self-deception.',
+        whyWeRecommend: 'If you\'ve ever used "everything happens for a reason" to avoid grief, or "non-attachment" to avoid intimacy, this book will call you out. Uncomfortable but necessary. It could save you a decade of spiritual self-deception.',
       },
     ],
   },
@@ -233,6 +249,7 @@ const categories: Category[] = [
         asin: '155643233X',
         note: 'Somatic experiencing and trauma release. How animals discharge trauma — and how we don\'t.',
         description: 'Levine\'s foundational work on somatic experiencing. Animals in the wild don\'t get PTSD because they discharge the survival energy after threat passes. Humans get stuck. This book shows why—and offers a path to completion.',
+        whyWeRecommend: 'Animals shake off trauma. We don\'t—and it gets stuck in the body. Levine\'s insight revolutionized trauma treatment. If you carry tension you can\'t explain, or freeze when you want to act, this book shows what\'s happening and what to do.',
       },
       {
         title: 'In an Unspoken Voice',
@@ -241,6 +258,7 @@ const categories: Category[] = [
         asin: '1556439431',
         note: 'Deeper dive into the body\'s wisdom and trauma resolution.',
         description: 'Levine\'s more comprehensive exploration of the body\'s role in trauma and healing. Denser than Waking the Tiger, but richer. For those who want to go deeper into the somatic approach.',
+        whyWeRecommend: 'For those who read Waking the Tiger and want more. Levine goes deeper into the theory and practice of somatic experiencing. More technical, but more complete. The body has its own voice—this book helps you listen.',
       },
       {
         title: 'Attached',
@@ -249,6 +267,7 @@ const categories: Category[] = [
         asin: '1585429139',
         note: 'Attachment theory made practical. Anxious, avoidant, secure — know your patterns.',
         description: 'Attachment theory made practical and accessible. Understand your attachment style (anxious, avoidant, secure) and how it shapes your relationships. Knowing your patterns is the first step to changing them.',
+        whyWeRecommend: 'If your relationships keep playing out the same painful patterns, attachment theory explains why. This book makes decades of research practical and actionable. Know your style, understand your partner\'s, and stop the unconscious dance.',
       },
     ],
   },
@@ -264,6 +283,7 @@ const categories: Category[] = [
         asin: '8188018015',
         note: 'The core question. Short, direct, foundational for self-inquiry.',
         description: 'Ramana\'s essential teaching distilled to its purest form. Not a practice to do, but a question to live. "Who am I?" pursued relentlessly until the questioner dissolves. The foundation of self-inquiry.',
+        whyWeRecommend: 'The simplest question. The hardest question. Ramana didn\'t give you a philosophy—he gave you a mirror. Turn attention back to the one who\'s looking, and keep looking until you find... what?',
       },
       {
         title: 'Be As You Are',
@@ -272,6 +292,7 @@ const categories: Category[] = [
         asin: '0140190627',
         note: 'Essential teachings organized by topic. The best Ramana compilation.',
         description: 'David Godman\'s masterful compilation of Ramana\'s teachings, organized thematically. Covers self-inquiry, the nature of the self, meditation, and the guru-disciple relationship. The best single-volume introduction to Ramana.',
+        whyWeRecommend: 'If you only read one book on Ramana, make it this one. Godman distills decades of dialogues into clear, thematic chapters. It\'s not just about self-inquiry—it\'s about what happens when someone actually finds out.',
       },
       {
         title: 'Talks with Sri Ramana Maharshi',
@@ -280,6 +301,7 @@ const categories: Category[] = [
         asin: '8188018074',
         note: 'Direct dialogues. Raw, unfiltered.',
         description: 'Transcripts of conversations with visitors to Ramana\'s ashram. Raw, unedited, and powerful. See how the sage responded to genuine seekers with questions about life, death, suffering, and liberation.',
+        whyWeRecommend: 'Unedited transcripts of seekers asking Ramana their most urgent questions. No interpretation, no commentary—just the raw exchange. You get to sit in the room and hear how he responded to real people with real struggles.',
       },
       {
         title: 'I Am That',
@@ -297,6 +319,7 @@ const categories: Category[] = [
         asin: '0893860247',
         note: 'Later, more radical teachings. For after you\'ve sat with I Am That.',
         description: 'Nisargadatta\'s later teachings, from the final years of his life. More radical, more stripped down. Not for beginners—read I Am That first and sit with it before coming here.',
+        whyWeRecommend: 'These are Nisargadatta\'s final teachings, given while he was dying of cancer. Even more stripped down than I Am That. He points to what remains when even "I Am" is seen through. Only read this after I Am That has done its work.',
       },
       {
         title: 'Nothing Ever Happened',
@@ -305,6 +328,7 @@ const categories: Category[] = [
         asin: '0971078610',
         note: 'Stories and teachings from Ramana\'s most famous student.',
         description: 'The life and teachings of Papaji, Ramana\'s most famous devotee. David Godman\'s three-volume biography. Stories, dialogues, and the transmission of a living tradition.',
+        whyWeRecommend: 'Papaji carried Ramana\'s transmission into the modern era. This massive biography captures his extraordinary life—from colonial India to the thousands who came to him in Lucknow. Stories that show what it means to be awake in the world.',
       },
       {
         title: 'I Am',
@@ -313,6 +337,7 @@ const categories: Category[] = [
         asin: '1908664169',
         note: 'European Advaita. Clear, refined pointing.',
         description: 'Jean Klein brought Advaita to the West with elegance and precision. A musicologist and physician, his teaching style is refined, embodied, and grounded. Clear pointing without mystical ornamentation.',
+        whyWeRecommend: 'Jean Klein brought Advaita to Europe with the precision of a European intellectual and the embodiment of a musician. No mystical jargon, no exotic trappings—just clear, elegant pointing. If Indian teachers feel too foreign, start here.',
       },
       {
         title: 'The End of Your World',
@@ -321,6 +346,7 @@ const categories: Category[] = [
         asin: '1591797799',
         note: 'What happens after awakening. The integration that follows glimpses.',
         description: 'Adyashanti addresses what happens after initial awakening—the disorientation, the integration, the ways ego can co-opt the experience. Essential for anyone who\'s had glimpses and wonders what comes next.',
+        whyWeRecommend: 'Most spiritual books talk about getting there. This one is about what happens after—when the glimpse fades, when the ego tries to claim it, when everything gets confusing again. If you\'ve had tastes and lost them, read this.',
       },
       {
         title: 'True Meditation',
@@ -329,6 +355,7 @@ const categories: Category[] = [
         asin: '1591794099',
         note: 'Meditation as allowing, not doing. Simple instructions.',
         description: 'Adyashanti\'s approach to meditation: stop trying to get somewhere. Allow experience to be as it is. Simple, radical, and effective. Includes guided meditations.',
+        whyWeRecommend: 'What if meditation isn\'t about concentrating, achieving, or getting somewhere? Adyashanti strips away everything you think you know about meditation and points to something simpler and more radical. Let experience be as it already is.',
       },
       {
         title: 'Freedom from the Known',
@@ -337,6 +364,7 @@ const categories: Category[] = [
         asin: '0060648082',
         note: 'Deconstruction of the spiritual search itself. No authority, no method, just seeing.',
         description: 'Krishnamurti dismantles the entire spiritual project: no gurus, no methods, no authority, no time. Just direct seeing. Challenging because he offers no handholds—but that\'s precisely the point.',
+        whyWeRecommend: 'Krishnamurti offers nothing—no method, no authority, no path. That\'s the point. He dismantles everything you want to hold onto, including the desire for enlightenment. Frustrating, liberating, and utterly unique.',
       },
       {
         title: 'The First and Last Freedom',
@@ -345,6 +373,53 @@ const categories: Category[] = [
         asin: '0060648317',
         note: 'Core themes — thought, fear, relationship. With Aldous Huxley\'s foreword.',
         description: 'Krishnamurti on thought, fear, self-knowledge, and relationship. With a foreword by Aldous Huxley. More structured than his later works, making it a good entry point to his uncompromising teaching.',
+        whyWeRecommend: 'The most accessible entry point to Krishnamurti. Aldous Huxley wrote the foreword because he recognized something extraordinary. If you\'ve heard of K but found him difficult, start here—it\'s organized by topic and more approachable.',
+      },
+      {
+        title: 'The Diamond in Your Pocket',
+        author: 'Gangaji',
+        isbn: '9781591795520',
+        asin: '1591795524',
+        note: 'Stop the search. What you\'re looking for is already here.',
+        description: 'Gangaji\'s essential teaching: the end of seeking. A student of Papaji, she points directly to the freedom that\'s already present—not as something to attain but as what you already are, prior to all the stories.',
+        whyWeRecommend: 'Gangaji carries Papaji\'s transmission with a warmth and directness that lands for Western seekers. Her teaching is simple: stop. Just stop. What you\'ve been searching for is right here, waiting for you to stop running. This book is that invitation.',
+      },
+      {
+        title: 'Before I Am',
+        author: 'Mooji',
+        isbn: '9781908408136',
+        asin: '1908408138',
+        note: 'Dialogues pointing to what remains when everything is seen through.',
+        description: 'Mooji\'s dialogues with seekers, pointing to the awareness that remains when all identifications are questioned. In the lineage of Papaji and Ramana, his style is warm, patient, and uncompromising. He meets you where you are and invites you deeper.',
+        whyWeRecommend: 'Mooji sits with seekers and gently dismantles every story, every identity, every hiding place—until what remains is what was always here. His warmth makes the confrontation bearable. These dialogues capture the essence of satsang.',
+      },
+      {
+        title: 'White Fire',
+        author: 'Mooji',
+        isbn: '9781908408358',
+        asin: '1908408359',
+        localCover: '/images/White fire book cover.jpg',
+        note: 'Spiritual insights and pointers. Second edition with expanded content.',
+        description: 'A collection of Mooji\'s spiritual insights, pointings, and contemplations. The second edition expands on the original, offering hundreds of short pieces designed to stop the mind and point to what\'s beyond it. Read one at a time and let it work.',
+        whyWeRecommend: 'Short pointings, meant to be read slowly. One insight can stop the mind for an hour. Mooji\'s gift is saying the unsayable simply. Keep this by your bed. Open it randomly. Let whatever you read dissolve what doesn\'t need to be there.',
+      },
+      {
+        title: 'Being Aware of Being Aware',
+        author: 'Rupert Spira',
+        isbn: '9781626259966',
+        asin: '1626259968',
+        note: 'Simple, precise investigation of awareness. Short and powerful.',
+        description: 'Spira\'s most direct and concise book. An experiential investigation: what is it to be aware? Not what you\'re aware of, but the fact of being aware itself. Short, precise, and designed for contemplation rather than reading.',
+        whyWeRecommend: 'This slim book is a meditation in itself. Spira guides you through a simple investigation: not what you\'re aware of, but what it is to be aware. It\'s precise, almost mathematical in its clarity. One sitting with this book can shift everything.',
+      },
+      {
+        title: 'The Nature of Consciousness',
+        author: 'Rupert Spira',
+        isbn: '9781684030002',
+        asin: '1684030005',
+        note: 'Comprehensive exploration of non-dual understanding. Essays on consciousness, self, and reality.',
+        description: 'Spira\'s comprehensive exploration of non-dual understanding. Essays on the nature of consciousness, the illusion of separation, and the recognition of our true nature. More thorough than his shorter works—a complete exposition of his teaching.',
+        whyWeRecommend: 'If Being Aware of Being Aware opened something, this book goes deeper. Spira was a potter before he was a teacher—and you can feel the craftsmanship in how precisely he builds understanding. Each essay is complete in itself. Take your time.',
       },
     ],
   },
@@ -360,6 +435,7 @@ const categories: Category[] = [
         asin: '0060812451',
         note: 'Flow, paradox, strength in softness. The water that wears down stone.',
         description: 'The foundational text of Taoism. Paradoxical, poetic, inexhaustible. Stephen Mitchell\'s translation is clear and poetic, though some prefer more literal versions. The water that wears down stone.',
+        whyWeRecommend: '2,500 years old and still the most direct pointing to effortless action. 81 short chapters you can read in an hour—and spend a lifetime understanding. Mitchell\'s translation captures the poetry. Keep it by your bed.',
       },
       {
         title: 'The Way of Chuang Tzu',
@@ -368,6 +444,7 @@ const categories: Category[] = [
         asin: '0811201031',
         note: 'Taoist stories and koans. Merton\'s beautiful rendering.',
         description: 'Thomas Merton\'s free renderings of Chuang Tzu\'s stories and paradoxes. Not a scholarly translation but a meeting of contemplative minds across traditions. Playful, profound, and subversive.',
+        whyWeRecommend: 'A Catholic monk translating a Taoist sage—and it works perfectly. Merton captures Chuang Tzu\'s playfulness, his irreverence, his refusal to be pinned down. If the Tao Te Ching is too austere, this is its laughing companion.',
       },
       {
         title: 'Zen Mind, Beginner\'s Mind',
@@ -376,6 +453,7 @@ const categories: Category[] = [
         asin: '1590308492',
         note: 'The mind that is empty and ready for anything. Foundational Zen.',
         description: 'Suzuki Roshi\'s simple, direct talks on Zen practice. "In the beginner\'s mind there are many possibilities, in the expert\'s mind there are few." Foundational for anyone interested in Zen.',
+        whyWeRecommend: 'The book that brought Zen to America. Suzuki Roshi speaks simply about sitting, about practice, about the mind that stays fresh and open. "In the beginner\'s mind there are many possibilities." That sentence alone is worth the price.',
       },
       {
         title: 'The Zen Teaching of Huang Po',
@@ -384,6 +462,7 @@ const categories: Category[] = [
         asin: '0802150926',
         note: 'Direct, fierce Chan Buddhism. No gradual path — only sudden seeing.',
         description: 'Huang Po\'s fierce Chan teaching from 9th century China. No gradual path, no accumulation of merit, no practices that will eventually get you there. Only sudden recognition of what you already are.',
+        whyWeRecommend: 'Huang Po was Lin-chi\'s teacher—fierce Chan from 9th century China. No gradual path, no accumulation of merit. One Mind, and that\'s it. If gentle teachers frustrate you, this uncompromising pointing might be what you need.',
       },
       {
         title: 'The Book',
@@ -392,6 +471,7 @@ const categories: Category[] = [
         asin: '0679723013',
         note: 'On the taboo against knowing who you are. Watts at his most direct.',
         description: 'Watts on the fundamental illusion of the separate self—"the taboo against knowing who you are." His most direct book, cutting through the game of hide-and-seek that consciousness plays with itself.',
+        whyWeRecommend: 'Watts\' most essential book. He names "the taboo against knowing who you are"—the cultural conspiracy that keeps you feeling separate. Once you see the game, you can\'t unsee it. This might be the most important book Watts wrote.',
       },
       {
         title: 'The Wisdom of Insecurity',
@@ -400,6 +480,7 @@ const categories: Category[] = [
         asin: '0307741206',
         note: 'Why searching for security creates anxiety. Letting go of the ground.',
         description: 'Watts shows how the search for security creates insecurity. The attempt to grasp life kills it. A message that\'s become even more relevant in our anxious age.',
+        whyWeRecommend: 'The harder you try to feel safe, the more anxious you become. Watts wrote this in 1951 and it\'s only become more relevant. The cure for insecurity isn\'t more security—it\'s seeing through the search.',
       },
       {
         title: 'The Way of Zen',
@@ -408,6 +489,7 @@ const categories: Category[] = [
         asin: '0375705104',
         note: 'Clear introduction to Zen philosophy and practice. Strips away mystical nonsense.',
         description: 'Watts\' accessible introduction to Zen philosophy and practice. Part history, part teaching, completely free of mystical pretense. Still one of the best introductions for Western readers.',
+        whyWeRecommend: 'If you want to understand Zen without the mystical nonsense, start here. Watts was a scholar who could write for regular people. He explains the history, the philosophy, and the practice without pretense.',
       },
       {
         title: 'Psychotherapy East and West',
@@ -416,6 +498,7 @@ const categories: Category[] = [
         asin: '1608684563',
         note: 'Where psychology meets liberation. Therapy as awakening, not adjustment.',
         description: 'Watts bridges Western psychotherapy and Eastern liberation. What if therapy isn\'t about adjusting to society but waking up from the social game entirely? Essential for anyone working in both psychological and spiritual dimensions.',
+        whyWeRecommend: 'What if the goal of therapy isn\'t to adjust you to society, but to help you see through the game? Watts bridges East and West, showing that liberation and psychological health might be the same thing.',
       },
     ],
   },
@@ -431,6 +514,7 @@ const categories: Category[] = [
         asin: '0394404289',
         note: 'Poetic wisdom on love, work, death, freedom. Timeless.',
         description: 'Gibran\'s masterpiece. A prophet leaving a city is asked to speak on love, work, marriage, children, death, freedom. Each response is a poem. Beautiful, sometimes sentimental, but containing genuine wisdom.',
+        whyWeRecommend: 'A prophet leaving a city is asked about love, death, work, children, freedom. His answers have moved millions since 1923. Yes, it\'s sometimes sentimental. But wisdom comes through. Keep it for weddings, funerals, and 3am questions.',
       },
       {
         title: 'Sand and Foam',
@@ -439,6 +523,7 @@ const categories: Category[] = [
         asin: '0394430697',
         note: 'Aphorisms and parables. Brief flashes of insight.',
         description: 'Gibran\'s book of aphorisms and short parables. Brief flashes of insight. "Half of what I say is meaningless, but I say it so that the other half may reach you."',
+        whyWeRecommend: 'Brief aphorisms you can read anywhere. Some will miss you, some will hit you directly. "Half of what I say is meaningless, but I say it so that the other half may reach you." That\'s Gibran.',
       },
       {
         title: 'The Essential Rumi',
@@ -447,6 +532,7 @@ const categories: Category[] = [
         asin: '0062509594',
         note: 'The beloved mystic. Barks\' translations are beautiful, though scholars note he removes Islamic context.',
         description: 'Coleman Barks\' translations of Rumi have brought the 13th-century Sufi mystic to millions of modern readers. Beautiful and accessible, though scholars note he strips away the Islamic context. Read for the beauty; be aware of what\'s lost.',
+        whyWeRecommend: 'Rumi is the bestselling poet in America for a reason. Barks\' translations strip away the Islamic context—scholars object—but the ecstatic love comes through. "Out beyond ideas of wrongdoing and rightdoing, there is a field. I\'ll meet you there."',
       },
       {
         title: 'The Gift',
@@ -455,6 +541,7 @@ const categories: Category[] = [
         asin: '0140195815',
         note: 'Ecstatic, playful, devotional. Like drinking wine with God.',
         description: 'Ladinsky\'s renderings of Hafiz are ecstatic, playful, and devotional. Purists object to how far he departs from literal translation, but the joy is infectious. Like drinking wine with God.',
+        whyWeRecommend: 'Where Rumi is deep, Hafiz is drunk with God. Ladinsky\'s translations are barely translations—more like transmissions. The joy is infectious. Read this when you\'ve forgotten that the divine can laugh.',
       },
       {
         title: 'Duino Elegies',
@@ -463,6 +550,7 @@ const categories: Category[] = [
         asin: '0393328848',
         note: 'Angels, transformation, the difficulty of being human. Demanding but essential.',
         description: 'Rilke\'s ten elegies, written over a decade, on angels, death, love, and the difficulty of being human. Demanding poetry that rewards repeated reading. Stephen Mitchell\'s translation is excellent.',
+        whyWeRecommend: 'Ten elegies on angels, death, and the difficulty of being human. Rilke worked on them for a decade. They\'re demanding—don\'t expect to understand them at first. But they will work on you if you let them.',
       },
       {
         title: 'Sonnets to Orpheus',
@@ -471,6 +559,7 @@ const categories: Category[] = [
         asin: '0393329100',
         note: 'Song, death, praise. Written in a single burst of inspiration.',
         description: 'Written in a burst of inspiration alongside the completion of the Elegies. Song, death, praise, transformation. "Be ahead of all parting, as though it were behind you."',
+        whyWeRecommend: 'Rilke wrote these in a two-week burst of inspiration. Song, praise, death, transformation—and Orpheus, who sings even when torn apart. "Be ahead of all parting, as though it were behind you."',
       },
       {
         title: 'Gitanjali',
@@ -479,6 +568,7 @@ const categories: Category[] = [
         asin: '1420954059',
         note: 'Song offerings. Devotional poetry that won the Nobel Prize.',
         description: 'Tagore\'s "Song Offerings," which won him the Nobel Prize. Devotional poetry of profound beauty and simplicity. "Where the mind is without fear and the head is held high..."',
+        whyWeRecommend: 'Tagore won the Nobel Prize for these devotional poems—the first non-European to do so. Profound simplicity. "Where the mind is without fear and the head is held high..." India\'s gift to world poetry.',
       },
       {
         title: 'The Marriage of Heaven and Hell',
@@ -487,6 +577,7 @@ const categories: Category[] = [
         asin: '0486281221',
         note: 'Proverbs of Hell, the energy of desire. "The road of excess leads to the palace of wisdom."',
         description: 'Blake\'s visionary, subversive work. The "Proverbs of Hell" alone are worth the price. "The road of excess leads to the palace of wisdom." Not a book to agree with, but to be disturbed by.',
+        whyWeRecommend: 'Blake\'s Proverbs of Hell alone are worth the book. He inverts everything you thought you knew about good and evil. Disturbing, visionary, and utterly unique. Not a book to agree with—a book to be cracked open by.',
       },
     ],
   },
@@ -502,6 +593,7 @@ const categories: Category[] = [
         asin: '0061729078',
         note: 'Huxley\'s mescaline experience and its implications. The book that named The Doors.',
         description: 'Huxley\'s account of his mescaline experience and its implications for consciousness, art, and religion. The book that named The Doors. Essential reading for anyone interested in the relationship between psychedelics and mysticism.',
+        whyWeRecommend: 'The book that named The Doors. Huxley—one of the great intellects of the 20th century—takes mescaline and reports back. What he discovered about consciousness, art, and religion still resonates today.',
       },
       {
         title: 'Island',
@@ -510,6 +602,7 @@ const categories: Category[] = [
         asin: '0061561797',
         note: 'Huxley\'s utopian vision. A society built on presence, psychedelics, and integration.',
         description: 'Huxley\'s utopian novel—the counterpoint to Brave New World. A society built on presence, psychedelics wisely used, and psychological integration. His final word on how things could be.',
+        whyWeRecommend: 'Brave New World showed dystopia. Island, Huxley\'s final novel, shows the opposite—a society built on presence, wise use of psychedelics, and psychological integration. This is what he thought was possible.',
       },
       {
         title: 'Food of the Gods',
@@ -518,6 +611,7 @@ const categories: Category[] = [
         asin: '0553371304',
         note: 'Plants, consciousness, and human evolution. McKenna\'s stoned ape theory and beyond.',
         description: 'McKenna\'s exploration of the relationship between plants and human consciousness. His "stoned ape theory" is controversial, but the book is a fascinating journey through the history of psychedelics and their role in human culture.',
+        whyWeRecommend: 'McKenna\'s "stoned ape theory" is wild speculation—and possibly true. Regardless, this is a fascinating exploration of the relationship between plants and human consciousness throughout history. Take the theory lightly; enjoy the journey.',
       },
       {
         title: 'True Hallucinations',
@@ -526,6 +620,7 @@ const categories: Category[] = [
         asin: '0062506528',
         note: 'The Amazon experiment. Wild, strange, unforgettable.',
         description: 'McKenna\'s account of his and his brother\'s experiment in the Amazon with psilocybin mushrooms. Wild, strange, possibly delusional, definitely unforgettable. Read it for the journey, not as scientific evidence.',
+        whyWeRecommend: 'McKenna and his brother in the Amazon, pushing the edges of consciousness. Is it true? Does it matter? It\'s one of the strangest adventure stories you\'ll ever read—and it might expand your sense of what\'s possible.',
       },
       {
         title: 'The Archaic Revival',
@@ -534,6 +629,7 @@ const categories: Category[] = [
         asin: '0062506137',
         note: 'Essays and interviews. McKenna\'s vision of a return to the archaic.',
         description: 'Essays and interviews covering McKenna\'s vision of humanity\'s need to return to archaic values—including the use of psychedelics for consciousness expansion. His ideas are provocative; take what resonates.',
+        whyWeRecommend: 'Essays and interviews where McKenna lays out his vision—a return to archaic values, the importance of psychedelics, the malaise of modern life. He\'s a bard more than a scientist. Take what resonates.',
       },
       {
         title: 'The Holotropic Mind',
@@ -542,6 +638,7 @@ const categories: Category[] = [
         asin: '0062506595',
         note: 'Maps of consciousness from decades of psychedelic research. More clinical than McKenna.',
         description: 'Grof\'s maps of consciousness drawn from decades of psychedelic research. More clinical than McKenna, more rigorous than New Age. His concept of "holotropic" states—moving toward wholeness—is genuinely useful.',
+        whyWeRecommend: 'Grof did thousands of psychedelic therapy sessions before they became illegal. What he learned is mapped out here—more clinical than McKenna, more rigorous than New Age. His concept of "holotropic" states is genuinely useful.',
       },
       {
         title: 'How to Change Your Mind',
@@ -550,6 +647,7 @@ const categories: Category[] = [
         asin: '0735224153',
         note: 'Accessible overview of psychedelic renaissance. Good entry point for the skeptical.',
         description: 'Pollan\'s accessible exploration of the psychedelic renaissance—the science, the history, and his own experiences. A good entry point for skeptics curious about the therapeutic potential of these substances.',
+        whyWeRecommend: 'If you\'re skeptical but curious about psychedelics, start here. Pollan is a mainstream journalist who dove in—the history, the science, his own experiences. It\'s responsible, well-researched, and genuinely eye-opening.',
       },
     ],
   },
@@ -574,6 +672,34 @@ const categories: Category[] = [
         asin: '0971078629',
         note: 'The anti-guru. Rejected all spiritual teaching including his own. Disorienting, important.',
         description: 'U.G. (not to be confused with J. Krishnamurti) rejected all spiritual teaching—including his own. He called his state "the natural state" and insisted it had nothing to do with enlightenment as typically conceived. Disorienting, frustrating, and strangely liberating.',
+        whyWeRecommend: 'U.G. rejected everything—including his own teaching. He called his state "the natural state" and insisted it had nothing to do with enlightenment as you imagine it. Frustrating, disorienting, and strangely liberating. A necessary corrective to spiritual materialism.',
+      },
+      {
+        title: 'Spiritually Incorrect Enlightenment',
+        author: 'Jed McKenna',
+        isbn: '9780980184853',
+        asin: '0980184851',
+        note: 'The sequel. Goes deeper into autolysis and the mechanics of awakening.',
+        description: 'The second book in McKenna\'s trilogy. If the first book tore down your beliefs, this one shows what\'s left. Autolysis—writing yourself into existence—as the core practice. Still brutal, still funny, still relentless.',
+        whyWeRecommend: 'If the first book cracked something open, this one digs into the rubble. McKenna introduces "spiritual autolysis"—writing as a tool for stripping away everything false. More practical than the first, equally uncompromising.',
+      },
+      {
+        title: 'Cutting Through Spiritual Materialism',
+        author: 'Chögyam Trungpa',
+        isbn: '9781570629570',
+        asin: '1570629579',
+        note: 'How ego hijacks the spiritual path. The original diagnosis.',
+        description: 'Trungpa Rinpoche shows how the ego can co-opt spirituality itself—using practice to strengthen the very self it claims to transcend. A devastating and essential critique of how spiritual seeking becomes another form of materialism.',
+        whyWeRecommend: 'Before "spiritual bypassing" was a term, Trungpa diagnosed the disease. The ego is clever—it will use meditation, compassion, even enlightenment itself to strengthen its grip. This book shows you how. Uncomfortable and essential.',
+      },
+      {
+        title: 'The Book of Not Knowing',
+        author: 'Peter Ralston',
+        isbn: '9781556438578',
+        asin: '1556438575',
+        note: 'Radical inquiry into the nature of self and reality. No comfort offered.',
+        description: 'Ralston—a martial artist and consciousness researcher—offers a rigorous investigation into the nature of self, perception, and reality. No spiritual framework, no comfort, just relentless questioning. Not light reading.',
+        whyWeRecommend: 'Ralston won\'t tell you what\'s true. He\'ll show you that you don\'t actually know what you think you know. 700 pages of dismantling assumptions. If you want to be challenged rather than comforted, start here.',
       },
     ],
   },
@@ -614,10 +740,10 @@ function BookModal({
 
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center sm:items-start">
             {/* Book cover - larger, with shadow */}
-            {book.isbn && (
+            {(book.isbn || book.localCover) && (
               <div className="w-24 h-36 sm:w-32 sm:h-48 bg-zinc-700 flex-shrink-0 relative overflow-hidden shadow-xl">
                 <Image
-                  src={getLargeCoverUrl(book.isbn) || ''}
+                  src={getLargeCoverUrl(book.isbn, book.localCover) || ''}
                   alt={`Cover of ${book.title}`}
                   fill
                   sizes="(max-width: 640px) 96px, 128px"
@@ -713,7 +839,7 @@ function BookModal({
 
 // Book cover component with fallback
 function BookCover({ book }: { book: Book }) {
-  const coverUrl = getCoverUrl(book.isbn);
+  const coverUrl = getCoverUrl(book.isbn, book.localCover);
 
   if (!coverUrl) {
     return (
