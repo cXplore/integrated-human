@@ -128,16 +128,19 @@ export default function HomepageChat() {
   // Initial state - minimal invitation
   if (!hasStarted) {
     return (
-      <section className="py-12 px-6">
-        <div className="max-w-xl mx-auto">
-          <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden">
+      <section className="py-16 px-6">
+        <div className="max-w-xl mx-auto relative">
+          {/* Glow behind the box */}
+          <div className="absolute -inset-8 bg-gradient-to-r from-purple-900/15 via-purple-800/8 to-purple-900/15 blur-2xl rounded-3xl" />
+          <div className="absolute -inset-4 bg-gradient-to-b from-purple-900/10 to-transparent blur-xl rounded-2xl" />
+          <div className="relative bg-zinc-900/70 border border-zinc-800/80 rounded-xl overflow-hidden backdrop-blur-sm shadow-xl shadow-purple-950/10">
             {/* Header */}
             <div className="px-5 py-4 flex items-center justify-between border-b border-zinc-800/50">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                <span className="text-gray-400 text-sm">AI Companion</span>
+                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+                <span className="text-gray-300 text-sm font-medium">AI Companion</span>
               </div>
-              <Link href="/chat" className="text-gray-600 hover:text-gray-400 text-xs">
+              <Link href="/chat" className="text-gray-500 hover:text-gray-300 text-xs transition-colors">
                 Full chat →
               </Link>
             </div>
@@ -148,7 +151,7 @@ export default function HomepageChat() {
                 <button
                   key={prompt}
                   onClick={() => sendMessage(prompt)}
-                  className="px-3 py-1.5 bg-zinc-800/50 hover:bg-zinc-800 border border-zinc-700/50 hover:border-zinc-600 rounded-full text-gray-400 hover:text-white text-sm transition-colors"
+                  className="px-2.5 py-1 bg-zinc-800/50 hover:bg-purple-900/30 border border-zinc-700/50 hover:border-purple-700/50 rounded-full text-gray-400 hover:text-white text-xs transition-colors"
                 >
                   {prompt}
                 </button>
@@ -157,14 +160,14 @@ export default function HomepageChat() {
 
             {/* Input */}
             <div className="px-4 pb-4">
-              <div className="flex items-center gap-2 bg-zinc-800/50 rounded-lg px-3 py-2">
+              <div className="flex items-center gap-2 bg-zinc-800/50 rounded-lg px-3 py-2 border border-zinc-700/30">
                 <input
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder={session ? "Ask anything..." : "Sign in to chat"}
-                  className="flex-1 bg-transparent text-white placeholder-gray-600 text-sm focus:outline-none"
+                  className="flex-1 bg-transparent text-white placeholder-gray-500 text-sm focus:outline-none"
                   disabled={status === 'loading'}
                 />
                 <button
@@ -187,16 +190,19 @@ export default function HomepageChat() {
 
   // Active chat
   return (
-    <section className="py-12 px-6">
-      <div className="max-w-xl mx-auto">
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden">
+    <section className="py-16 px-6">
+      <div className="max-w-xl mx-auto relative">
+        {/* Glow behind the box */}
+        <div className="absolute -inset-8 bg-gradient-to-r from-purple-900/15 via-purple-800/8 to-purple-900/15 blur-2xl rounded-3xl" />
+        <div className="absolute -inset-4 bg-gradient-to-b from-purple-900/10 to-transparent blur-xl rounded-2xl" />
+        <div className="relative bg-zinc-900/70 border border-zinc-800/80 rounded-xl overflow-hidden backdrop-blur-sm shadow-xl shadow-purple-950/10">
           {/* Header */}
           <div className="px-4 py-3 flex items-center justify-between border-b border-zinc-800/50">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-purple-500 rounded-full" />
-              <span className="text-gray-400 text-sm">AI Companion</span>
+              <span className="text-gray-300 text-sm font-medium">AI Companion</span>
             </div>
-            <Link href="/chat" className="text-gray-600 hover:text-gray-400 text-xs">
+            <Link href="/chat" className="text-gray-500 hover:text-gray-300 text-xs transition-colors">
               Full chat →
             </Link>
           </div>
@@ -247,14 +253,14 @@ export default function HomepageChat() {
 
           {/* Input */}
           <div className="px-4 pb-4 pt-2 border-t border-zinc-800/50">
-            <div className="flex items-center gap-2 bg-zinc-800/50 rounded-lg px-3 py-2">
+            <div className="flex items-center gap-2 bg-zinc-800/50 rounded-lg px-3 py-2 border border-zinc-700/30">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Continue..."
-                className="flex-1 bg-transparent text-white placeholder-gray-600 text-sm focus:outline-none"
+                className="flex-1 bg-transparent text-white placeholder-gray-500 text-sm focus:outline-none"
                 disabled={isLoading}
               />
               <button
