@@ -2,17 +2,39 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import type { Question, Answer, PhaseInfo, Portrait } from '@/lib/assessment';
+import type { Question, Answer, PillarId, IntegrationPortrait } from '@/lib/assessment';
+
+// Local interfaces for pillar-based assessment flow
+interface PillarInfo {
+  pillarId: PillarId;
+  name: string;
+  description: string;
+  questionCount: number;
+}
 
 interface AssessmentFlowProps {
   existingProgress?: {
-    phase: number;
+    currentPillar: PillarId;
     answers: Record<string, Answer>;
     startedAt: string;
   } | null;
 }
 
-type QuestionWithAnswer = Question & { answer?: Answer };
+const PILLAR_ORDER: PillarId[] = ['mind', 'body', 'soul', 'relationships'];
+
+const PILLAR_NAMES: Record<PillarId, string> = {
+  mind: 'Mind',
+  body: 'Body',
+  soul: 'Soul',
+  relationships: 'Relationships',
+};
+
+const PILLAR_DESCRIPTIONS: Record<PillarId, string> = {
+  mind: 'Explore your psychological patterns, emotional regulation, and cognitive clarity.',
+  body: 'Assess your relationship with your physical self, nervous system, and embodiment.',
+  soul: 'Examine your sense of meaning, purpose, and connection to something greater.',
+  relationships: 'Understand your attachment patterns and capacity for authentic connection.',
+};
 
 export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps) {
   const router = useRouter();
@@ -21,16 +43,24 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [currentPhase, setCurrentPhase] = useState(existingProgress?.phase || 1);
+  const [currentPillarIndex, setCurrentPillarIndex] = useState(
+    existingProgress?.currentPillar
+      ? PILLAR_ORDER.indexOf(existingProgress.currentPillar)
+      : 0
+  );
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [phases, setPhases] = useState<PhaseInfo[]>([]);
+  const [pillarQuestionCounts, setPillarQuestionCounts] = useState<Record<PillarId, number>>({
+    mind: 0, body: 0, soul: 0, relationships: 0
+  });
   const [answers, setAnswers] = useState<Record<string, Answer>>(
     existingProgress?.answers || {}
   );
   const [startedAt] = useState(existingProgress?.startedAt || new Date().toISOString());
-  const [result, setResult] = useState<Portrait | null>(null);
-  const [showPhaseIntro, setShowPhaseIntro] = useState(true);
+  const [result, setResult] = useState<IntegrationPortrait | null>(null);
+  const [showPillarIntro, setShowPillarIntro] = useState(true);
+
+  const currentPillar = PILLAR_ORDER[currentPillarIndex];
 
   // Load questions
   useEffect(() => {
@@ -39,11 +69,17 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
         const response = await fetch('/api/assessment?includeProgress=true');
         const data = await response.json();
         setQuestions(data.questions);
-        setPhases(data.phases);
+        setPillarQuestionCounts({
+          mind: data.pillars?.mind?.count || 0,
+          body: data.pillars?.body?.count || 0,
+          soul: data.pillars?.soul?.count || 0,
+          relationships: data.pillars?.relationships?.count || 0,
+        });
 
         // If we have progress, restore it
         if (data.progress) {
-          setCurrentPhase(data.progress.phase);
+          const pillarIndex = PILLAR_ORDER.indexOf(data.progress.currentPillar);
+          if (pillarIndex >= 0) setCurrentPillarIndex(pillarIndex);
           setAnswers(data.progress.answers);
         }
       } catch (error) {
@@ -55,9 +91,9 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
     loadQuestions();
   }, []);
 
-  // Get current phase questions
-  const phaseQuestions = questions.filter((q) => q.phase === currentPhase);
-  const currentQuestion = phaseQuestions[currentQuestionIndex];
+  // Get current pillar questions
+  const pillarQuestions = questions.filter((q) => q.pillarId === currentPillar);
+  const currentQuestion = pillarQuestions[currentQuestionIndex];
 
   // Auto-save progress periodically
   const saveProgress = useCallback(async () => {
@@ -70,7 +106,7 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           answers,
-          currentPhase,
+          currentPillar,
           startedAt,
         }),
       });
@@ -78,7 +114,7 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
       console.error('Failed to save progress:', error);
     }
     setSaving(false);
-  }, [answers, currentPhase, startedAt]);
+  }, [answers, currentPillar, startedAt]);
 
   // Save on significant changes
   useEffect(() => {
@@ -106,13 +142,13 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
 
   // Navigation
   const goNext = () => {
-    if (currentQuestionIndex < phaseQuestions.length - 1) {
+    if (currentQuestionIndex < pillarQuestions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
-    } else if (currentPhase < 3) {
-      // Move to next phase
-      setCurrentPhase((prev) => prev + 1);
+    } else if (currentPillarIndex < PILLAR_ORDER.length - 1) {
+      // Move to next pillar
+      setCurrentPillarIndex((prev) => prev + 1);
       setCurrentQuestionIndex(0);
-      setShowPhaseIntro(true);
+      setShowPillarIntro(true);
       saveProgress();
     } else {
       // Submit assessment
@@ -123,11 +159,12 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
   const goBack = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex((prev) => prev - 1);
-    } else if (currentPhase > 1) {
-      // Go to previous phase
-      const prevPhaseQuestions = questions.filter((q) => q.phase === currentPhase - 1);
-      setCurrentPhase((prev) => prev - 1);
-      setCurrentQuestionIndex(prevPhaseQuestions.length - 1);
+    } else if (currentPillarIndex > 0) {
+      // Go to previous pillar
+      const prevPillar = PILLAR_ORDER[currentPillarIndex - 1];
+      const prevPillarQuestions = questions.filter((q) => q.pillarId === prevPillar);
+      setCurrentPillarIndex((prev) => prev - 1);
+      setCurrentQuestionIndex(prevPillarQuestions.length - 1);
     }
   };
 
@@ -172,15 +209,16 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
     return <AssessmentResults portrait={result} />;
   }
 
-  if (showPhaseIntro) {
-    const phaseInfo = phases.find((p) => p.phase === currentPhase);
+  if (showPillarIntro) {
+    const estimatedMinutes = Math.ceil(pillarQuestionCounts[currentPillar] * 0.3); // ~20 sec per question
     return (
-      <PhaseIntro
-        phase={currentPhase}
-        title={phaseInfo?.title || `Phase ${currentPhase}`}
-        description={phaseInfo?.description || ''}
-        estimatedMinutes={phaseInfo?.estimatedMinutes || 5}
-        onStart={() => setShowPhaseIntro(false)}
+      <PillarIntro
+        pillarIndex={currentPillarIndex}
+        pillarId={currentPillar}
+        title={PILLAR_NAMES[currentPillar]}
+        description={PILLAR_DESCRIPTIONS[currentPillar]}
+        estimatedMinutes={estimatedMinutes || 15}
+        onStart={() => setShowPillarIntro(false)}
       />
     );
   }
@@ -191,7 +229,7 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
       <div className="mb-8">
         <div className="flex justify-between text-xs text-gray-500 mb-2">
           <span>
-            Phase {currentPhase} of 3
+            {PILLAR_NAMES[currentPillar]} ({currentPillarIndex + 1} of {PILLAR_ORDER.length})
           </span>
           <span>{progressPercent}% complete</span>
         </div>
@@ -221,14 +259,14 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
       <div className="flex justify-between mt-8 pt-8 border-t border-zinc-800">
         <button
           onClick={goBack}
-          disabled={currentPhase === 1 && currentQuestionIndex === 0}
+          disabled={currentPillarIndex === 0 && currentQuestionIndex === 0}
           className="px-6 py-3 text-gray-400 hover:text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
         >
           Back
         </button>
 
         <div className="text-sm text-gray-500">
-          Question {currentQuestionIndex + 1} of {phaseQuestions.length}
+          Question {currentQuestionIndex + 1} of {pillarQuestions.length}
         </div>
 
         <button
@@ -238,7 +276,7 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
         >
           {submitting
             ? 'Submitting...'
-            : currentPhase === 3 && currentQuestionIndex === phaseQuestions.length - 1
+            : currentPillarIndex === PILLAR_ORDER.length - 1 && currentQuestionIndex === pillarQuestions.length - 1
             ? 'Complete Assessment'
             : 'Continue'}
         </button>
@@ -248,27 +286,38 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
 }
 
 // ============================================================================
-// PHASE INTRO
+// PILLAR INTRO
 // ============================================================================
 
-function PhaseIntro({
-  phase,
+function PillarIntro({
+  pillarIndex,
+  pillarId,
   title,
   description,
   estimatedMinutes,
   onStart,
 }: {
-  phase: number;
+  pillarIndex: number;
+  pillarId: PillarId;
   title: string;
   description: string;
   estimatedMinutes: number;
   onStart: () => void;
 }) {
-  const phaseNames = ['Current State', 'Patterns & History', 'Depth & Direction'];
+  const pillarIcons: Record<PillarId, string> = {
+    mind: '🧠',
+    body: '💪',
+    soul: '✨',
+    relationships: '💞',
+  };
 
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
-      <div className="text-sm text-gray-500 mb-4">Phase {phase} of 3</div>
+      <div className="text-sm text-gray-500 mb-4">
+        Pillar {pillarIndex + 1} of {PILLAR_ORDER.length}
+      </div>
+
+      <div className="text-4xl mb-4">{pillarIcons[pillarId]}</div>
 
       <h1 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
         {title}
@@ -284,7 +333,7 @@ function PhaseIntro({
         onClick={onStart}
         className="px-8 py-3 bg-white text-black font-medium hover:bg-gray-100 transition-colors"
       >
-        {phase === 1 ? 'Begin' : 'Continue'}
+        {pillarIndex === 0 ? 'Begin' : 'Continue'}
       </button>
     </div>
   );
@@ -626,7 +675,7 @@ function OpenInput({
 // RESULTS
 // ============================================================================
 
-function AssessmentResults({ portrait }: { portrait: Portrait }) {
+function AssessmentResults({ portrait }: { portrait: IntegrationPortrait }) {
   const router = useRouter();
 
   return (
@@ -634,7 +683,7 @@ function AssessmentResults({ portrait }: { portrait: Portrait }) {
       {/* Headline */}
       <div className="text-center space-y-4">
         <h1 className="font-serif text-3xl md:text-4xl font-light text-white">
-          Your Portrait
+          Your Integration Portrait
         </h1>
         <p className="text-gray-400">{portrait.headline}</p>
       </div>
@@ -642,27 +691,27 @@ function AssessmentResults({ portrait }: { portrait: Portrait }) {
       {/* Stage */}
       <div
         className="p-8 border rounded-lg"
-        style={{ borderColor: portrait.stage.color + '50', backgroundColor: portrait.stage.color + '10' }}
+        style={{ borderColor: portrait.stageColor + '50', backgroundColor: portrait.stageColor + '10' }}
       >
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl text-white">{portrait.stage.name}</h2>
-          <span className="text-3xl font-light text-white">{portrait.stage.score}</span>
+          <h2 className="text-2xl text-white">{portrait.integrationStageName}</h2>
+          <span className="text-3xl font-light text-white">{portrait.integrationScore}</span>
         </div>
-        <p className="text-gray-300">{portrait.stage.description}</p>
+        <p className="text-gray-300">{portrait.stageDescription}</p>
       </div>
 
       {/* Pillars */}
       <div className="space-y-4">
         <h3 className="text-lg text-white">The Four Pillars</h3>
         <div className="grid grid-cols-2 gap-4">
-          {portrait.pillars.map((pillar) => (
+          {portrait.pillarSummaries.map((pillar) => (
             <div
-              key={pillar.pillar}
+              key={pillar.pillarId}
               className="p-4 border border-zinc-700 rounded-lg"
             >
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl">{pillar.icon}</span>
-                <span className="text-white font-medium">{pillar.name}</span>
+                <span className="text-white font-medium">{pillar.pillarName}</span>
               </div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-gray-500">{pillar.stageName}</span>
@@ -688,43 +737,29 @@ function AssessmentResults({ portrait }: { portrait: Portrait }) {
         ))}
       </div>
 
-      {/* Primary Focus */}
-      <div className="p-6 border border-amber-500/30 bg-amber-500/5 rounded-lg">
-        <h3 className="text-lg text-amber-400 mb-2">Primary Focus: {portrait.primaryFocus.name}</h3>
-        <p className="text-gray-300 mb-4">{portrait.primaryFocus.why}</p>
-        <p className="text-white">{portrait.primaryFocus.invitation}</p>
+      {/* Strengths & Growth Areas */}
+      <div className="grid grid-cols-2 gap-6">
+        <div className="p-6 border border-green-500/30 bg-green-500/5 rounded-lg">
+          <h4 className="text-sm text-green-400 uppercase tracking-wide mb-3">
+            Greatest Strength
+          </h4>
+          <h3 className="text-lg text-white mb-2">{portrait.strongestPillar.name}</h3>
+          <p className="text-gray-300 text-sm">{portrait.strongestPillar.insight}</p>
+        </div>
+
+        <div className="p-6 border border-amber-500/30 bg-amber-500/5 rounded-lg">
+          <h4 className="text-sm text-amber-400 uppercase tracking-wide mb-3">
+            Primary Focus
+          </h4>
+          <h3 className="text-lg text-white mb-2">{portrait.priorityPillar.name}</h3>
+          <p className="text-gray-300 text-sm">{portrait.priorityPillar.recommendation}</p>
+        </div>
       </div>
 
-      {/* Strengths & Growth Edges */}
-      <div className="grid grid-cols-2 gap-6">
-        {portrait.strengths.length > 0 && (
-          <div>
-            <h4 className="text-sm text-green-400 uppercase tracking-wide mb-3">
-              Strengths
-            </h4>
-            <ul className="space-y-2">
-              {portrait.strengths.map((s, i) => (
-                <li key={i} className="text-gray-300 text-sm flex items-start gap-2">
-                  <span className="text-green-400">+</span> {s}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {portrait.growthEdges.length > 0 && (
-          <div>
-            <h4 className="text-sm text-amber-400 uppercase tracking-wide mb-3">
-              Growth Edges
-            </h4>
-            <ul className="space-y-2">
-              {portrait.growthEdges.map((e, i) => (
-                <li key={i} className="text-gray-300 text-sm flex items-start gap-2">
-                  <span className="text-amber-400">!</span> {e}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+      {/* Balance */}
+      <div className="p-4 border border-zinc-700 rounded-lg">
+        <h4 className="text-sm text-gray-400 uppercase tracking-wide mb-2">Balance</h4>
+        <p className="text-gray-300">{portrait.balance.description}</p>
       </div>
 
       {/* Safety Note */}
