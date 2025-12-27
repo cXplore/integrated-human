@@ -52,3 +52,5 @@ next-env.d.ts
 /public/audio/
 /public/videos/
 /public/models/
+
+.env*.local

@@ -9,6 +9,8 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: env("DATABASE_URL"),
+    // For Supabase: DIRECT_URL for migrations, DATABASE_URL (pooler) for queries
+    // Prisma CLI operations (db push, migrate) need direct connection
+    url: env("DIRECT_URL") || env("DATABASE_URL"),
   },
 });
