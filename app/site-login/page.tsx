@@ -41,7 +41,7 @@ export default function SiteLoginPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <h1 className="font-serif text-3xl text-white mb-2">Integrated Human</h1>
-          <p className="text-gray-500 text-sm">This site is currently private</p>
+          <p className="text-gray-500 text-sm">Under development</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
