@@ -13,7 +13,7 @@
  */
 
 import type {
-  Pillar as PillarConfig,
+  Pillar,
   Dimension,
   Facet,
   DevelopmentStage,
