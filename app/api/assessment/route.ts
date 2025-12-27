@@ -22,6 +22,7 @@ import {
   type PillarId,
   type Answer,
   type Question,
+  type PillarAssessmentResult,
 } from '@/lib/assessment';
 
 // ============================================================================
@@ -115,8 +116,8 @@ export async function POST(request: NextRequest) {
 
     // If submitting a single pillar
     if (pillar) {
-      const pillarResult = generatePillarResult(pillar, answers);
-      const pillarPortrait = generatePillarPortrait(pillar, pillarResult);
+      const pillarResult = generatePillarResult(session.user.id, pillar, answers, started);
+      const pillarPortrait = generatePillarPortrait(pillarResult);
 
       // Save dimension health for this pillar
       await savePillarDimensionHealth(session.user.id, pillar, pillarResult);
@@ -129,8 +130,12 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Full integration assessment
-    const result = generateIntegrationResult(answers);
+    // Full integration assessment - need to generate results for each pillar first
+    const pillarIds: PillarId[] = ['mind', 'body', 'soul', 'relationships'];
+    const pillarResults = pillarIds.map(pillarId =>
+      generatePillarResult(session.user.id, pillarId, answers, started)
+    );
+    const result = generateIntegrationResult(session.user.id, pillarResults);
     const portrait = generateIntegrationPortrait(result);
 
     // Save to database
@@ -148,10 +153,10 @@ export async function POST(request: NextRequest) {
     });
 
     // Update dimension health for all pillars
-    for (const pillarResult of result.pillars) {
+    for (const pillarResult of result.pillarResults) {
       await savePillarDimensionHealth(
         session.user.id,
-        pillarResult.pillarId as PillarId,
+        pillarResult.pillarId,
         pillarResult
       );
     }
@@ -228,27 +233,16 @@ export async function PATCH(request: NextRequest) {
 // HELPER: Save Pillar Dimension Health
 // ============================================================================
 
-interface PillarResultData {
-  pillarId?: string;
-  score: number;
-  stage: string;
-  dimensions: Array<{
-    dimensionId: string;
-    score: number;
-    stage: string;
-  }>;
-}
-
 async function savePillarDimensionHealth(
   userId: string,
   pillarId: PillarId,
-  result: PillarResultData
+  result: PillarAssessmentResult
 ) {
   try {
     const now = new Date();
 
     // Save each dimension's verified score
-    for (const dim of result.dimensions) {
+    for (const dim of result.dimensionScores) {
       await prisma.dimensionHealth.upsert({
         where: {
           userId_pillarId_dimensionId: {
@@ -293,9 +287,9 @@ async function savePillarDimensionHealth(
       create: {
         userId,
         pillar: pillarId,
-        stage: result.stage,
+        stage: result.overallStage,
         dimensions: JSON.stringify(
-          result.dimensions.reduce((acc, d) => {
+          result.dimensionScores.reduce((acc, d) => {
             acc[d.dimensionId] = d.score;
             return acc;
           }, {} as Record<string, number>)
@@ -303,9 +297,9 @@ async function savePillarDimensionHealth(
         trend: 'stable',
       },
       update: {
-        stage: result.stage,
+        stage: result.overallStage,
         dimensions: JSON.stringify(
-          result.dimensions.reduce((acc, d) => {
+          result.dimensionScores.reduce((acc, d) => {
             acc[d.dimensionId] = d.score;
             return acc;
           }, {} as Record<string, number>)
