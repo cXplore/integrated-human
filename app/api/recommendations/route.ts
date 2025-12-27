@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { safeJsonParse } from "@/lib/sanitize";
 import { getAllCourses, type Course } from "@/lib/courses";
 import { getOrCreateHealth, type Pillar, type SpectrumStage } from "@/lib/integration-health";
+import { DIMENSION_CONTENT_MAP } from "@/lib/assessment/content-mapping";
+import type { PillarId } from "@/lib/assessment/types";
 
 // Mapping from user interests/challenges to course categories and keywords
 const INTEREST_TO_COURSES: Record<string, string[]> = {
@@ -162,6 +164,47 @@ export async function GET() {
     // Health data not available, continue without it
   }
 
+  // Get dimension-level health data (new two-layer system)
+  interface DimensionHealthData {
+    pillarId: string;
+    dimensionId: string;
+    verifiedScore: number;
+    stage: string;
+  }
+  let dimensionHealth: DimensionHealthData[] = [];
+  let lowestDimensions: DimensionHealthData[] = [];
+  let dimensionCoursesMap = new Map<string, Set<string>>(); // course slug -> set of dimension reasons
+
+  try {
+    dimensionHealth = await prisma.dimensionHealth.findMany({
+      where: { userId: session.user.id },
+      orderBy: { verifiedScore: 'asc' },
+    });
+
+    if (dimensionHealth.length > 0) {
+      // Get the 5 lowest dimensions
+      lowestDimensions = dimensionHealth.slice(0, 5);
+
+      // Build a map of courses that address low-scoring dimensions
+      for (const dim of lowestDimensions) {
+        const pillarContent = DIMENSION_CONTENT_MAP[dim.pillarId as PillarId];
+        if (pillarContent) {
+          const dimensionContent = pillarContent[dim.dimensionId];
+          if (dimensionContent) {
+            for (const courseSlug of dimensionContent.courses) {
+              if (!dimensionCoursesMap.has(courseSlug)) {
+                dimensionCoursesMap.set(courseSlug, new Set());
+              }
+              dimensionCoursesMap.get(courseSlug)!.add(dim.dimensionId);
+            }
+          }
+        }
+      }
+    }
+  } catch {
+    // Dimension health not available (table may not exist yet)
+  }
+
   // Find the lowest-scoring pillar (area needing most attention)
   let lowestPillar: Pillar | null = null;
   let lowestScore = 100;
@@ -233,7 +276,24 @@ export async function GET() {
       reasons.push('Continue where you left off');
     }
 
-    // Health-based recommendations (highest priority)
+    // Dimension-based recommendations (new two-layer system - highest priority)
+    if (dimensionCoursesMap.has(slug)) {
+      const addressedDimensions = dimensionCoursesMap.get(slug)!;
+      // Higher boost the more dimensions it addresses
+      score += 40 + (addressedDimensions.size * 10);
+
+      // Get the first dimension for the reason
+      const firstDim = Array.from(addressedDimensions)[0];
+      const dimName = firstDim.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      reasons.push(`Addresses ${dimName}`);
+
+      // If addresses multiple dimensions, note that
+      if (addressedDimensions.size > 1) {
+        reasons.push(`Works on ${addressedDimensions.size} growth areas`);
+      }
+    }
+
+    // Health-based recommendations (pillar level - secondary priority)
     if (health && lowestPillar) {
       const pillarCourses = PILLAR_TO_COURSES[lowestPillar];
       if (pillarCourses.includes(slug)) {
@@ -363,6 +423,7 @@ export async function GET() {
   return NextResponse.json({
     recommendations,
     hasProfile: !!profile?.onboardingCompleted,
+    hasAssessment: dimensionHealth.length > 0,
     stats: {
       completedCourses: completedCourses.size,
       startedCourses: startedCourses.size,
@@ -372,6 +433,14 @@ export async function GET() {
       lowestPillar,
       lowestScore,
       overallStage: health.overall.stage,
+    } : null,
+    dimensions: lowestDimensions.length > 0 ? {
+      lowestDimensions: lowestDimensions.slice(0, 3).map(d => ({
+        pillarId: d.pillarId,
+        dimensionId: d.dimensionId,
+        score: d.verifiedScore,
+        stage: d.stage,
+      })),
     } : null,
   });
 }

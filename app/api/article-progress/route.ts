@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { validateCSRF, csrfErrorResponse } from "@/lib/csrf";
+import { recordContentActivity } from "@/lib/assessment/activity-tracker";
 
 interface ArticleProgressRecord {
   slug: string;
@@ -66,6 +67,9 @@ export async function POST(request: NextRequest) {
   // Mark as completed if scroll progress hits 90%+
   const shouldMarkComplete = newScrollProgress >= 90 || completed === true;
 
+  // Check if this is a new completion
+  const isNewCompletion = shouldMarkComplete && !existing?.completed;
+
   const progress = await prisma.articleProgress.upsert({
     where: {
       userId_slug: {
@@ -88,6 +92,21 @@ export async function POST(request: NextRequest) {
       lastReadAt: new Date(),
     },
   });
+
+  // Record activity for dimension health tracking (if new completion)
+  if (isNewCompletion) {
+    try {
+      await recordContentActivity({
+        userId: session.user.id,
+        contentType: 'article',
+        slug,
+        title: slug, // Could be enhanced to pass actual title
+      });
+    } catch (error) {
+      // Don't fail the main request if activity tracking fails
+      console.error('Failed to record article activity:', error);
+    }
+  }
 
   return NextResponse.json({
     slug: progress.slug,

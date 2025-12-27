@@ -9,6 +9,7 @@ import Certificates from './Certificates';
 import PurchasedCourses from './PurchasedCourses';
 import Recommendations from './Recommendations';
 import OnboardingPrompt from './OnboardingPrompt';
+import ReassessmentPrompt from './ReassessmentPrompt';
 import StreakTracker from './StreakTracker';
 import SelfDiscovery from './SelfDiscovery';
 import AICredits from './AICredits';
@@ -132,6 +133,13 @@ export default async function ProfilePage() {
             {isNewUser && (
               <div className="mb-8">
                 <OnboardingPrompt />
+              </div>
+            )}
+
+            {/* Reassessment prompts for returning users with stale/changed scores */}
+            {!isNewUser && (
+              <div className="mb-8">
+                <ReassessmentPrompt />
               </div>
             )}
 

@@ -3,12 +3,217 @@ import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
 import { sanitizeUserInput, safeJsonParse } from '@/lib/sanitize';
+import { recordBulkActivities } from '@/lib/assessment/activity-tracker';
+import type { PillarId } from '@/lib/assessment/types';
 
 // LM Studio endpoint - requires LM_STUDIO_URL env var in production
 const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
 const TOKENS_PER_CREDIT = 1000;
 const CREDIT_COST = 5; // Credits per interpretation
 const TOKEN_COST = CREDIT_COST * TOKENS_PER_CREDIT;
+
+// =============================================================================
+// DIMENSION DETECTION FOR DREAM ACTIVITY TRACKING
+// =============================================================================
+
+interface DreamDimensionInsight {
+  pillarId: PillarId;
+  dimensionId: string;
+  points: number;
+  reason: string;
+}
+
+// Dream symbols and themes that map to specific dimensions
+const DREAM_DIMENSION_MAPPING: Record<string, { pillarId: PillarId; dimensionId: string; points: number }> = {
+  // Soul dimensions - dreams are primarily soul work
+  'shadow': { pillarId: 'soul', dimensionId: 'shadow-integration', points: 4 },
+  'dark': { pillarId: 'soul', dimensionId: 'shadow-integration', points: 3 },
+  'monster': { pillarId: 'soul', dimensionId: 'shadow-integration', points: 3 },
+  'demon': { pillarId: 'soul', dimensionId: 'shadow-integration', points: 3 },
+  'enemy': { pillarId: 'soul', dimensionId: 'shadow-integration', points: 2 },
+  'chase': { pillarId: 'soul', dimensionId: 'shadow-integration', points: 2 },
+  'hidden': { pillarId: 'soul', dimensionId: 'shadow-integration', points: 2 },
+  'mask': { pillarId: 'soul', dimensionId: 'authenticity', points: 3 },
+  'disguise': { pillarId: 'soul', dimensionId: 'authenticity', points: 2 },
+  'pretend': { pillarId: 'soul', dimensionId: 'authenticity', points: 2 },
+  'fly': { pillarId: 'soul', dimensionId: 'transcendence', points: 3 },
+  'flying': { pillarId: 'soul', dimensionId: 'transcendence', points: 3 },
+  'spiritual': { pillarId: 'soul', dimensionId: 'transcendence', points: 3 },
+  'divine': { pillarId: 'soul', dimensionId: 'transcendence', points: 3 },
+  'god': { pillarId: 'soul', dimensionId: 'transcendence', points: 2 },
+  'light': { pillarId: 'soul', dimensionId: 'transcendence', points: 2 },
+  'death': { pillarId: 'soul', dimensionId: 'existential-grounding', points: 4 },
+  'dying': { pillarId: 'soul', dimensionId: 'existential-grounding', points: 4 },
+  'dead': { pillarId: 'soul', dimensionId: 'existential-grounding', points: 3 },
+  'ending': { pillarId: 'soul', dimensionId: 'existential-grounding', points: 2 },
+  'wisdom': { pillarId: 'soul', dimensionId: 'inner-wisdom', points: 3 },
+  'guide': { pillarId: 'soul', dimensionId: 'inner-wisdom', points: 3 },
+  'elder': { pillarId: 'soul', dimensionId: 'inner-wisdom', points: 3 },
+  'teacher': { pillarId: 'soul', dimensionId: 'inner-wisdom', points: 2 },
+  'message': { pillarId: 'soul', dimensionId: 'inner-wisdom', points: 2 },
+  'creative': { pillarId: 'soul', dimensionId: 'creative-expression', points: 2 },
+  'art': { pillarId: 'soul', dimensionId: 'creative-expression', points: 2 },
+  'music': { pillarId: 'soul', dimensionId: 'creative-expression', points: 2 },
+
+  // Mind dimensions - dreams can reveal mental patterns
+  'pattern': { pillarId: 'mind', dimensionId: 'self-awareness', points: 2 },
+  'recurring': { pillarId: 'mind', dimensionId: 'self-awareness', points: 3 },
+  'realize': { pillarId: 'mind', dimensionId: 'self-awareness', points: 2 },
+  'understand': { pillarId: 'mind', dimensionId: 'self-awareness', points: 2 },
+  'anxious': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 2 },
+  'fear': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 2 },
+  'anxiety': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 2 },
+  'panic': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 3 },
+  'calm': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 2 },
+  'peace': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 2 },
+  'nightmare': { pillarId: 'mind', dimensionId: 'psychological-safety', points: 3 },
+  'danger': { pillarId: 'mind', dimensionId: 'psychological-safety', points: 2 },
+  'safe': { pillarId: 'mind', dimensionId: 'psychological-safety', points: 2 },
+  'trapped': { pillarId: 'mind', dimensionId: 'psychological-safety', points: 3 },
+
+  // Body dimensions - somatic dreams
+  'body': { pillarId: 'body', dimensionId: 'interoception', points: 2 },
+  'physical': { pillarId: 'body', dimensionId: 'interoception', points: 2 },
+  'sensation': { pillarId: 'body', dimensionId: 'interoception', points: 2 },
+  'pain': { pillarId: 'body', dimensionId: 'interoception', points: 2 },
+  'healing': { pillarId: 'body', dimensionId: 'energy-vitality', points: 2 },
+  'sick': { pillarId: 'body', dimensionId: 'energy-vitality', points: 2 },
+  'exhausted': { pillarId: 'body', dimensionId: 'energy-vitality', points: 2 },
+
+  // Relationship dimensions - relational dreams
+  'mother': { pillarId: 'relationships', dimensionId: 'attachment-patterns', points: 3 },
+  'father': { pillarId: 'relationships', dimensionId: 'attachment-patterns', points: 3 },
+  'parent': { pillarId: 'relationships', dimensionId: 'attachment-patterns', points: 3 },
+  'child': { pillarId: 'relationships', dimensionId: 'attachment-patterns', points: 2 },
+  'family': { pillarId: 'relationships', dimensionId: 'relational-patterns', points: 2 },
+  'ex': { pillarId: 'relationships', dimensionId: 'relational-patterns', points: 2 },
+  'partner': { pillarId: 'relationships', dimensionId: 'intimacy-depth', points: 2 },
+  'lover': { pillarId: 'relationships', dimensionId: 'intimacy-depth', points: 2 },
+  'intimate': { pillarId: 'relationships', dimensionId: 'intimacy-depth', points: 2 },
+  'abandon': { pillarId: 'relationships', dimensionId: 'trust-vulnerability', points: 3 },
+  'alone': { pillarId: 'relationships', dimensionId: 'social-connection', points: 2 },
+  'lonely': { pillarId: 'relationships', dimensionId: 'social-connection', points: 2 },
+  'crowd': { pillarId: 'relationships', dimensionId: 'social-connection', points: 2 },
+  'conflict': { pillarId: 'relationships', dimensionId: 'conflict-repair', points: 2 },
+  'fight': { pillarId: 'relationships', dimensionId: 'conflict-repair', points: 2 },
+  'argument': { pillarId: 'relationships', dimensionId: 'conflict-repair', points: 2 },
+};
+
+// Emotions that map to dimensions
+const DREAM_EMOTION_MAPPING: Record<string, { pillarId: PillarId; dimensionId: string; points: number }> = {
+  'fear': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 2 },
+  'anxiety': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 2 },
+  'terror': { pillarId: 'mind', dimensionId: 'psychological-safety', points: 3 },
+  'peace': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 2 },
+  'joy': { pillarId: 'soul', dimensionId: 'life-engagement', points: 2 },
+  'wonder': { pillarId: 'soul', dimensionId: 'transcendence', points: 2 },
+  'awe': { pillarId: 'soul', dimensionId: 'transcendence', points: 3 },
+  'grief': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 3 },
+  'sadness': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 2 },
+  'anger': { pillarId: 'mind', dimensionId: 'emotional-regulation', points: 2 },
+  'rage': { pillarId: 'soul', dimensionId: 'shadow-integration', points: 3 },
+  'shame': { pillarId: 'soul', dimensionId: 'shadow-integration', points: 3 },
+  'guilt': { pillarId: 'soul', dimensionId: 'shadow-integration', points: 2 },
+  'love': { pillarId: 'relationships', dimensionId: 'intimacy-depth', points: 2 },
+  'longing': { pillarId: 'relationships', dimensionId: 'attachment-patterns', points: 2 },
+  'rejection': { pillarId: 'relationships', dimensionId: 'trust-vulnerability', points: 3 },
+  'connection': { pillarId: 'relationships', dimensionId: 'social-connection', points: 2 },
+};
+
+/**
+ * Detect dimensions touched by a dream based on content, symbols, and emotions
+ */
+function detectDreamDimensions(
+  content: string,
+  symbols: string[] = [],
+  emotions: string[] = [],
+  interpretation: string = ''
+): DreamDimensionInsight[] {
+  const combinedText = `${content} ${interpretation}`.toLowerCase();
+  const detected = new Map<string, DreamDimensionInsight>();
+
+  // Check symbols first (explicit user input, higher confidence)
+  for (const symbol of symbols) {
+    const symbolLower = symbol.toLowerCase();
+    for (const [keyword, mapping] of Object.entries(DREAM_DIMENSION_MAPPING)) {
+      if (symbolLower.includes(keyword)) {
+        const key = `${mapping.pillarId}:${mapping.dimensionId}`;
+        if (!detected.has(key)) {
+          detected.set(key, {
+            ...mapping,
+            reason: `Dream symbol: ${symbol}`,
+          });
+        }
+      }
+    }
+  }
+
+  // Check emotions (explicit user input)
+  for (const emotion of emotions) {
+    const emotionLower = emotion.toLowerCase();
+    const mapping = DREAM_EMOTION_MAPPING[emotionLower];
+    if (mapping) {
+      const key = `${mapping.pillarId}:${mapping.dimensionId}`;
+      if (!detected.has(key)) {
+        detected.set(key, {
+          ...mapping,
+          reason: `Dream emotion: ${emotion}`,
+        });
+      }
+    }
+  }
+
+  // Check content and interpretation for keywords
+  for (const [keyword, mapping] of Object.entries(DREAM_DIMENSION_MAPPING)) {
+    if (combinedText.includes(keyword)) {
+      const key = `${mapping.pillarId}:${mapping.dimensionId}`;
+      if (!detected.has(key)) {
+        detected.set(key, {
+          ...mapping,
+          points: mapping.points - 1, // Slightly lower points for inferred vs explicit
+          reason: `Dream theme: ${keyword}`,
+        });
+      }
+    }
+  }
+
+  // Limit to top 3 dimensions (dreams are significant, allow more than journal)
+  const sorted = Array.from(detected.values())
+    .sort((a, b) => b.points - a.points)
+    .slice(0, 3);
+
+  return sorted;
+}
+
+/**
+ * Record dream insights as activities
+ */
+async function recordDreamInsights(
+  userId: string,
+  content: string,
+  symbols: string[],
+  emotions: string[],
+  interpretation: string
+): Promise<void> {
+  try {
+    const insights = detectDreamDimensions(content, symbols, emotions, interpretation);
+
+    if (insights.length > 0) {
+      await recordBulkActivities(
+        userId,
+        insights.map((insight) => ({
+          pillarId: insight.pillarId,
+          dimensionId: insight.dimensionId,
+          points: insight.points,
+          reason: insight.reason,
+          activityType: 'dream-interpretation',
+        }))
+      );
+    }
+  } catch (error) {
+    console.error('Failed to record dream insights:', error);
+  }
+}
 
 async function checkCredits(userId: string): Promise<{ hasCredits: boolean; balance: number }> {
   const credits = await prisma.aICredits.findUnique({ where: { userId } });
@@ -292,6 +497,17 @@ Please provide a thoughtful interpretation.`;
               data: { interpretation: fullInterpretation },
             });
           }
+
+          // Record dream insights for activity tracking (fire and forget)
+          recordDreamInsights(
+            userId,
+            content,
+            symbols || [],
+            emotions || [],
+            fullInterpretation
+          ).catch(err => {
+            console.error('Error recording dream insights:', err);
+          });
 
           controller.enqueue(encoder.encode('data: [DONE]\n\n'));
         } catch (error) {

@@ -109,6 +109,12 @@ IntegrationCheckIn  # Periodic integration reflections
 AssessmentResult    # Archetype, shadow, nervous system assessments
 AICredits           # Token balance (monthly + purchased)
 AIUsage             # Usage tracking for analytics
+
+# Two-Layer Health System (Dec 2025)
+DimensionHealth     # Verified scores from assessments (30 dimensions)
+DimensionEstimate   # Estimated scores from activity (auto-updated)
+GrowthActivity      # Activity log (courses, articles, practices completed)
+DimensionReassessment # Records of dimension-specific reassessments
 ```
 
 ---
@@ -118,11 +124,14 @@ AIUsage             # Usage tracking for analytics
 ### AI Features (LM Studio / Local)
 - **Content Companion** - Contextual AI assistant on articles/courses
 - **Journal Companion** - AI-powered reflection prompts and insights
+  - Auto-detects growth dimensions discussed and records as activity
+  - Keywords mapped to 30 dimensions across 4 pillars (2 pts per insight)
 - **Dream Interpretation** - Symbol analysis with psychological context
 - **Where I'm Stuck** - Describes struggle → matched to relevant content
 - **Assessment Synthesis** - Combines multiple assessments into integrated profile
 
 All AI features use token credits (monthly allocation for members, purchasable for everyone).
+AI insights contribute to estimated health scores via keyword-based dimension detection.
 
 ### Subscription Model (Single Tier)
 ```
@@ -221,6 +230,57 @@ Certificate Flow:
 - Restores scroll position on return
 - Uses `sendBeacon` on page unload for reliable saves
 - `ContinueReading` component on profile shows in-progress articles
+
+### Two-Layer Health Tracking System (Dec 2025)
+Tracks development across 30 dimensions (4 pillars × 7-9 dimensions each).
+
+**Two Score Types:**
+```
+Verified Score  - From assessment/reassessment only
+                - Decays over time: Fresh (<30d) → Aging (30-90d) → Stale (90-180d) → Expired (>180d)
+                - User controls when to reassess—no gates
+
+Estimated Score - From activity (courses, articles, practices)
+                - Auto-updated when content completed
+                - Shows confidence level (based on activity volume)
+                - Prompts reassessment when 15+ points above verified
+```
+
+**Key Files:**
+```
+lib/assessment/
+├── framework.ts        # 30 dimensions, 75+ facets, research citations
+├── types.ts            # PillarId, DevelopmentStage, Question types
+├── questions/          # ~205 questions across 4 pillars
+├── scoring.ts          # Calculate dimension/facet scores
+├── portrait.ts         # Generate user portrait from scores
+├── dimension-health.ts # Freshness calculation, estimated score logic
+├── reassessment.ts     # Dimension-specific reassessment
+├── content-mapping.ts  # Maps courses/articles to dimensions
+├── health-bridge.ts    # Connects new system to existing display
+└── activity-tracker.ts # Records activities, updates estimates
+
+app/api/
+├── assessment/reassess/    # GET questions, POST submit reassessment
+├── health/dimensions/      # GET all dimension health (verified + estimated)
+├── health/activity/        # POST record growth activity
+└── health/display/         # GET combined health data for UI
+
+app/
+├── assessment/reassess/[pillar]/[dimension]/  # Reassessment UI
+└── profile/health/                            # Health dashboard
+```
+
+**Activity Points:**
+- Course module: 8 points
+- Article read: 3 points
+- Practice done: 2 points
+- AI insight: 2 points
+- Max effect: 40 points (diminishing returns)
+
+**Content hooks:** Course and article progress routes call `recordContentActivity()` on completion.
+
+**Transparency:** `/transparency/health-tracking` explains the system to users.
 
 ---
 
@@ -328,6 +388,7 @@ return new Response(response.body?.pipeThrough(transformStream), {
   - Quality Standards page
   - Certificate Standards page
   - Course Audits (per-course audit documents)
+  - Health Tracking page (two-layer system explanation)
 - **200+ articles** in content/posts/
 - **7 guided practices** (breathwork, grounding, somatic work)
 - **Interactive exercises** - Journal prompts, checklists, callouts in MDX
@@ -344,6 +405,13 @@ return new Response(response.body?.pipeThrough(transformStream), {
 - **Archetype quiz** - Full masculine/feminine assessment
 - **Shadow profile quiz** - 8 shadow patterns
 - **Nervous system check** - Polyvagal-based assessment
+- **Integration Assessment** - 30-dimension, ~205 question assessment with portrait generation
+- **Two-Layer Health System** - Verified (assessment) + Estimated (activity) scores
+  - 30 dimensions across 4 pillars with 75+ facets
+  - Score freshness decay (Fresh → Aging → Stale → Expired)
+  - Dimension-specific reassessment (~6-8 questions per dimension)
+  - Activity tracking hooks on course/article completion
+  - Health dashboard at /profile/health
 - **AI-powered features:**
   - Content companion (articles + courses)
   - Journal companion with insights
@@ -394,6 +462,12 @@ return new Response(response.body?.pipeThrough(transformStream), {
 | Where I'm Stuck | `app/components/WhereImStuck.tsx` |
 | Footer | `app/components/Footer.tsx` |
 | Database schema | `prisma/schema.prisma` |
+| Assessment framework | `lib/assessment/framework.ts` |
+| Dimension health | `lib/assessment/dimension-health.ts` |
+| Activity tracker | `lib/assessment/activity-tracker.ts` |
+| Health bridge | `lib/assessment/health-bridge.ts` |
+| Health dashboard | `app/profile/health/page.tsx` |
+| Reassessment flow | `app/assessment/reassess/[pillar]/[dimension]/page.tsx` |
 
 ---
 

@@ -185,6 +185,48 @@ export default function StartHereFlow() {
   if (!path) {
     return (
       <div className="space-y-6">
+        {/* Primary CTA: Integration Assessment */}
+        <Link
+          href="/assessment"
+          className="block w-full p-8 text-left bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 hover:border-zinc-500 transition-all group"
+        >
+          <div className="flex items-start gap-4">
+            <div className="w-14 h-14 bg-white/10 flex items-center justify-center flex-shrink-0 rounded-lg">
+              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className="font-serif text-xl text-white group-hover:text-gray-200 transition-colors">
+                  Integration Assessment
+                </h3>
+                <span className="text-xs bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded">Recommended</span>
+              </div>
+              <p className="text-gray-400 text-sm mb-3">
+                A comprehensive assessment that reveals where you are on the development spectrum
+                and across the four pillars of integration.
+              </p>
+              <div className="flex items-center gap-4 text-xs text-gray-500">
+                <span>15-25 minutes</span>
+                <span>•</span>
+                <span>Personalized portrait</span>
+                <span>•</span>
+                <span>Guided recommendations</span>
+              </div>
+            </div>
+          </div>
+        </Link>
+
+        <div className="relative py-4">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-zinc-800"></div>
+          </div>
+          <div className="relative flex justify-center">
+            <span className="px-3 bg-zinc-950 text-gray-600 text-xs uppercase tracking-wide">Or try these</span>
+          </div>
+        </div>
+
         <button
           onClick={() => setPath('quiz')}
           className="w-full p-6 text-left bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors group"
@@ -197,10 +239,10 @@ export default function StartHereFlow() {
             </div>
             <div>
               <h3 className="font-serif text-xl text-white mb-1 group-hover:text-gray-300 transition-colors">
-                Help me find my path
+                Quick recommendations
               </h3>
               <p className="text-gray-500 text-sm">
-                Answer 3 quick questions and get personalized recommendations
+                Answer 3 quick questions for content suggestions (2 min)
               </p>
             </div>
           </div>
@@ -218,10 +260,10 @@ export default function StartHereFlow() {
             </div>
             <div>
               <h3 className="font-serif text-xl text-white mb-1 group-hover:text-gray-300 transition-colors">
-                Browse by topic
+                Browse by pillar
               </h3>
               <p className="text-gray-500 text-sm">
-                Explore the four pillars: Mind, Body, Soul, Relationships
+                Explore Mind, Body, Soul, or Relationships directly
               </p>
             </div>
           </div>
@@ -239,10 +281,10 @@ export default function StartHereFlow() {
             </div>
             <div>
               <h3 className="font-serif text-xl text-white mb-1 group-hover:text-gray-300 transition-colors">
-                Discover your archetypes
+                Archetype quiz
               </h3>
               <p className="text-gray-500 text-sm">
-                Take the archetype quiz to understand your patterns
+                Discover your archetypal patterns
               </p>
             </div>
           </div>

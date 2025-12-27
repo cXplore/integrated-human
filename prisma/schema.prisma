@@ -48,6 +48,7 @@ model User {
   healthSessions       HealthSession[]
   reassessmentTriggers ReassessmentTrigger[]
   quickCheckIns        QuickCheckIn[]
+  assessmentProgress   AssessmentProgress?
 }
 
 model Account {
@@ -599,4 +600,149 @@ model ChatMessage {
 
   @@index([conversationId])
   @@index([conversationId, createdAt])
+}
+
+// ============================================================================
+// ASSESSMENT PROGRESS
+// Tracks in-progress assessment completion (for save/resume)
+// ============================================================================
+
+model AssessmentProgress {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  answers      String?  @db.Text // JSON string of answers so far
+  currentPhase Int      @default(1) // 1, 2, or 3
+  startedAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ============================================================================
+// DIMENSION HEALTH - TWO-LAYER SYSTEM
+// Tracks both verified (assessment-based) and estimated (activity-based) scores
+// ============================================================================
+
+// Verified dimension scores - only updated through assessment/reassessment
+// Note: Verified scores have a "freshness" that decays over time
+// After ~3 months, scores become "stale" and user is prompted to reassess
+// After ~6 months, scores are considered "expired" and no longer displayed as verified
+model DimensionHealth {
+  id           String   @id @default(cuid())
+  userId       String
+  pillarId     String   // mind, body, soul, relationships
+  dimensionId  String   // emotional-regulation, attachment-patterns, etc.
+
+  // Verified score - only changes after assessment
+  verifiedScore     Int       // 0-100
+  verifiedStage     String    // collapse, regulation, integration, embodiment, optimization
+  verifiedAt        DateTime  // When last assessed
+
+  // Assessment that set this score
+  assessmentId      String?   // Reference to which assessment set this
+
+  // Facet breakdown (JSON)
+  facetScores       String?   @db.Text // JSON: { facetId: score, ... }
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, pillarId, dimensionId])
+  @@index([userId])
+  @@index([userId, pillarId])
+}
+
+// Estimated dimension scores - updated based on activity, AI analysis, content completion
+model DimensionEstimate {
+  id           String   @id @default(cuid())
+  userId       String
+  pillarId     String   // mind, body, soul, relationships
+  dimensionId  String   // emotional-regulation, attachment-patterns, etc.
+
+  // Estimated score based on activity
+  estimatedScore    Int       // 0-100
+  estimatedStage    String    // collapse, regulation, integration, embodiment, optimization
+
+  // Confidence in estimate (0-100) - higher when more data points
+  confidence        Int       @default(50)
+
+  // What contributed to this estimate (JSON array)
+  // [{ type: 'course', slug: '...', contribution: +5 }, { type: 'journal', theme: '...', contribution: +3 }]
+  contributors      String?   @db.Text
+
+  // Comparison to verified
+  verifiedScore     Int?      // Snapshot of verified score for comparison
+  scoreDelta        Int?      // estimatedScore - verifiedScore
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, pillarId, dimensionId])
+  @@index([userId])
+  @@index([userId, pillarId])
+}
+
+// Growth activity log - tracks what contributes to estimated scores
+model GrowthActivity {
+  id           String   @id @default(cuid())
+  userId       String
+  createdAt    DateTime @default(now())
+
+  // What type of activity
+  activityType String   // course-complete, article-read, practice-done, journal-entry, ai-insight, exercise-response
+
+  // Reference to the activity
+  referenceType String? // course, article, practice, journal, conversation
+  referenceId   String? // slug or id of the referenced item
+
+  // Which dimensions this affects
+  pillarId     String
+  dimensionId  String
+
+  // Points contribution
+  points       Int      // Can be positive or negative
+
+  // Why this contribution
+  reason       String?  // "Completed course on emotional regulation", "AI noted growth in journal"
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, pillarId, dimensionId])
+  @@index([userId, createdAt])
+}
+
+// Reassessment records - tracks dimension-specific reassessments
+model DimensionReassessment {
+  id           String   @id @default(cuid())
+  userId       String
+  createdAt    DateTime @default(now())
+
+  // Which dimension was reassessed
+  pillarId     String
+  dimensionId  String
+
+  // Scores
+  previousScore     Int      // Score before reassessment
+  previousStage     String
+  newScore          Int      // Score after reassessment
+  newStage          String
+  scoreChange       Int      // newScore - previousScore
+
+  // The answers given
+  answers           String   @db.Text // JSON: { questionId: answer, ... }
+
+  // Optional: what was the estimated score at time of reassessment
+  estimatedScoreAtTime Int?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, pillarId, dimensionId])
 }

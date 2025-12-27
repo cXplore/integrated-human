@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { validateCSRF, csrfErrorResponse } from "@/lib/csrf";
+import { recordContentActivity } from "@/lib/assessment/activity-tracker";
 
 export async function GET(request: NextRequest) {
   const session = await auth();
@@ -69,6 +70,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "courseSlug and moduleSlug are required" }, { status: 400 });
   }
 
+  // Check if this is a new completion (not already completed)
+  const existing = await prisma.courseProgress.findUnique({
+    where: {
+      userId_courseSlug_moduleSlug: {
+        userId: session.user.id,
+        courseSlug,
+        moduleSlug,
+      },
+    },
+  });
+
+  const isNewCompletion = (completed ?? true) && !existing?.completed;
+
   const progress = await prisma.courseProgress.upsert({
     where: {
       userId_courseSlug_moduleSlug: {
@@ -89,6 +103,21 @@ export async function POST(request: NextRequest) {
       completedAt: completed ? new Date() : null,
     },
   });
+
+  // Record activity for dimension health tracking (if new completion)
+  if (isNewCompletion) {
+    try {
+      await recordContentActivity({
+        userId: session.user.id,
+        contentType: 'course',
+        slug: courseSlug,
+        title: courseSlug, // Could be enhanced to pass actual title
+      });
+    } catch (error) {
+      // Don't fail the main request if activity tracking fails
+      console.error('Failed to record course activity:', error);
+    }
+  }
 
   return NextResponse.json({
     courseSlug: progress.courseSlug,

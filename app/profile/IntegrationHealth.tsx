@@ -235,6 +235,19 @@ export default function IntegrationHealth() {
         <PillarInsight health={health} stages={stages} />
       </div>
 
+      {/* View Full Dashboard Link */}
+      <div className="mt-6 text-center">
+        <Link
+          href="/profile/health"
+          className="inline-flex items-center gap-2 text-sm text-stone-400 hover:text-white transition-colors"
+        >
+          <span>View Full Health Dashboard</span>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </Link>
+      </div>
+
       {/* Last updated */}
       <p className="text-xs text-stone-600 mt-4 text-center">
         Updated {new Date(health.lastUpdated).toLocaleDateString()}

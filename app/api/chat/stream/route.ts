@@ -24,6 +24,8 @@ import {
 } from '@/lib/subscriptions';
 import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
 import { sanitizeUserInput, sanitizeMessageHistory, safeJsonParse } from '@/lib/sanitize';
+import { recordBulkActivities } from '@/lib/assessment/activity-tracker';
+import type { PillarId } from '@/lib/assessment/types';
 
 // LM Studio endpoint - requires LM_STUDIO_URL env var in production
 const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
@@ -32,6 +34,169 @@ const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'qwen/qwen3-32b';
 // Rough token estimation (4 chars ≈ 1 token for English text)
 function estimateTokens(text: string): number {
   return Math.ceil(text.length / 4);
+}
+
+// =============================================================================
+// DIMENSION DETECTION FOR CHAT ACTIVITY TRACKING
+// =============================================================================
+
+interface ChatDimensionInsight {
+  pillarId: PillarId;
+  dimensionId: string;
+  reason: string;
+}
+
+// Keywords that map to specific dimensions (shared mapping for chat contexts)
+const CHAT_DIMENSION_KEYWORDS: Record<string, { pillarId: PillarId; dimensionId: string }> = {
+  // Mind
+  'emotion': { pillarId: 'mind', dimensionId: 'emotional-regulation' },
+  'emotional': { pillarId: 'mind', dimensionId: 'emotional-regulation' },
+  'regulate': { pillarId: 'mind', dimensionId: 'emotional-regulation' },
+  'overwhelm': { pillarId: 'mind', dimensionId: 'emotional-regulation' },
+  'anxious': { pillarId: 'mind', dimensionId: 'emotional-regulation' },
+  'anxiety': { pillarId: 'mind', dimensionId: 'emotional-regulation' },
+  'calm': { pillarId: 'mind', dimensionId: 'emotional-regulation' },
+  'perspective': { pillarId: 'mind', dimensionId: 'cognitive-flexibility' },
+  'reframe': { pillarId: 'mind', dimensionId: 'cognitive-flexibility' },
+  'mindset': { pillarId: 'mind', dimensionId: 'cognitive-flexibility' },
+  'pattern': { pillarId: 'mind', dimensionId: 'self-awareness' },
+  'notice': { pillarId: 'mind', dimensionId: 'self-awareness' },
+  'aware': { pillarId: 'mind', dimensionId: 'self-awareness' },
+  'awareness': { pillarId: 'mind', dimensionId: 'self-awareness' },
+  'present': { pillarId: 'mind', dimensionId: 'present-moment' },
+  'mindful': { pillarId: 'mind', dimensionId: 'present-moment' },
+  'thought': { pillarId: 'mind', dimensionId: 'thought-patterns' },
+  'inner critic': { pillarId: 'mind', dimensionId: 'thought-patterns' },
+  'ruminate': { pillarId: 'mind', dimensionId: 'thought-patterns' },
+  'safe': { pillarId: 'mind', dimensionId: 'psychological-safety' },
+  'safety': { pillarId: 'mind', dimensionId: 'psychological-safety' },
+  'nervous system': { pillarId: 'mind', dimensionId: 'psychological-safety' },
+  'self-compassion': { pillarId: 'mind', dimensionId: 'self-relationship' },
+  'self-care': { pillarId: 'mind', dimensionId: 'self-relationship' },
+  'meaning': { pillarId: 'mind', dimensionId: 'meaning-purpose' },
+  'purpose': { pillarId: 'mind', dimensionId: 'meaning-purpose' },
+  'values': { pillarId: 'mind', dimensionId: 'meaning-purpose' },
+
+  // Body
+  'body': { pillarId: 'body', dimensionId: 'interoception' },
+  'sensation': { pillarId: 'body', dimensionId: 'interoception' },
+  'stress': { pillarId: 'body', dimensionId: 'stress-physiology' },
+  'tension': { pillarId: 'body', dimensionId: 'stress-physiology' },
+  'burnout': { pillarId: 'body', dimensionId: 'stress-physiology' },
+  'sleep': { pillarId: 'body', dimensionId: 'sleep-restoration' },
+  'tired': { pillarId: 'body', dimensionId: 'sleep-restoration' },
+  'rest': { pillarId: 'body', dimensionId: 'sleep-restoration' },
+  'energy': { pillarId: 'body', dimensionId: 'energy-vitality' },
+  'exhausted': { pillarId: 'body', dimensionId: 'energy-vitality' },
+  'movement': { pillarId: 'body', dimensionId: 'movement-capacity' },
+  'exercise': { pillarId: 'body', dimensionId: 'movement-capacity' },
+  'eating': { pillarId: 'body', dimensionId: 'nourishment' },
+  'food': { pillarId: 'body', dimensionId: 'nourishment' },
+  'embodied': { pillarId: 'body', dimensionId: 'embodied-presence' },
+  'grounded': { pillarId: 'body', dimensionId: 'embodied-presence' },
+
+  // Soul
+  'authentic': { pillarId: 'soul', dimensionId: 'authenticity' },
+  'true self': { pillarId: 'soul', dimensionId: 'authenticity' },
+  'mask': { pillarId: 'soul', dimensionId: 'authenticity' },
+  'existential': { pillarId: 'soul', dimensionId: 'existential-grounding' },
+  'death': { pillarId: 'soul', dimensionId: 'existential-grounding' },
+  'transcend': { pillarId: 'soul', dimensionId: 'transcendence' },
+  'awe': { pillarId: 'soul', dimensionId: 'transcendence' },
+  'spiritual': { pillarId: 'soul', dimensionId: 'transcendence' },
+  'shadow': { pillarId: 'soul', dimensionId: 'shadow-integration' },
+  'dark side': { pillarId: 'soul', dimensionId: 'shadow-integration' },
+  'creative': { pillarId: 'soul', dimensionId: 'creative-expression' },
+  'creativity': { pillarId: 'soul', dimensionId: 'creative-expression' },
+  'alive': { pillarId: 'soul', dimensionId: 'life-engagement' },
+  'engaged': { pillarId: 'soul', dimensionId: 'life-engagement' },
+  'numb': { pillarId: 'soul', dimensionId: 'life-engagement' },
+  'intuition': { pillarId: 'soul', dimensionId: 'inner-wisdom' },
+  'wisdom': { pillarId: 'soul', dimensionId: 'inner-wisdom' },
+  'meditation': { pillarId: 'soul', dimensionId: 'spiritual-practice' },
+  'practice': { pillarId: 'soul', dimensionId: 'spiritual-practice' },
+
+  // Relationships
+  'attachment': { pillarId: 'relationships', dimensionId: 'attachment-patterns' },
+  'secure': { pillarId: 'relationships', dimensionId: 'attachment-patterns' },
+  'avoidant': { pillarId: 'relationships', dimensionId: 'attachment-patterns' },
+  'communicate': { pillarId: 'relationships', dimensionId: 'communication' },
+  'communication': { pillarId: 'relationships', dimensionId: 'communication' },
+  'boundary': { pillarId: 'relationships', dimensionId: 'boundaries' },
+  'boundaries': { pillarId: 'relationships', dimensionId: 'boundaries' },
+  'conflict': { pillarId: 'relationships', dimensionId: 'conflict-repair' },
+  'repair': { pillarId: 'relationships', dimensionId: 'conflict-repair' },
+  'forgive': { pillarId: 'relationships', dimensionId: 'conflict-repair' },
+  'trust': { pillarId: 'relationships', dimensionId: 'trust-vulnerability' },
+  'vulnerable': { pillarId: 'relationships', dimensionId: 'trust-vulnerability' },
+  'vulnerability': { pillarId: 'relationships', dimensionId: 'trust-vulnerability' },
+  'empathy': { pillarId: 'relationships', dimensionId: 'empathy-attunement' },
+  'intimacy': { pillarId: 'relationships', dimensionId: 'intimacy-depth' },
+  'connection': { pillarId: 'relationships', dimensionId: 'social-connection' },
+  'lonely': { pillarId: 'relationships', dimensionId: 'social-connection' },
+  'relationship pattern': { pillarId: 'relationships', dimensionId: 'relational-patterns' },
+};
+
+/**
+ * Detect dimensions being explored in a chat conversation
+ * Returns up to 2 most relevant dimensions
+ */
+function detectChatDimensions(
+  userMessage: string,
+  aiResponse: string
+): ChatDimensionInsight[] {
+  const combinedText = `${userMessage} ${aiResponse}`.toLowerCase();
+  const detected = new Map<string, ChatDimensionInsight>();
+
+  // Sort keywords by length (longer first) to match phrases before individual words
+  const sortedKeywords = Object.entries(CHAT_DIMENSION_KEYWORDS)
+    .sort(([a], [b]) => b.length - a.length);
+
+  for (const [keyword, dimension] of sortedKeywords) {
+    if (combinedText.includes(keyword)) {
+      const key = `${dimension.pillarId}:${dimension.dimensionId}`;
+      if (!detected.has(key)) {
+        detected.set(key, {
+          ...dimension,
+          reason: `Chat reflection on ${keyword}`,
+        });
+      }
+    }
+
+    // Limit to 2 dimensions per conversation turn
+    if (detected.size >= 2) break;
+  }
+
+  return Array.from(detected.values());
+}
+
+/**
+ * Record chat insights as activities (fire and forget)
+ */
+async function recordChatInsights(
+  userId: string,
+  userMessage: string,
+  aiResponse: string,
+  context?: string
+): Promise<void> {
+  try {
+    const insights = detectChatDimensions(userMessage, aiResponse);
+
+    if (insights.length > 0) {
+      await recordBulkActivities(
+        userId,
+        insights.map((insight) => ({
+          pillarId: insight.pillarId,
+          dimensionId: insight.dimensionId,
+          points: 2, // Chat insights give 2 points
+          reason: insight.reason,
+          activityType: context === 'content-companion' ? 'content-insight' : 'ai-insight',
+        }))
+      );
+    }
+  } catch (error) {
+    console.error('Failed to record chat insights:', error);
+  }
 }
 
 /**
@@ -497,6 +662,14 @@ export async function POST(request: NextRequest) {
               deductTokens(userId, inputTokens, outputTokens, chatContext).catch(err => {
                 console.error('Error deducting tokens:', err);
               });
+
+              // Record dimension insights for activity tracking (fire and forget)
+              // Skip casual messages as they don't represent growth work
+              if (!isCasual && totalOutputContent) {
+                recordChatInsights(userId, message, totalOutputContent, chatContext).catch(err => {
+                  console.error('Error recording chat insights:', err);
+                });
+              }
 
               // Save assistant message to database if in standalone chat
               if (chatContext === 'standalone-chat' && activeConversationId && totalOutputContent) {

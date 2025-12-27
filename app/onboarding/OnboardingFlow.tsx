@@ -31,12 +31,13 @@ interface OnboardingFlowProps {
   userName?: string;
 }
 
-// Simplified to 4 core steps
+// 5 core steps including assessment prompt
 const STEPS = [
   'intention',
   'situation',
   'challenges',
   'depth',
+  'assessment-invite',
 ] as const;
 
 type Step = typeof STEPS[number];
@@ -136,7 +137,7 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
         return (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <p className="text-gray-500 text-sm mb-4">Step 1 of 4</p>
+              <p className="text-gray-500 text-sm mb-4">Step 1 of 5</p>
               <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
                 What brings you here?
               </h2>
@@ -173,7 +174,7 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
         return (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <p className="text-gray-500 text-sm mb-4">Step 2 of 4</p>
+              <p className="text-gray-500 text-sm mb-4">Step 2 of 5</p>
               <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
                 Where are you in life right now?
               </h2>
@@ -209,7 +210,7 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
         return (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <p className="text-gray-500 text-sm mb-4">Step 3 of 4</p>
+              <p className="text-gray-500 text-sm mb-4">Step 3 of 5</p>
               <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
                 What are you working with?
               </h2>
@@ -247,7 +248,7 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
         return (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <p className="text-gray-500 text-sm mb-4">Step 4 of 4</p>
+              <p className="text-gray-500 text-sm mb-4">Step 4 of 5</p>
               <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
                 How deep do you want to go?
               </h2>
@@ -278,16 +279,64 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
             </div>
           </div>
         );
+
+      case 'assessment-invite':
+        return (
+          <div className="space-y-8">
+            <div className="text-center mb-8">
+              <p className="text-gray-500 text-sm mb-4">Step 5 of 5</p>
+              <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
+                Know Where You Stand
+              </h2>
+              <p className="text-gray-400 max-w-lg mx-auto">
+                The Integration Assessment maps your development across 30 dimensions
+                of mind, body, soul, and relationships.
+              </p>
+            </div>
+
+            <div className="bg-zinc-900/50 border border-zinc-800 p-6 space-y-4">
+              <h3 className="font-medium text-white text-lg">What you will learn:</h3>
+              <ul className="space-y-3 text-gray-400">
+                <li className="flex items-start gap-3">
+                  <span className="text-white mt-0.5">◐</span>
+                  <span>Your current developmental stage across each pillar</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-white mt-0.5">◐</span>
+                  <span>Which dimensions need attention vs. which are strong</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-white mt-0.5">◐</span>
+                  <span>Personalized content recommendations based on your gaps</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-white mt-0.5">◐</span>
+                  <span>A baseline to track your progress over time</span>
+                </li>
+              </ul>
+              <p className="text-gray-500 text-sm pt-2">
+                Takes about 15-20 minutes. Your scores decay over time, prompting
+                reassessment as you grow.
+              </p>
+            </div>
+
+            <div className="text-center text-gray-500 text-sm">
+              You can take this now or later from your profile
+            </div>
+          </div>
+        );
     }
   };
 
   const stepIndex = STEPS.indexOf(currentStep);
   const isLastStep = stepIndex === STEPS.length - 1;
+  const isAssessmentStep = currentStep === 'assessment-invite';
   const canProceed =
     (currentStep === 'intention' && profile.primaryIntention) ||
     (currentStep === 'situation' && profile.lifeSituation) ||
     (currentStep === 'challenges') || // Optional
-    (currentStep === 'depth' && profile.depthPreference);
+    (currentStep === 'depth' && profile.depthPreference) ||
+    (currentStep === 'assessment-invite'); // Always can proceed (choice)
 
   return (
     <div className="min-h-[60vh] flex flex-col">
@@ -316,7 +365,28 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
           Back
         </button>
 
-        {isLastStep ? (
+        {isAssessmentStep ? (
+          <div className="flex gap-3">
+            <button
+              onClick={completeOnboarding}
+              disabled={saving}
+              className="px-6 py-3 text-gray-400 hover:text-white border border-zinc-700 transition-colors disabled:opacity-50"
+            >
+              {saving ? 'Saving...' : 'Skip for now'}
+            </button>
+            <button
+              onClick={async () => {
+                setSaving(true);
+                await saveProfile(true);
+                router.push('/assessment');
+              }}
+              disabled={saving}
+              className="px-8 py-3 bg-white text-black font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {saving ? 'Saving...' : 'Take Assessment'}
+            </button>
+          </div>
+        ) : isLastStep ? (
           <button
             onClick={completeOnboarding}
             disabled={!canProceed || saving}

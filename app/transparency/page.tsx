@@ -25,6 +25,12 @@ const sections = [
     icon: '○',
   },
   {
+    title: 'Health Tracking',
+    href: '/transparency/health-tracking',
+    description: 'How we measure your development—verified scores from assessments, estimated scores from activity, and why your data belongs to you.',
+    icon: '◐',
+  },
+  {
     title: 'Sources & Influences',
     href: '/transparency/sources',
     description: 'The traditions, researchers, and thinkers that inform our approach. Psychology, neuroscience, contemplative practices, and more.',
