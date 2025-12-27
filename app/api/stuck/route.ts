@@ -142,7 +142,7 @@ async function getUserHealthContext(userId: string): Promise<HealthContext | nul
       dimensionId: d.dimensionId,
       dimensionName: DIMENSION_NAMES[d.pillarId]?.[d.dimensionId] || d.dimensionId,
       score: d.verifiedScore,
-      stage: d.stage,
+      stage: d.verifiedStage,
     }));
 
     // Determine overall stage from lowest dimensions
