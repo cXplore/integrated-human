@@ -98,6 +98,7 @@ export async function POST(request: NextRequest) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    const userId = session.user.id;
 
     const body = await request.json();
     const { answers, startedAt, pillar } = body as {
@@ -116,11 +117,11 @@ export async function POST(request: NextRequest) {
 
     // If submitting a single pillar
     if (pillar) {
-      const pillarResult = generatePillarResult(session.user.id, pillar, answers, started);
+      const pillarResult = generatePillarResult(userId, pillar, answers, started);
       const pillarPortrait = generatePillarPortrait(pillarResult);
 
       // Save dimension health for this pillar
-      await savePillarDimensionHealth(session.user.id, pillar, pillarResult);
+      await savePillarDimensionHealth(userId, pillar, pillarResult);
 
       return NextResponse.json({
         success: true,
@@ -133,15 +134,15 @@ export async function POST(request: NextRequest) {
     // Full integration assessment - need to generate results for each pillar first
     const pillarIds: PillarId[] = ['mind', 'body', 'soul', 'relationships'];
     const pillarResults = pillarIds.map(pillarId =>
-      generatePillarResult(session.user.id, pillarId, answers, started)
+      generatePillarResult(userId, pillarId, answers, started)
     );
-    const result = generateIntegrationResult(session.user.id, pillarResults);
+    const result = generateIntegrationResult(userId, pillarResults);
     const portrait = generateIntegrationPortrait(result);
 
     // Save to database
     await prisma.assessmentResult.create({
       data: {
-        userId: session.user.id,
+        userId,
         type: 'integration',
         results: JSON.stringify({
           result,
@@ -155,7 +156,7 @@ export async function POST(request: NextRequest) {
     // Update dimension health for all pillars
     for (const pillarResult of result.pillarResults) {
       await savePillarDimensionHealth(
-        session.user.id,
+        userId,
         pillarResult.pillarId,
         pillarResult
       );
@@ -163,7 +164,7 @@ export async function POST(request: NextRequest) {
 
     // Clear progress since assessment is complete
     await prisma.assessmentProgress.deleteMany({
-      where: { userId: session.user.id },
+      where: { userId },
     });
 
     return NextResponse.json({
