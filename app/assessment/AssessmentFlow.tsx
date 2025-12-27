@@ -92,7 +92,7 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
   }, []);
 
   // Get current pillar questions
-  const pillarQuestions = questions.filter((q) => q.pillarId === currentPillar);
+  const pillarQuestions = questions.filter((q) => q.pillar === currentPillar);
   const currentQuestion = pillarQuestions[currentQuestionIndex];
 
   // Auto-save progress periodically
@@ -162,7 +162,7 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
     } else if (currentPillarIndex > 0) {
       // Go to previous pillar
       const prevPillar = PILLAR_ORDER[currentPillarIndex - 1];
-      const prevPillarQuestions = questions.filter((q) => q.pillarId === prevPillar);
+      const prevPillarQuestions = questions.filter((q) => q.pillar === prevPillar);
       setCurrentPillarIndex((prev) => prev - 1);
       setCurrentQuestionIndex(prevPillarQuestions.length - 1);
     }
