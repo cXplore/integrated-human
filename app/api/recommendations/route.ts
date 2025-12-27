@@ -169,7 +169,7 @@ export async function GET() {
     pillarId: string;
     dimensionId: string;
     verifiedScore: number;
-    stage: string;
+    verifiedStage: string;
   }
   let dimensionHealth: DimensionHealthData[] = [];
   let lowestDimensions: DimensionHealthData[] = [];
@@ -439,7 +439,7 @@ export async function GET() {
         pillarId: d.pillarId,
         dimensionId: d.dimensionId,
         score: d.verifiedScore,
-        stage: d.stage,
+        stage: d.verifiedStage,
       })),
     } : null,
   });
