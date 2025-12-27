@@ -1,7 +1,6 @@
+import { Suspense } from 'react';
 import Navigation from '../components/Navigation';
-import CategoryFilter from '../components/CategoryFilter';
-import Link from 'next/link';
-import { getAllPosts, getAllTags } from '@/lib/posts';
+import LibraryContent from '../components/LibraryContent';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -13,51 +12,63 @@ export const metadata: Metadata = {
   },
 };
 
+function LibraryLoading() {
+  return (
+    <div className="flex flex-col lg:flex-row gap-8">
+      {/* Filter skeleton */}
+      <aside className="hidden lg:block w-72 shrink-0">
+        <div className="sticky top-24 p-4 bg-zinc-900 border border-zinc-800 rounded-lg animate-pulse">
+          <div className="h-6 bg-zinc-800 rounded w-24 mb-4" />
+          <div className="space-y-3">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="h-10 bg-zinc-800 rounded" />
+            ))}
+          </div>
+        </div>
+      </aside>
+
+      {/* Content skeleton */}
+      <div className="flex-1">
+        <div className="h-12 bg-zinc-900 rounded-lg mb-6 animate-pulse" />
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 animate-pulse">
+              <div className="h-4 bg-zinc-800 rounded w-1/4 mb-3" />
+              <div className="h-6 bg-zinc-800 rounded w-3/4 mb-2" />
+              <div className="h-4 bg-zinc-800 rounded w-full mb-2" />
+              <div className="h-4 bg-zinc-800 rounded w-2/3" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function LibraryPage() {
-  const allPosts = getAllPosts();
-  const availableTags = getAllTags().map(t => t.tag);
-
-  // Group posts by category for stats
-  const categories = ['Mind', 'Body', 'Soul', 'Relationships'];
-  const countByCategory = categories.reduce((acc, cat) => {
-    acc[cat] = allPosts.filter(p => p.metadata.categories.includes(cat)).length;
-    return acc;
-  }, {} as Record<string, number>);
-
   return (
     <>
       <Navigation />
       <main className="min-h-screen bg-zinc-950">
         {/* Hero */}
-        <section className="py-20 px-6 border-b border-zinc-800">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="font-serif text-5xl md:text-6xl font-light text-white mb-6">
+        <section className="py-16 px-6 border-b border-zinc-800">
+          <div className="max-w-7xl mx-auto">
+            <h1 className="font-serif text-4xl md:text-5xl font-light text-white mb-4">
               Library
             </h1>
-            <p className="text-xl text-gray-300 leading-relaxed mb-8">
-              {allPosts.length} essays on psychology, embodiment, relationships, and meaning.
-              Long-form pieces that go beyond tips and hacks.
+            <p className="text-lg text-gray-400 max-w-2xl">
+              Long-form essays on psychology, embodiment, relationships, and meaning.
+              Filter by pillar, dimension, or use search to find what you need.
             </p>
-
-            {/* Category Quick Links */}
-            <div className="flex flex-wrap gap-4">
-              {categories.map((cat) => (
-                <Link
-                  key={cat}
-                  href={`/${cat.toLowerCase()}`}
-                  className="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors text-gray-400 hover:text-white text-sm"
-                >
-                  {cat} <span className="text-gray-600 ml-1">({countByCategory[cat]})</span>
-                </Link>
-              ))}
-            </div>
           </div>
         </section>
 
-        {/* All Articles with Filter */}
-        <section className="py-16 px-6">
-          <div className="max-w-4xl mx-auto">
-            <CategoryFilter posts={allPosts} availableTags={availableTags} />
+        {/* Library Content */}
+        <section className="py-8 px-6">
+          <div className="max-w-7xl mx-auto">
+            <Suspense fallback={<LibraryLoading />}>
+              <LibraryContent />
+            </Suspense>
           </div>
         </section>
       </main>
