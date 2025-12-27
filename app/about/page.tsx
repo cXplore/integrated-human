@@ -23,28 +23,8 @@ export default function AboutPage() {
             </h1>
 
             <div className="space-y-8 text-gray-300 leading-relaxed text-lg">
-              {/* Author Section */}
-              <div className="pb-12 border-b border-zinc-800">
-                <div className="space-y-4">
-                  <h2 className="font-serif text-2xl text-white">The Person Behind This</h2>
-                  <p>
-                    I've spent years in the weeds of personal development — reading the books, doing the practices,
-                    making the mistakes. Therapy, meditation retreats, strength training, psychedelics, failed relationships,
-                    successful ones. The whole messy process of trying to figure out how to actually live well.
-                  </p>
-                  <p>
-                    This site is what I wish I'd found earlier: practical wisdom without the guru energy,
-                    depth without the dogma, and honest acknowledgment that none of us really know what we're doing —
-                    we're just paying closer attention than most.
-                  </p>
-                  <p className="text-gray-500 text-base">
-                    Based in Europe. Writing when something feels true enough to share.
-                  </p>
-                </div>
-              </div>
-
               {/* Philosophy Section */}
-              <div className="space-y-6 pt-4">
+              <div className="space-y-6">
                 <h2 className="font-serif text-2xl text-white">The Philosophy</h2>
                 <p>
                   Your body, mind, and soul aren't separate projects.
@@ -148,6 +128,15 @@ export default function AboutPage() {
                     Relationships
                   </Link>
                 </div>
+              </div>
+
+              <div className="space-y-6">
+                <h2 className="font-serif text-2xl text-white">Built With</h2>
+                <p>
+                  This platform is built with Claude (Opus 4.5) by Anthropic —
+                  AI that helps synthesize research, structure courses, and support your journey.
+                  The technology serves the content, not the other way around.
+                </p>
               </div>
 
               <div className="pt-8">
