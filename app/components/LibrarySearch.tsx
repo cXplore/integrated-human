@@ -11,7 +11,7 @@ interface LibrarySearchProps {
 export default function LibrarySearch({ value, onChange, placeholder = 'Search articles...' }: LibrarySearchProps) {
   const [localValue, setLocalValue] = useState(value);
   const inputRef = useRef<HTMLInputElement>(null);
-  const debounceRef = useRef<NodeJS.Timeout>();
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   // Sync external value changes
   useEffect(() => {
