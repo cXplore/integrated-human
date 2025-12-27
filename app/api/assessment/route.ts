@@ -11,15 +11,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import {
-  PHASE_1_QUESTIONS,
-  PHASE_2_QUESTIONS,
-  PHASE_3_QUESTIONS,
-  calculateAssessmentResult,
-  generatePortrait,
-  checkSafety,
-  PHASE_INFO,
+  QUESTIONS_BY_PILLAR,
+  QUESTION_COUNTS,
+  TOTAL_QUESTION_COUNT,
+  generatePillarResult,
+  generateIntegrationResult,
+  generatePillarPortrait,
+  generateIntegrationPortrait,
+  getStageForScore,
+  type PillarId,
+  type Answer,
+  type Question,
 } from '@/lib/assessment';
-import type { Answer, Question } from '@/lib/assessment';
 
 // ============================================================================
 // GET - Fetch questions and progress
@@ -33,7 +36,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const phase = searchParams.get('phase');
+    const pillar = searchParams.get('pillar') as PillarId | null;
     const includeProgress = searchParams.get('includeProgress') === 'true';
 
     // Get user's current assessment progress
@@ -44,31 +47,39 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Return questions for specific phase or all
+    // Return questions for specific pillar or all
     let questions: Question[] = [];
-    if (phase === '1') {
-      questions = PHASE_1_QUESTIONS;
-    } else if (phase === '2') {
-      questions = PHASE_2_QUESTIONS;
-    } else if (phase === '3') {
-      questions = PHASE_3_QUESTIONS;
+    if (pillar && QUESTIONS_BY_PILLAR[pillar]) {
+      questions = QUESTIONS_BY_PILLAR[pillar];
     } else {
-      // Return all questions
-      questions = [...PHASE_1_QUESTIONS, ...PHASE_2_QUESTIONS, ...PHASE_3_QUESTIONS];
+      // Return all questions organized by pillar
+      questions = [
+        ...QUESTIONS_BY_PILLAR.mind,
+        ...QUESTIONS_BY_PILLAR.body,
+        ...QUESTIONS_BY_PILLAR.soul,
+        ...QUESTIONS_BY_PILLAR.relationships,
+      ];
     }
 
     return NextResponse.json({
       questions,
-      phases: PHASE_INFO,
+      pillars: {
+        mind: { count: QUESTION_COUNTS.mind },
+        body: { count: QUESTION_COUNTS.body },
+        soul: { count: QUESTION_COUNTS.soul },
+        relationships: { count: QUESTION_COUNTS.relationships },
+      },
       progress: progress
         ? {
-            phase: progress.currentPhase,
+            currentPillar: progress.currentPhase === 1 ? 'mind' :
+                           progress.currentPhase === 2 ? 'body' :
+                           progress.currentPhase === 3 ? 'soul' : 'relationships',
             answers: JSON.parse(progress.answers || '{}'),
             startedAt: progress.startedAt,
             lastUpdated: progress.updatedAt,
           }
         : null,
-      totalQuestions: PHASE_1_QUESTIONS.length + PHASE_2_QUESTIONS.length + PHASE_3_QUESTIONS.length,
+      totalQuestions: TOTAL_QUESTION_COUNT,
     });
   } catch (error) {
     console.error('Assessment GET error:', error);
@@ -88,9 +99,10 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { answers, startedAt } = body as {
+    const { answers, startedAt, pillar } = body as {
       answers: Record<string, Answer>;
-      startedAt: string;
+      startedAt?: string;
+      pillar?: PillarId;
     };
 
     if (!answers || Object.keys(answers).length === 0) {
@@ -99,15 +111,27 @@ export async function POST(request: NextRequest) {
 
     // Parse startedAt
     const started = startedAt ? new Date(startedAt) : new Date();
+    const completed = new Date();
 
-    // Calculate results
-    const result = calculateAssessmentResult(session.user.id, answers, started);
+    // If submitting a single pillar
+    if (pillar) {
+      const pillarResult = generatePillarResult(pillar, answers);
+      const pillarPortrait = generatePillarPortrait(pillar, pillarResult);
 
-    // Check safety
-    const safetyCheck = checkSafety(answers);
+      // Save dimension health for this pillar
+      await savePillarDimensionHealth(session.user.id, pillar, pillarResult);
 
-    // Generate portrait
-    const portrait = generatePortrait(result);
+      return NextResponse.json({
+        success: true,
+        pillar,
+        result: pillarResult,
+        portrait: pillarPortrait,
+      });
+    }
+
+    // Full integration assessment
+    const result = generateIntegrationResult(answers);
+    const portrait = generateIntegrationPortrait(result);
 
     // Save to database
     await prisma.assessmentResult.create({
@@ -117,37 +141,30 @@ export async function POST(request: NextRequest) {
         results: JSON.stringify({
           result,
           portrait,
-          safetyCheck,
-          version: '1.0.0',
+          version: '2.0.0',
+          completedAt: completed.toISOString(),
         }),
       },
     });
 
-    // Update integration health based on assessment
-    await updateHealthFromAssessment(session.user.id, result);
+    // Update dimension health for all pillars
+    for (const pillarResult of result.pillars) {
+      await savePillarDimensionHealth(
+        session.user.id,
+        pillarResult.pillarId as PillarId,
+        pillarResult
+      );
+    }
 
     // Clear progress since assessment is complete
     await prisma.assessmentProgress.deleteMany({
       where: { userId: session.user.id },
     });
 
-    // Update user profile to mark assessment as completed
-    await prisma.userProfile.upsert({
-      where: { userId: session.user.id },
-      create: {
-        userId: session.user.id,
-        onboardingCompleted: true,
-      },
-      update: {
-        onboardingCompleted: true,
-      },
-    });
-
     return NextResponse.json({
       success: true,
       result,
       portrait,
-      safetyCheck,
     });
   } catch (error) {
     console.error('Assessment POST error:', error);
@@ -167,10 +184,18 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { answers, currentPhase, startedAt } = body as {
+    const { answers, currentPillar, startedAt } = body as {
       answers: Record<string, Answer>;
-      currentPhase: number;
+      currentPillar: PillarId;
       startedAt?: string;
+    };
+
+    // Map pillar to phase number for compatibility
+    const phaseMap: Record<PillarId, number> = {
+      mind: 1,
+      body: 2,
+      soul: 3,
+      relationships: 4,
     };
 
     // Upsert progress
@@ -179,19 +204,19 @@ export async function PATCH(request: NextRequest) {
       create: {
         userId: session.user.id,
         answers: JSON.stringify(answers),
-        currentPhase,
+        currentPhase: phaseMap[currentPillar] || 1,
         startedAt: startedAt ? new Date(startedAt) : new Date(),
       },
       update: {
         answers: JSON.stringify(answers),
-        currentPhase,
+        currentPhase: phaseMap[currentPillar] || 1,
       },
     });
 
     return NextResponse.json({
       success: true,
       saved: Object.keys(answers).length,
-      currentPhase,
+      currentPillar,
     });
   } catch (error) {
     console.error('Assessment PATCH error:', error);
@@ -200,64 +225,95 @@ export async function PATCH(request: NextRequest) {
 }
 
 // ============================================================================
-// HELPER: Update Integration Health from Assessment
+// HELPER: Save Pillar Dimension Health
 // ============================================================================
 
-async function updateHealthFromAssessment(
+interface PillarResultData {
+  pillarId?: string;
+  score: number;
+  stage: string;
+  dimensions: Array<{
+    dimensionId: string;
+    score: number;
+    stage: string;
+  }>;
+}
+
+async function savePillarDimensionHealth(
   userId: string,
-  result: ReturnType<typeof calculateAssessmentResult>
+  pillarId: PillarId,
+  result: PillarResultData
 ) {
   try {
-    // Create new integration health snapshot
-    await prisma.integrationHealth.create({
-      data: {
-        userId,
-        mindScore: result.pillars.find((p) => p.pillar === 'mind')?.score ?? 50,
-        bodyScore: result.pillars.find((p) => p.pillar === 'body')?.score ?? 50,
-        soulScore: result.pillars.find((p) => p.pillar === 'soul')?.score ?? 50,
-        relationshipsScore: result.pillars.find((p) => p.pillar === 'relationships')?.score ?? 50,
-        mindStage: result.pillars.find((p) => p.pillar === 'mind')?.stage ?? 'regulation',
-        bodyStage: result.pillars.find((p) => p.pillar === 'body')?.stage ?? 'regulation',
-        soulStage: result.pillars.find((p) => p.pillar === 'soul')?.stage ?? 'regulation',
-        relationshipsStage: result.pillars.find((p) => p.pillar === 'relationships')?.stage ?? 'regulation',
-        dataSourcesUsed: JSON.stringify(['integration-assessment']),
-      },
-    });
+    const now = new Date();
 
-    // Update pillar health records
-    for (const pillar of result.pillars) {
-      await prisma.pillarHealth.upsert({
+    // Save each dimension's verified score
+    for (const dim of result.dimensions) {
+      await prisma.dimensionHealth.upsert({
         where: {
-          userId_pillar: {
+          userId_pillarId_dimensionId: {
             userId,
-            pillar: pillar.pillar,
+            pillarId,
+            dimensionId: dim.dimensionId,
           },
         },
         create: {
           userId,
-          pillar: pillar.pillar,
-          stage: pillar.stage,
-          dimensions: JSON.stringify(
-            pillar.dimensions.reduce((acc, d) => {
-              acc[d.dimension] = d.normalizedScore;
-              return acc;
-            }, {} as Record<string, number>)
-          ),
-          trend: 'stable',
+          pillarId,
+          dimensionId: dim.dimensionId,
+          verifiedScore: dim.score,
+          stage: dim.stage,
+          verifiedAt: now,
         },
         update: {
-          stage: pillar.stage,
-          dimensions: JSON.stringify(
-            pillar.dimensions.reduce((acc, d) => {
-              acc[d.dimension] = d.normalizedScore;
-              return acc;
-            }, {} as Record<string, number>)
-          ),
+          verifiedScore: dim.score,
+          stage: dim.stage,
+          verifiedAt: now,
+        },
+      });
+
+      // Clear any estimated score since we now have verified
+      await prisma.dimensionEstimate.deleteMany({
+        where: {
+          userId,
+          pillarId,
+          dimensionId: dim.dimensionId,
         },
       });
     }
+
+    // Update pillar health
+    await prisma.pillarHealth.upsert({
+      where: {
+        userId_pillar: {
+          userId,
+          pillar: pillarId,
+        },
+      },
+      create: {
+        userId,
+        pillar: pillarId,
+        stage: result.stage,
+        dimensions: JSON.stringify(
+          result.dimensions.reduce((acc, d) => {
+            acc[d.dimensionId] = d.score;
+            return acc;
+          }, {} as Record<string, number>)
+        ),
+        trend: 'stable',
+      },
+      update: {
+        stage: result.stage,
+        dimensions: JSON.stringify(
+          result.dimensions.reduce((acc, d) => {
+            acc[d.dimensionId] = d.score;
+            return acc;
+          }, {} as Record<string, number>)
+        ),
+      },
+    });
   } catch (error) {
-    console.error('Failed to update health from assessment:', error);
+    console.error('Failed to save pillar dimension health:', error);
     // Don't throw - health update is secondary
   }
 }
