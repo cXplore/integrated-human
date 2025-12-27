@@ -49,6 +49,12 @@ model User {
   reassessmentTriggers ReassessmentTrigger[]
   quickCheckIns        QuickCheckIn[]
   assessmentProgress   AssessmentProgress?
+
+  // Two-layer Dimension Health System
+  dimensionHealth       DimensionHealth[]
+  dimensionEstimates    DimensionEstimate[]
+  growthActivities      GrowthActivity[]
+  dimensionReassessments DimensionReassessment[]
 }
 
 model Account {
