@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import Navigation from '../components/Navigation';
 import AssessmentFlow from './AssessmentFlow';
 import type { Metadata } from 'next';
+import type { PillarId } from '@/lib/assessment';
 
 export const metadata: Metadata = {
   title: 'Integration Assessment | Integrated Human',
@@ -31,10 +32,18 @@ export default async function AssessmentPage() {
     orderBy: { createdAt: 'desc' },
   });
 
+  // Map phase number to pillar ID
+  const phaseToPillar: Record<number, PillarId> = {
+    1: 'mind',
+    2: 'body',
+    3: 'soul',
+    4: 'relationships',
+  };
+
   // Parse progress if exists
   const existingProgress = progress
     ? {
-        phase: progress.currentPhase,
+        currentPillar: phaseToPillar[progress.currentPhase] || 'mind',
         answers: JSON.parse(progress.answers || '{}'),
         startedAt: progress.startedAt.toISOString(),
       }
