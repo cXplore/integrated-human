@@ -257,12 +257,12 @@ async function savePillarDimensionHealth(
           pillarId,
           dimensionId: dim.dimensionId,
           verifiedScore: dim.score,
-          stage: dim.stage,
+          verifiedStage: dim.stage,
           verifiedAt: now,
         },
         update: {
           verifiedScore: dim.score,
-          stage: dim.stage,
+          verifiedStage: dim.stage,
           verifiedAt: now,
         },
       });
