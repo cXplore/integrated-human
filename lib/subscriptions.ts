@@ -1,8 +1,9 @@
-// Subscription configuration - Simple single-tier system
+// Subscription configuration - Two-tier system
 // Free: 50 articles, 5 intro courses, free resources, no AI
-// Member ($19): Everything unlocked, 500 AI credits/month
+// Member ($19): Everything unlocked, 1,000 AI credits/month
+// Pro ($49): Everything unlocked, 2,500 AI credits/month
 
-export type SubscriptionTier = 'member';
+export type SubscriptionTier = 'member' | 'pro';
 export type CourseTier = 'intro' | 'beginner' | 'intermediate' | 'advanced' | 'flagship';
 
 export interface TierConfig {
@@ -22,14 +23,32 @@ export const SUBSCRIPTION_TIERS: Record<SubscriptionTier, TierConfig> = {
     description: 'Full access to everything',
     monthlyPrice: 19,
     yearlyPrice: 190, // 2 months free
-    monthlyTokens: 500000, // 500 credits
+    monthlyTokens: 1000000, // 1,000 credits (~130 conversations/month)
     features: [
       'All articles',
       'All courses including Flagship',
       'Certificates on Flagship courses',
       'All learning paths',
       'All PDFs & resources',
-      '500 AI credits/month',
+      '1,000 AI credits/month',
+      'Journal companion',
+      'Dream interpretation',
+    ],
+  },
+  pro: {
+    id: 'pro',
+    name: 'Pro',
+    description: 'For dedicated practitioners',
+    monthlyPrice: 49,
+    yearlyPrice: 490, // 2 months free
+    monthlyTokens: 2500000, // 2,500 credits (~330 conversations/month)
+    features: [
+      'All articles',
+      'All courses including Flagship',
+      'Certificates on Flagship courses',
+      'All learning paths',
+      'All PDFs & resources',
+      '2,500 AI credits/month',
       'Journal companion',
       'Dream interpretation',
     ],
@@ -49,36 +68,30 @@ export const FREE_TIER = {
 //
 // Token costs (per million tokens):
 // - Base Input:     $3.00
-// - 5min Cache:     $3.75 (write)
-// - 1hr Cache:      $6.00 (write)
-// - Cache Hits:     $0.30
 // - Output:         $15.00
+// - Cache Hits:     $0.30
 //
-// Per-token costs in dollars:
-// - Input:  $0.000003
-// - Output: $0.000015
-// - Cache hits: $0.0000003
+// WORST-CASE COST CALCULATION:
+// The absolute worst case is 100% output tokens at $15/1M = $0.015 per 1K tokens
+// This happens when users send short messages and AI gives long responses.
 //
-// Typical conversation message:
-// - Input: ~500 tokens × $0.000003 = $0.0015
-// - Output: ~600 tokens × $0.000015 = $0.009
-// - Total per message: ~$0.0105
+// Realistic usage is ~13% input / 87% output, but we price for worst case.
 //
+// PRICING:
 // 1 credit = 1,000 tokens
-// We charge by actual tokens used (input + output combined)
-// Same price per credit for everyone - no bulk discounts
-// This ensures people with less money aren't disadvantaged
+// $0.02 per credit = $20 per 1,000 credits
+// Same price for everyone - no bulk discounts (fair pricing)
 //
-// PRICING RATIONALE:
-// Realistic usage is ~20% input / 80% output (users send short messages, AI gives long responses)
-// Cost per 1K tokens at 20/80 split: (200 × $0.000003) + (800 × $0.000015) = $0.0126
-// We charge $0.025 per 1K tokens = ~50% profit margin
+// MARGIN ANALYSIS:
+// - Worst-case cost: $0.015 per credit
+// - Our price: $0.02 per credit
+// - Worst-case margin: 25%
+// - Realistic margin: ~33%
 //
-// Long conversations increase input tokens (context grows), but users pay for actual
-// tokens used so this is fair. We track input/output separately in AIUsage for analytics.
+// We are ALWAYS profitable, even if every message is 100% output tokens.
 
 export const TOKENS_PER_CREDIT = 1000;
-export const AI_CREDIT_PRICE = 0.025; // dollars per credit (1,000 tokens) - 50% margin
+export const AI_CREDIT_PRICE = 0.02; // dollars per credit (1,000 tokens) - 25% margin worst case
 
 // Cost per token in dollars (for internal cost calculation)
 export const INPUT_TOKEN_COST = 0.000003;   // $3 per 1M tokens
@@ -94,33 +107,41 @@ export interface CreditPackage {
 }
 
 // Pre-defined credit packages (never expire)
+// Flat rate: $0.02 per credit ($20 per 1,000 credits)
 export const CREDIT_PACKAGES: CreditPackage[] = [
   {
-    id: 'credits-100',
-    name: 'Light',
-    credits: 100,
-    price: 2.50,
-    description: 'Good for occasional use'
-  },
-  {
-    id: 'credits-250',
-    name: 'Regular',
-    credits: 250,
-    price: 6,
-    description: 'Most popular top-up'
-  },
-  {
     id: 'credits-500',
-    name: 'Heavy',
+    name: 'Starter',
     credits: 500,
-    price: 12,
-    description: 'For intensive journaling & exploration'
+    price: 10,
+    description: '~65 conversations'
+  },
+  {
+    id: 'credits-1000',
+    name: 'Standard',
+    credits: 1000,
+    price: 20,
+    description: '~130 conversations'
+  },
+  {
+    id: 'credits-2500',
+    name: 'Power',
+    credits: 2500,
+    price: 50,
+    description: '~330 conversations'
+  },
+  {
+    id: 'credits-5000',
+    name: 'Pro',
+    credits: 5000,
+    price: 100,
+    description: '~660 conversations'
   },
 ];
 
-// Custom credit purchases: user can enter any dollar amount ($2.50 minimum)
-export const MIN_CUSTOM_CREDIT_AMOUNT = 2.50; // minimum $2.50
-export const MAX_CUSTOM_CREDIT_AMOUNT = 50; // maximum $50
+// Custom credit purchases: user can enter any dollar amount ($10 minimum)
+export const MIN_CUSTOM_CREDIT_AMOUNT = 10; // minimum $10 (500 credits)
+export const MAX_CUSTOM_CREDIT_AMOUNT = 200; // maximum $200
 
 /**
  * Calculate the actual dollar cost for token usage
@@ -169,12 +190,12 @@ export function calculateCreditsUsed(
  * Check if user has a paid subscription
  */
 export function hasSubscription(subscriptionTier: SubscriptionTier | null): boolean {
-  return subscriptionTier === 'member';
+  return subscriptionTier === 'member' || subscriptionTier === 'pro';
 }
 
 /**
  * Check if user can access a specific course tier
- * With single tier, members can access everything
+ * Both member and pro can access everything
  */
 export function canAccessCourseTier(
   subscriptionTier: SubscriptionTier | null,

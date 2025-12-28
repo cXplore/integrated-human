@@ -11,6 +11,10 @@ const STRIPE_PRICE_IDS: Record<SubscriptionTier, { monthly: string; yearly: stri
     monthly: process.env.STRIPE_PRICE_MEMBER_MONTHLY || '',
     yearly: process.env.STRIPE_PRICE_MEMBER_YEARLY || '',
   },
+  pro: {
+    monthly: process.env.STRIPE_PRICE_PRO_MONTHLY || '',
+    yearly: process.env.STRIPE_PRICE_PRO_YEARLY || '',
+  },
 };
 
 export async function POST(request: NextRequest) {
@@ -29,8 +33,8 @@ export async function POST(request: NextRequest) {
       interval: 'monthly' | 'yearly';
     };
 
-    // Validate tier (only 'member' now)
-    if (tier !== 'member') {
+    // Validate tier
+    if (tier !== 'member' && tier !== 'pro') {
       return NextResponse.json(
         { error: 'Invalid subscription tier' },
         { status: 400 }
@@ -64,7 +68,7 @@ export async function POST(request: NextRequest) {
 
     // If no pre-configured price, create one dynamically (for development)
     if (!priceId) {
-      const productName = 'Integrated Human Membership';
+      const productName = tier === 'pro' ? 'Integrated Human Pro' : 'Integrated Human Member';
 
       // First, find or create a product
       const products = await stripe.products.search({
