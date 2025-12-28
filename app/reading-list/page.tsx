@@ -1,5 +1,11 @@
+import type { Metadata } from 'next';
 import Navigation from '../components/Navigation';
 import ReadingListContent from './ReadingListContent';
+
+export const metadata: Metadata = {
+  title: 'Reading List - Integrated Human',
+  description: 'Your saved articles. Track your progress and mark articles as completed.',
+};
 
 export default function ReadingListPage() {
   return (

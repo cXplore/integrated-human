@@ -125,31 +125,169 @@ export default function WhereImStuck() {
     }
   }, [input, isLoading]);
 
-  // Parse recommendations from response to make them clickable
+  // Content type icons
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case 'course':
+        return (
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+        );
+      case 'practice':
+        return (
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        );
+      case 'article':
+        return (
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case 'course': return 'Course';
+      case 'practice': return 'Practice';
+      case 'article': return 'Article';
+      default: return type;
+    }
+  };
+
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case 'course': return { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20', hover: 'hover:border-purple-500/40' };
+      case 'practice': return { bg: 'bg-rose-500/10', text: 'text-rose-400', border: 'border-rose-500/20', hover: 'hover:border-rose-500/40' };
+      case 'article': return { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20', hover: 'hover:border-amber-500/40' };
+      default: return { bg: 'bg-zinc-800', text: 'text-gray-400', border: 'border-zinc-700', hover: 'hover:border-zinc-600' };
+    }
+  };
+
+  // Parse recommendations from response to create resource cards
   const parseResponse = (text: string) => {
-    // Simple parsing - look for (type: X, slug: Y) patterns
+    // Extract recommendation blocks
+    const recPattern = /\*\*([^*]+)\*\*\s*\(type:\s*(course|practice|article),\s*slug:\s*([^)]+)\)\s*(?:Why:\s*([^\n]+))?/g;
+    const recommendations: Array<{ title: string; type: string; slug: string; why?: string }> = [];
+
+    let match;
+    while ((match = recPattern.exec(text)) !== null) {
+      recommendations.push({
+        title: match[1].trim(),
+        type: match[2].trim(),
+        slug: match[3].trim(),
+        why: match[4]?.trim(),
+      });
+    }
+
+    // Split text into intro and recommendations section
+    const introEndIndex = text.indexOf('RECOMMENDATIONS:');
+    const intro = introEndIndex > 0 ? text.slice(0, introEndIndex).trim() : '';
+
+    // Find any closing text after recommendations
+    const lastRecMatch = text.lastIndexOf('Why:');
+    const closingStartIndex = lastRecMatch > 0 ? text.indexOf('\n\n', lastRecMatch + 50) : -1;
+    const closing = closingStartIndex > 0 ? text.slice(closingStartIndex).replace(/^\d+\.\s*\*\*.*$/gm, '').trim() : '';
+
+    // If we found structured recommendations, render cards
+    if (recommendations.length > 0) {
+      return (
+        <div className="space-y-4">
+          {/* Intro paragraph */}
+          {intro && (
+            <p className="text-gray-300 leading-relaxed">{intro}</p>
+          )}
+
+          {/* Resource cards */}
+          <div className="space-y-3 mt-4">
+            <p className="text-xs text-gray-500 uppercase tracking-wide">Recommended Resources</p>
+            {recommendations.map((rec, i) => {
+              const colors = getTypeColor(rec.type);
+              const href = rec.type === 'course' ? `/courses/${rec.slug}`
+                : rec.type === 'practice' ? `/practices/${rec.slug}`
+                : `/posts/${rec.slug}`;
+
+              return (
+                <Link
+                  key={i}
+                  href={href}
+                  className={`block p-4 border ${colors.border} ${colors.hover} bg-zinc-900/50 transition-all group`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className={`w-8 h-8 rounded ${colors.bg} flex items-center justify-center flex-shrink-0 ${colors.text}`}>
+                      {getTypeIcon(rec.type)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`text-xs ${colors.text} uppercase tracking-wide`}>
+                          {getTypeLabel(rec.type)}
+                        </span>
+                      </div>
+                      <h4 className="text-white font-medium group-hover:text-gray-200 transition-colors">
+                        {rec.title}
+                      </h4>
+                      {rec.why && (
+                        <p className="text-gray-500 text-sm mt-1 line-clamp-2">
+                          {rec.why}
+                        </p>
+                      )}
+                    </div>
+                    <div className="text-gray-600 group-hover:text-gray-400 transition-colors flex-shrink-0">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Closing text */}
+          {closing && !closing.match(/^\d+\.\s/) && (
+            <p className="text-gray-400 text-sm mt-4 pt-4 border-t border-zinc-800 italic">
+              {closing}
+            </p>
+          )}
+        </div>
+      );
+    }
+
+    // Fallback: simple text parsing with inline links
     const parts = text.split(/(\(type: (?:course|practice|article), slug: [^)]+\))/g);
 
-    return parts.map((part, i) => {
-      const match = part.match(/\(type: (course|practice|article), slug: ([^)]+)\)/);
-      if (match) {
-        const [, type, slug] = match;
-        const href = type === 'course' ? `/courses/${slug}`
-          : type === 'practice' ? `/practices/${slug}`
-          : `/posts/${slug}`;
+    return (
+      <div className="space-y-2">
+        {parts.map((part, i) => {
+          const fallbackMatch = part.match(/\(type: (course|practice|article), slug: ([^)]+)\)/);
+          if (fallbackMatch) {
+            const [, type, slug] = fallbackMatch;
+            const href = type === 'course' ? `/courses/${slug}`
+              : type === 'practice' ? `/practices/${slug}`
+              : `/posts/${slug}`;
 
-        return (
-          <Link
-            key={i}
-            href={href}
-            className="text-amber-500 hover:text-amber-400 underline"
-          >
-            View {type} →
-          </Link>
-        );
-      }
-      return <span key={i}>{part}</span>;
-    });
+            return (
+              <Link
+                key={i}
+                href={href}
+                className="inline-flex items-center gap-1 text-amber-500 hover:text-amber-400 underline"
+              >
+                View {type}
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            );
+          }
+          return <span key={i}>{part}</span>;
+        })}
+      </div>
+    );
   };
 
   if (!isExpanded) {

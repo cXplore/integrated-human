@@ -1,7 +1,13 @@
+import type { Metadata } from 'next';
 import { signIn, auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import Navigation from '../components/Navigation';
 import { prisma } from '@/lib/prisma';
+
+export const metadata: Metadata = {
+  title: 'Login - Integrated Human',
+  description: 'Sign in to save articles, track your progress, and join the Integrated Human community.',
+};
 
 const isDev = process.env.NODE_ENV === 'development';
 

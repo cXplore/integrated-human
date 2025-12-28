@@ -436,12 +436,12 @@ export default function Navigation() {
         </div>
 
         {/* Mobile/Tablet Actions */}
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-1 lg:hidden">
           <UserMenu />
           <ThemeToggle />
           <Link
             href="/reading-list"
-            className="p-2 text-gray-400 hover:text-white relative"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-400 hover:text-white relative"
             aria-label="Reading list"
           >
             <svg
@@ -458,14 +458,14 @@ export default function Navigation() {
               />
             </svg>
             {savedSlugs.length > 0 && (
-              <span className="absolute top-0 right-0 w-4 h-4 bg-purple-600 text-white text-[10px] rounded-full flex items-center justify-center font-medium">
+              <span className="absolute top-1 right-1 w-4 h-4 bg-purple-600 text-white text-[10px] rounded-full flex items-center justify-center font-medium">
                 {savedSlugs.length > 9 ? '9+' : savedSlugs.length}
               </span>
             )}
           </Link>
           <button
             onClick={() => setSearchOpen(true)}
-            className="p-2 text-gray-400 hover:text-white"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-400 hover:text-white"
             aria-label="Search"
           >
             <svg
@@ -484,7 +484,7 @@ export default function Navigation() {
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-gray-400 hover:text-white"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-400 hover:text-white"
             aria-label="Toggle menu"
           >
             <svg
@@ -520,7 +520,7 @@ export default function Navigation() {
                     <>
                       <button
                         onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}
-                        className="flex items-center justify-between w-full text-gray-300 hover:text-white transition-colors py-3"
+                        className="flex items-center justify-between w-full text-gray-300 hover:text-white transition-colors min-h-[48px] py-3"
                       >
                         <span className="font-medium">{item.label}</span>
                         <svg
@@ -539,7 +539,7 @@ export default function Navigation() {
                               key={subItem.href}
                               href={subItem.href}
                               onClick={() => setMobileMenuOpen(false)}
-                              className="block py-2 text-gray-500 hover:text-white transition-colors"
+                              className="block min-h-[44px] py-3 text-gray-500 hover:text-white transition-colors"
                             >
                               <div className="flex items-center gap-2">
                                 <span>{subItem.label}</span>
@@ -560,7 +560,7 @@ export default function Navigation() {
                   ) : (
                     <Link
                       href={item.href!}
-                      className="block text-gray-300 hover:text-white transition-colors py-3 font-medium"
+                      className="block text-gray-300 hover:text-white transition-colors min-h-[48px] py-3 font-medium"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {item.label}

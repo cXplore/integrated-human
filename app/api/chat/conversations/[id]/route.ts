@@ -36,7 +36,7 @@ export async function GET(request: Request, { params }: Props) {
   }
 }
 
-// PATCH - Update conversation (title, mode, active status)
+// PATCH - Update conversation (title, mode, active status, tags, starred)
 export async function PATCH(request: Request, { params }: Props) {
   const session = await auth();
   if (!session?.user?.id) {
@@ -55,12 +55,19 @@ export async function PATCH(request: Request, { params }: Props) {
       });
     }
 
+    // Serialize tags to JSON string if provided
+    const tagsData = updates.tags !== undefined
+      ? JSON.stringify(updates.tags)
+      : undefined;
+
     const conversation = await prisma.chatConversation.updateMany({
       where: { id, userId: session.user.id },
       data: {
         ...(updates.title !== undefined && { title: updates.title }),
         ...(updates.mode !== undefined && { mode: updates.mode }),
         ...(updates.isActive !== undefined && { isActive: updates.isActive }),
+        ...(updates.starred !== undefined && { starred: updates.starred }),
+        ...(tagsData !== undefined && { tags: tagsData }),
       },
     });
 

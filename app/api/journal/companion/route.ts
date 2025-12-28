@@ -17,7 +17,7 @@ import type { PillarId } from '@/lib/assessment/types';
 
 // LM Studio endpoint - requires LM_STUDIO_URL env var in production
 const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
-const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'qwen/qwen3-32b';
+const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'openai/gpt-oss-20b';
 
 // Rough token estimation (4 chars ≈ 1 token for English text)
 function estimateTokens(text: string): number {

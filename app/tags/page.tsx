@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import Navigation from '../components/Navigation';
 import { getAllTags } from '@/lib/posts';
+
+export const metadata: Metadata = {
+  title: 'Topics - Integrated Human',
+  description: 'Explore articles by topic. Psychology, shadow work, meditation, relationships, embodiment, and more.',
+};
 
 export default function TagsPage() {
   const tags = getAllTags();

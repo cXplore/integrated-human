@@ -366,7 +366,7 @@ return new Response(response.body?.pipeThrough(transformStream), {
 
 ### AI / LM Studio
 - Default URL: `http://10.221.168.219:1234/v1/chat/completions`
-- Model: qwen/qwen3-32b (supports `/no_think` suffix)
+- Model: openai/gpt-oss-20b (configurable via LM_STUDIO_MODEL env var)
 - Filter `<think>` tags from streaming responses
 
 ### Build

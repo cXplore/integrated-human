@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import { safeJsonParse } from '@/lib/sanitize';
 
 // GET - List all conversations for the user
 export async function GET() {
@@ -12,7 +13,10 @@ export async function GET() {
   try {
     const conversations = await prisma.chatConversation.findMany({
       where: { userId: session.user.id },
-      orderBy: { updatedAt: 'desc' },
+      orderBy: [
+        { starred: 'desc' }, // Starred first
+        { updatedAt: 'desc' },
+      ],
       include: {
         messages: {
           take: 1,
@@ -30,6 +34,8 @@ export async function GET() {
         title: c.title || 'New Conversation',
         mode: c.mode,
         isActive: c.isActive,
+        starred: c.starred,
+        tags: safeJsonParse<string[]>(c.tags, []),
         messageCount: c._count.messages,
         lastMessage: c.messages[0]?.content?.slice(0, 100) || null,
         createdAt: c.createdAt,

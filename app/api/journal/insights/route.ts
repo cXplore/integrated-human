@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -27,9 +27,15 @@ interface InsightsData {
   promptUsagePercent: number;
   activeDays: number;
   firstEntryDate: string | null;
+  recentEntries?: Array<{
+    content: string;
+    mood: string | null;
+    createdAt: string;
+  }>;
+  frequentWords?: Array<{ word: string; count: number }>;
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -200,6 +206,54 @@ export async function GET() {
     activeDays,
     firstEntryDate,
   };
+
+  // Include recent entries for AI pattern analysis if requested
+  const { searchParams } = new URL(request.url);
+  const includeEntries = searchParams.get('includeEntries') === 'true';
+
+  if (includeEntries) {
+    // Get recent entries (last 10)
+    insights.recentEntries = entries.slice(0, 10).map(e => ({
+      content: e.content.slice(0, 1000), // Limit content length
+      mood: e.mood,
+      createdAt: e.createdAt.toISOString(),
+    }));
+
+    // Calculate frequent words (excluding common words)
+    const stopWords = new Set([
+      'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
+      'of', 'with', 'by', 'from', 'as', 'is', 'was', 'are', 'were', 'been',
+      'be', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would',
+      'could', 'should', 'may', 'might', 'must', 'shall', 'can', 'need',
+      'it', 'its', 'i', 'me', 'my', 'myself', 'we', 'our', 'you', 'your',
+      'he', 'she', 'him', 'her', 'his', 'they', 'them', 'their', 'this',
+      'that', 'these', 'those', 'what', 'which', 'who', 'when', 'where',
+      'how', 'why', 'all', 'each', 'every', 'both', 'few', 'more', 'most',
+      'other', 'some', 'such', 'no', 'not', 'only', 'same', 'so', 'than',
+      'too', 'very', 'just', 'about', 'also', 'back', 'even', 'still',
+      'after', 'before', 'because', 'if', 'into', 'through', 'during',
+      'out', 'up', 'down', 'then', 'once', 'here', 'there', 'any', 'now',
+      'get', 'got', 'like', 'know', 'think', 'feel', 'really', 'want',
+      'going', 'see', 'make', 'time', 'way', 'thing', 'things', 'much',
+      'something', 'anything', 'lot', 'getting', 'being', 'doing', 'day',
+    ]);
+
+    const wordFrequency = new Map<string, number>();
+    entries.forEach(e => {
+      const words = e.content.toLowerCase().match(/\b[a-z]{4,}\b/g) || [];
+      words.forEach(word => {
+        if (!stopWords.has(word)) {
+          wordFrequency.set(word, (wordFrequency.get(word) || 0) + 1);
+        }
+      });
+    });
+
+    insights.frequentWords = Array.from(wordFrequency.entries())
+      .filter(([, count]) => count >= 3) // Only words appearing 3+ times
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 20)
+      .map(([word, count]) => ({ word, count }));
+  }
 
   return NextResponse.json(insights);
 }

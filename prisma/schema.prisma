@@ -40,6 +40,7 @@ model User {
   assessmentResults  AssessmentResult[]
   sharedReflections  SharedReflection[]
   dreamEntries       DreamEntry[]
+  dreamSymbols       DreamSymbol[]
   integrationCheckIns IntegrationCheckIn[]
 
   // Integration Health System
@@ -55,6 +56,11 @@ model User {
   dimensionEstimates    DimensionEstimate[]
   growthActivities      GrowthActivity[]
   dimensionReassessments DimensionReassessment[]
+
+  // AI Learning System
+  triggerPatterns       TriggerPattern[]
+  chatPreferences       ChatPreference[]
+  conversationInsights  ConversationInsight[]
 }
 
 model Account {
@@ -420,6 +426,26 @@ model DreamEntry {
   @@index([userId, dreamDate])
 }
 
+// Personal Dream Symbol Dictionary
+// Tracks what symbols mean specifically for THIS user over time
+model DreamSymbol {
+  id              String   @id @default(cuid())
+  userId          String
+  symbol          String   // The symbol (e.g., "water", "flying", "teeth falling out")
+  personalMeaning String   @db.Text // What this symbol means for THIS user
+  context         String?  @db.Text // Context from dreams where this appeared
+  occurrenceCount Int      @default(1) // How many times it's appeared
+  lastSeenAt      DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, symbol])
+  @@index([userId])
+  @@index([userId, occurrenceCount])
+}
+
 // ============================================================================
 // INTEGRATION HEALTH SYSTEM
 // Tracks user's development across four pillars (Mind, Body, Soul, Relationships)
@@ -578,8 +604,21 @@ model ChatConversation {
   // Conversation context/mode
   mode      String   @default("general") // general, growth, crisis, dream, shadow, etc.
 
+  // Tags for organization (stored as JSON array of strings)
+  tags      String?  // JSON array: ["relationships", "shadow-work", ...]
+
   // Whether this is the active/current conversation
   isActive  Boolean  @default(true)
+
+  // Star/bookmark for important conversations
+  starred   Boolean  @default(false)
+
+  // Memory Management - compressed summary of older messages
+  summary          String?  @db.Text // AI-generated summary of compressed messages
+  summaryUpToIndex Int?     // Messages up to this index are summarized
+  keyThemes        String?  // JSON array of key themes
+  unresolvedTopics String?  // JSON array of topics still being explored
+  emotionalArc     String?  // JSON: { startMood, endMood, trajectory }
 
   // Messages in this conversation
   messages  ChatMessage[]
@@ -606,6 +645,41 @@ model ChatMessage {
 
   @@index([conversationId])
   @@index([conversationId, createdAt])
+}
+
+// Cross-conversation insights - patterns detected across multiple chats
+model ConversationInsight {
+  id           String   @id @default(cuid())
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Type of insight
+  insightType  String   // recurring-theme, emotional-pattern, growth-area, shadow-pattern, breakthrough
+
+  // The insight content
+  insight      String   @db.Text // Description of the pattern
+  evidence     String?  @db.Text // JSON array of conversation excerpts supporting this
+
+  // Related conversations
+  conversationIds String? // JSON array of conversation IDs
+
+  // Strength of pattern (how often/strongly it appears)
+  strength     Int      @default(1) // 1-10
+
+  // Whether user has seen/acknowledged this
+  acknowledged Boolean  @default(false)
+
+  // For growth tracking
+  firstSeen    DateTime @default(now())
+  lastSeen     DateTime @default(now())
+  occurrences  Int      @default(1)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, insightType])
+  @@index([userId, strength])
 }
 
 // ============================================================================
@@ -751,4 +825,80 @@ model DimensionReassessment {
 
   @@index([userId])
   @@index([userId, pillarId, dimensionId])
+}
+
+// ============================================================================
+// TRIGGER AWARENESS
+// Tracks topics/patterns that activate user's nervous system
+// Helps AI respond more carefully to sensitive areas
+// ============================================================================
+
+model TriggerPattern {
+  id           String   @id @default(cuid())
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // The trigger topic/pattern
+  trigger      String   // e.g., "abandonment", "criticism", "conflict", "rejection"
+
+  // How strongly this affects the user (1-5)
+  intensity    Int      @default(3)
+
+  // Context about this trigger
+  context      String?  @db.Text // e.g., "Related to childhood experiences"
+
+  // How user prefers AI to respond when this comes up
+  preferredResponse String? @db.Text // e.g., "gentle", "direct but supportive", "pause and check in"
+
+  // How many times this has been detected
+  occurrenceCount Int   @default(1)
+
+  // Whether user has confirmed this pattern
+  userConfirmed Boolean @default(false)
+
+  // Last time this trigger was detected
+  lastTriggeredAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, trigger])
+  @@index([userId])
+  @@index([userId, intensity])
+}
+
+// ============================================================================
+// PREFERENCE LEARNING
+// Remembers how user prefers AI to respond
+// ============================================================================
+
+model ChatPreference {
+  id           String   @id @default(cuid())
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Preference category
+  category     String   // response-style, depth, tone, topics, feedback-style
+
+  // Specific preference
+  preference   String   // e.g., "prefers direct feedback", "likes metaphors", "needs grounding first"
+
+  // Strength of preference (1-5, how much user prefers this)
+  strength     Int      @default(3)
+
+  // Context/examples
+  context      String?  @db.Text // Example situations where this preference applies
+
+  // How this was learned
+  source       String   @default("inferred") // explicit, inferred, feedback
+
+  // Confidence in this preference (0-100)
+  confidence   Int      @default(50)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, category, preference])
+  @@index([userId])
+  @@index([userId, category])
 }

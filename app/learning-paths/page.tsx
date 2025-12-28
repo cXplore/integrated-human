@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import Navigation from '../components/Navigation';
 import Link from 'next/link';
 import { getPostsBySeries } from '@/lib/posts';
+
+export const metadata: Metadata = {
+  title: 'Learning Paths - Integrated Human',
+  description: 'Structured article series for deeper learning. Physical foundation, inner work, soul work, and relationship foundations.',
+};
 
 const seriesInfo = [
   {

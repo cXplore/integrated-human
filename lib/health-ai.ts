@@ -356,7 +356,7 @@ export async function analyzeUserHealth(userId: string): Promise<HealthAnalysis 
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'qwen/qwen3-32b',
+        model: 'openai/gpt-oss-20b',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userMessage },
@@ -473,7 +473,7 @@ export async function continueHealthSession(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'qwen/qwen3-32b',
+      model: 'openai/gpt-oss-20b',
       messages: aiMessages,
       temperature: 0.7,
       max_tokens: 500,
@@ -531,7 +531,7 @@ export async function startHealthSession(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'qwen/qwen3-32b',
+      model: 'openai/gpt-oss-20b',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: 'Start the check-in.' },

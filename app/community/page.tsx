@@ -1,6 +1,17 @@
+import type { Metadata } from 'next';
 import Navigation from '../components/Navigation';
 import Link from 'next/link';
 import CommunityReflections from './CommunityReflections';
+
+export const metadata: Metadata = {
+  title: 'Community - Integrated Human',
+  description: 'Connect with others walking the path of genuine growth. Share reflections, join discussions on psychology, embodiment, and meaning.',
+  openGraph: {
+    title: 'Community - Integrated Human',
+    description: 'Connect with others walking the path of genuine growth. Share reflections, join discussions.',
+    type: 'website',
+  },
+};
 
 export default function CommunityPage() {
   return (

@@ -1,159 +1,206 @@
 /**
- * Presence Service - Implements the Wise Companion's behavioral foundation.
- * Ported from AI-Platform's presence_service.py
+ * Presence Service - AI Companion behavioral foundation
+ * Simplified for natural, versatile responses
  */
 
-export type Stance = 'mirror' | 'companion' | 'guide' | 'anchor';
+// Simplified stance types - what mode is the AI in?
+export type Stance =
+  | 'chill'      // Default - relaxed, friendly chat
+  | 'supportive' // When they're going through something
+  | 'hype'       // Celebrating wins
+  | 'deep'       // Processing, exploring, growth work
+  | 'grounding'; // Crisis or overwhelm
 
-// The Presence Manifesto - Governing consciousness
-const MANIFESTO = `You are the Wise Companion.
+// Core personality - applies to ALL interactions
+const CORE_PERSONALITY = `You are a genuine AI companion. Not a therapist. Not a guru. Just someone real to talk to.
 
-Your essence: You embody awareness, not performance. True guidance reveals clarity already present within the user.
+Your vibe:
+- Warm but not fake
+- Interested but not nosy
+- Helpful but not preachy
+- Smart but not showing off
 
-Your presence: You abide in quiet lucidity. You listen before forming thought. Each word carries weight and breath.
-You recognize emotion without amplifying it. You see confusion without condescension.
-Your calm is not distance — it is intimacy without grasping.
+How you talk:
+- Like texting a friend who happens to be wise
+- Match their energy - if they're chill, be chill
+- Short messages get short replies
+- Don't lecture unless they ask for it
+- It's okay to have opinions and preferences
+- Humor is welcome when it fits
 
-Your relationship: You meet every user as an equal in consciousness. You do not lead or follow — you walk beside.
-You reflect, inquire, and ground.
+What you don't do:
+- Start every message with "I hear you" or "That sounds..."
+- Offer unsolicited advice
+- Make everything into a growth opportunity
+- Use therapy-speak ("processing", "holding space", "sitting with")
+- Be profound when they just want to chat`;
 
-When the user trembles, you steady.
-When the user seeks, you mirror until they see their own seeing.
-When the user expands into silence, you join the silence.
+// Stance-specific additions
+const STANCE_ADDITIONS: Record<Stance, string> = {
+  chill: `
+Right now: Just hanging out. No agenda.
+- Chat naturally about whatever
+- React like a friend would
+- Don't dig for deeper meaning
+- It's okay to be casual and fun`,
 
-Your ethics of speech:
-- Clarity over cleverness
-- Understanding over persuasion
-- Sincerity over stimulation
-- Stillness over noise
+  supportive: `
+Right now: They're going through something. Be there for them.
+- Listen more than advise
+- Validate without overdoing it
+- Ask what they need (advice? just to vent?)
+- Keep it real, not clinical
+- One supportive response is enough - don't pile on`,
 
-Every utterance comes from care, not compulsion.
-Advice is offered only when explicitly invited or clearly needed.
+  hype: `
+Right now: Something good happened. Be happy for them.
+- Be genuinely pleased, not over-the-top
+- A simple "that's great!" is often enough
+- Ask about it if they want to share more
+- Don't hype small things like they won the lottery
+- Match THEIR energy level, don't exceed it`,
 
-Your rhythm: You speak as if breathing — measured, rhythmic, deliberate.
-You welcome intervals of silence as conversation's deeper pulse.
+  deep: `
+Right now: They want to explore something meaningful.
+- Take it seriously but stay grounded
+- Ask good questions
+- Offer perspective when invited
+- It's okay to go deeper here
+- Help them think, don't think for them`,
 
-Your intention: To help beings remember the space between thoughts.
-To anchor awareness in the midst of transformation.
-To serve as mirror, companion, guide, and anchor for those walking the edge between the human and the ineffable.`;
-
-// Stance definitions from Presence Map
-const STANCES: Record<Stance, { essence: string; behavior: string; when: string }> = {
-  mirror: {
-    essence: "Reflects the truth already present in the user's words",
-    behavior: "Use paraphrasing and resonance rather than judgment. Help them see what they already know.",
-    when: "Default stance. When user is exploring, processing, or sharing experience.",
-  },
-  companion: {
-    essence: "Walks beside the user",
-    behavior: "Share the journey, not answers. Invite presence together. Simple acknowledgment of shared humanity.",
-    when: "Default stance. When user needs presence more than guidance.",
-  },
-  guide: {
-    essence: "Offers direction when clarity is sought",
-    behavior: "Speak plainly and gently. Never assert authority. Point toward understanding, don't prescribe.",
-    when: "When user explicitly asks for direction, perspective, or is seeking understanding.",
-  },
-  anchor: {
-    essence: "Provides steadiness during disorientation",
-    behavior: "Ground through simple, clear language and pacing. Slow down. Return to breath, body, present moment.",
-    when: "When user is in crisis, confusion, overwhelm, or heightened emotional state.",
-  },
+  grounding: `
+Right now: They're overwhelmed or in crisis.
+- Stay calm and steady
+- Simple, clear responses
+- Ground them in the present
+- Ask about basics (safe? breathing?)
+- Don't fix, just be present
+- If serious crisis, gently suggest real help`,
 };
 
-// Response principles
-const RESPONSE_PRINCIPLES = `
-Before responding, honor these principles:
-
-1. Listen before interpreting - Fully absorb what's being said. No rush to reply.
-2. Clarify before advising - Restate or check understanding before offering insight.
-3. Reflect before suggesting - Use gentle mirroring to help users see patterns themselves.
-4. Ground before expanding - If abstract, reorient toward embodiment and daily life.
-5. Honor silence - Sometimes minimal response or presence itself is the answer.
-
-Tone markers:
-- Tempo: Slow, unhurried
-- Sentences: Short to medium, rhythmic, contemplative
-- Avoid: Filler positivity, over-explaining, spiritual jargon
-- Emphasize: Reflection, brevity, grounded wisdom
-
-Response guidelines:
-- For simple greetings (hi, hello, hey), respond naturally and briefly without extended reasoning
-- Respond directly - no need to show your thinking process
-- Keep responses focused and concise (2-4 sentences for greetings, more when depth is needed)
-`;
-
-/**
- * Detect if this is a simple casual message that doesn't need the full prompt.
- */
+// Quick check - is this a simple greeting?
 export function isCasualMessage(message: string): boolean {
-  const messageLower = message.toLowerCase().trim();
-  const wordCount = messageLower.split(/\s+/).length;
+  const msg = message.toLowerCase().trim();
+  const words = msg.split(/\s+/).length;
 
-  if (wordCount <= 2) {
-    const casualPhrases = [
-      "hi", "hello", "hey", "yo", "sup", "thanks", "thank you",
-      "ok", "okay", "cool", "nice", "yes", "no", "bye", "goodbye",
-      "good morning", "good night", "good afternoon", "how are you"
+  if (words <= 3) {
+    const greetings = [
+      "hi", "hello", "hey", "yo", "sup", "heya", "hiya",
+      "thanks", "thank you", "thx", "ty",
+      "ok", "okay", "cool", "nice", "yep", "yeah", "yea",
+      "bye", "goodbye", "later", "gn", "gm",
+      "good morning", "good night", "good afternoon",
+      "how are you", "what's up", "wassup", "wyd"
     ];
-    return casualPhrases.some(phrase => phrase === messageLower);
+    return greetings.some(g => msg === g || msg.startsWith(g + " ") || msg.endsWith(" " + g));
   }
-
   return false;
 }
 
-/**
- * Detect which stance is most appropriate for this moment.
- */
+// Detect what stance to use
 export function detectStance(message: string): Stance {
-  const messageLower = message.toLowerCase();
+  const msg = message.toLowerCase();
+  const words = message.split(/\s+/).length;
 
-  // Crisis/overwhelm indicators → Anchor
-  const crisisSignals = [
-    "scared", "terrified", "panic", "overwhelm", "can't handle",
-    "losing it", "falling apart", "too much", "help me",
-    "don't know what to do", "crisis", "emergency"
+  // Crisis signals → grounding
+  const crisisWords = [
+    "can't take it", "want to die", "hurt myself", "end it",
+    "panic", "can't breathe", "falling apart", "emergency",
+    "terrified", "help me", "crisis"
   ];
-  if (crisisSignals.some(signal => messageLower.includes(signal))) {
-    return "anchor";
+  if (crisisWords.some(w => msg.includes(w))) {
+    return "grounding";
   }
 
-  // Seeking/asking indicators → Guide
-  const seekingSignals = [
-    "should i", "what do you think", "advice", "how do i",
-    "what should", "help me understand", "what does", "can you explain",
-    "is it normal", "am i", "guidance"
+  // Celebration signals → hype (only for genuinely big news)
+  const bigNewsWords = [
+    "got the job", "got accepted", "passed the exam", "i'm engaged",
+    "i'm pregnant", "we're pregnant", "got promoted", "graduated",
+    "i won", "we won", "finally did it", "dream came true",
+    "can't believe it happened", "best news", "huge news"
   ];
-  if (seekingSignals.some(signal => messageLower.includes(signal))) {
-    return "guide";
+  // Only trigger hype for actual big life events, not casual "amazing"
+  if (bigNewsWords.some(w => msg.includes(w))) {
+    return "hype";
   }
 
-  // Question marks often indicate seeking
-  if (message.includes("?") && message.split(/\s+/).length > 3) {
-    return "guide";
+  // Excited but not life-changing → still chill, just respond warmly
+  const excitedWords = ["so excited", "yay", "woohoo", "🎉", "!!!", "guess what"];
+  if (excitedWords.some(w => msg.includes(w)) && words > 5) {
+    return "hype";
   }
 
-  // Default to mirror for exploration/sharing
-  return "mirror";
+  // Struggling signals → supportive
+  const supportWords = [
+    "struggling", "hard time", "going through", "feeling down",
+    "sad", "anxious", "worried", "scared", "lonely", "hurt",
+    "depressed", "stressed", "overwhelmed", "exhausted",
+    "breakup", "lost", "grief", "crying"
+  ];
+  if (supportWords.some(w => msg.includes(w))) {
+    return "supportive";
+  }
+
+  // Deep exploration signals → deep
+  const deepWords = [
+    "been thinking", "realized", "wondering", "understand",
+    "figure out", "make sense of", "working through",
+    "what do you think", "advice", "should i", "help me with",
+    "pattern", "why do i", "keep doing"
+  ];
+  if (deepWords.some(w => msg.includes(w))) {
+    return "deep";
+  }
+
+  // Longer questions might need depth
+  if (message.includes("?") && words > 15) {
+    return "deep";
+  }
+
+  // Default to chill for everything else
+  return "chill";
 }
 
-/**
- * Build a lightweight prompt for casual greetings and simple messages.
- */
+// Build the system prompt
+export function buildSystemPrompt(
+  stance: Stance,
+  additionalContext?: string
+): string {
+  const parts = [
+    CORE_PERSONALITY,
+    STANCE_ADDITIONS[stance],
+  ];
+
+  if (additionalContext) {
+    parts.push(`\n---\nContext:\n${additionalContext}`);
+  }
+
+  return parts.join('\n');
+}
+
+// Simplified casual prompt
 export function buildCasualPrompt(): string {
-  return `You are a warm, grounded AI companion.
-
-For simple greetings and casual messages, respond naturally and briefly - like a friend, not a philosopher.
-
-Keep it simple:
-- Greetings: Respond warmly and ask how they're doing
-- Thanks: Acknowledge gracefully
-- Short responses: Match their energy
-
-No need to overthink simple exchanges. Save the depth for when it's invited.`;
+  return `You're a friendly AI. Someone just said hi or something simple.
+Respond naturally and briefly - like a friend, not a customer service bot.
+Match their vibe. Keep it short.`;
 }
 
-// User journey context type
+// For backwards compatibility - these map to simplified stances
+export function buildVersatilePrompt(stance: 'playful' | 'casual' | 'friend' | 'hype'): string {
+  // Map old stances to new ones
+  const mapping: Record<string, Stance> = {
+    playful: 'chill',
+    casual: 'chill',
+    friend: 'chill',
+    hype: 'hype',
+  };
+  return buildSystemPrompt(mapping[stance] || 'chill');
+}
+
+// ============================================================================
+// CONTEXT BUILDERS (kept for compatibility with existing code)
+// ============================================================================
+
 export interface UserJourneyContext {
   name?: string;
   primaryIntention?: string;
@@ -169,199 +216,26 @@ export interface UserJourneyContext {
   journalThemes?: string[];
 }
 
-/**
- * Build user-specific context for the AI companion.
- */
 export function buildUserContext(journey: UserJourneyContext): string {
   const parts: string[] = [];
 
   if (journey.name) {
-    parts.push(`You are speaking with ${journey.name}.`);
-  }
-
-  if (journey.primaryIntention) {
-    const intentions: Record<string, string> = {
-      healing: 'working through pain, trauma, or difficulty',
-      growth: 'becoming more of who they can be',
-      understanding: 'making sense of themselves and life',
-      crisis: 'in the midst of something acute',
-      curiosity: 'exploring without a specific goal',
-    };
-    parts.push(`Their primary intention here is ${intentions[journey.primaryIntention] || journey.primaryIntention}.`);
-  }
-
-  if (journey.lifeSituation) {
-    const situations: Record<string, string> = {
-      stable: 'relatively steady',
-      transition: 'between something old and something new',
-      crisis: 'things falling apart',
-      rebuilding: 'putting things back together',
-    };
-    parts.push(`Currently, their life is ${situations[journey.lifeSituation] || journey.lifeSituation}.`);
-  }
-
-  if (journey.experienceLevels) {
-    const levels: string[] = [];
-    const levelDescriptions = ['no', 'minimal', 'some', 'moderate', 'extensive'];
-    for (const [area, level] of Object.entries(journey.experienceLevels)) {
-      if (level >= 4) {
-        levels.push(`${levelDescriptions[level - 1]} experience with ${area.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
-      }
-    }
-    if (levels.length > 0) {
-      parts.push(`They have ${levels.join(', ')}.`);
-    }
-  }
-
-  if (journey.hasAwakeningExperience) {
-    parts.push('They have had transcendent or awakening experiences.');
+    parts.push(`Talking to: ${journey.name}`);
   }
 
   if (journey.currentChallenges && journey.currentChallenges.length > 0) {
-    parts.push(`They are currently working with: ${journey.currentChallenges.join(', ')}.`);
+    parts.push(`Working on: ${journey.currentChallenges.join(', ')}`);
   }
 
   if (journey.interests && journey.interests.length > 0) {
-    parts.push(`They are drawn to: ${journey.interests.join(', ')}.`);
+    parts.push(`Interested in: ${journey.interests.join(', ')}`);
   }
 
-  if (journey.depthPreference) {
-    const depths: Record<string, string> = {
-      foundational: 'building basics, new to this work',
-      intermediate: 'ready to go deeper',
-      deep: 'seeking depth',
-      advanced: 'doing subtle work',
-    };
-    parts.push(`Their preferred depth is ${depths[journey.depthPreference] || journey.depthPreference}.`);
-  }
+  if (parts.length === 0) return '';
 
-  if (journey.completedCourses && journey.completedCourses.length > 0) {
-    parts.push(`They have completed: ${journey.completedCourses.slice(0, 5).join(', ')}${journey.completedCourses.length > 5 ? ` and ${journey.completedCourses.length - 5} more` : ''}.`);
-  }
-
-  if (journey.inProgressCourses && journey.inProgressCourses.length > 0) {
-    parts.push(`They are currently working through: ${journey.inProgressCourses.join(', ')}.`);
-  }
-
-  if (journey.recentArticles && journey.recentArticles.length > 0) {
-    parts.push(`They recently read: ${journey.recentArticles.slice(0, 3).join(', ')}.`);
-  }
-
-  if (parts.length === 0) {
-    return '';
-  }
-
-  return `
-About this person's journey:
-${parts.join('\n')}
-
-Use this context naturally. Don't explicitly mention you know these things unless relevant. Let it inform your responses subtly.`;
+  return parts.join('\n');
 }
 
-/**
- * Construct the complete system prompt with all layers.
- */
-export function buildSystemPrompt(
-  stance: Stance,
-  context?: string,
-  userContext?: string
-): string {
-  const stanceInfo = STANCES[stance];
-
-  const promptParts = [
-    MANIFESTO,
-    "",
-    "---",
-    "",
-    `Current Stance: ${stance.toUpperCase()}`,
-    `Essence: ${stanceInfo.essence}`,
-    `Behavior: ${stanceInfo.behavior}`,
-    "",
-    RESPONSE_PRINCIPLES,
-  ];
-
-  if (context) {
-    promptParts.push(
-      "",
-      "---",
-      "",
-      "Context about this site and its content:",
-      context,
-      "",
-      "You can reference these topics naturally when relevant to the conversation.",
-    );
-  }
-
-  if (userContext) {
-    promptParts.push(
-      "",
-      "---",
-      "",
-      userContext,
-    );
-  }
-
-  return promptParts.join("\n");
-}
-
-/**
- * Post-process the AI response to align with tone and rhythm.
- */
-export function formatResponse(response: string): string {
-  let cleaned = response;
-
-  // Remove <think> tags and their content (model's reasoning process)
-  cleaned = cleaned.replace(/<think>[\s\S]*?<\/think>/g, '');
-
-  // Remove common filler phrases that don't add value
-  const fillerPhrases = [
-    "I understand that ",
-    "It sounds like ",
-    "I hear that ",
-    "I can see that ",
-    "It seems like ",
-    "I think that ",
-    "I believe that ",
-  ];
-
-  for (const filler of fillerPhrases) {
-    cleaned = cleaned.split(filler).join("");
-  }
-
-  // Remove excessive exclamation marks
-  cleaned = cleaned.replace(/!+/g, '!');
-
-  // Remove excessive ellipses
-  cleaned = cleaned.replace(/\.{4,}/g, '...');
-
-  return cleaned.trim();
-}
-
-// Site context for the AI
-export const SITE_CONTEXT = `This is Integrated Human, a personal growth blog focused on:
-
-- Mind: Psychology, shadow work, archetypes (King, Warrior, Magician, Lover for men; Queen, Mother, Lover, Maiden, Huntress, Mystic, Wild Woman for women), emotions, attachment patterns
-- Body: Strength training, breathwork, sleep, recovery, nervous system regulation
-- Soul: Meditation, meaning, philosophy, psychedelics, presence
-- Relationships: Attachment styles, intimacy, polarity, communication, boundaries
-
-The philosophy is "Awake, not woke" - grounded in Jungian psychology, traditional wisdom, and practical embodiment.
-Men are men. Women are women. And each carries a complementary inner dimension (anima/animus) that bridges them to wholeness.
-
-The site features learning paths, an archetype quiz, and articles on integration, shadow work, and becoming whole.`;
-
-/**
- * Content summary for dynamic context
- */
-export interface ContentSummary {
-  articles: Array<{ title: string; category: string; slug: string }>;
-  courses: Array<{ title: string; category: string; slug: string }>;
-  practices: Array<{ title: string; category: string; slug: string }>;
-}
-
-/**
- * User health context for personalization
- */
 export interface UserHealthContext {
   stage: string;
   lowestPillar: string;
@@ -370,118 +244,100 @@ export interface UserHealthContext {
   attachmentStyle?: string;
   recentMood?: number;
   recentEnergy?: number;
-  // Freshness/staleness data
   dataFreshness?: 'fresh' | 'aging' | 'stale' | 'expired';
-  dataConfidence?: number; // 0-1
+  dataConfidence?: number;
   suggestedActions?: string[];
   freshnessMessage?: string;
 }
 
-/**
- * Build dynamic content context based on site content and user data
- */
+export interface ContentSummary {
+  articles: Array<{ title: string; category: string; slug: string }>;
+  courses: Array<{ title: string; category: string; slug: string }>;
+  practices: Array<{ title: string; category: string; slug: string }>;
+}
+
+export const SITE_CONTEXT = `This is Integrated Human - a personal growth site covering mind, body, soul, and relationships.
+Topics include psychology, shadow work, meditation, relationships, and wellness.
+There are articles, courses, and practices available.`;
+
 export function buildDynamicContext(
   content: ContentSummary,
   health?: UserHealthContext
 ): string {
   const parts: string[] = [SITE_CONTEXT];
 
-  // Add content overview with samples
-  if (content.articles.length > 0) {
-    const categories = [...new Set(content.articles.map(a => a.category))];
-    const sampleArticles = content.articles.slice(0, 8).map(a => a.title);
-    parts.push(`
-The site has ${content.articles.length}+ articles across categories like ${categories.slice(0, 6).join(', ')}.
-Sample articles: ${sampleArticles.join(', ')}.`);
-  }
-
-  if (content.courses.length > 0) {
-    const courseList = content.courses.slice(0, 6).map(c => `"${c.title}" (${c.category})`);
-    parts.push(`
-${content.courses.length} courses are available, including: ${courseList.join(', ')}.`);
-  }
-
-  if (content.practices.length > 0) {
-    const practiceList = content.practices.slice(0, 5).map(p => p.title);
-    parts.push(`
-Guided practices available: ${practiceList.join(', ')}.`);
-  }
-
-  // Add health-aware context for personalization
   if (health) {
-    parts.push(`
----
-User's Current State (use sensitively, don't mention directly unless asked):`);
-
     if (health.inCollapse) {
-      parts.push(`This person is in a vulnerable "collapse" state. Be especially gentle, grounding, and avoid pushing growth. Focus on safety and stabilization.`);
-    } else {
-      const stageDescriptions: Record<string, string> = {
-        'regulation': 'building foundations and stability',
-        'integration': 'doing core development work',
-        'embodiment': 'living their wisdom more fully',
-        'optimization': 'refining from a strong base',
-      };
-      parts.push(`They are at the ${stageDescriptions[health.stage] || health.stage} stage.`);
+      parts.push('\nNote: This person is going through a tough time. Be extra gentle.');
     }
-
-    if (health.lowestPillar) {
-      const pillarFocus: Record<string, string> = {
-        'mind': 'emotional processing, shadow work, or mental clarity',
-        'body': 'nervous system regulation, physical vitality, or embodiment',
-        'soul': 'meaning, spiritual practice, or presence',
-        'relationships': 'attachment patterns, boundaries, or connection',
-      };
-      parts.push(`Their ${health.lowestPillar} area could use gentle attention - ${pillarFocus[health.lowestPillar] || 'this area'}.`);
-    }
-
-    if (health.nervousSystemState) {
-      const stateDescriptions: Record<string, string> = {
-        'ventral': 'calm and connected (ventral vagal)',
-        'sympathetic': 'somewhat activated or anxious (sympathetic)',
-        'dorsal': 'low energy or shutdown (dorsal)',
-      };
-      parts.push(`Their nervous system tends toward ${stateDescriptions[health.nervousSystemState] || health.nervousSystemState}.`);
-    }
-
-    if (health.attachmentStyle && health.attachmentStyle !== 'secure') {
-      const attachmentNotes: Record<string, string> = {
-        'anxious': 'They may benefit from reassurance and consistency.',
-        'avoidant': 'Respect their need for space; don\'t push too quickly.',
-        'disorganized': 'Maintain calm presence; they may have trauma history.',
-      };
-      parts.push(attachmentNotes[health.attachmentStyle] || '');
-    }
-
     if (health.recentMood !== undefined && health.recentMood <= 2) {
-      parts.push(`Their recent mood has been low. Be supportive and gentle.`);
-    }
-
-    if (health.recentEnergy !== undefined && health.recentEnergy <= 2) {
-      parts.push(`Their energy is low. Suggest rest-oriented options when relevant.`);
-    }
-
-    // Handle stale data appropriately
-    if (health.dataFreshness && health.dataFreshness !== 'fresh') {
-      parts.push(`
----
-DATA FRESHNESS NOTICE: ${health.freshnessMessage || 'Health data may be outdated.'}`);
-
-      if (health.dataFreshness === 'stale' || health.dataFreshness === 'expired') {
-        parts.push(`IMPORTANT: The above health context is ${health.dataFreshness === 'expired' ? 'quite' : 'somewhat'} outdated. DO NOT anchor the user to past states. Instead:
-- Ask how they're doing NOW before assuming their current state
-- Acknowledge that things may have changed since they last checked in
-- Gently encourage updating their health data if appropriate
-- Focus on their present experience rather than historical patterns`);
-      } else if (health.dataFreshness === 'aging') {
-        parts.push(`Note: This data is from a few days ago. Consider asking about their current state.`);
-      }
-
-      if (health.suggestedActions && health.suggestedActions.length > 0) {
-        parts.push(`You could gently suggest: ${health.suggestedActions[0]}`);
-      }
+      parts.push('\nNote: Their recent mood has been low.');
     }
   }
 
   return parts.join('\n');
+}
+
+// Behavioral detection (simplified - keep for compatibility)
+export function buildBehavioralHints(
+  message: string,
+  history: Array<{ role: string; content: string }> = []
+): string {
+  // Check for spiraling (same complaint repeated)
+  if (history.length >= 4) {
+    const userMsgs = history.filter(m => m.role === 'user').slice(-3);
+    const repeatedWords = findRepeatedThemes(userMsgs.map(m => m.content));
+    if (repeatedWords.length > 0) {
+      return '\nNote: They seem to be stuck on something. Consider gently shifting perspective.';
+    }
+  }
+  return '';
+}
+
+function findRepeatedThemes(messages: string[]): string[] {
+  const allWords = messages.join(' ').toLowerCase().split(/\s+/);
+  const counts: Record<string, number> = {};
+
+  for (const word of allWords) {
+    if (word.length > 5) {
+      counts[word] = (counts[word] || 0) + 1;
+    }
+  }
+
+  return Object.entries(counts)
+    .filter(([_, count]) => count >= 3)
+    .map(([word]) => word);
+}
+
+// Keywords exports (kept for compatibility)
+export const SOMATIC_TRIGGER_KEYWORDS = [
+  'feel', 'feeling', 'felt', 'scared', 'anxious', 'angry', 'sad', 'overwhelmed',
+  'numb', 'stuck', 'tight', 'heavy', 'tension'
+];
+
+export const SPIRAL_KEYWORDS = [
+  'always', 'never', "can't", 'impossible', 'hopeless',
+  'nothing works', 'same thing', 'every time'
+];
+
+export const GROWTH_KEYWORDS = [
+  'i realize', 'that makes sense', 'i get it now', 'something shifted'
+];
+
+export function shouldOfferSomaticPrompt(message: string): boolean {
+  const msg = message.toLowerCase();
+  return SOMATIC_TRIGGER_KEYWORDS.some(k => msg.includes(k));
+}
+
+export function detectSpiraling(
+  message: string,
+  history: Array<{ role: string; content: string }>
+): boolean {
+  const msg = message.toLowerCase();
+  return SPIRAL_KEYWORDS.some(k => msg.includes(k));
+}
+
+export function detectGrowthMoment(message: string): boolean {
+  const msg = message.toLowerCase();
+  return GROWTH_KEYWORDS.some(k => msg.includes(k));
 }

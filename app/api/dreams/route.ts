@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { safeJsonParse } from '@/lib/sanitize';
 import { validateCSRF, csrfErrorResponse } from '@/lib/csrf';
+import { extractDreamSymbols, trackDreamSymbols } from '@/lib/symbol-tracker';
 
 /**
  * GET /api/dreams
@@ -144,6 +145,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Create the dream entry first
     const dream = await prisma.dreamEntry.create({
       data: {
         userId: session.user.id,
@@ -156,6 +158,33 @@ export async function POST(request: NextRequest) {
         recurring: recurring || false,
       },
     });
+
+    // Handle symbol tracking (fire-and-forget to not block response)
+    const userId = session.user.id;
+    const dreamId = dream.id;
+    const dreamContent = content.trim();
+
+    if (symbols && symbols.length > 0) {
+      // If symbols were provided, track them for the personal dictionary
+      trackDreamSymbols(userId, dreamId, symbols, dreamContent).catch(err => {
+        console.error('Error tracking dream symbols:', err);
+      });
+    } else if (dreamContent.length > 50) {
+      // If no symbols provided and content is substantial, extract them using AI
+      extractDreamSymbols(dreamContent).then(async (extractedSymbols) => {
+        if (extractedSymbols.length > 0) {
+          // Update the dream entry with extracted symbols
+          await prisma.dreamEntry.update({
+            where: { id: dreamId },
+            data: { symbols: JSON.stringify(extractedSymbols) },
+          });
+          // Track symbols for the user's personal dictionary
+          await trackDreamSymbols(userId, dreamId, extractedSymbols, dreamContent);
+        }
+      }).catch(err => {
+        console.error('Error extracting dream symbols:', err);
+      });
+    }
 
     return NextResponse.json({
       dream: {

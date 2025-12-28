@@ -9,6 +9,7 @@ import {
   buildUserContext,
   buildDynamicContext,
   SITE_CONTEXT,
+  type Stance,
   type UserJourneyContext,
   type UserHealthContext,
 } from '@/lib/presence';
@@ -25,15 +26,88 @@ import {
 import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
 import { sanitizeUserInput, sanitizeMessageHistory, safeJsonParse } from '@/lib/sanitize';
 import { recordBulkActivities } from '@/lib/assessment/activity-tracker';
+import {
+  getConversationMemory,
+  buildMemoryContextString,
+  updateConversationSummary,
+  updateConversationThemes,
+} from '@/lib/conversation-memory';
+import {
+  updateEmotionalArc,
+  detectMoodFromMessage,
+} from '@/lib/emotional-arc';
+import { learnFromExchange } from '@/lib/realtime-learning';
+import {
+  processShadowPatterns,
+  getUserShadowPatterns,
+  buildShadowPatternContext,
+} from '@/lib/shadow-patterns';
+import {
+  detectCrisisSignals,
+  formatCrisisResources,
+  shouldModifyPrompt,
+  type CrisisSignal,
+} from '@/lib/crisis-detection';
 import type { PillarId } from '@/lib/assessment/types';
 
 // LM Studio endpoint - requires LM_STUDIO_URL env var in production
 const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
-const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'qwen/qwen3-32b';
+const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'openai/gpt-oss-20b';
 
 // Rough token estimation (4 chars ≈ 1 token for English text)
 function estimateTokens(text: string): number {
   return Math.ceil(text.length / 4);
+}
+
+/**
+ * Generate a clean, readable conversation title from the first message
+ * Extracts the core topic rather than just truncating
+ */
+function generateConversationTitle(message: string): string {
+  // Clean up the message
+  let title = message.trim();
+
+  // Remove common filler phrases at the start
+  const fillerPhrases = [
+    /^(hi,?\s*)?/i,
+    /^(hello,?\s*)?/i,
+    /^(hey,?\s*)?/i,
+    /^i('m| am| have been| was| feel| think|'ve been)\s+/i,
+    /^can you\s+(help me\s+)?(with\s+)?/i,
+    /^i('d| would) like to\s+(talk about\s+)?/i,
+    /^i need (help|to talk about|advice on)\s*/i,
+    /^i want to\s+(understand|talk about|explore|work on)\s*/i,
+    /^(so,?\s*)?/i,
+  ];
+
+  for (const phrase of fillerPhrases) {
+    title = title.replace(phrase, '');
+  }
+
+  // Capitalize first letter
+  title = title.charAt(0).toUpperCase() + title.slice(1);
+
+  // Find a natural break point if too long
+  if (title.length > 50) {
+    // Try to break at punctuation
+    const punctuationBreak = title.slice(0, 55).search(/[.!?,;:\-–—]/);
+    if (punctuationBreak > 15) {
+      title = title.slice(0, punctuationBreak);
+    } else {
+      // Break at last space before limit
+      const lastSpace = title.slice(0, 47).lastIndexOf(' ');
+      if (lastSpace > 20) {
+        title = title.slice(0, lastSpace) + '...';
+      } else {
+        title = title.slice(0, 47) + '...';
+      }
+    }
+  }
+
+  // Clean up any trailing punctuation except ...
+  title = title.replace(/[,;:\s]+$/, '');
+
+  return title || 'New conversation';
 }
 
 // =============================================================================
@@ -283,6 +357,319 @@ async function deductTokens(
       context: context || 'chat',
     },
   });
+}
+
+/**
+ * Cross-feature context - recent data from other features the AI can reference
+ */
+interface CrossFeatureContext {
+  recentJournalEntries?: Array<{ content: string; mood?: string; createdAt: Date }>;
+  recentDreams?: Array<{ title?: string; symbols: string[]; emotions: string[]; createdAt: Date }>;
+  recentCheckIns?: Array<{ mood: number; energy: number; note?: string; createdAt: Date }>;
+  journalPatterns?: { frequentWords?: string[]; dominantMood?: string };
+  dreamThemes?: { recurringSymbols?: string[]; emotionalLandscape?: string[] };
+}
+
+/**
+ * AI learning context - triggers and preferences for personalized responses
+ */
+interface AILearningContext {
+  triggers: Array<{
+    trigger: string;
+    intensity: number;
+    preferredResponse: string | null;
+  }>;
+  preferences: Array<{
+    category: string;
+    preference: string;
+    strength: number;
+  }>;
+}
+
+// Mood level to label mapping
+const MOOD_LABELS: Record<number, string> = {
+  1: 'struggling',
+  2: 'low',
+  3: 'okay',
+  4: 'good',
+  5: 'great',
+};
+
+/**
+ * Gather context from other features for AI memory
+ * This allows the AI to reference what the user has been exploring
+ */
+async function getCrossFeatureContext(userId: string): Promise<CrossFeatureContext | null> {
+  try {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    // Fetch recent journal entries (last 3 from past week)
+    const journalEntries = await prisma.journalEntry.findMany({
+      where: {
+        userId,
+        createdAt: { gte: sevenDaysAgo },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 3,
+      select: {
+        content: true,
+        mood: true,
+        createdAt: true,
+      },
+    });
+
+    // Fetch recent dreams (last 3 from past week)
+    const dreams = await prisma.dreamEntry.findMany({
+      where: {
+        userId,
+        createdAt: { gte: sevenDaysAgo },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 3,
+      select: {
+        title: true,
+        symbols: true,
+        emotions: true,
+        createdAt: true,
+      },
+    });
+
+    // Fetch recent check-ins (last 5 from past week)
+    const checkIns = await prisma.quickCheckIn.findMany({
+      where: {
+        userId,
+        createdAt: { gte: sevenDaysAgo },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 5,
+      select: {
+        mood: true,
+        energy: true,
+        note: true,
+        createdAt: true,
+      },
+    });
+
+    // Build context object
+    const context: CrossFeatureContext = {};
+
+    if (journalEntries.length > 0) {
+      context.recentJournalEntries = journalEntries.map(e => ({
+        content: e.content.slice(0, 300), // Truncate for context
+        mood: e.mood || undefined,
+        createdAt: e.createdAt,
+      }));
+
+      // Extract mood patterns
+      const moods = journalEntries.filter(e => e.mood).map(e => e.mood as string);
+      if (moods.length > 0) {
+        const moodCounts = moods.reduce((acc, m) => ({ ...acc, [m]: (acc[m] || 0) + 1 }), {} as Record<string, number>);
+        context.journalPatterns = {
+          dominantMood: Object.entries(moodCounts).sort(([, a], [, b]) => b - a)[0]?.[0],
+        };
+      }
+    }
+
+    if (dreams.length > 0) {
+      context.recentDreams = dreams.map(d => ({
+        title: d.title || undefined,
+        symbols: safeJsonParse<string[]>(d.symbols, []).slice(0, 5),
+        emotions: safeJsonParse<string[]>(d.emotions, []).slice(0, 3),
+        createdAt: d.createdAt,
+      }));
+
+      // Extract recurring symbols
+      const allSymbols = dreams.flatMap(d => safeJsonParse<string[]>(d.symbols, []));
+      const symbolCounts = allSymbols.reduce((acc, s) => ({ ...acc, [s]: (acc[s] || 0) + 1 }), {} as Record<string, number>);
+      const recurringSymbols = Object.entries(symbolCounts)
+        .filter(([, count]) => count > 1)
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, 5)
+        .map(([symbol]) => symbol);
+
+      const allEmotions = dreams.flatMap(d => safeJsonParse<string[]>(d.emotions, []));
+      const uniqueEmotions = [...new Set(allEmotions)].slice(0, 5);
+
+      if (recurringSymbols.length > 0 || uniqueEmotions.length > 0) {
+        context.dreamThemes = {
+          recurringSymbols: recurringSymbols.length > 0 ? recurringSymbols : undefined,
+          emotionalLandscape: uniqueEmotions.length > 0 ? uniqueEmotions : undefined,
+        };
+      }
+    }
+
+    if (checkIns.length > 0) {
+      context.recentCheckIns = checkIns.map(c => ({
+        mood: c.mood,
+        energy: c.energy,
+        note: c.note || undefined,
+        createdAt: c.createdAt,
+      }));
+    }
+
+    // Return null if no context found
+    if (Object.keys(context).length === 0) return null;
+
+    return context;
+  } catch (error) {
+    console.error('Error fetching cross-feature context:', error);
+    return null;
+  }
+}
+
+/**
+ * Fetch AI learning context (triggers and preferences)
+ */
+async function getAILearningContext(userId: string): Promise<AILearningContext | null> {
+  try {
+    // Fetch triggers (top 10 by intensity)
+    const triggers = await prisma.triggerPattern.findMany({
+      where: { userId },
+      orderBy: [{ intensity: 'desc' }, { occurrenceCount: 'desc' }],
+      take: 10,
+      select: {
+        trigger: true,
+        intensity: true,
+        preferredResponse: true,
+      },
+    });
+
+    // Fetch preferences (top 15 by confidence)
+    const preferences = await prisma.chatPreference.findMany({
+      where: {
+        userId,
+        confidence: { gte: 40 }, // Only reasonably confident preferences
+      },
+      orderBy: [{ confidence: 'desc' }, { strength: 'desc' }],
+      take: 15,
+      select: {
+        category: true,
+        preference: true,
+        strength: true,
+      },
+    });
+
+    if (triggers.length === 0 && preferences.length === 0) {
+      return null;
+    }
+
+    return { triggers, preferences };
+  } catch (error) {
+    console.error('Error fetching AI learning context:', error);
+    return null;
+  }
+}
+
+/**
+ * Build AI learning context string for the prompt
+ */
+function buildAILearningContextString(context: AILearningContext): string {
+  const parts: string[] = [];
+
+  // Add trigger awareness
+  if (context.triggers.length > 0) {
+    parts.push('\n## Trigger Awareness');
+    parts.push('Be mindful of these sensitive topics for this user:');
+
+    // High intensity triggers (4-5)
+    const highIntensity = context.triggers.filter(t => t.intensity >= 4);
+    if (highIntensity.length > 0) {
+      parts.push(`HIGH SENSITIVITY: ${highIntensity.map(t => t.trigger).join(', ')} - approach with extra care, offer grounding first.`);
+    }
+
+    // Triggers with preferred responses
+    const withResponses = context.triggers.filter(t => t.preferredResponse);
+    for (const t of withResponses) {
+      parts.push(`- When "${t.trigger}" comes up: ${t.preferredResponse}`);
+    }
+
+    // Other triggers
+    const otherTriggers = context.triggers.filter(t => t.intensity < 4 && !t.preferredResponse);
+    if (otherTriggers.length > 0) {
+      parts.push(`Also sensitive to: ${otherTriggers.map(t => t.trigger).join(', ')}`);
+    }
+  }
+
+  // Add preferences
+  if (context.preferences.length > 0) {
+    parts.push('\n## User Preferences');
+    parts.push('Learned preferences about how this user likes to interact:');
+
+    // Group by category
+    const byCategory: Record<string, string[]> = {};
+    for (const pref of context.preferences) {
+      if (!byCategory[pref.category]) {
+        byCategory[pref.category] = [];
+      }
+      byCategory[pref.category].push(pref.preference);
+    }
+
+    const categoryLabels: Record<string, string> = {
+      'response-style': 'Communication',
+      'tone': 'Tone',
+      'depth': 'Depth',
+      'approach': 'Approach',
+      'pacing': 'Pacing',
+      'feedback-style': 'Feedback',
+      'topics': 'Topics',
+    };
+
+    for (const [category, prefs] of Object.entries(byCategory)) {
+      const label = categoryLabels[category] || category;
+      parts.push(`- ${label}: ${prefs.join('; ')}`);
+    }
+  }
+
+  if (parts.length <= 1) return '';
+
+  parts.push('\nAdapt your responses to honor these preferences while remaining authentic.');
+  return parts.join('\n');
+}
+
+/**
+ * Build cross-feature context string for the AI
+ */
+function buildCrossFeatureContextString(context: CrossFeatureContext): string {
+  const parts: string[] = [];
+
+  if (context.recentCheckIns && context.recentCheckIns.length > 0) {
+    const latestCheckIn = context.recentCheckIns[0];
+    const daysAgo = Math.floor((Date.now() - latestCheckIn.createdAt.getTime()) / (1000 * 60 * 60 * 24));
+    const moodLabel = MOOD_LABELS[latestCheckIn.mood] || `${latestCheckIn.mood}/5`;
+    parts.push(`Recent check-in (${daysAgo === 0 ? 'today' : daysAgo + 'd ago'}): mood "${moodLabel}", energy ${latestCheckIn.energy}/5${latestCheckIn.note ? `. Note: "${latestCheckIn.note.slice(0, 100)}"` : ''}`);
+  }
+
+  if (context.recentJournalEntries && context.recentJournalEntries.length > 0) {
+    const entry = context.recentJournalEntries[0];
+    const daysAgo = Math.floor((Date.now() - entry.createdAt.getTime()) / (1000 * 60 * 60 * 24));
+    parts.push(`Recent journal (${daysAgo === 0 ? 'today' : daysAgo + 'd ago'})${entry.mood ? ` [${entry.mood}]` : ''}: "${entry.content.slice(0, 150)}..."`);
+  }
+
+  if (context.journalPatterns?.dominantMood) {
+    parts.push(`Journal mood trend: ${context.journalPatterns.dominantMood}`);
+  }
+
+  if (context.recentDreams && context.recentDreams.length > 0) {
+    const dream = context.recentDreams[0];
+    const daysAgo = Math.floor((Date.now() - dream.createdAt.getTime()) / (1000 * 60 * 60 * 24));
+    const dreamInfo = dream.title || `with symbols: ${dream.symbols.slice(0, 3).join(', ')}`;
+    parts.push(`Recent dream (${daysAgo === 0 ? 'today' : daysAgo + 'd ago'}): ${dreamInfo}`);
+  }
+
+  if (context.dreamThemes?.recurringSymbols && context.dreamThemes.recurringSymbols.length > 0) {
+    parts.push(`Recurring dream symbols: ${context.dreamThemes.recurringSymbols.join(', ')}`);
+  }
+
+  if (parts.length === 0) return '';
+
+  return `
+
+## Recent Activity Context
+The user has been active in other areas of the site. You can reference this if relevant to the conversation:
+${parts.map(p => `- ${p}`).join('\n')}
+
+Use this context naturally when it connects to what the user is discussing. Don't force it if not relevant.`;
 }
 
 /**
@@ -555,17 +942,86 @@ export async function POST(request: NextRequest) {
     // Get health context for deeper personalization
     const healthContext = await getUserHealthContext(userId);
 
+    // Get cross-feature context for AI memory (journal, dreams, check-ins)
+    const crossFeatureContext = await getCrossFeatureContext(userId);
+    const crossFeatureString = crossFeatureContext
+      ? buildCrossFeatureContextString(crossFeatureContext)
+      : '';
+
+    // Get AI learning context (triggers and preferences)
+    const aiLearningContext = await getAILearningContext(userId);
+    const aiLearningString = aiLearningContext
+      ? buildAILearningContextString(aiLearningContext)
+      : '';
+
+    // Get shadow pattern context (unconscious patterns for gentle awareness)
+    const shadowPatterns = await getUserShadowPatterns(userId);
+    const shadowPatternString = buildShadowPatternContext(shadowPatterns);
+
+    // Get conversation memory (summary of older messages for long conversations)
+    let memoryContextString = '';
+    if (activeConversationId) {
+      const conversationMemory = await getConversationMemory(activeConversationId);
+      memoryContextString = buildMemoryContextString(conversationMemory);
+
+      // Trigger background summarization if needed
+      if (conversationMemory.needsSummarization) {
+        updateConversationSummary(activeConversationId).catch(err => {
+          console.error('Error updating conversation summary:', err);
+        });
+      }
+    }
+
     // Build site context with health awareness
     const siteContext = healthContext
       ? buildDynamicContext({ articles: [], courses: [], practices: [] }, healthContext)
       : SITE_CONTEXT;
 
-    // Detect stance and build appropriate prompt
-    const isCasual = isCasualMessage(message);
-    const stance = isCasual ? 'companion' : detectStance(message);
-    const systemPrompt = isCasual
-      ? buildCasualPrompt()
-      : buildSystemPrompt(stance, siteContext, userContext);
+    // Detect crisis signals FIRST - this takes priority over all other processing
+    const crisisSignal = detectCrisisSignals(message);
+    const isInCrisis = shouldModifyPrompt(crisisSignal);
+
+    // Check if it's a simple greeting/casual message
+    const isCasual = isInCrisis ? false : isCasualMessage(message);
+
+    // Detect stance - simplified to 5 modes: chill, supportive, hype, deep, grounding
+    const stance: Stance = isInCrisis ? 'grounding' : detectStance(message);
+
+    // Build the prompt - now unified and simpler
+    let systemPrompt: string;
+    if (isCasual) {
+      systemPrompt = buildCasualPrompt();
+    } else {
+      // Combine user context and site context into additional context
+      const additionalContext = [userContext, siteContext].filter(Boolean).join('\n');
+      systemPrompt = buildSystemPrompt(stance, additionalContext || undefined);
+    }
+
+    // Append cross-feature context if available (even for casual messages)
+    if (crossFeatureString) {
+      systemPrompt += crossFeatureString;
+    }
+
+    // Append AI learning context (triggers and preferences) for non-casual messages
+    if (!isCasual && aiLearningString) {
+      systemPrompt += aiLearningString;
+    }
+
+    // Append shadow pattern awareness for deeper insight (only for non-casual)
+    if (!isCasual && shadowPatternString) {
+      systemPrompt += shadowPatternString;
+    }
+
+    // Append conversation memory context (summary of older messages)
+    if (memoryContextString) {
+      systemPrompt += memoryContextString;
+    }
+
+    // CRITICAL: Apply crisis protocol modifications if needed
+    if (isInCrisis && crisisSignal.promptModification) {
+      // Prepend crisis protocol to ensure it takes priority
+      systemPrompt = crisisSignal.promptModification + '\n\n' + systemPrompt;
+    }
 
     // Build messages array for the LLM
     // Add /no_think to user message to disable qwen's thinking mode for faster responses
@@ -689,20 +1145,46 @@ export async function POST(request: NextRequest) {
                   });
                 }).then(conv => {
                   if (conv && !conv.title && message) {
-                    // Generate simple title from user's first message
-                    const title = message.length > 50 ? message.slice(0, 47) + '...' : message;
+                    // Generate smarter title from user's first message
+                    const title = generateConversationTitle(message);
                     return prisma.chatConversation.update({
                       where: { id: activeConversationId },
                       data: { title },
                     });
                   }
+                }).then(() => {
+                  // Update conversation mode based on stance
+                  const modeMap: Record<string, string> = {
+                    chill: 'casual',
+                    supportive: 'support',
+                    hype: 'celebration',
+                    deep: 'growth',
+                    grounding: 'crisis',
+                  };
+                  const newMode = modeMap[stance] || 'general';
+                  return prisma.chatConversation.update({
+                    where: { id: activeConversationId },
+                    data: { mode: newMode },
+                  });
+                }).then(() => {
+                  // Update conversation themes for cross-chat pattern tracking
+                  return updateConversationThemes(activeConversationId);
+                }).then(() => {
+                  // Update emotional arc tracking
+                  return updateEmotionalArc(activeConversationId);
+                }).then(() => {
+                  // Learn triggers and preferences from this exchange
+                  return learnFromExchange(userId, message, totalOutputContent);
+                }).then(() => {
+                  // Process shadow patterns for deeper insights
+                  return processShadowPatterns(userId, message);
                 }).catch(err => {
                   console.error('Error saving assistant message:', err);
                 });
               }
 
-              // Send final info including token usage
-              controller.enqueue(encoder.encode(`data: ${JSON.stringify({
+              // Send final info including token usage and crisis resources if applicable
+              const finalData: Record<string, unknown> = {
                 done: true,
                 stance,
                 conversationId: activeConversationId,
@@ -712,7 +1194,26 @@ export async function POST(request: NextRequest) {
                   totalTokens,
                   remainingBalance: balance - totalTokens,
                 },
-              })}\n\n`));
+              };
+
+              // Include crisis resources in response metadata for UI to display
+              if (isInCrisis && crisisSignal.resources.length > 0) {
+                finalData.crisis = {
+                  severity: crisisSignal.severity,
+                  resources: crisisSignal.resources,
+                };
+              }
+
+              // Include current mood detection for UI display
+              const { mood: currentMood, intensity: moodIntensity } = detectMoodFromMessage(message);
+              if (currentMood !== 'neutral') {
+                finalData.emotionalState = {
+                  mood: currentMood,
+                  intensity: moodIntensity,
+                };
+              }
+
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify(finalData)}\n\n`));
               return;
             }
 

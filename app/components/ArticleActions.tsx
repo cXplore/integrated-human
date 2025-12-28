@@ -42,13 +42,13 @@ export default function ArticleActions({ slug, title }: ArticleActionsProps) {
   };
 
   return (
-    <div className="article-actions flex items-center gap-2">
+    <div className="article-actions flex flex-wrap items-center gap-2">
       <SaveButton slug={slug} variant="full" />
 
       {/* Copy Link Button */}
       <button
         onClick={handleCopyLink}
-        className="flex items-center gap-2 px-3 py-2 border border-zinc-700 text-gray-400 hover:text-white hover:border-zinc-500 transition-colors"
+        className="flex items-center justify-center gap-2 min-h-[44px] px-4 py-2 border border-zinc-700 text-gray-400 hover:text-white hover:border-zinc-500 transition-colors"
         title="Copy link"
       >
         {copied ? (
@@ -71,7 +71,7 @@ export default function ArticleActions({ slug, title }: ArticleActionsProps) {
       {/* Share to X/Twitter Button */}
       <button
         onClick={handleShareTwitter}
-        className="flex items-center gap-2 px-3 py-2 border border-zinc-700 text-gray-400 hover:text-white hover:border-zinc-500 transition-colors"
+        className="flex items-center justify-center gap-2 min-h-[44px] min-w-[44px] px-3 py-2 border border-zinc-700 text-gray-400 hover:text-white hover:border-zinc-500 transition-colors"
         title="Share on X"
       >
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -82,7 +82,7 @@ export default function ArticleActions({ slug, title }: ArticleActionsProps) {
       {/* Share to LinkedIn Button */}
       <button
         onClick={handleShareLinkedIn}
-        className="flex items-center gap-2 px-3 py-2 border border-zinc-700 text-gray-400 hover:text-white hover:border-zinc-500 transition-colors"
+        className="flex items-center justify-center gap-2 min-h-[44px] min-w-[44px] px-3 py-2 border border-zinc-700 text-gray-400 hover:text-white hover:border-zinc-500 transition-colors"
         title="Share on LinkedIn"
       >
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -93,7 +93,7 @@ export default function ArticleActions({ slug, title }: ArticleActionsProps) {
       {/* Share to Facebook Button */}
       <button
         onClick={handleShareFacebook}
-        className="flex items-center gap-2 px-3 py-2 border border-zinc-700 text-gray-400 hover:text-white hover:border-zinc-500 transition-colors"
+        className="flex items-center justify-center gap-2 min-h-[44px] min-w-[44px] px-3 py-2 border border-zinc-700 text-gray-400 hover:text-white hover:border-zinc-500 transition-colors"
         title="Share on Facebook"
       >
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

@@ -215,6 +215,45 @@ async function recordDreamInsights(
   }
 }
 
+/**
+ * Update personal symbol dictionary with symbols from this dream
+ * Increments occurrence count for existing symbols
+ */
+async function updateSymbolDictionary(
+  userId: string,
+  symbols: string[],
+  dreamContext: string
+): Promise<void> {
+  try {
+    for (const symbol of symbols) {
+      const normalizedSymbol = symbol.toLowerCase().trim();
+      if (!normalizedSymbol || normalizedSymbol.length < 2) continue;
+
+      // Check if symbol already exists
+      const existing = await prisma.dreamSymbol.findUnique({
+        where: {
+          userId_symbol: { userId, symbol: normalizedSymbol },
+        },
+      });
+
+      if (existing) {
+        // Update occurrence count and last seen
+        await prisma.dreamSymbol.update({
+          where: { id: existing.id },
+          data: {
+            occurrenceCount: { increment: 1 },
+            lastSeenAt: new Date(),
+          },
+        });
+      }
+      // Note: We don't auto-create symbols - user should explicitly define meanings
+      // This just tracks occurrences for symbols they've defined
+    }
+  } catch (error) {
+    console.error('Error updating symbol dictionary:', error);
+  }
+}
+
 async function checkCredits(userId: string): Promise<{ hasCredits: boolean; balance: number }> {
   const credits = await prisma.aICredits.findUnique({ where: { userId } });
   if (!credits) return { hasCredits: false, balance: 0 };
@@ -361,6 +400,28 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Get user's personal symbol dictionary for personalized interpretation
+    const personalSymbols = await prisma.dreamSymbol.findMany({
+      where: { userId },
+      orderBy: { occurrenceCount: 'desc' },
+      take: 20,
+    });
+
+    if (personalSymbols.length > 0) {
+      additionalContext += `\n\nPersonal Symbol Dictionary (what these symbols mean for THIS dreamer):`;
+      for (const sym of personalSymbols) {
+        // Check if any current symbols match personal dictionary
+        const currentSymbols = symbols || [];
+        const isRelevant = currentSymbols.some((s: string) =>
+          s.toLowerCase().includes(sym.symbol) || sym.symbol.includes(s.toLowerCase())
+        ) || content.toLowerCase().includes(sym.symbol);
+
+        if (isRelevant) {
+          additionalContext += `\n- "${sym.symbol}": ${sym.personalMeaning} (appeared ${sym.occurrenceCount}x)`;
+        }
+      }
+    }
+
     const systemPrompt = `You are a thoughtful dream analyst drawing from Jungian psychology, depth psychology, and archetypal symbolism. Your role is to help the dreamer explore the meaning of their dream with nuance and respect for the mysterious nature of the unconscious.
 
 Your approach:
@@ -405,7 +466,7 @@ Please provide a thoughtful interpretation.`;
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'qwen/qwen3-32b',
+          model: 'openai/gpt-oss-20b',
           messages: [
             { role: 'system', content: systemPrompt },
             { role: 'user', content: userPrompt },
@@ -508,6 +569,13 @@ Please provide a thoughtful interpretation.`;
           ).catch(err => {
             console.error('Error recording dream insights:', err);
           });
+
+          // Update symbol dictionary with new symbols (fire and forget)
+          if (symbols && symbols.length > 0) {
+            updateSymbolDictionary(userId, symbols, content).catch(err => {
+              console.error('Error updating symbol dictionary:', err);
+            });
+          }
 
           controller.enqueue(encoder.encode('data: [DONE]\n\n'));
         } catch (error) {

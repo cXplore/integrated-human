@@ -73,7 +73,17 @@ export default function HomepageChat() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        setError(errorData.code === 'NO_CREDITS' ? 'Out of credits' : 'Error');
+        if (errorData.code === 'NO_CREDITS') {
+          setError('Out of AI credits');
+        } else if (response.status === 502 || response.status === 503) {
+          setError('AI unavailable');
+        } else if (response.status === 504) {
+          setError('Request timed out');
+        } else if (response.status === 429) {
+          setError('Too many requests');
+        } else {
+          setError('Something went wrong');
+        }
         setMessages((prev) => prev.filter((m) => m.id !== assistantId));
         setIsLoading(false);
         return;
@@ -111,7 +121,7 @@ export default function HomepageChat() {
         }
       }
     } catch {
-      setError('Connection error');
+      setError('Connection failed');
       setMessages((prev) => prev.filter((m) => m.id !== assistantId));
     } finally {
       setIsLoading(false);
@@ -247,7 +257,12 @@ export default function HomepageChat() {
           {/* Error */}
           {error && (
             <div className="px-4 pb-2">
-              <p className="text-red-400 text-xs">{error}</p>
+              <p className="text-red-400 text-xs">
+                {error}
+                {error === 'Out of AI credits' && (
+                  <> — <Link href="/profile" className="underline hover:text-red-300">add more</Link></>
+                )}
+              </p>
             </div>
           )}
 

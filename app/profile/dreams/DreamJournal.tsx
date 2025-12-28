@@ -70,9 +70,15 @@ export default function DreamJournal() {
   const [dreams, setDreams] = useState<Dream[]>([]);
   const [stats, setStats] = useState<DreamStats | null>(null);
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState<'list' | 'new' | 'detail' | 'symbols'>('list');
+  const [view, setView] = useState<'list' | 'new' | 'detail' | 'symbols' | 'series'>('list');
   const [selectedDream, setSelectedDream] = useState<Dream | null>(null);
   const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null);
+
+  // Series analysis state
+  const [seriesAnalyzing, setSeriesAnalyzing] = useState(false);
+  const [seriesAnalysis, setSeriesAnalysis] = useState<string>('');
+  const [seriesTimeRange, setSeriesTimeRange] = useState<'week' | 'month' | 'quarter' | 'all'>('month');
+  const seriesAnalysisRef = useRef<HTMLDivElement>(null);
 
   // New dream form state
   const [title, setTitle] = useState('');
@@ -270,6 +276,108 @@ export default function DreamJournal() {
     }
   };
 
+  // Get dreams filtered by time range
+  const getFilteredDreams = () => {
+    if (seriesTimeRange === 'all') return dreams;
+
+    const now = new Date();
+    const cutoff = new Date();
+    switch (seriesTimeRange) {
+      case 'week':
+        cutoff.setDate(now.getDate() - 7);
+        break;
+      case 'month':
+        cutoff.setMonth(now.getMonth() - 1);
+        break;
+      case 'quarter':
+        cutoff.setMonth(now.getMonth() - 3);
+        break;
+    }
+
+    return dreams.filter(d => new Date(d.dreamDate) >= cutoff);
+  };
+
+  // Request AI series analysis
+  const requestSeriesAnalysis = async () => {
+    const filteredDreams = getFilteredDreams();
+    if (filteredDreams.length < 2) return;
+
+    setSeriesAnalysis('');
+    setSeriesAnalyzing(true);
+
+    try {
+      const res = await fetch('/api/dreams/analyze-series', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          dreams: filteredDreams.map(d => ({
+            date: d.dreamDate,
+            title: d.title,
+            content: d.content,
+            symbols: d.symbols,
+            emotions: d.emotions,
+            lucid: d.lucid,
+            recurring: d.recurring,
+          })),
+          timeRange: seriesTimeRange,
+        }),
+      });
+
+      if (res.status === 402) {
+        const data = await res.json();
+        setSeriesAnalysis(`Insufficient credits. You need ${data.required} credits but have ${data.available}. Visit your profile to purchase more.`);
+        setSeriesAnalyzing(false);
+        return;
+      }
+
+      if (!res.ok) {
+        setSeriesAnalysis('Unable to analyze dreams at this time. Please try again later.');
+        setSeriesAnalyzing(false);
+        return;
+      }
+
+      const reader = res.body?.getReader();
+      if (!reader) return;
+
+      const decoder = new TextDecoder();
+      let fullAnalysis = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n').filter(line => line.trim() !== '');
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            if (data === '[DONE]') continue;
+
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.content) {
+                fullAnalysis += parsed.content;
+                setSeriesAnalysis(fullAnalysis);
+                // Auto-scroll
+                if (seriesAnalysisRef.current) {
+                  seriesAnalysisRef.current.scrollTop = seriesAnalysisRef.current.scrollHeight;
+                }
+              }
+            } catch {
+              // Skip malformed JSON
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error analyzing dreams:', error);
+      setSeriesAnalysis('Failed to analyze dreams. Please try again.');
+    } finally {
+      setSeriesAnalyzing(false);
+    }
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       weekday: 'short',
@@ -421,6 +529,262 @@ export default function DreamJournal() {
                 </p>
               </div>
             </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Series Analysis View
+  if (view === 'series') {
+    const filteredDreams = getFilteredDreams();
+    const hasEnoughDreams = filteredDreams.length >= 2;
+
+    // Calculate patterns for display
+    const allSymbols = new Map<string, { count: number; dates: string[] }>();
+    const allEmotions = new Map<string, { count: number; dates: string[] }>();
+    const lucidCount = filteredDreams.filter(d => d.lucid).length;
+    const recurringCount = filteredDreams.filter(d => d.recurring).length;
+
+    filteredDreams.forEach(d => {
+      d.symbols?.forEach(s => {
+        const existing = allSymbols.get(s) || { count: 0, dates: [] };
+        existing.count++;
+        existing.dates.push(d.dreamDate);
+        allSymbols.set(s, existing);
+      });
+      d.emotions?.forEach(e => {
+        const existing = allEmotions.get(e) || { count: 0, dates: [] };
+        existing.count++;
+        existing.dates.push(d.dreamDate);
+        allEmotions.set(e, existing);
+      });
+    });
+
+    const sortedSymbols = [...allSymbols.entries()].sort((a, b) => b[1].count - a[1].count);
+    const sortedEmotions = [...allEmotions.entries()].sort((a, b) => b[1].count - a[1].count);
+
+    return (
+      <div className="space-y-6">
+        <button
+          onClick={() => { setView('list'); setSeriesAnalysis(''); }}
+          className="text-gray-500 hover:text-gray-300 transition-colors text-sm flex items-center gap-2"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to dreams
+        </button>
+
+        <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-6 space-y-6">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div>
+              <h2 className="text-xl text-white font-serif mb-1">Dream Series Analysis</h2>
+              <p className="text-gray-500 text-sm">
+                Discover patterns and themes across your dream life
+              </p>
+            </div>
+            <div className="flex gap-1 bg-zinc-900 rounded-lg p-1">
+              {(['week', 'month', 'quarter', 'all'] as const).map(range => (
+                <button
+                  key={range}
+                  onClick={() => setSeriesTimeRange(range)}
+                  className={`px-3 py-1.5 text-xs rounded transition-colors ${
+                    seriesTimeRange === range
+                      ? 'bg-purple-600 text-white'
+                      : 'text-gray-500 hover:text-white'
+                  }`}
+                >
+                  {range === 'all' ? 'All time' : range === 'quarter' ? '3 months' : `1 ${range}`}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {!hasEnoughDreams ? (
+            <div className="text-center py-12 text-gray-500">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-zinc-900 flex items-center justify-center">
+                <svg className="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <p className="mb-2">Need at least 2 dreams for series analysis</p>
+              <p className="text-sm">
+                You have {filteredDreams.length} dream{filteredDreams.length !== 1 ? 's' : ''} in this time range.
+                Try a longer time period or record more dreams.
+              </p>
+            </div>
+          ) : (
+            <>
+              {/* Quick Stats */}
+              <div className="grid sm:grid-cols-4 gap-4">
+                <div className="bg-zinc-900/50 border border-zinc-800 p-4 text-center">
+                  <div className="text-2xl text-white font-light">{filteredDreams.length}</div>
+                  <div className="text-xs text-gray-500">Dreams</div>
+                </div>
+                <div className="bg-zinc-900/50 border border-zinc-800 p-4 text-center">
+                  <div className="text-2xl text-white font-light">{allSymbols.size}</div>
+                  <div className="text-xs text-gray-500">Unique Symbols</div>
+                </div>
+                <div className="bg-zinc-900/50 border border-zinc-800 p-4 text-center">
+                  <div className="text-2xl text-purple-400 font-light">{lucidCount}</div>
+                  <div className="text-xs text-gray-500">Lucid Dreams</div>
+                </div>
+                <div className="bg-zinc-900/50 border border-zinc-800 p-4 text-center">
+                  <div className="text-2xl text-cyan-400 font-light">{recurringCount}</div>
+                  <div className="text-xs text-gray-500">Recurring</div>
+                </div>
+              </div>
+
+              {/* Pattern Overview */}
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Top Symbols */}
+                <div className="space-y-3">
+                  <h3 className="text-sm text-gray-500 uppercase tracking-wide">Top Symbols</h3>
+                  {sortedSymbols.length > 0 ? (
+                    <div className="space-y-2">
+                      {sortedSymbols.slice(0, 5).map(([symbol, data]) => {
+                        const meaning = SYMBOL_MEANINGS[symbol.toLowerCase()];
+                        const percentage = Math.round((data.count / filteredDreams.length) * 100);
+                        return (
+                          <div key={symbol} className="flex items-center gap-3">
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-1">
+                                <span className={`text-sm ${meaning?.color || 'text-gray-400'}`}>
+                                  {symbol}
+                                </span>
+                                <span className="text-xs text-gray-600">{data.count}x ({percentage}%)</span>
+                              </div>
+                              <div className="h-1 bg-zinc-800 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-purple-600/50 rounded-full transition-all"
+                                  style={{ width: `${percentage}%` }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-gray-600 text-sm">No symbols recorded yet</p>
+                  )}
+                </div>
+
+                {/* Top Emotions */}
+                <div className="space-y-3">
+                  <h3 className="text-sm text-gray-500 uppercase tracking-wide">Emotional Landscape</h3>
+                  {sortedEmotions.length > 0 ? (
+                    <div className="space-y-2">
+                      {sortedEmotions.slice(0, 5).map(([emotion, data]) => {
+                        const info = EMOTIONS.find(e => e.value === emotion);
+                        const percentage = Math.round((data.count / filteredDreams.length) * 100);
+                        return (
+                          <div key={emotion} className="flex items-center gap-3">
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-1">
+                                <span className={`text-sm ${info?.color || 'text-gray-400'}`}>
+                                  {info?.label || emotion}
+                                </span>
+                                <span className="text-xs text-gray-600">{data.count}x ({percentage}%)</span>
+                              </div>
+                              <div className="h-1 bg-zinc-800 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-amber-600/50 rounded-full transition-all"
+                                  style={{ width: `${percentage}%` }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <p className="text-gray-600 text-sm">No emotions recorded yet</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Dream Timeline */}
+              <div className="space-y-3">
+                <h3 className="text-sm text-gray-500 uppercase tracking-wide">Timeline</h3>
+                <div className="relative">
+                  <div className="absolute left-2 top-0 bottom-0 w-px bg-zinc-800" />
+                  <div className="space-y-3 pl-6">
+                    {filteredDreams.slice(0, 10).map((dream, idx) => (
+                      <button
+                        key={dream.id}
+                        onClick={() => { setSelectedDream(dream); setView('detail'); }}
+                        className="w-full text-left relative group"
+                      >
+                        <div className="absolute -left-4 top-2 w-2 h-2 rounded-full bg-purple-600 group-hover:bg-purple-400 transition-colors" />
+                        <div className="bg-zinc-900/50 border border-zinc-800 hover:border-zinc-600 transition-colors p-3">
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <span className="text-white text-sm truncate">
+                              {dream.title || 'Untitled Dream'}
+                            </span>
+                            <span className="text-xs text-gray-600 flex-shrink-0">
+                              {formatDate(dream.dreamDate)}
+                            </span>
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {dream.symbols?.slice(0, 3).map(s => (
+                              <span key={s} className="text-xs text-gray-500">#{s}</span>
+                            ))}
+                            {(dream.symbols?.length || 0) > 3 && (
+                              <span className="text-xs text-gray-600">+{dream.symbols!.length - 3}</span>
+                            )}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* AI Analysis Section */}
+              <div className="pt-6 border-t border-zinc-800">
+                <h3 className="text-sm text-gray-500 uppercase tracking-wide mb-4">AI Pattern Analysis</h3>
+
+                {seriesAnalysis || seriesAnalyzing ? (
+                  <div className="space-y-4">
+                    <div
+                      ref={seriesAnalysisRef}
+                      className="prose prose-invert prose-zinc max-w-none bg-zinc-900/50 p-4 border border-zinc-800 max-h-96 overflow-y-auto"
+                    >
+                      <p className="text-gray-300 whitespace-pre-wrap">
+                        {seriesAnalysis}
+                        {seriesAnalyzing && <span className="animate-pulse">|</span>}
+                      </p>
+                    </div>
+                    {!seriesAnalyzing && (
+                      <button
+                        onClick={requestSeriesAnalysis}
+                        className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
+                      >
+                        Get new analysis (10 credits)
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <p className="text-gray-500 text-sm">
+                      Get AI-powered insights about recurring patterns, evolving themes, and what your dream series might be revealing about your inner life.
+                    </p>
+                    <button
+                      onClick={requestSeriesAnalysis}
+                      disabled={seriesAnalyzing}
+                      className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium transition-colors flex items-center gap-2"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      Analyze Dream Series (10 credits)
+                    </button>
+                  </div>
+                )}
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -787,21 +1151,40 @@ export default function DreamJournal() {
         </div>
       )}
 
-      {/* New Dream Button */}
-      <button
-        onClick={() => setView('new')}
-        className="w-full bg-[var(--card-bg)] border border-dashed border-zinc-700 p-6 text-center hover:border-zinc-500 transition-colors group"
-      >
-        <div className="flex items-center justify-center gap-3 text-gray-500 group-hover:text-white transition-colors">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
-          </svg>
-          <span className="font-medium">Record a New Dream</span>
-        </div>
-        <p className="text-sm text-gray-600 mt-2">
-          Best done right after waking, while the dream is still fresh
-        </p>
-      </button>
+      {/* Action Buttons */}
+      <div className="grid sm:grid-cols-2 gap-4">
+        <button
+          onClick={() => setView('new')}
+          className="bg-[var(--card-bg)] border border-dashed border-zinc-700 p-6 text-center hover:border-zinc-500 transition-colors group"
+        >
+          <div className="flex items-center justify-center gap-3 text-gray-500 group-hover:text-white transition-colors">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+            </svg>
+            <span className="font-medium">Record a New Dream</span>
+          </div>
+          <p className="text-sm text-gray-600 mt-2">
+            Best done right after waking
+          </p>
+        </button>
+
+        {dreams.length >= 2 && (
+          <button
+            onClick={() => setView('series')}
+            className="bg-[var(--card-bg)] border border-zinc-700 p-6 text-center hover:border-purple-600/50 transition-colors group"
+          >
+            <div className="flex items-center justify-center gap-3 text-gray-500 group-hover:text-purple-400 transition-colors">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+              <span className="font-medium">Series Analysis</span>
+            </div>
+            <p className="text-sm text-gray-600 mt-2">
+              Discover patterns over time
+            </p>
+          </button>
+        )}
+      </div>
 
       {/* Dreams List */}
       {dreams.length === 0 ? (

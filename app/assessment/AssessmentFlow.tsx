@@ -815,15 +815,23 @@ function AssessmentResults({ portrait }: { portrait: IntegrationPortrait }) {
       )}
 
       {/* Continue */}
-      <div className="text-center pt-8">
-        <button
-          onClick={() => router.push('/profile')}
-          className="px-8 py-3 bg-white text-black font-medium hover:bg-gray-100 transition-colors"
-        >
-          Go to Your Profile
-        </button>
-        <p className="text-gray-500 text-sm mt-4">
-          Your results have been saved and will inform your personalized experience.
+      <div className="text-center pt-8 space-y-4">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400 text-sm">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          Assessment complete! Your health portrait is ready.
+        </div>
+        <div>
+          <button
+            onClick={() => router.push('/profile/health')}
+            className="px-8 py-3 bg-white text-black font-medium hover:bg-gray-100 transition-colors"
+          >
+            View Your Health Portrait
+          </button>
+        </div>
+        <p className="text-gray-500 text-sm">
+          Your 30 dimensions have been scored and personalized recommendations are waiting.
         </p>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import Navigation from './components/Navigation';
 import PostCard from './components/PostCard';
 import NewsletterSignup from './components/NewsletterSignup';
@@ -9,6 +10,23 @@ import TodaysFocus from './components/TodaysFocus';
 import HomepageChat from './components/HomepageChat';
 import { getAllPosts, getPostBySlug } from '@/lib/posts';
 import { getAllCourses } from '@/lib/courses';
+
+export const metadata: Metadata = {
+  title: 'Integrated Human - Psychology, Embodiment & Personal Growth',
+  description: 'Live stronger, feel deeper, become whole. Practical paths to integration through psychology, embodiment, relationships, and meaning. Articles, courses, and AI-guided support.',
+  keywords: ['personal growth', 'shadow work', 'psychology', 'meditation', 'relationships', 'embodiment', 'nervous system', 'self-development'],
+  openGraph: {
+    title: 'Integrated Human - Psychology, Embodiment & Personal Growth',
+    description: 'Live stronger, feel deeper, become whole. Practical paths to integration through psychology, embodiment, relationships, and meaning.',
+    type: 'website',
+    images: ['/images/A-Spark-In-The-Universe_web-1400x788.jpg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Integrated Human - Psychology, Embodiment & Personal Growth',
+    description: 'Live stronger, feel deeper, become whole. Practical paths to integration.',
+  },
+};
 
 const essentialReads = [
   'shadow-work-beginners-guide',
@@ -103,18 +121,18 @@ export default function Home() {
           <div className="space-y-6 text-gray-400 leading-relaxed">
             <p>
               Integration is the ongoing work of becoming whole. Not perfect—whole.
-              It means bringing together the parts of yourself you've hidden, denied,
-              or never knew existed.
+              It means bringing together all the parts of yourself into something
+              that feels genuinely like <span className="text-gray-300">you</span>.
             </p>
             <p>
-              It means feeling what you've avoided feeling. Seeing what you've refused to see.
-              Building a body that can hold more intensity, a mind that can tolerate more
-              uncertainty, relationships that can survive more honesty.
+              It's building a body that feels alive, a mind that's clear when it needs to be,
+              relationships where you can actually show up as yourself.
+              The kind of life where you're not constantly running from something.
             </p>
             <p>
-              This isn't self-improvement as escape. It's self-knowledge as arrival.
-              The work is hard, sometimes painful, and it never ends. But it's the only
-              work that actually changes anything.
+              The work takes honesty. Sometimes it's uncomfortable. But there's also
+              relief in it—the relief of not pretending anymore, of finally being able to
+              breathe. That's what we're here to help you find.
             </p>
           </div>
         </div>
@@ -133,7 +151,7 @@ export default function Home() {
             <Link href="/mind" className="group space-y-3">
               <h3 className="font-serif text-2xl font-light text-white group-hover:text-gray-300 transition-colors">Mind</h3>
               <p className="text-gray-400 leading-relaxed text-sm">
-                Psychology, patterns, shadow work, emotions. How you think and feel—the inner landscape.
+                Psychology, patterns, emotions. Understanding how you work—so you can work with yourself, not against.
               </p>
               <span className="inline-block text-gray-500 group-hover:text-white transition-colors text-sm">
                 Explore →
@@ -142,7 +160,7 @@ export default function Home() {
             <Link href="/body" className="group space-y-3">
               <h3 className="font-serif text-2xl font-light text-white group-hover:text-gray-300 transition-colors">Body</h3>
               <p className="text-gray-400 leading-relaxed text-sm">
-                Training, nutrition, sleep, breath, nervous system. Your physical foundation for everything else.
+                Movement, rest, breath, nervous system. Feeling at home in your body and building real vitality.
               </p>
               <span className="inline-block text-gray-500 group-hover:text-white transition-colors text-sm">
                 Explore →
@@ -151,7 +169,7 @@ export default function Home() {
             <Link href="/soul" className="group space-y-3">
               <h3 className="font-serif text-2xl font-light text-white group-hover:text-gray-300 transition-colors">Soul</h3>
               <p className="text-gray-400 leading-relaxed text-sm">
-                Meditation, meaning, philosophy, psychedelics. The depths beyond optimization.
+                Meditation, meaning, philosophy. Finding depth and purpose beyond the daily grind.
               </p>
               <span className="inline-block text-gray-500 group-hover:text-white transition-colors text-sm">
                 Explore →
@@ -160,7 +178,7 @@ export default function Home() {
             <Link href="/relationships" className="group space-y-3">
               <h3 className="font-serif text-2xl font-light text-white group-hover:text-gray-300 transition-colors">Relationships</h3>
               <p className="text-gray-400 leading-relaxed text-sm">
-                Attachment, intimacy, polarity, conflict. How you connect with others—and why it goes wrong.
+                Attachment, intimacy, connection. Building relationships where you can actually be yourself.
               </p>
               <span className="inline-block text-gray-500 group-hover:text-white transition-colors text-sm">
                 Explore →

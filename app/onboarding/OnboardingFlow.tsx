@@ -320,8 +320,8 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
               </p>
             </div>
 
-            <div className="text-center text-gray-500 text-sm">
-              You can take this now or later from your profile
+            <div className="text-center text-emerald-400/80 text-sm">
+              This is the foundation of your personalized experience
             </div>
           </div>
         );
@@ -366,14 +366,7 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
         </button>
 
         {isAssessmentStep ? (
-          <div className="flex gap-3">
-            <button
-              onClick={completeOnboarding}
-              disabled={saving}
-              className="px-6 py-3 text-gray-400 hover:text-white border border-zinc-700 transition-colors disabled:opacity-50"
-            >
-              {saving ? 'Saving...' : 'Skip for now'}
-            </button>
+          <div className="flex flex-col items-end gap-3">
             <button
               onClick={async () => {
                 setSaving(true);
@@ -384,6 +377,13 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
               className="px-8 py-3 bg-white text-black font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {saving ? 'Saving...' : 'Take Assessment'}
+            </button>
+            <button
+              onClick={completeOnboarding}
+              disabled={saving}
+              className="text-sm text-gray-500 hover:text-gray-400 transition-colors disabled:opacity-50"
+            >
+              {saving ? 'Saving...' : 'I\'ll do this later'}
             </button>
           </div>
         ) : isLastStep ? (

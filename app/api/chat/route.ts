@@ -6,7 +6,6 @@ import {
   isCasualMessage,
   buildCasualPrompt,
   buildSystemPrompt,
-  formatResponse,
   buildDynamicContext,
   type ContentSummary,
   type UserHealthContext,
@@ -22,7 +21,7 @@ import { safeJsonParse } from '@/lib/sanitize';
 
 // LM Studio endpoint - requires LM_STUDIO_URL env var in production
 const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
-const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'qwen/qwen3-32b';
+const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'openai/gpt-oss-20b';
 
 // Rough token estimation (4 chars ≈ 1 token for English text)
 function estimateTokens(text: string): number {
@@ -266,7 +265,7 @@ export async function POST(request: NextRequest) {
 
     // Detect stance and build appropriate prompt
     const isCasual = isCasualMessage(message);
-    const stance = isCasual ? 'companion' : detectStance(message);
+    const stance = isCasual ? 'chill' : detectStance(message);
 
     // Build dynamic context with content and health info (only for non-casual messages)
     let systemPrompt: string;
@@ -342,8 +341,9 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await response.json();
-    const aiResponse = data.choices?.[0]?.message?.content || '';
-    const formattedResponse = formatResponse(aiResponse);
+    let aiResponse = data.choices?.[0]?.message?.content || '';
+    // Strip any think tags from reasoning models
+    aiResponse = aiResponse.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
 
     // Calculate output tokens and deduct credits
     const outputTokens = estimateTokens(aiResponse);
@@ -355,7 +355,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({
-      response: formattedResponse,
+      response: aiResponse,
       stance,
       usage: {
         inputTokens,

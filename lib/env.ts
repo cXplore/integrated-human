@@ -107,5 +107,5 @@ export const env = {
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY!,
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET!,
   LM_STUDIO_URL: process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions',
-  LM_STUDIO_MODEL: process.env.LM_STUDIO_MODEL || 'qwen/qwen3-32b',
+  LM_STUDIO_MODEL: process.env.LM_STUDIO_MODEL || 'openai/gpt-oss-20b',
 } as const;
