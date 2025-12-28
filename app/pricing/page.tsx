@@ -1,17 +1,17 @@
 import Navigation from '../components/Navigation';
 import Link from 'next/link';
-import { SUBSCRIPTION_TIERS, CREDIT_PACKAGES, FREE_TIER, tokensToCredits } from '@/lib/subscriptions';
+import { SUBSCRIPTION_TIERS, FREE_TIER, tokensToCredits } from '@/lib/subscriptions';
 import TierCard from './TierCard';
-import CreditPackages from './CreditPackages';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Pricing | Integrated Human',
-  description: 'Start free with 50 articles and intro courses. Become a member for $19/month to unlock everything.',
+  description: 'Start free with 50 articles and intro courses. Become a member for $19/month or go Pro for $49/month with more AI credits.',
 };
 
 export default function PricingPage() {
   const memberTier = SUBSCRIPTION_TIERS.member;
+  const proTier = SUBSCRIPTION_TIERS.pro;
 
   return (
     <>
@@ -24,14 +24,14 @@ export default function PricingPage() {
               Simple Pricing
             </h1>
             <p className="text-xl text-gray-400 leading-relaxed">
-              Start free. Unlock everything for $19/month.
+              Start free. Unlock everything with Member or Pro.
             </p>
           </div>
         </section>
 
-        {/* Two Options */}
+        {/* Three Options */}
         <section className="py-16 px-6">
-          <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+          <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-6">
             {/* Free */}
             <div className="bg-zinc-900 border border-zinc-800 p-8">
               <h2 className="font-serif text-2xl text-white mb-2">Free</h2>
@@ -69,14 +69,14 @@ export default function PricingPage() {
             {/* Member */}
             <div className="bg-zinc-900 border-2 border-white p-8 relative">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-white text-zinc-900 text-xs uppercase tracking-wide font-medium">
-                Full Access
+                Most Popular
               </div>
 
               <h2 className="font-serif text-2xl text-white mb-2">Member</h2>
               <p className="text-gray-500 mb-6">Everything unlocked</p>
 
               <div className="mb-6">
-                <span className="text-4xl font-light text-white">$19</span>
+                <span className="text-4xl font-light text-white">${memberTier.monthlyPrice}</span>
                 <span className="text-gray-500">/month</span>
               </div>
 
@@ -90,6 +90,28 @@ export default function PricingPage() {
               </ul>
 
               <TierCard tier={memberTier} compact />
+            </div>
+
+            {/* Pro */}
+            <div className="bg-zinc-900 border border-zinc-700 p-8 relative">
+              <h2 className="font-serif text-2xl text-white mb-2">Pro</h2>
+              <p className="text-gray-500 mb-6">{proTier.description}</p>
+
+              <div className="mb-6">
+                <span className="text-4xl font-light text-white">${proTier.monthlyPrice}</span>
+                <span className="text-gray-500">/month</span>
+              </div>
+
+              <ul className="space-y-3 mb-8">
+                {proTier.features.map((feature, i) => (
+                  <li key={i} className="flex items-center gap-3 text-gray-300">
+                    <span className="text-green-500">✓</span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              <TierCard tier={proTier} compact />
             </div>
           </div>
         </section>
@@ -108,6 +130,7 @@ export default function PricingPage() {
                     <th className="text-left py-4 text-gray-400 font-normal"></th>
                     <th className="text-center py-4 text-gray-400 font-normal">Free</th>
                     <th className="text-center py-4 text-white font-medium">Member</th>
+                    <th className="text-center py-4 text-white font-medium">Pro</th>
                   </tr>
                 </thead>
                 <tbody className="text-sm">
@@ -115,9 +138,11 @@ export default function PricingPage() {
                     <td className="py-4 text-gray-300">Articles</td>
                     <td className="py-4 text-center text-gray-400">{FREE_TIER.articleLimit}</td>
                     <td className="py-4 text-center text-green-500">All</td>
+                    <td className="py-4 text-center text-green-500">All</td>
                   </tr>
                   <tr className="border-b border-zinc-800/50">
                     <td className="py-4 text-gray-300">Intro Courses</td>
+                    <td className="py-4 text-center text-green-500">✓</td>
                     <td className="py-4 text-center text-green-500">✓</td>
                     <td className="py-4 text-center text-green-500">✓</td>
                   </tr>
@@ -125,26 +150,31 @@ export default function PricingPage() {
                     <td className="py-4 text-gray-300">All Courses (incl. Flagship)</td>
                     <td className="py-4 text-center text-gray-600">—</td>
                     <td className="py-4 text-center text-green-500">✓</td>
+                    <td className="py-4 text-center text-green-500">✓</td>
                   </tr>
                   <tr className="border-b border-zinc-800/50">
                     <td className="py-4 text-gray-300">Certificates</td>
                     <td className="py-4 text-center text-gray-600">—</td>
+                    <td className="py-4 text-center text-green-500">✓</td>
                     <td className="py-4 text-center text-green-500">✓</td>
                   </tr>
                   <tr className="border-b border-zinc-800/50">
                     <td className="py-4 text-gray-300">Learning Paths</td>
                     <td className="py-4 text-center text-gray-600">—</td>
                     <td className="py-4 text-center text-green-500">✓</td>
+                    <td className="py-4 text-center text-green-500">✓</td>
                   </tr>
                   <tr className="border-b border-zinc-800/50">
                     <td className="py-4 text-gray-300">PDFs & Resources</td>
                     <td className="py-4 text-center text-gray-400">Some</td>
                     <td className="py-4 text-center text-green-500">All</td>
+                    <td className="py-4 text-center text-green-500">All</td>
                   </tr>
                   <tr className="border-b border-zinc-800/50">
                     <td className="py-4 text-gray-300">AI Credits/month</td>
                     <td className="py-4 text-center text-gray-600">—</td>
-                    <td className="py-4 text-center text-gray-300">{tokensToCredits(memberTier.monthlyTokens)}</td>
+                    <td className="py-4 text-center text-gray-300">{tokensToCredits(memberTier.monthlyTokens).toLocaleString()}</td>
+                    <td className="py-4 text-center text-gray-300">{tokensToCredits(proTier.monthlyTokens).toLocaleString()}</td>
                   </tr>
                 </tbody>
               </table>
@@ -152,24 +182,12 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* AI Credits Section */}
-        <section className="py-16 px-6 border-t border-zinc-800">
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="font-serif text-3xl text-white mb-4">
-                Need More AI Credits?
-              </h2>
-              <p className="text-gray-400 leading-relaxed">
-                Members get {tokensToCredits(memberTier.monthlyTokens)} credits/month. Need more?
-                Add credits anytime. Purchased credits never expire.
-              </p>
-            </div>
-
-            <CreditPackages packages={CREDIT_PACKAGES} />
-
-            <p className="text-center text-gray-500 text-sm mt-8">
-              1 credit ≈ one exchange with the AI companion.
-              Longer conversations use more credits.
+        {/* AI Credits Note */}
+        <section className="py-12 px-6 border-t border-zinc-800">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="text-gray-400 leading-relaxed">
+              Need more AI credits? Upgrade to Pro for 2.5x the credits,
+              or top up anytime—purchased credits never expire.
             </p>
           </div>
         </section>

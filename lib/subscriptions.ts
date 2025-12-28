@@ -106,36 +106,23 @@ export interface CreditPackage {
   description: string;
 }
 
-// Pre-defined credit packages (never expire)
+// Credit top-up packages (never expire)
+// Simplified options - most users should upgrade tier instead
 // Flat rate: $0.02 per credit ($20 per 1,000 credits)
 export const CREDIT_PACKAGES: CreditPackage[] = [
   {
     id: 'credits-500',
-    name: 'Starter',
+    name: 'Top Up',
     credits: 500,
     price: 10,
     description: '~65 conversations'
   },
   {
     id: 'credits-1000',
-    name: 'Standard',
+    name: 'Top Up+',
     credits: 1000,
     price: 20,
     description: '~130 conversations'
-  },
-  {
-    id: 'credits-2500',
-    name: 'Power',
-    credits: 2500,
-    price: 50,
-    description: '~330 conversations'
-  },
-  {
-    id: 'credits-5000',
-    name: 'Pro',
-    credits: 5000,
-    price: 100,
-    description: '~660 conversations'
   },
 ];
 
