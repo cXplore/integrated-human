@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Metadata } from 'next';
 import Navigation from './components/Navigation';
 import PostCard from './components/PostCard';
@@ -63,9 +64,13 @@ export default function Home() {
       <main className="min-h-screen">
       {/* Hero Section */}
       <section className="relative flex flex-col items-center justify-center min-h-[85vh] px-6 text-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat hero-bg-image"
-          style={{ backgroundImage: 'url(/images/A-Spark-In-The-Universe_web-1400x788.jpg)' }}
+        <Image
+          src="/images/A-Spark-In-The-Universe_web-1400x788.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center hero-bg-image"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/70 hero-overlay" />
         <div className="relative z-10 max-w-3xl">
