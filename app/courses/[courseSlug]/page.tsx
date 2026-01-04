@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { getAllCourses, getCourseBySlug } from '@/lib/courses';
 import { getRelatedPostsForCourse } from '@/lib/posts';
 import MembershipCTA from '@/app/components/MembershipCTA';
-import ContentCompanion from '@/app/components/ContentCompanion';
-import { AIErrorBoundary } from '@/app/components/ErrorBoundary';
+import PageContextSetter from '@/app/components/PageContextSetter';
 import { CourseJsonLd, BreadcrumbJsonLd } from '@/app/components/JsonLd';
 
 export async function generateStaticParams() {
@@ -75,6 +74,7 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
 
   return (
     <>
+      <PageContextSetter type="course" title={metadata.title} slug={courseSlug} content={metadata.description} />
       <CourseJsonLd
         title={metadata.title}
         description={metadata.description}
@@ -93,9 +93,19 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
       />
       <Navigation />
       <main className="min-h-screen bg-zinc-950">
-        {/* Hero Section */}
-        <section className="py-20 px-6 border-b border-zinc-800">
-          <div className="max-w-4xl mx-auto">
+        {/* Hero Section with Background Image */}
+        <section className="relative py-20 px-6 border-b border-zinc-800 overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <img
+              src={metadata.image || `/images/courses/${courseSlug}.jpg`}
+              alt=""
+              className="w-full h-full object-cover opacity-30"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/70 via-zinc-950/90 to-zinc-950" />
+          </div>
+
+          <div className="max-w-4xl mx-auto relative z-10">
             <div className="flex items-center gap-3 mb-6">
               {metadata.tier === 'flagship' && (
                 <>
@@ -410,13 +420,6 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
           </div>
         </div>
       </main>
-      <AIErrorBoundary>
-        <ContentCompanion
-          contentType="course"
-          contentTitle={metadata.title}
-          contentSlug={courseSlug}
-        />
-      </AIErrorBoundary>
     </>
   );
 }

@@ -3,6 +3,14 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 
+interface CheckInItem {
+  id: string;
+  description: string;
+  stuckType: string;
+  theme: string | null;
+  daysAgo: number;
+}
+
 const EXAMPLE_STUCKS = [
   "I keep attracting unavailable partners",
   "I can't seem to set boundaries with family",
@@ -20,6 +28,51 @@ export default function WhereImStuck() {
   const responseRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
   const isMountedRef = useRef(true);
+
+  // Check-ins state
+  const [checkIns, setCheckIns] = useState<CheckInItem[]>([]);
+  const [checkInsLoading, setCheckInsLoading] = useState(false);
+  const [respondingTo, setRespondingTo] = useState<string | null>(null);
+
+  // Fetch check-ins on mount
+  useEffect(() => {
+    async function fetchCheckIns() {
+      try {
+        const res = await fetch('/api/stuck/check-ins');
+        if (res.ok) {
+          const data = await res.json();
+          if (isMountedRef.current) {
+            setCheckIns(data.checkIns || []);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch check-ins:', err);
+      }
+    }
+    fetchCheckIns();
+  }, []);
+
+  // Handle check-in response
+  const handleCheckInResponse = async (patternId: string, status: 'resolved' | 'still-stuck' | 'dismiss', notes?: string) => {
+    setCheckInsLoading(true);
+    try {
+      const res = await fetch('/api/stuck/check-ins', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ patternId, status, notes }),
+      });
+
+      if (res.ok) {
+        // Remove from list
+        setCheckIns(prev => prev.filter(c => c.id !== patternId));
+        setRespondingTo(null);
+      }
+    } catch (err) {
+      console.error('Failed to respond to check-in:', err);
+    } finally {
+      setCheckInsLoading(false);
+    }
+  };
 
   // Cleanup on unmount
   useEffect(() => {
@@ -292,52 +345,122 @@ export default function WhereImStuck() {
 
   if (!isExpanded) {
     return (
-      <div className="bg-gradient-to-br from-zinc-900 to-zinc-900/50 border border-zinc-800 p-6">
-        <div className="flex items-start gap-4 mb-6">
-          <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center flex-shrink-0">
-            <svg className="w-5 h-5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <div>
-            <h3 className="text-white font-medium mb-1">Where are you stuck?</h3>
-            <p className="text-gray-500 text-sm">
-              Describe what you're struggling with and get matched to the right resources
+      <div className="space-y-4">
+        {/* Check-ins section - show pending accountability check-ins */}
+        {checkIns.length > 0 && (
+          <div className="bg-amber-500/5 border border-amber-500/20 p-4">
+            <div className="flex items-center gap-2 mb-3">
+              <svg className="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-amber-400 text-sm font-medium">Check-In Time</span>
+            </div>
+
+            <p className="text-gray-400 text-sm mb-4">
+              You shared some struggles recently. How are things going?
             </p>
-          </div>
-        </div>
 
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="I keep finding myself..."
-          rows={3}
-          aria-label="Describe what you're struggling with"
-          className="w-full bg-zinc-800 border border-zinc-700 text-white px-4 py-3 focus:outline-none focus:border-zinc-500 placeholder-gray-600 resize-none mb-4"
-        />
+            <div className="space-y-3">
+              {checkIns.slice(0, 2).map((checkIn) => (
+                <div key={checkIn.id} className="bg-zinc-900 border border-zinc-800 p-3">
+                  {respondingTo === checkIn.id ? (
+                    <div className="space-y-3">
+                      <p className="text-gray-300 text-sm">"{checkIn.description}"</p>
+                      <p className="text-gray-500 text-xs">{checkIn.daysAgo} days ago</p>
 
-        <div className="flex items-center justify-between">
-          <div className="flex flex-wrap gap-2">
-            {EXAMPLE_STUCKS.slice(0, 2).map((example, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  setInput(example);
-                  handleSubmit(example);
-                }}
-                className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
-              >
-                "{example}"
-              </button>
-            ))}
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          onClick={() => handleCheckInResponse(checkIn.id, 'resolved')}
+                          disabled={checkInsLoading}
+                          className="px-3 py-1.5 bg-green-600/20 border border-green-500/30 text-green-400 text-xs hover:bg-green-600/30 transition-colors"
+                        >
+                          Feeling better
+                        </button>
+                        <button
+                          onClick={() => handleCheckInResponse(checkIn.id, 'still-stuck')}
+                          disabled={checkInsLoading}
+                          className="px-3 py-1.5 bg-zinc-800 border border-zinc-700 text-gray-300 text-xs hover:bg-zinc-700 transition-colors"
+                        >
+                          Still working on it
+                        </button>
+                        <button
+                          onClick={() => handleCheckInResponse(checkIn.id, 'dismiss')}
+                          disabled={checkInsLoading}
+                          className="px-3 py-1.5 text-gray-500 text-xs hover:text-gray-300 transition-colors"
+                        >
+                          Dismiss
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setRespondingTo(checkIn.id)}
+                      className="w-full text-left"
+                    >
+                      <p className="text-gray-300 text-sm line-clamp-2">"{checkIn.description}"</p>
+                      <p className="text-gray-600 text-xs mt-1">{checkIn.daysAgo} days ago - tap to respond</p>
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {checkIns.length > 2 && (
+              <p className="text-gray-600 text-xs mt-2 text-center">
+                +{checkIns.length - 2} more check-ins
+              </p>
+            )}
           </div>
-          <button
-            onClick={() => handleSubmit()}
-            disabled={!input.trim() || isLoading}
-            className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-zinc-800 disabled:text-gray-600 text-white text-sm font-medium transition-colors"
-          >
-            Find Resources
-          </button>
+        )}
+
+        {/* Main input section */}
+        <div className="bg-gradient-to-br from-zinc-900 to-zinc-900/50 border border-zinc-800 p-6">
+          <div className="flex items-start gap-4 mb-6">
+            <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-white font-medium mb-1">Where are you stuck?</h3>
+              <p className="text-gray-500 text-sm">
+                Describe what you're struggling with and get matched to the right resources
+              </p>
+            </div>
+          </div>
+
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="I keep finding myself..."
+            rows={3}
+            aria-label="Describe what you're struggling with"
+            className="w-full bg-zinc-800 border border-zinc-700 text-white px-4 py-3 focus:outline-none focus:border-zinc-500 placeholder-gray-600 resize-none mb-4"
+          />
+
+          <div className="flex items-center justify-between">
+            <div className="flex flex-wrap gap-2">
+              {EXAMPLE_STUCKS.slice(0, 2).map((example, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setInput(example);
+                    handleSubmit(example);
+                  }}
+                  className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
+                >
+                  "{example}"
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => handleSubmit()}
+              disabled={!input.trim() || isLoading}
+              className="px-4 py-2 bg-rose-600 hover:bg-rose-500 disabled:bg-zinc-800 disabled:text-gray-600 text-white text-sm font-medium transition-colors"
+            >
+              Find Resources
+            </button>
+          </div>
         </div>
       </div>
     );

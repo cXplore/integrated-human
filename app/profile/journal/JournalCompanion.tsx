@@ -63,6 +63,91 @@ const DEFAULT_PROMPTS = [
   "What questions should I be asking?",
 ];
 
+// Structured journaling frameworks
+interface JournalFramework {
+  id: string;
+  name: string;
+  description: string;
+  prompts: string[];
+  duration: string;
+  icon: string;
+}
+
+const JOURNAL_FRAMEWORKS: JournalFramework[] = [
+  {
+    id: 'gratitude',
+    name: 'Gratitude',
+    description: '3 things you appreciate today',
+    prompts: [
+      "What's one small thing that brought me joy today?",
+      "Who am I grateful for right now, and why?",
+      "What's something I often take for granted that I can appreciate?",
+    ],
+    duration: '3 min',
+    icon: '✨',
+  },
+  {
+    id: 'body-check',
+    name: 'Body Check-In',
+    description: 'Tune into physical sensations',
+    prompts: [
+      "Where in my body am I holding tension right now?",
+      "What is my body trying to tell me today?",
+      "If my body could speak, what would it say?",
+    ],
+    duration: '5 min',
+    icon: '🫀',
+  },
+  {
+    id: 'emotional-weather',
+    name: 'Emotional Weather',
+    description: 'Map your inner landscape',
+    prompts: [
+      "If my emotions were weather, what would the forecast be?",
+      "What emotion is asking for attention right now?",
+      "What triggered this feeling, and what might it be protecting?",
+    ],
+    duration: '5 min',
+    icon: '🌤️',
+  },
+  {
+    id: 'values-check',
+    name: 'Values Alignment',
+    description: 'Are you living your values?',
+    prompts: [
+      "Did my actions today align with what matters most to me?",
+      "Where did I compromise my values, and what was I afraid of?",
+      "One way I can honor my values tomorrow...",
+    ],
+    duration: '5 min',
+    icon: '🧭',
+  },
+  {
+    id: 'shadow-peek',
+    name: 'Shadow Peek',
+    description: 'What are you avoiding?',
+    prompts: [
+      "What am I pretending not to know?",
+      "What would I do differently if I wasn't afraid of judgment?",
+      "What part of myself do I hide from others?",
+    ],
+    duration: '7 min',
+    icon: '🌑',
+  },
+  {
+    id: 'future-self',
+    name: 'Future Self',
+    description: 'Letter from your wiser self',
+    prompts: [
+      "What would my 80-year-old self want me to know?",
+      "If I could send a message to myself one year from now, what would it say?",
+      "What am I building today that my future self will thank me for?",
+    ],
+    duration: '5 min',
+    icon: '🔮',
+  },
+];
+
 export default function JournalCompanion() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -74,6 +159,8 @@ export default function JournalCompanion() {
   const [tokenBalance, setTokenBalance] = useState<number | null>(null);
   const [insights, setInsights] = useState<JournalInsight | null>(null);
   const [showInsights, setShowInsights] = useState(false);
+  const [selectedFramework, setSelectedFramework] = useState<JournalFramework | null>(null);
+  const [frameworkStep, setFrameworkStep] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -134,19 +221,38 @@ export default function JournalCompanion() {
     abortControllerRef.current = new AbortController();
 
     setError(null);
+
+    // If in a guided framework, prefix with context
+    let finalMessage = textToSend;
+    if (selectedFramework && messages.length === 0) {
+      const prompt = selectedFramework.prompts[frameworkStep];
+      finalMessage = `[${selectedFramework.name} reflection - "${prompt}"]\n\n${textToSend}`;
+    }
+
     const userMessage: Message = { role: 'user', content: textToSend };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
+
+    // Advance framework step after submitting
+    if (selectedFramework && frameworkStep < selectedFramework.prompts.length - 1) {
+      setFrameworkStep(frameworkStep + 1);
+    }
 
     try {
       const response = await fetch('/api/journal/companion', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          message: textToSend,
+          message: finalMessage,
           history: messages,
           selectedEntry: selectedEntry ? selectedEntry.content : null,
+          framework: selectedFramework ? {
+            name: selectedFramework.name,
+            prompt: selectedFramework.prompts[frameworkStep],
+            step: frameworkStep + 1,
+            totalSteps: selectedFramework.prompts.length,
+          } : null,
         }),
         signal: abortControllerRef.current.signal,
       });
@@ -224,7 +330,7 @@ export default function JournalCompanion() {
         setIsLoading(false);
       }
     }
-  }, [input, isLoading, messages, selectedEntry]);
+  }, [input, isLoading, messages, selectedEntry, selectedFramework, frameworkStep]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -384,20 +490,45 @@ export default function JournalCompanion() {
 
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2">
-        {messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center text-center px-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
+        {messages.length === 0 && !selectedFramework ? (
+          <div className="h-full flex flex-col px-4 py-2">
+            {/* Guided Journaling Frameworks */}
+            <div className="mb-6">
+              <p className="text-gray-500 text-xs uppercase tracking-wide mb-3">
+                Guided Journaling
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                {JOURNAL_FRAMEWORKS.map((framework) => (
+                  <button
+                    key={framework.id}
+                    onClick={() => {
+                      setSelectedFramework(framework);
+                      setFrameworkStep(0);
+                    }}
+                    className="p-3 text-left bg-zinc-900/50 border border-zinc-800 rounded-lg hover:border-amber-500/30 transition-colors group"
+                  >
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-lg">{framework.icon}</span>
+                      <span className="text-white text-sm font-medium group-hover:text-amber-400 transition-colors">
+                        {framework.name}
+                      </span>
+                    </div>
+                    <p className="text-gray-500 text-xs">{framework.description}</p>
+                    <p className="text-gray-600 text-xs mt-1">{framework.duration}</p>
+                  </button>
+                ))}
+              </div>
             </div>
-            <h3 className="text-white font-medium mb-2">Start a conversation</h3>
-            <p className="text-gray-500 text-sm mb-6 max-w-xs">
-              Ask me about your journal entries. I can help you find patterns, explore emotions, or deepen your reflections.
-            </p>
+
+            {/* Divider */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex-1 h-px bg-zinc-800" />
+              <span className="text-gray-600 text-xs">or ask freely</span>
+              <div className="flex-1 h-px bg-zinc-800" />
+            </div>
 
             {/* Time-aware prompts */}
-            <div className="w-full max-w-sm space-y-2">
+            <div className="space-y-2">
               <p className="text-gray-600 text-xs uppercase tracking-wide mb-2">
                 {getTimeGreeting()} prompts
               </p>
@@ -413,28 +544,84 @@ export default function JournalCompanion() {
             </div>
 
             {/* More prompts toggle */}
-            <button
-              onClick={() => {}}
-              className="mt-4 text-gray-600 text-xs hover:text-gray-400 transition-colors"
-            >
-              <details className="cursor-pointer">
-                <summary>More prompts</summary>
-                <div className="mt-2 space-y-1 text-left">
-                  {DEFAULT_PROMPTS.map((prompt, i) => (
-                    <button
-                      key={i}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSubmit(prompt);
-                      }}
-                      className="block w-full px-3 py-1.5 text-gray-500 hover:text-white transition-colors text-left"
-                    >
-                      {prompt}
-                    </button>
-                  ))}
+            <details className="mt-4 text-gray-600 text-xs cursor-pointer">
+              <summary className="hover:text-gray-400 transition-colors">More prompts</summary>
+              <div className="mt-2 space-y-1">
+                {DEFAULT_PROMPTS.map((prompt, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleSubmit(prompt)}
+                    className="block w-full px-3 py-1.5 text-gray-500 hover:text-white transition-colors text-left"
+                  >
+                    {prompt}
+                  </button>
+                ))}
+              </div>
+            </details>
+          </div>
+        ) : messages.length === 0 && selectedFramework ? (
+          /* Guided Framework View */
+          <div className="h-full flex flex-col px-4 py-2">
+            {/* Framework Header */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">{selectedFramework.icon}</span>
+                <div>
+                  <h4 className="text-white font-medium">{selectedFramework.name}</h4>
+                  <p className="text-gray-500 text-xs">
+                    Step {frameworkStep + 1} of {selectedFramework.prompts.length}
+                  </p>
                 </div>
-              </details>
-            </button>
+              </div>
+              <button
+                onClick={() => {
+                  setSelectedFramework(null);
+                  setFrameworkStep(0);
+                }}
+                className="text-gray-500 hover:text-white text-xs transition-colors"
+              >
+                Exit
+              </button>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-full h-1 bg-zinc-800 rounded-full mb-6">
+              <div
+                className="h-full bg-amber-500 rounded-full transition-all duration-300"
+                style={{ width: `${((frameworkStep + 1) / selectedFramework.prompts.length) * 100}%` }}
+              />
+            </div>
+
+            {/* Current Prompt */}
+            <div className="flex-1 flex flex-col items-center justify-center text-center">
+              <p className="text-white text-lg font-medium mb-6 max-w-sm leading-relaxed">
+                {selectedFramework.prompts[frameworkStep]}
+              </p>
+
+              <p className="text-gray-500 text-sm mb-4">
+                Take a moment to reflect, then share your thoughts below.
+              </p>
+
+              {/* Navigation Buttons */}
+              <div className="flex gap-2 mt-4">
+                {frameworkStep > 0 && (
+                  <button
+                    onClick={() => setFrameworkStep(frameworkStep - 1)}
+                    className="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+                  >
+                    ← Previous
+                  </button>
+                )}
+                {frameworkStep < selectedFramework.prompts.length - 1 && (
+                  <button
+                    onClick={() => setFrameworkStep(frameworkStep + 1)}
+                    className="px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+                  >
+                    Skip →
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         ) : (
           <>
@@ -479,7 +666,7 @@ export default function JournalCompanion() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask about your journal entries..."
+            placeholder={selectedFramework ? "Share your reflection..." : "Ask about your journal entries..."}
             aria-label="Ask a question about your journal entries"
             rows={2}
             className="flex-1 bg-zinc-900 border border-zinc-800 rounded-lg text-white px-4 py-3 focus:outline-none focus:border-amber-500/50 placeholder-gray-600 resize-none text-sm"

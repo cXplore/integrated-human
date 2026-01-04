@@ -14,6 +14,11 @@ interface WeeklyActivity {
   wordCount: number;
 }
 
+interface MoodTimelineEntry {
+  date: string;
+  mood: string;
+}
+
 interface InsightsData {
   totalEntries: number;
   totalWords: number;
@@ -22,6 +27,7 @@ interface InsightsData {
   moodDistribution: MoodCount[];
   dominantMood: string | null;
   weeklyActivity: WeeklyActivity[];
+  moodTimeline: MoodTimelineEntry[];
   writingStreak: number;
   longestEntry: { date: string; wordCount: number } | null;
   promptUsagePercent: number;
@@ -65,6 +71,7 @@ export async function GET(request: NextRequest) {
       moodDistribution: [],
       dominantMood: null,
       weeklyActivity: [],
+      moodTimeline: [],
       writingStreak: 0,
       longestEntry: null,
       promptUsagePercent: 0,
@@ -119,6 +126,16 @@ export async function GET(request: NextRequest) {
 
   const dominantMood =
     moodDistribution.length > 0 ? moodDistribution[0].mood : null;
+
+  // Mood timeline (last 30 entries with moods, chronological order)
+  const moodTimeline: MoodTimelineEntry[] = entries
+    .filter((e) => e.mood)
+    .slice(0, 30)
+    .reverse()
+    .map((e) => ({
+      date: e.createdAt.toISOString().split("T")[0],
+      mood: e.mood!,
+    }));
 
   // Weekly activity (last 8 weeks)
   const weeklyActivity: WeeklyActivity[] = [];
@@ -200,6 +217,7 @@ export async function GET(request: NextRequest) {
     moodDistribution,
     dominantMood,
     weeklyActivity,
+    moodTimeline,
     writingStreak,
     longestEntry,
     promptUsagePercent,

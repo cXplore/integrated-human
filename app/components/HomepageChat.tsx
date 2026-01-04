@@ -1,15 +1,10 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
-
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-}
+import { useAICompanion } from './AICompanionContext';
 
 const starterPrompts = [
   "I'm feeling stuck",
@@ -19,18 +14,17 @@ const starterPrompts = [
 
 export default function HomepageChat() {
   const { data: session, status } = useSession();
-  const [messages, setMessages] = useState<Message[]>([]);
+  const {
+    messages,
+    isLoading,
+    error,
+    sendMessage,
+  } = useAICompanion();
+
   const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [hasStarted, setHasStarted] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  const sendMessage = async (messageText?: string) => {
+  const handleSendMessage = async (messageText?: string) => {
     const text = messageText || input.trim();
     if (!text || isLoading) return;
 
@@ -40,103 +34,19 @@ export default function HomepageChat() {
     }
 
     setHasStarted(true);
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: text,
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
     setInput('');
-    setIsLoading(true);
-    setError(null);
-
-    const assistantId = (Date.now() + 1).toString();
-    setMessages((prev) => [
-      ...prev,
-      { id: assistantId, role: 'assistant', content: '' },
-    ]);
-
-    try {
-      const response = await fetch('/api/chat/stream', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: text,
-          history: messages.slice(-6).map((m) => ({
-            role: m.role,
-            content: m.content,
-          })),
-          context: 'homepage-widget',
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        if (errorData.code === 'NO_CREDITS') {
-          setError('Out of AI credits');
-        } else if (response.status === 502 || response.status === 503) {
-          setError('AI unavailable');
-        } else if (response.status === 504) {
-          setError('Request timed out');
-        } else if (response.status === 429) {
-          setError('Too many requests');
-        } else {
-          setError('Something went wrong');
-        }
-        setMessages((prev) => prev.filter((m) => m.id !== assistantId));
-        setIsLoading(false);
-        return;
-      }
-
-      const reader = response.body?.getReader();
-      if (!reader) return;
-
-      const decoder = new TextDecoder();
-      let fullContent = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n').filter((line) => line.trim() !== '');
-
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            try {
-              const parsed = JSON.parse(line.slice(6));
-              if (parsed.content) {
-                fullContent += parsed.content;
-                setMessages((prev) =>
-                  prev.map((m) =>
-                    m.id === assistantId ? { ...m, content: fullContent } : m
-                  )
-                );
-              }
-            } catch {
-              // Skip
-            }
-          }
-        }
-      }
-    } catch {
-      setError('Connection failed');
-      setMessages((prev) => prev.filter((m) => m.id !== assistantId));
-    } finally {
-      setIsLoading(false);
-    }
+    await sendMessage(text);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      sendMessage();
+      handleSendMessage();
     }
   };
 
-  // Initial state - minimal invitation
-  if (!hasStarted) {
+  // Initial state - minimal invitation (only if no messages in context)
+  if (!hasStarted && messages.length === 0) {
     return (
       <section className="py-16 px-6">
         <div className="max-w-xl mx-auto relative">
@@ -160,7 +70,7 @@ export default function HomepageChat() {
               {starterPrompts.map((prompt) => (
                 <button
                   key={prompt}
-                  onClick={() => sendMessage(prompt)}
+                  onClick={() => handleSendMessage(prompt)}
                   className="px-2.5 py-1 bg-zinc-800/50 hover:bg-purple-900/30 border border-zinc-700/50 hover:border-purple-700/50 rounded-full text-gray-400 hover:text-white text-xs transition-colors"
                 >
                   {prompt}
@@ -181,7 +91,7 @@ export default function HomepageChat() {
                   disabled={status === 'loading'}
                 />
                 <button
-                  onClick={() => sendMessage()}
+                  onClick={() => handleSendMessage()}
                   disabled={!input.trim() || status === 'loading'}
                   className="text-gray-500 hover:text-purple-400 disabled:text-gray-700 transition-colors"
                   aria-label="Send"
@@ -198,7 +108,7 @@ export default function HomepageChat() {
     );
   }
 
-  // Active chat
+  // Active chat - shows messages from shared context
   return (
     <section className="py-16 px-6">
       <div className="max-w-xl mx-auto relative">
@@ -217,9 +127,9 @@ export default function HomepageChat() {
             </Link>
           </div>
 
-          {/* Messages */}
+          {/* Messages - show last 5 from shared context */}
           <div className="h-[240px] overflow-y-auto p-4 space-y-3">
-            {messages.map((message) => (
+            {messages.slice(-5).map((message) => (
               <div
                 key={message.id}
                 className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -251,7 +161,6 @@ export default function HomepageChat() {
                 </div>
               </div>
             ))}
-            <div ref={messagesEndRef} />
           </div>
 
           {/* Error */}
@@ -279,7 +188,7 @@ export default function HomepageChat() {
                 disabled={isLoading}
               />
               <button
-                onClick={() => sendMessage()}
+                onClick={() => handleSendMessage()}
                 disabled={!input.trim() || isLoading}
                 className="text-gray-500 hover:text-purple-400 disabled:text-gray-700 transition-colors"
                 aria-label="Send"

@@ -5,12 +5,22 @@ import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit
 import { sanitizeUserInput, safeJsonParse } from '@/lib/sanitize';
 import { recordBulkActivities } from '@/lib/assessment/activity-tracker';
 import type { PillarId } from '@/lib/assessment/types';
-
-// LM Studio endpoint - requires LM_STUDIO_URL env var in production
-const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
-const TOKENS_PER_CREDIT = 1000;
-const CREDIT_COST = 5; // Credits per interpretation
-const TOKEN_COST = CREDIT_COST * TOKENS_PER_CREDIT;
+import {
+  classifyDream,
+  buildProfessionalPrompt,
+  buildUserPrompt,
+  type CulturalContext,
+  type InterpretationContext,
+} from '@/lib/dream-analysis';
+import {
+  LM_STUDIO_URL,
+  LM_STUDIO_MODEL,
+  isLocalAI,
+  estimateTokens,
+  checkCredits,
+  deductTokens,
+  noCreditsResponse,
+} from '@/lib/ai-credits';
 
 // =============================================================================
 // DIMENSION DETECTION FOR DREAM ACTIVITY TRACKING
@@ -254,44 +264,6 @@ async function updateSymbolDictionary(
   }
 }
 
-async function checkCredits(userId: string): Promise<{ hasCredits: boolean; balance: number }> {
-  const credits = await prisma.aICredits.findUnique({ where: { userId } });
-  if (!credits) return { hasCredits: false, balance: 0 };
-  return { hasCredits: credits.tokenBalance >= TOKEN_COST, balance: credits.tokenBalance };
-}
-
-async function deductTokens(userId: string, totalTokens: number): Promise<void> {
-  const credits = await prisma.aICredits.findUnique({ where: { userId } });
-
-  if (!credits) {
-    // Create credits record tracking the negative balance
-    await prisma.aICredits.create({
-      data: {
-        userId,
-        tokenBalance: 0,
-        monthlyTokens: 0,
-        monthlyUsed: totalTokens,
-        purchasedTokens: 0,
-      },
-    });
-    return;
-  }
-
-  // Calculate how much to deduct from monthly vs purchased
-  const monthlyRemaining = Math.max(0, credits.monthlyTokens - credits.monthlyUsed);
-  const monthlyDeduction = Math.min(totalTokens, monthlyRemaining);
-  const remainingDeduction = totalTokens - monthlyDeduction;
-
-  await prisma.aICredits.update({
-    where: { userId },
-    data: {
-      tokenBalance: { decrement: totalTokens },
-      monthlyUsed: { increment: monthlyDeduction },
-      purchasedTokens: remainingDeduction > 0 ? { decrement: remainingDeduction } : undefined,
-    },
-  });
-}
-
 /**
  * POST /api/dreams/interpret
  * Get AI interpretation of a dream
@@ -305,7 +277,16 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { dreamId, content: rawContent, symbols, emotions, recurring, context: rawContext } = body;
+    const {
+      dreamId,
+      content: rawContent,
+      symbols,
+      emotions,
+      recurring,
+      lucid,
+      context: rawContext,
+      culturalContext: rawCulturalContext,
+    } = body;
 
     if (!rawContent) {
       return new Response('Dream content is required', { status: 400 });
@@ -313,10 +294,38 @@ export async function POST(request: NextRequest) {
 
     // Sanitize user input
     const { sanitized: content, warnings } = sanitizeUserInput(rawContent, { maxLength: 5000 });
-    const context = rawContext ? sanitizeUserInput(rawContext, { maxLength: 1000 }).sanitized : undefined;
+    const userContext = rawContext ? sanitizeUserInput(rawContext, { maxLength: 1000 }).sanitized : undefined;
     if (warnings.length > 0) {
       console.warn('Dream interpretation input sanitization warnings:', warnings);
     }
+
+    // Validate cultural context - use request value, fall back to user profile, then default
+    const validCulturalContexts: CulturalContext[] = [
+      'western-secular', 'western-christian', 'jewish', 'islamic',
+      'hindu', 'buddhist', 'indigenous', 'east-asian', 'african', 'eclectic'
+    ];
+
+    // Get user's profile for default cultural context
+    // Note: dreamCulturalContext field may not exist in older databases - handle gracefully
+    const userProfile = await prisma.userProfile.findUnique({
+      where: { userId: session.user.id },
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const profileCulturalContext = (userProfile as any)?.dreamCulturalContext;
+    const culturalContext: CulturalContext = validCulturalContexts.includes(rawCulturalContext)
+      ? rawCulturalContext
+      : validCulturalContexts.includes(profileCulturalContext)
+        ? profileCulturalContext
+        : 'western-secular';
+
+    // Classify the dream for appropriate handling
+    const dreamClassification = classifyDream(
+      content,
+      emotions || [],
+      recurring || false,
+      lucid || false
+    );
 
     const userId = session.user.id;
 
@@ -326,25 +335,13 @@ export async function POST(request: NextRequest) {
       return rateLimitResponse(rateLimit);
     }
 
-    // Check AI credits
-    const { hasCredits, balance } = await checkCredits(userId);
-
-    if (!hasCredits) {
-      return new Response(
-        JSON.stringify({
-          error: 'Insufficient AI credits',
-          required: CREDIT_COST,
-          available: Math.floor(balance / TOKENS_PER_CREDIT),
-        }),
-        {
-          status: 402,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+    // Check AI credits (skip for local AI)
+    if (!isLocalAI) {
+      const credits = await checkCredits(userId);
+      if (!credits.hasCredits) {
+        return noCreditsResponse();
+      }
     }
-
-    // Build context for interpretation
-    let additionalContext = '';
 
     // Get user's assessment data for personalized interpretation
     const assessments = await prisma.assessmentResult.findMany({
@@ -365,10 +362,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    if (assessmentInfo.length > 0) {
-      additionalContext = `\n\nDreamer's psychological profile:\n${assessmentInfo.join('\n')}`;
-    }
-
     // Get recent dreams for pattern recognition
     const recentDreams = await prisma.dreamEntry.findMany({
       where: {
@@ -380,25 +373,13 @@ export async function POST(request: NextRequest) {
       select: { content: true, symbols: true, emotions: true },
     });
 
-    if (recentDreams.length > 0) {
-      const recentSymbols = new Set<string>();
-      const recentEmotions = new Set<string>();
+    const recentSymbols = new Set<string>();
+    const recentEmotions = new Set<string>();
 
-      recentDreams.forEach(d => {
-        safeJsonParse<string[]>(d.symbols, []).forEach((s: string) => recentSymbols.add(s));
-        safeJsonParse<string[]>(d.emotions, []).forEach((e: string) => recentEmotions.add(e));
-      });
-
-      if (recentSymbols.size > 0 || recentEmotions.size > 0) {
-        additionalContext += `\n\nRecurring patterns from recent dreams:`;
-        if (recentSymbols.size > 0) {
-          additionalContext += `\nRecurring symbols: ${[...recentSymbols].slice(0, 10).join(', ')}`;
-        }
-        if (recentEmotions.size > 0) {
-          additionalContext += `\nRecurring emotions: ${[...recentEmotions].slice(0, 5).join(', ')}`;
-        }
-      }
-    }
+    recentDreams.forEach(d => {
+      safeJsonParse<string[]>(d.symbols, []).forEach((s: string) => recentSymbols.add(s));
+      safeJsonParse<string[]>(d.emotions, []).forEach((e: string) => recentEmotions.add(e));
+    });
 
     // Get user's personal symbol dictionary for personalized interpretation
     const personalSymbols = await prisma.dreamSymbol.findMany({
@@ -407,54 +388,50 @@ export async function POST(request: NextRequest) {
       take: 20,
     });
 
-    if (personalSymbols.length > 0) {
-      additionalContext += `\n\nPersonal Symbol Dictionary (what these symbols mean for THIS dreamer):`;
-      for (const sym of personalSymbols) {
-        // Check if any current symbols match personal dictionary
+    // Build relevant personal symbols (those that appear in this dream)
+    const relevantPersonalSymbols = personalSymbols
+      .filter(sym => {
         const currentSymbols = symbols || [];
-        const isRelevant = currentSymbols.some((s: string) =>
+        return currentSymbols.some((s: string) =>
           s.toLowerCase().includes(sym.symbol) || sym.symbol.includes(s.toLowerCase())
         ) || content.toLowerCase().includes(sym.symbol);
+      })
+      .map(sym => ({
+        symbol: sym.symbol,
+        meaning: sym.personalMeaning,
+        count: sym.occurrenceCount,
+      }));
 
-        if (isRelevant) {
-          additionalContext += `\n- "${sym.symbol}": ${sym.personalMeaning} (appeared ${sym.occurrenceCount}x)`;
-        }
+    // Build recent dream patterns summary
+    let recentDreamPatterns = '';
+    if (recentSymbols.size > 0 || recentEmotions.size > 0) {
+      recentDreamPatterns = 'Recurring patterns from recent dreams:';
+      if (recentSymbols.size > 0) {
+        recentDreamPatterns += `\n- Recurring symbols: ${[...recentSymbols].slice(0, 10).join(', ')}`;
+      }
+      if (recentEmotions.size > 0) {
+        recentDreamPatterns += `\n- Recurring emotions: ${[...recentEmotions].slice(0, 5).join(', ')}`;
       }
     }
 
-    const systemPrompt = `You are a thoughtful dream analyst drawing from Jungian psychology, depth psychology, and archetypal symbolism. Your role is to help the dreamer explore the meaning of their dream with nuance and respect for the mysterious nature of the unconscious.
+    // Build interpretation context for professional prompt
+    const interpretationContext: InterpretationContext = {
+      dreamContent: content,
+      symbols: symbols || [],
+      emotions: emotions || [],
+      isRecurring: recurring || false,
+      isLucid: lucid || false,
+      userContext,
+      culturalContext,
+      personalSymbols: relevantPersonalSymbols,
+      assessmentProfile: assessmentInfo.length > 0 ? assessmentInfo.join('\n') : undefined,
+      recentDreamPatterns: recentDreamPatterns || undefined,
+      classification: dreamClassification,
+    };
 
-Your approach:
-1. **Symbol Exploration**: Identify key symbols and explore their possible meanings, both universal/archetypal and potentially personal
-2. **Emotional Landscape**: Reflect on the emotional tone and what it might reveal about the dreamer's inner state
-3. **Shadow Elements**: Gently explore any shadow material that may be surfacing
-4. **Integration Questions**: Offer 2-3 reflection questions to help the dreamer deepen their understanding
-5. **Practical Wisdom**: Suggest how the dream's message might apply to waking life
-
-Guidelines:
-- Use "might," "could suggest," "one possibility" - never be dogmatic about meaning
-- Honor that the dreamer is the ultimate authority on their own psyche
-- Be warm but not patronizing
-- Keep interpretations grounded and useful, not overly mystical
-- If noting concerning elements, do so with care and suggest professional support if appropriate
-- Length: Aim for a thorough but focused response (300-500 words)
-
-${additionalContext}`;
-
-    const emotionText = emotions && emotions.length > 0 ? emotions.join(', ') : null;
-    const symbolText = symbols && symbols.length > 0 ? symbols.join(', ') : null;
-
-    const userPrompt = `Here is a dream to interpret:
-
-**Dream Content:**
-${content}
-
-${symbolText ? `**Noted Symbols:** ${symbolText}` : ''}
-${emotionText ? `**Emotional Tone:** ${emotionText}` : ''}
-${recurring ? `**Note:** This is a recurring dream` : ''}
-${context ? `**Dreamer's Context:** ${context}` : ''}
-
-Please provide a thoughtful interpretation.`;
+    // Build professional prompts
+    const systemPrompt = buildProfessionalPrompt(interpretationContext);
+    const userPrompt = buildUserPrompt(interpretationContext);
 
     // Call LM Studio (30s timeout)
     const controller = new AbortController();
@@ -534,21 +511,12 @@ Please provide a thoughtful interpretation.`;
           }
 
           // Deduct tokens after successful completion
-          const inputTokens = Math.ceil((systemPrompt.length + userPrompt.length) / 4);
-          const totalTokens = inputTokens + totalOutputTokens;
-          await deductTokens(userId, totalTokens);
-
-          // Log usage for analytics
-          await prisma.aIUsage.create({
-            data: {
-              userId,
-              inputTokens,
-              outputTokens: totalOutputTokens,
-              totalTokens,
-              cost: totalTokens * 0.000001, // Rough estimate
-              model: 'qwen3-32b',
-              context: 'dream-interpretation',
-            },
+          const inputTokens = estimateTokens(systemPrompt + userPrompt);
+          await deductTokens({
+            userId,
+            inputTokens,
+            outputTokens: totalOutputTokens,
+            context: 'dream-interpretation',
           });
 
           // Save interpretation to dream if dreamId provided
@@ -577,6 +545,19 @@ Please provide a thoughtful interpretation.`;
             });
           }
 
+          // Send classification metadata with completion
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({
+            done: true,
+            classification: {
+              type: dreamClassification.primaryType,
+              intensity: dreamClassification.intensityLevel,
+              flags: {
+                traumaIndicators: dreamClassification.flags.traumaIndicators,
+                spiritualContent: dreamClassification.flags.spiritualContent,
+                somaticContent: dreamClassification.flags.somaticContent,
+              },
+            },
+          })}\n\n`));
           controller.enqueue(encoder.encode('data: [DONE]\n\n'));
         } catch (error) {
           console.error('Streaming error:', error);

@@ -33,6 +33,32 @@ export default function RelationshipsPage() {
               How we love without losing ourselves.
             </p>
 
+            {/* The Definitive Path - Featured */}
+            <Link
+              href="/learn/attachment-mastery"
+              className="group block mb-8 bg-gradient-to-br from-blue-900/30 to-zinc-900 border-2 border-blue-500/30 hover:border-blue-500/50 transition-colors p-8"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="text-xs uppercase tracking-wide text-blue-400 font-medium">Complete Learning Path</span>
+                    <span className="text-xs text-gray-500">8-12 weeks</span>
+                  </div>
+                  <h2 className="font-serif text-2xl text-white group-hover:text-gray-200 transition-colors mb-3">
+                    From Attachment Wounds to Relationship Mastery
+                  </h2>
+                  <p className="text-gray-400 leading-relaxed mb-4">
+                    The definitive journey — from understanding your patterns at the deepest level,
+                    to healing the nervous system responses that hijack you, to becoming someone
+                    who can create and sustain real intimacy.
+                  </p>
+                  <span className="text-blue-400 text-sm group-hover:text-blue-300 transition-colors">
+                    Start the journey →
+                  </span>
+                </div>
+              </div>
+            </Link>
+
             {/* Attachment Style Feature */}
             <Link
               href="/attachment"

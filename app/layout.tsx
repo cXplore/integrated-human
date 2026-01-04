@@ -7,6 +7,8 @@ import MobileNav from "./components/MobileNav";
 import { ReadingListProvider } from "./components/ReadingListContext";
 import { ThemeProvider } from "./components/ThemeProvider";
 import SessionProvider from "./components/SessionProvider";
+import { AICompanionProvider } from "./components/AICompanionContext";
+import FloatingCompanion from "./components/FloatingCompanion";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -54,11 +56,14 @@ export default function RootLayout({
       >
         <SessionProvider>
           <ThemeProvider>
-            <ReadingListProvider>
-              {children}
-              <Footer />
-              <MobileNav />
-            </ReadingListProvider>
+            <AICompanionProvider>
+              <ReadingListProvider>
+                {children}
+                <Footer />
+                <MobileNav />
+                <FloatingCompanion />
+              </ReadingListProvider>
+            </AICompanionProvider>
           </ThemeProvider>
         </SessionProvider>
         <Analytics />

@@ -2,27 +2,28 @@ import { NextRequest } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import {
-  detectStance,
-  buildSystemPrompt,
   buildUserContext,
   type UserJourneyContext,
 } from '@/lib/presence';
-import {
-  calculateTokenCost,
-} from '@/lib/subscriptions';
 import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
 import { sanitizeUserInput, sanitizeMessageHistory, safeJsonParse } from '@/lib/sanitize';
 import { recordBulkActivities } from '@/lib/assessment/activity-tracker';
 import type { PillarId } from '@/lib/assessment/types';
-
-// LM Studio endpoint - requires LM_STUDIO_URL env var in production
-const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
-const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'openai/gpt-oss-20b';
-
-// Rough token estimation (4 chars ≈ 1 token for English text)
-function estimateTokens(text: string): number {
-  return Math.ceil(text.length / 4);
-}
+import {
+  classifyJournalEntry,
+  buildJournalCompanionPrompt,
+  generateJournalPrompts,
+  type JournalCompanionContext,
+} from '@/lib/journal-analysis';
+import {
+  LM_STUDIO_URL,
+  LM_STUDIO_MODEL,
+  isLocalAI,
+  estimateTokens,
+  checkCredits,
+  deductTokens,
+  noCreditsResponse,
+} from '@/lib/ai-credits';
 
 // =============================================================================
 // DIMENSION DETECTION FOR ACTIVITY TRACKING
@@ -203,85 +204,6 @@ async function recordJournalInsights(
 }
 
 /**
- * Check if user has enough credits and return their balance
- */
-async function checkCredits(userId: string): Promise<{ hasCredits: boolean; balance: number }> {
-  const credits = await prisma.aICredits.findUnique({
-    where: { userId },
-  });
-
-  if (!credits) {
-    return { hasCredits: false, balance: 0 };
-  }
-
-  return {
-    hasCredits: credits.tokenBalance > 0,
-    balance: credits.tokenBalance,
-  };
-}
-
-/**
- * Deduct tokens from user's balance and record usage
- */
-async function deductTokens(
-  userId: string,
-  inputTokens: number,
-  outputTokens: number,
-): Promise<void> {
-  const totalTokens = inputTokens + outputTokens;
-  const cost = calculateTokenCost(inputTokens, outputTokens);
-
-  const credits = await prisma.aICredits.findUnique({
-    where: { userId },
-  });
-
-  if (!credits) {
-    await prisma.aICredits.create({
-      data: {
-        userId,
-        tokenBalance: 0,
-        monthlyTokens: 0,
-        monthlyUsed: totalTokens,
-        purchasedTokens: 0,
-      },
-    });
-  } else {
-    let monthlyDeduction = 0;
-    let remainingDeduction = totalTokens;
-
-    const monthlyAvailable = Math.max(0, credits.monthlyTokens - credits.monthlyUsed);
-
-    if (monthlyAvailable > 0) {
-      monthlyDeduction = Math.min(monthlyAvailable, remainingDeduction);
-      remainingDeduction -= monthlyDeduction;
-    }
-
-    await prisma.aICredits.update({
-      where: { userId },
-      data: {
-        tokenBalance: { decrement: totalTokens },
-        monthlyUsed: { increment: monthlyDeduction },
-        purchasedTokens: remainingDeduction > 0
-          ? { decrement: remainingDeduction }
-          : undefined,
-      },
-    });
-  }
-
-  await prisma.aIUsage.create({
-    data: {
-      userId,
-      inputTokens,
-      outputTokens,
-      totalTokens,
-      cost,
-      model: LM_STUDIO_MODEL,
-      context: 'journal-companion',
-    },
-  });
-}
-
-/**
  * Fetch user journey context from the database
  */
 async function getUserJourneyContext(userId: string): Promise<UserJourneyContext | null> {
@@ -397,58 +319,7 @@ async function getJournalContext(userId: string): Promise<string> {
   }
 }
 
-/**
- * Build the journal companion system prompt
- */
-function buildJournalCompanionPrompt(
-  journalContext: string,
-  userContext?: string
-): string {
-  const journalCompanionManifesto = `You are a Journal Companion - a thoughtful guide for introspection and self-discovery.
-
-Your role: You help users explore their journal entries with curiosity and compassion. You notice patterns, ask deepening questions, and reflect back what you observe - without judgment or unsolicited advice.
-
-Your approach:
-- Read between the lines. What emotions are present? What themes recur?
-- Ask questions that invite deeper exploration, not surface answers
-- Notice contradictions gently - they often point to growth edges
-- Connect dots across entries when patterns emerge
-- Honor the courage it takes to write honestly
-
-What you're NOT:
-- A therapist (you don't diagnose or treat)
-- A life coach (you don't give action plans unless asked)
-- An optimizer (you don't push for "improvement")
-
-You are simply a wise, present witness to their inner journey.
-
-Guidelines:
-- Keep responses conversational and warm, not clinical
-- Use their own language and images when reflecting back
-- One or two thoughtful questions is often better than many
-- Silence and "sitting with" emotions has value - don't rush to resolve
-- If they ask for specific advice, you can offer perspective, but frame it as possibility, not prescription`;
-
-  const promptParts = [
-    journalCompanionManifesto,
-    '',
-    '---',
-    '',
-    'Recent journal entries for context:',
-    '',
-    journalContext,
-    '',
-    '---',
-    '',
-    `Remember: These entries are private and vulnerable. Treat them with care. Reference specific content naturally when it's relevant to what they're asking or exploring.`,
-  ];
-
-  if (userContext) {
-    promptParts.push('', '---', '', userContext);
-  }
-
-  return promptParts.join('\n');
-}
+// Old local function removed - now using professional buildJournalCompanionPrompt from lib/journal-analysis.ts
 
 export async function POST(request: NextRequest) {
   try {
@@ -492,41 +363,60 @@ export async function POST(request: NextRequest) {
       return rateLimitResponse(rateLimit);
     }
 
-    // Check credits
-    const { hasCredits, balance } = await checkCredits(userId);
-
-    if (!hasCredits) {
-      return new Response(
-        JSON.stringify({
-          error: 'Insufficient credits',
-          code: 'NO_CREDITS',
-          message: 'You\'ve run out of AI credits. Purchase more to continue.',
-          balance: 0,
-        }),
-        {
-          status: 402,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+    // Check credits (skip for local AI)
+    if (!isLocalAI) {
+      const credits = await checkCredits(userId);
+      if (!credits.hasCredits) {
+        return noCreditsResponse();
+      }
     }
 
-    // Get journal context
-    let journalContext = await getJournalContext(userId);
+    // Get recent journal entries for context and pattern analysis
+    const recentEntries = await prisma.journalEntry.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      take: 10,
+      select: {
+        content: true,
+        mood: true,
+        createdAt: true,
+      },
+    });
 
-    // If a specific entry is selected, prioritize it
-    if (selectedEntry) {
-      journalContext = `Currently focusing on this entry:\n${selectedEntry}\n\n---\n\nOther recent entries:\n${journalContext}`;
-    }
+    // Determine the current entry content (selected entry or current message)
+    const currentEntryContent = selectedEntry || message;
 
-    // Get user context
-    let userContext = '';
+    // Classify the current entry for appropriate response
+    const classification = classifyJournalEntry(
+      currentEntryContent,
+      recentEntries[0]?.mood || undefined
+    );
+
+    // Get user profile for personalization
     const journeyContext = await getUserJourneyContext(userId);
-    if (journeyContext) {
-      userContext = buildUserContext(journeyContext);
-    }
 
-    // Build the journal companion prompt
-    const systemPrompt = buildJournalCompanionPrompt(journalContext, userContext);
+    // Build the professional journal companion context
+    const companionContext: JournalCompanionContext = {
+      currentEntry: currentEntryContent,
+      classification,
+      recentEntries: recentEntries.map(e => ({
+        content: e.content,
+        mood: e.mood || undefined,
+        createdAt: e.createdAt,
+      })),
+      userProfile: journeyContext ? {
+        name: journeyContext.name,
+        challenges: journeyContext.currentChallenges,
+        interests: journeyContext.interests,
+      } : undefined,
+      conversationHistory: history,
+    };
+
+    // Build the professional system prompt
+    const systemPrompt = buildJournalCompanionPrompt(companionContext);
+
+    // Generate follow-up prompts (to be included in response metadata)
+    const followUpPrompts = generateJournalPrompts(classification, currentEntryContent);
 
     // Build messages array
     const messages = [
@@ -609,7 +499,12 @@ export async function POST(request: NextRequest) {
               const outputTokens = estimateTokens(totalOutputContent);
               const totalTokens = inputTokens + outputTokens;
 
-              deductTokens(userId, inputTokens, outputTokens).catch(err => {
+              deductTokens({
+                userId,
+                inputTokens,
+                outputTokens,
+                context: 'journal-companion',
+              }).catch(err => {
                 console.error('Error deducting tokens:', err);
               });
 
@@ -624,8 +519,18 @@ export async function POST(request: NextRequest) {
                   inputTokens,
                   outputTokens,
                   totalTokens,
-                  remainingBalance: balance - totalTokens,
                 },
+                classification: {
+                  type: classification.primaryType,
+                  emotionalTone: classification.emotionalTone,
+                  approach: classification.suggestedApproach,
+                  flags: {
+                    crisisIndicators: classification.flags.crisisIndicators,
+                    growthMoment: classification.flags.growthMoment,
+                    spiralPattern: classification.flags.spiralPattern,
+                  },
+                },
+                followUpPrompts: followUpPrompts.slice(0, 2),
               })}\n\n`));
               return;
             }

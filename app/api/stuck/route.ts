@@ -4,60 +4,36 @@ import { prisma } from '@/lib/prisma';
 import { getAllCourses } from '@/lib/courses';
 import { getAllPractices } from '@/lib/practices';
 import { buildUserContext, type UserJourneyContext } from '@/lib/presence';
-import { calculateTokenCost } from '@/lib/subscriptions';
 import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
 import { sanitizeUserInput, safeJsonParse } from '@/lib/sanitize';
 import { recordBulkActivities } from '@/lib/assessment/activity-tracker';
 import { DIMENSION_CONTENT_MAP } from '@/lib/assessment/content-mapping';
 import type { PillarId } from '@/lib/assessment/types';
-
-// LM Studio endpoint - requires LM_STUDIO_URL env var in production
-const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
-const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'openai/gpt-oss-20b';
-
-function estimateTokens(text: string): number {
-  return Math.ceil(text.length / 4);
-}
-
-async function checkCredits(userId: string): Promise<{ hasCredits: boolean; balance: number }> {
-  const credits = await prisma.aICredits.findUnique({ where: { userId } });
-  if (!credits) return { hasCredits: false, balance: 0 };
-  return { hasCredits: credits.tokenBalance > 0, balance: credits.tokenBalance };
-}
-
-async function deductTokens(userId: string, inputTokens: number, outputTokens: number): Promise<void> {
-  const totalTokens = inputTokens + outputTokens;
-  const cost = calculateTokenCost(inputTokens, outputTokens);
-
-  const credits = await prisma.aICredits.findUnique({ where: { userId } });
-
-  if (credits) {
-    const monthlyAvailable = Math.max(0, credits.monthlyTokens - credits.monthlyUsed);
-    const monthlyDeduction = Math.min(monthlyAvailable, totalTokens);
-    const remainingDeduction = totalTokens - monthlyDeduction;
-
-    await prisma.aICredits.update({
-      where: { userId },
-      data: {
-        tokenBalance: { decrement: totalTokens },
-        monthlyUsed: { increment: monthlyDeduction },
-        purchasedTokens: remainingDeduction > 0 ? { decrement: remainingDeduction } : undefined,
-      },
-    });
-  }
-
-  await prisma.aIUsage.create({
-    data: {
-      userId,
-      inputTokens,
-      outputTokens,
-      totalTokens,
-      cost,
-      model: LM_STUDIO_MODEL,
-      context: 'where-im-stuck',
-    },
-  });
-}
+import {
+  classifyStuckness,
+  buildStuckPrompt as buildProfessionalStuckPrompt,
+  generatePartExplorations,
+  extractStuckTheme,
+  type StuckClassification,
+  type DevelopmentalStage,
+} from '@/lib/stuck-analysis';
+import {
+  saveStuckPattern,
+  detectRecurringPattern,
+} from '@/lib/stuck-persistence';
+import {
+  evaluateCrisisState,
+  enhancePromptForCrisis,
+} from '@/lib/crisis-coordinator';
+import {
+  LM_STUDIO_URL,
+  LM_STUDIO_MODEL,
+  isLocalAI,
+  estimateTokens,
+  checkCredits,
+  deductTokens,
+  noCreditsResponse,
+} from '@/lib/ai-credits';
 
 // =============================================================================
 // HEALTH CONTEXT
@@ -274,12 +250,28 @@ ${priorityNote}`;
 }
 
 // =============================================================================
-// SYSTEM PROMPT
+// SYSTEM PROMPT (Enhanced with classification)
 // =============================================================================
 
-function buildStuckPrompt(contentCatalog: string, healthContext: HealthContext | null, userContext?: string): string {
-  let healthSection = '';
+function buildEnhancedStuckPrompt(
+  contentCatalog: string,
+  healthContext: HealthContext | null,
+  classification: StuckClassification,
+  userContext?: string
+): string {
+  // Get the professional prompt from stuck-analysis
+  const userStage = (healthContext?.overallStage || 'integration') as DevelopmentalStage;
+  const professionalGuidance = buildProfessionalStuckPrompt(
+    classification,
+    userStage,
+    undefined, // TODO: Add stuck history when we have it
+    healthContext ? {
+      lowestDimensions: healthContext.lowestDimensions.map(d => d.dimensionName),
+      suggestedFocus: healthContext.suggestedFocus,
+    } : undefined
+  );
 
+  let healthSection = '';
   if (healthContext?.hasAssessment && healthContext.lowestDimensions.length > 0) {
     const lowestList = healthContext.lowestDimensions
       .map(d => `- ${d.dimensionName} (${d.pillarId}): ${d.score}/100, stage: ${d.stage}`)
@@ -305,16 +297,7 @@ NOTE: This user hasn't completed their Integration Assessment yet. You might gen
 `;
   }
 
-  return `You are a guide helping people find the right resources for where they're stuck in their personal growth journey.
-
-Your role: When someone describes what they're struggling with, you:
-1. Acknowledge their experience briefly (1-2 sentences)
-2. If health data is available, note if their struggle connects to known growth areas
-3. Offer insight into what might be happening (1-2 sentences)
-4. Recommend 2-3 specific resources from the catalog below that would help
-5. Explain briefly why each recommendation fits their situation
-
-Be direct and practical. Don't be preachy or give lengthy explanations.
+  return `${professionalGuidance}
 
 ${healthSection}
 
@@ -323,22 +306,43 @@ ${contentCatalog}
 RESPONSE FORMAT:
 Return your response in this exact format:
 
-[Your acknowledgment and insight - 2-3 sentences max. If relevant, connect to their health data.]
+[Your acknowledgment and insight - 2-3 sentences max. Show you understand their specific type of stuckness. If relevant, connect to their health data.]
 
 RECOMMENDATIONS:
 
 1. **[Title]** (type: course|practice|article, slug: the-slug-here)
    Why: [1 sentence explanation]
+   ⚡ First step: [A 5-minute micro-commitment they can do right now]
 
 2. **[Title]** (type: course|practice|article, slug: the-slug-here)
    Why: [1 sentence explanation]
+   ⚡ First step: [A 5-minute micro-commitment they can do right now]
 
 3. **[Title]** (type: course|practice|article, slug: the-slug-here)
    Why: [1 sentence explanation]
+   ⚡ First step: [A 5-minute micro-commitment they can do right now]
 
-[Optional: One sentence of encouragement or invitation to start]
+[Optional: One sentence of encouragement or invitation that matches the intensity/approach]
 
 For articles, use descriptive slugs based on topic (e.g., "anxious-attachment-patterns", "working-with-anger").
+
+IMPORTANT - MICRO-COMMITMENTS:
+The "First step" must be:
+- Completable in 5 minutes or less
+- Concrete and specific (not vague like "think about it")
+- Something they can do TODAY
+- Related to the recommendation
+
+Good examples:
+- "Read just the introduction of this course (3 min)"
+- "Do the grounding exercise on the course landing page"
+- "Write down 3 words that describe how you feel right now"
+- "Take 5 deep breaths while naming what you're avoiding"
+
+Bad examples (too vague):
+- "Start learning about this topic"
+- "Think about your patterns"
+- "Consider how this applies to you"
 
 ${userContext || ''}`;
 }
@@ -465,17 +469,36 @@ export async function POST(request: NextRequest) {
       return rateLimitResponse(rateLimit);
     }
 
-    const { hasCredits, balance } = await checkCredits(userId);
+    // Check credits (skip for local AI)
+    if (!isLocalAI) {
+      const { hasCredits, balance } = await checkCredits(userId);
 
-    if (!hasCredits) {
-      return new Response(
-        JSON.stringify({ error: 'Insufficient credits', code: 'NO_CREDITS', balance: 0 }),
-        { status: 402, headers: { 'Content-Type': 'application/json' } }
-      );
+      if (!hasCredits) {
+        return noCreditsResponse();
+      }
     }
 
-    // Get health context (new!)
+    // Get health context
     const healthContext = await getUserHealthContext(userId);
+
+    // Classify the stuckness
+    const userStage = (healthContext?.overallStage || 'integration') as DevelopmentalStage;
+    const classification = classifyStuckness(stuckDescription, userStage);
+
+    // Generate part explorations for the response
+    const partExplorations = generatePartExplorations(classification, stuckDescription);
+
+    // Extract theme for pattern tracking
+    const stuckTheme = extractStuckTheme(stuckDescription);
+
+    // Check for recurring patterns and persist
+    const [recurringInfo, crisisState] = await Promise.all([
+      detectRecurringPattern(userId, classification),
+      evaluateCrisisState(userId, stuckDescription, 'stuck'),
+    ]);
+
+    // Save the pattern (fire and forget)
+    saveStuckPattern(userId, stuckDescription, classification).catch(console.error);
 
     // Build context
     const contentCatalog = buildContentCatalog(healthContext);
@@ -485,7 +508,11 @@ export async function POST(request: NextRequest) {
       userContext = buildUserContext(journeyContext);
     }
 
-    const systemPrompt = buildStuckPrompt(contentCatalog, healthContext, userContext);
+    // Build and potentially enhance prompt for crisis
+    let systemPrompt = buildEnhancedStuckPrompt(contentCatalog, healthContext, classification, userContext);
+    if (crisisState.hasCrisisIndicators) {
+      systemPrompt = enhancePromptForCrisis(systemPrompt, crisisState);
+    }
 
     const messages = [
       { role: 'system', content: systemPrompt },
@@ -560,12 +587,41 @@ export async function POST(request: NextRequest) {
               }
 
               const outputTokens = estimateTokens(totalOutputContent);
-              deductTokens(userId, inputTokens, outputTokens).catch(console.error);
+              deductTokens({
+                userId,
+                inputTokens,
+                outputTokens,
+                context: 'where-im-stuck',
+              }).catch(console.error);
 
               controller.enqueue(encoder.encode(`data: ${JSON.stringify({
                 done: true,
                 hasHealthData: healthContext?.hasAssessment || false,
-                usage: { inputTokens, outputTokens, totalTokens: inputTokens + outputTokens, remainingBalance: balance - inputTokens - outputTokens },
+                classification: {
+                  type: classification.primaryType,
+                  intensity: classification.intensity,
+                  nervousSystemState: classification.nervousSystemState,
+                  approach: classification.suggestedApproach,
+                  flags: {
+                    crisisIndicators: classification.flags.crisisIndicators,
+                    chronicPattern: classification.flags.chronicPattern,
+                    somaticComponent: classification.flags.somaticComponent,
+                    shadowContent: classification.flags.shadowContent,
+                  },
+                  protectiveFunction: classification.protectiveFunction,
+                },
+                partExplorations: partExplorations.slice(0, 2),
+                theme: stuckTheme,
+                recurring: {
+                  isRecurring: recurringInfo.isRecurring,
+                  previousOccurrences: recurringInfo.previousOccurrences,
+                  insight: recurringInfo.insight,
+                },
+                crisis: crisisState.hasCrisisIndicators ? {
+                  severity: crisisState.severity,
+                  showResources: crisisState.responseGuidance.mustIncludeResources,
+                } : null,
+                usage: { inputTokens, outputTokens, totalTokens: inputTokens + outputTokens },
               })}\n\n`));
               return;
             }

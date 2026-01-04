@@ -43,57 +43,72 @@ const TIER_COLORS: Record<string, string> = {
 function CourseCard({ course }: { course: Course }) {
   const tierColor = TIER_COLORS[course.tier] || TIER_COLORS.beginner;
   const categoryIcon = CATEGORY_ICONS[course.category] || '';
+  const imageUrl = course.image || `/images/courses/${course.slug}.jpg`;
 
   return (
     <Link href={`/courses/${course.slug}`}>
-      <article className="group bg-zinc-900 p-6 border border-zinc-800 hover:border-zinc-600 transition-all rounded-lg relative h-full flex flex-col">
-        {/* Tier Badge */}
-        <span className={`absolute top-3 right-3 text-xs px-2 py-0.5 rounded border ${tierColor}`}>
-          {course.tier.charAt(0).toUpperCase() + course.tier.slice(1)}
-        </span>
-
-        {/* Category */}
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-xs uppercase tracking-wide text-gray-500">
-            {categoryIcon} {course.category}
+      <article className="group bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-all rounded-lg relative h-full flex flex-col overflow-hidden">
+        {/* Course Image */}
+        <div className="relative h-40 overflow-hidden">
+          <img
+            src={imageUrl}
+            alt={course.title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/50 to-transparent" />
+          {/* Tier Badge */}
+          <span className={`absolute top-3 right-3 text-xs px-2 py-0.5 rounded border ${tierColor}`}>
+            {course.tier.charAt(0).toUpperCase() + course.tier.slice(1)}
           </span>
         </div>
 
-        {/* Title */}
-        <h2 className="font-serif text-xl font-light text-white mb-1 group-hover:text-gray-300 transition-colors line-clamp-2">
-          {course.title}
-        </h2>
-
-        {/* Subtitle */}
-        {course.subtitle && (
-          <p className="text-sm text-gray-500 mb-2 line-clamp-1">
-            {course.subtitle}
-          </p>
-        )}
-
-        {/* Description */}
-        <p className="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3 flex-grow">
-          {course.description}
-        </p>
-
-        {/* Spectrum Tags */}
-        {course.spectrum.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-3">
-            {course.spectrum.slice(0, 3).map((stage) => (
-              <span
-                key={stage}
-                className="text-xs px-1.5 py-0.5 bg-zinc-800 text-gray-500 rounded"
-              >
-                {stage}
-              </span>
-            ))}
+        <div className="p-6 flex flex-col flex-grow">
+          {/* Category */}
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xs uppercase tracking-wide text-gray-500">
+              {categoryIcon} {course.category}
+            </span>
           </div>
-        )}
 
-        {/* Footer */}
-        <div className="flex items-center justify-between text-xs text-gray-500 mt-auto pt-3 border-t border-zinc-800">
-          <span>{course.moduleCount} modules</span>
-          <span>{course.duration}</span>
+          {/* Title */}
+          <h2 className="font-serif text-xl font-light text-white mb-1 group-hover:text-gray-300 transition-colors line-clamp-2">
+            {course.title}
+          </h2>
+
+          {/* Subtitle */}
+          {course.subtitle && (
+            <p className="text-sm text-gray-500 mb-2 line-clamp-1">
+              {course.subtitle}
+            </p>
+          )}
+
+          {/* Description */}
+          <p className="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3 flex-grow">
+            {course.description}
+          </p>
+
+          {/* Spectrum Tags */}
+          {course.spectrum.length > 0 && (
+            <div className="flex flex-wrap gap-1 mb-3">
+              {course.spectrum.slice(0, 3).map((stage) => (
+                <span
+                  key={stage}
+                  className="text-xs px-1.5 py-0.5 bg-zinc-800 text-gray-500 rounded"
+                >
+                  {stage}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Footer */}
+          <div className="flex items-center justify-between text-xs text-gray-500 mt-auto pt-3 border-t border-zinc-800">
+            <span>{course.moduleCount} modules</span>
+            <span>{course.duration}</span>
+          </div>
         </div>
       </article>
     </Link>

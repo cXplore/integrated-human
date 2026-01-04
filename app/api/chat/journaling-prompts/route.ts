@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
-
-// LM Studio endpoint
-const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
-const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'openai/gpt-oss-20b';
+import { LM_STUDIO_URL, LM_STUDIO_MODEL } from '@/lib/ai-credits';
 
 /**
  * POST /api/chat/journaling-prompts

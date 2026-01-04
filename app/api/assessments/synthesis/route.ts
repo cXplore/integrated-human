@@ -6,9 +6,6 @@ import {
   type UserJourneyContext,
 } from '@/lib/presence';
 import {
-  calculateTokenCost,
-} from '@/lib/subscriptions';
-import {
   generateInsights,
   type ArchetypeData,
   type AttachmentData,
@@ -16,86 +13,55 @@ import {
 } from '@/lib/insights';
 import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
 import { sanitizeUserInput, sanitizeMessageHistory, safeJsonParse } from '@/lib/sanitize';
+import {
+  classifySynthesis,
+  buildEnhancedSynthesisPrompt,
+  type SynthesisClassification,
+} from '@/lib/synthesis-analysis';
+import {
+  LM_STUDIO_URL,
+  LM_STUDIO_MODEL,
+  isLocalAI,
+  estimateTokens,
+  checkCredits,
+  deductTokens,
+  noCreditsResponse,
+} from '@/lib/ai-credits';
 
-// LM Studio endpoint - requires LM_STUDIO_URL env var in production
-const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
-const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'openai/gpt-oss-20b';
+// =============================================================================
+// TYPE GUARDS - Validate parsed JSON matches expected types
+// =============================================================================
 
-function estimateTokens(text: string): number {
-  return Math.ceil(text.length / 4);
+function isArchetypeData(data: unknown): data is ArchetypeData {
+  if (!data || typeof data !== 'object') return false;
+  const d = data as Record<string, unknown>;
+  return (
+    typeof d.gender === 'string' &&
+    typeof d.primaryArchetype === 'string' &&
+    typeof d.isWounded === 'boolean' &&
+    typeof d.isIntegrated === 'boolean'
+  );
 }
 
-async function checkCredits(userId: string): Promise<{ hasCredits: boolean; balance: number }> {
-  const credits = await prisma.aICredits.findUnique({
-    where: { userId },
-  });
-
-  if (!credits) {
-    return { hasCredits: false, balance: 0 };
-  }
-
-  return {
-    hasCredits: credits.tokenBalance > 0,
-    balance: credits.tokenBalance,
-  };
+function isAttachmentData(data: unknown): data is AttachmentData {
+  if (!data || typeof data !== 'object') return false;
+  const d = data as Record<string, unknown>;
+  return (
+    typeof d.style === 'string' &&
+    typeof d.styleName === 'string' &&
+    typeof d.anxietyPercent === 'number' &&
+    typeof d.avoidancePercent === 'number'
+  );
 }
 
-async function deductTokens(
-  userId: string,
-  inputTokens: number,
-  outputTokens: number,
-): Promise<void> {
-  const totalTokens = inputTokens + outputTokens;
-  const cost = calculateTokenCost(inputTokens, outputTokens);
-
-  const credits = await prisma.aICredits.findUnique({
-    where: { userId },
-  });
-
-  if (!credits) {
-    await prisma.aICredits.create({
-      data: {
-        userId,
-        tokenBalance: 0,
-        monthlyTokens: 0,
-        monthlyUsed: totalTokens,
-        purchasedTokens: 0,
-      },
-    });
-  } else {
-    let monthlyDeduction = 0;
-    let remainingDeduction = totalTokens;
-
-    const monthlyAvailable = Math.max(0, credits.monthlyTokens - credits.monthlyUsed);
-
-    if (monthlyAvailable > 0) {
-      monthlyDeduction = Math.min(monthlyAvailable, remainingDeduction);
-      remainingDeduction -= monthlyDeduction;
-    }
-
-    await prisma.aICredits.update({
-      where: { userId },
-      data: {
-        tokenBalance: { decrement: totalTokens },
-        monthlyUsed: { increment: monthlyDeduction },
-        purchasedTokens: remainingDeduction > 0
-          ? { decrement: remainingDeduction }
-          : undefined,
-      },
-    });
-  }
-
-  await prisma.aIUsage.create({
-    data: {
-      userId,
-      inputTokens,
-      outputTokens,
-      totalTokens,
-      cost,
-      model: LM_STUDIO_MODEL,
-      context: 'assessment-synthesis',
-    },
-  });
+function isNervousSystemData(data: unknown): data is NervousSystemData {
+  if (!data || typeof data !== 'object') return false;
+  const d = data as Record<string, unknown>;
+  return (
+    typeof d.state === 'string' &&
+    typeof d.stateName === 'string' &&
+    d.counts !== undefined && typeof d.counts === 'object'
+  );
 }
 
 async function getUserJourneyContext(userId: string): Promise<UserJourneyContext | null> {
@@ -162,34 +128,34 @@ async function getAssessmentContext(userId: string): Promise<{
     const parts: string[] = [];
 
     for (const assessment of assessments) {
-      const results = safeJsonParse(assessment.results, null);
+      const results = safeJsonParse<unknown>(assessment.results, null);
       if (!results) continue;
 
-      if (assessment.type === 'archetype') {
-        archetype = results as unknown as ArchetypeData;
-        const shadowStatus = archetype.isWounded ? 'in shadow' : archetype.isIntegrated ? 'integrated' : 'developing';
+      if (assessment.type === 'archetype' && isArchetypeData(results)) {
+        archetype = results;
+        const shadowStatus = results.isWounded ? 'in shadow' : results.isIntegrated ? 'integrated' : 'developing';
         parts.push(`Archetype Assessment:
-- Primary: ${archetype.primaryArchetype} (${shadowStatus})
-- Secondary: ${archetype.secondaryArchetype || 'None'}
-- Gender: ${archetype.gender}
-${archetype.profiles?.primary ? `- Top archetypes by score: ${archetype.profiles.primary.slice(0, 3).map(p => `${p.archetype} (mature: ${p.mature}, shadow: ${p.shadow})`).join(', ')}` : ''}`);
+- Primary: ${results.primaryArchetype} (${shadowStatus})
+- Secondary: ${results.secondaryArchetype || 'None'}
+- Gender: ${results.gender}
+${results.profiles?.primary ? `- Top archetypes by score: ${results.profiles.primary.slice(0, 3).map(p => `${p.archetype} (mature: ${p.mature}, shadow: ${p.shadow})`).join(', ')}` : ''}`);
       }
 
-      if (assessment.type === 'attachment') {
-        attachment = results as unknown as AttachmentData;
+      if (assessment.type === 'attachment' && isAttachmentData(results)) {
+        attachment = results;
         parts.push(`Attachment Style Assessment:
-- Style: ${attachment.styleName} (${attachment.style})
-- Anxiety: ${attachment.anxietyPercent}%
-- Avoidance: ${attachment.avoidancePercent}%`);
+- Style: ${results.styleName} (${results.style})
+- Anxiety: ${results.anxietyPercent}%
+- Avoidance: ${results.avoidancePercent}%`);
       }
 
-      if (assessment.type === 'nervous-system') {
-        nervousSystem = results as unknown as NervousSystemData;
+      if (assessment.type === 'nervous-system' && isNervousSystemData(results)) {
+        nervousSystem = results;
         parts.push(`Nervous System Assessment:
-- Dominant State: ${nervousSystem.stateName} (${nervousSystem.state})
-- Ventral vagal (calm): ${nervousSystem.counts?.ventral || 0} responses
-- Sympathetic (activated): ${nervousSystem.counts?.sympathetic || 0} responses
-- Dorsal vagal (shutdown): ${nervousSystem.counts?.dorsal || 0} responses`);
+- Dominant State: ${results.stateName} (${results.state})
+- Ventral vagal (calm): ${results.counts?.ventral || 0} responses
+- Sympathetic (activated): ${results.counts?.sympathetic || 0} responses
+- Dorsal vagal (shutdown): ${results.counts?.dorsal || 0} responses`);
       }
     }
 
@@ -332,25 +298,21 @@ export async function POST(request: NextRequest) {
       return rateLimitResponse(rateLimit);
     }
 
-    const { hasCredits, balance } = await checkCredits(userId);
-
-    if (!hasCredits) {
-      return new Response(
-        JSON.stringify({
-          error: 'Insufficient credits',
-          code: 'NO_CREDITS',
-          message: 'You\'ve run out of AI credits. Purchase more to continue.',
-          balance: 0,
-        }),
-        {
-          status: 402,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+    // Check credits (skip for local AI)
+    let balance = 0;
+    if (!isLocalAI) {
+      const credits = await checkCredits(userId);
+      if (!credits.hasCredits) {
+        return noCreditsResponse();
+      }
+      balance = credits.balance;
     }
 
     // Get assessment context
-    const { contextString: assessmentContext } = await getAssessmentContext(userId);
+    const { archetype, attachment, nervousSystem, contextString: assessmentContext } = await getAssessmentContext(userId);
+
+    // Classify the synthesis using the new analysis library
+    const classification = classifySynthesis(archetype, attachment, nervousSystem);
 
     // Get user context
     let userContext = '';
@@ -359,8 +321,9 @@ export async function POST(request: NextRequest) {
       userContext = buildUserContext(journeyContext);
     }
 
-    // Build the synthesis prompt
-    const systemPrompt = buildSynthesisPrompt(assessmentContext, userContext);
+    // Build the enhanced synthesis prompt
+    const systemPrompt = buildEnhancedSynthesisPrompt(classification, assessmentContext) +
+      (userContext ? `\n\n---\nUSER CONTEXT:\n${userContext}` : '');
 
     const messages = [
       { role: 'system', content: systemPrompt },
@@ -440,12 +403,32 @@ export async function POST(request: NextRequest) {
               const outputTokens = estimateTokens(totalOutputContent);
               const totalTokens = inputTokens + outputTokens;
 
-              deductTokens(userId, inputTokens, outputTokens).catch(err => {
+              deductTokens({
+                userId,
+                inputTokens,
+                outputTokens,
+                context: 'assessment-synthesis',
+              }).catch(err => {
                 console.error('Error deducting tokens:', err);
               });
 
               controller.enqueue(encoder.encode(`data: ${JSON.stringify({
                 done: true,
+                classification: {
+                  stage: classification.overallStage,
+                  approach: classification.suggestedApproach,
+                  patterns: classification.patterns.slice(0, 3).map(p => ({
+                    name: p.pattern,
+                    significance: p.significance,
+                    description: p.description,
+                  })),
+                  strengths: classification.strengths.slice(0, 3),
+                  priorities: classification.priorities.slice(0, 2).map(p => ({
+                    area: p.area,
+                    urgency: p.urgency,
+                  })),
+                  flags: classification.flags,
+                },
                 usage: {
                   inputTokens,
                   outputTokens,

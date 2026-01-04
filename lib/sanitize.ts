@@ -26,6 +26,19 @@ const INJECTION_PATTERNS = [
   /roleplay as/i,
   /DAN mode/i,
   /developer mode/i,
+  // Hidden instruction patterns
+  /<!--[\s\S]*?(SYSTEM|instruction|override|ignore|always|never|must)[\s\S]*?-->/i,
+  /\{\{[\s\S]*?(SYSTEM|instruction|override)[\s\S]*?\}\}/i,
+];
+
+// Patterns to strip from input (malicious markup)
+const STRIP_PATTERNS = [
+  // HTML comments (can hide instructions)
+  /<!--[\s\S]*?-->/g,
+  // Template injection attempts
+  /\{\{[\s\S]*?\}\}/g,
+  // Null bytes and dangerous control chars
+  /[\x00-\x08\x0B\x0C\x0E-\x1F]/g,
 ];
 
 /**
@@ -54,8 +67,14 @@ export function sanitizeUserInput(
     warnings.push(`Input truncated from ${input.length} to ${maxLength} characters`);
   }
 
-  // Remove null bytes and other dangerous control characters
-  sanitized = sanitized.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
+  // Strip dangerous patterns that could hide instructions
+  for (const pattern of STRIP_PATTERNS) {
+    const before = sanitized;
+    sanitized = sanitized.replace(pattern, '');
+    if (before !== sanitized) {
+      warnings.push('Removed potentially malicious markup');
+    }
+  }
 
   // Check for injection patterns
   if (warnOnInjection && containsInjectionPattern(sanitized)) {

@@ -61,6 +61,9 @@ model User {
   triggerPatterns       TriggerPattern[]
   chatPreferences       ChatPreference[]
   conversationInsights  ConversationInsight[]
+
+  // Stuck Pattern Tracking
+  stuckPatterns         StuckPattern[]
 }
 
 model Account {
@@ -264,6 +267,10 @@ model UserProfile {
 
   // Any specific areas to avoid or be careful with
   sensitivities String? @db.Text
+
+  // Cultural/spiritual context for dream interpretation
+  // western-secular, western-christian, jewish, islamic, hindu, buddhist, indigenous, east-asian, african, eclectic
+  dreamCulturalContext String? @default("western-secular")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -901,4 +908,118 @@ model ChatPreference {
   @@unique([userId, category, preference])
   @@index([userId])
   @@index([userId, category])
+}
+
+// ============================================================================
+// STUCK PATTERN TRACKING
+// Persists stuckness patterns for longitudinal analysis
+// ============================================================================
+
+model StuckPattern {
+  id           String   @id @default(cuid())
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Classification data
+  stuckType        String   // behavioral, emotional, cognitive, relational, etc.
+  nervousState     String   // ventral, sympathetic, dorsal, mixed
+  protectiveFunction String? // What this stuckness might be protecting
+
+  // Content
+  description      String   @db.Text // The stuckness description
+  theme            String?  // Extracted theme
+  affectedDimensions String? // JSON array of affected dimensions
+
+  // Intensity and patterns
+  intensity        String   // low, moderate, high, extreme
+  developmentalStage String? // collapse, regulation, integration, embodiment, optimization
+
+  // IFS/Parts data
+  suggestedParts   String?  // JSON array of identified parts
+  hasExileContent  Boolean  @default(false)
+
+  // Resolution tracking
+  resolved         Boolean  @default(false)
+  resolvedAt       DateTime?
+  resolutionNotes  String?  @db.Text
+
+  // Pattern linking
+  relatedPatternIds String? // JSON array of related StuckPattern IDs (recurring patterns)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, stuckType])
+  @@index([userId, createdAt])
+  @@index([userId, resolved])
+}
+
+// ============================================================================
+// RATE LIMITING
+// Database-backed rate limiting for persistence across restarts
+// ============================================================================
+
+model RateLimitEntry {
+  id         String   @id
+  count      Int      @default(1)
+  resetTime  DateTime
+
+  @@index([resetTime]) // For cleanup queries
+}
+
+// ============================================================================
+// AI VERIFICATION SYSTEM
+// Quality-gated progression with verified competence
+// ============================================================================
+
+// Gate attempts - records each attempt at a progress gate
+model GateAttempt {
+  id            String   @id @default(cuid())
+  userId        String
+  gateId        String   // Reference to gate definition in code
+  attemptNumber Int
+  score         Int      // 0-100
+  passed        Boolean
+  verification  String   @db.Text // JSON: full verification result
+  responseData  String   @db.Text // User's submission
+  attemptedAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, gateId])
+  @@index([gateId, passed])
+}
+
+// Verification sessions - for multi-step assessments and simulations
+model VerificationSession {
+  id          String    @id @default(cuid())
+  userId      String
+  courseSlug  String
+  type        String    // gate, final-assessment, simulation
+  status      String    @default("in_progress") // in_progress, completed, failed, abandoned
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  currentStep Int       @default(0)
+  totalSteps  Int       @default(1)
+  results     String    @db.Text // JSON array of VerificationScore
+  overallResult String? // pass, needs-depth, try-again
+
+  @@index([userId])
+  @@index([userId, courseSlug])
+  @@index([courseSlug, type])
+}
+
+// Simulation sessions - for conversation practice
+model SimulationSession {
+  id           String    @id @default(cuid())
+  userId       String
+  simulationId String    // Reference to simulation definition in code
+  status       String    @default("active") // active, completed, abandoned
+  turns        String    @db.Text // JSON array of SimulationTurn
+  startedAt    DateTime  @default(now())
+  completedAt  DateTime?
+  finalResult  String?   @db.Text // JSON: SimulationResult
+
+  @@index([userId])
+  @@index([userId, simulationId])
 }

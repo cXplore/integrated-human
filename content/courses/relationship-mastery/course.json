@@ -2,191 +2,266 @@
   "id": "relationship-mastery",
   "title": "Relationship Mastery",
   "subtitle": "The complete curriculum for conscious partnership",
-  "description": "A comprehensive 10-week program covering everything needed for extraordinary relationships. From attachment healing to communication to polarity to conflict resolution—this flagship course gives you the full toolkit for love that lasts and grows.",
+  "description": "This is not a course you complete in a weekend. It's an 8-12 week practicum that requires real engagement — with the material, with yourself, and with your relationships. Each module combines deep understanding with structured practice. You will complete real-world exercises, document your practice, and demonstrate skill development. The certificate means you've done the work, not just consumed the content.",
   "category": "Flagship",
   "price": 79,
   "currency": "USD",
-  "duration": "10 weeks",
-  "level": "Intermediate",
+  "duration": "8-12 weeks",
+  "level": "Intermediate to Advanced",
   "featured": true,
   "published": true,
   "modules": [
     {
       "id": 1,
-      "slug": "relationship-foundations",
-      "title": "Relationship Foundations",
-      "description": "What makes relationships work—and what destroys them",
-      "duration": "40 min"
+      "slug": "the-real-work",
+      "title": "The Real Work",
+      "description": "What this course demands of you — and why most relationship advice fails",
+      "duration": "45 min + 1 week practice",
+      "practiceRequired": true
     },
     {
       "id": 2,
-      "slug": "attachment-and-patterns",
-      "title": "Attachment and Patterns",
-      "description": "Understanding the unconscious forces in your relationships",
-      "duration": "45 min"
+      "slug": "your-pattern-in-high-definition",
+      "title": "Your Pattern in High Definition",
+      "description": "Mapping exactly how you show up in relationships — not the theory, your reality",
+      "duration": "60 min + observation period",
+      "practiceRequired": true
     },
     {
       "id": 3,
-      "slug": "healing-attachment-wounds",
-      "title": "Healing Attachment Wounds",
-      "description": "Moving toward earned secure attachment",
-      "duration": "50 min"
+      "slug": "the-body-of-attachment",
+      "title": "The Body of Attachment",
+      "description": "Where your patterns live in your nervous system — and how to work with them somatically",
+      "duration": "60 min + daily practice",
+      "practiceRequired": true
     },
     {
       "id": 4,
-      "slug": "communication-that-connects",
-      "title": "Communication That Connects",
-      "description": "Speaking and listening for true understanding",
-      "duration": "45 min"
+      "slug": "speaking-the-unspeakable",
+      "title": "Speaking the Unspeakable",
+      "description": "Communicating what's actually true — not the sanitized version",
+      "duration": "50 min + structured conversations",
+      "practiceRequired": true
     },
     {
       "id": 5,
-      "slug": "conflict-as-growth",
-      "title": "Conflict as Growth",
-      "description": "Fighting without destroying—using tension for evolution",
-      "duration": "45 min"
+      "slug": "the-anatomy-of-your-fights",
+      "title": "The Anatomy of Your Fights",
+      "description": "Mapping the real structure of your conflicts — and learning to interrupt the pattern",
+      "duration": "60 min + conflict practice",
+      "practiceRequired": true
     },
     {
       "id": 6,
-      "slug": "polarity-and-attraction",
-      "title": "Polarity and Attraction",
-      "description": "Maintaining passion in long-term partnership",
-      "duration": "40 min"
+      "slug": "desire-and-polarity",
+      "title": "Desire and Polarity",
+      "description": "What actually creates and sustains attraction — beyond performance and techniques",
+      "duration": "50 min + embodiment practice",
+      "practiceRequired": true
     },
     {
       "id": 7,
-      "slug": "repair-and-reconnection",
-      "title": "Rupture and Repair",
-      "description": "Coming back from disconnection stronger",
-      "duration": "40 min"
+      "slug": "the-art-of-repair",
+      "title": "The Art of Repair",
+      "description": "Turning rupture into deepening — the skill that predicts relationship success",
+      "duration": "50 min + repair practice",
+      "practiceRequired": true
     },
     {
       "id": 8,
-      "slug": "boundaries-in-love",
-      "title": "Boundaries in Love",
-      "description": "Protecting yourself while staying connected",
-      "duration": "40 min"
+      "slug": "boundaries-that-serve-love",
+      "title": "Boundaries That Serve Love",
+      "description": "Protection without walls — the practice of sacred limits",
+      "duration": "50 min + boundary practice",
+      "practiceRequired": true
     },
     {
       "id": 9,
-      "slug": "growing-together",
-      "title": "Growing Together",
-      "description": "Evolving as individuals and as partners",
-      "duration": "40 min"
-    },
-    {
-      "id": 10,
-      "slug": "lasting-love",
-      "title": "Building Lasting Love",
-      "description": "The practices that sustain extraordinary partnership",
-      "duration": "45 min"
+      "slug": "integration-and-assessment",
+      "title": "Integration and Assessment",
+      "description": "Demonstrating what you've learned — through reflection, documentation, and self-assessment",
+      "duration": "90 min",
+      "assessmentModule": true
     }
   ],
   "whatYouLearn": [
-    "Understand what makes relationships thrive or fail",
-    "Map your attachment patterns and their origins",
-    "Heal attachment wounds toward earned security",
-    "Communicate in ways that create connection not distance",
-    "Navigate conflict as an opportunity for growth",
-    "Maintain polarity and attraction over time",
-    "Repair ruptures and rebuild trust",
-    "Set boundaries while staying open-hearted",
-    "Support mutual growth within partnership"
+    "Map your specific relational patterns with precision — not general attachment styles, YOUR patterns",
+    "Regulate your nervous system during relationship activation — demonstrated through practice logs",
+    "Communicate difficult truths without violence or withdrawal — through structured practice",
+    "Navigate conflict without the Four Horsemen — documented through conflict analysis",
+    "Initiate and complete repair after rupture — with evidence of real practice",
+    "Set and hold boundaries that protect without isolating — tested in real situations",
+    "Maintain attraction and polarity over time — through ongoing practice"
   ],
   "requirements": [
-    "Currently in a relationship or actively preparing for one",
-    "Willingness to examine your patterns honestly",
-    "Journal for reflection exercises",
-    "Partner participation optional but beneficial"
+    "Currently in a relationship or actively dating (required for practice exercises)",
+    "Minimum 8 weeks to complete — cannot rush through",
+    "Willingness to complete structured practice exercises and document results",
+    "Journal or document for tracking practice",
+    "Partner awareness recommended for some exercises"
   ],
+  "assessmentStructure": {
+    "moduleCheckpoints": true,
+    "practiceDocumentation": true,
+    "finalAssessment": {
+      "type": "comprehensive",
+      "components": [
+        {
+          "name": "Pattern Map",
+          "description": "Complete written analysis of your relational patterns, origins, and shifts during the course",
+          "weight": 20
+        },
+        {
+          "name": "Practice Log",
+          "description": "Documentation of exercises completed throughout the course with reflections",
+          "weight": 30
+        },
+        {
+          "name": "Skill Demonstration",
+          "description": "Written or recorded demonstration of key skills: repair conversation, boundary setting, conflict navigation",
+          "weight": 30
+        },
+        {
+          "name": "Knowledge Assessment",
+          "description": "Multiple choice and short answer questions testing understanding",
+          "weight": 20
+        }
+      ],
+      "passingScore": 75
+    }
+  },
   "quiz": {
-    "passingScore": 70,
+    "passingScore": 75,
     "questions": [
       {
         "id": 1,
-        "question": "What is the primary predictor of relationship success according to research?",
+        "question": "A partner says 'You're always criticizing me.' You notice defensiveness rising. What is the FIRST thing to do?",
         "options": [
-          "Compatibility",
-          "The ability to repair after conflict",
-          "Never fighting",
-          "Similar interests"
+          "Explain why the criticism was justified",
+          "Apologize immediately to end the conflict",
+          "Recognize and regulate your own nervous system activation before responding",
+          "Point out times they've criticized you"
         ],
-        "correctIndex": 1
+        "correctIndex": 2
       },
       {
         "id": 2,
-        "question": "What is 'earned secure attachment'?",
+        "question": "You notice you're attracted to someone who creates anxiety in you — hot then cold, unpredictable. This is likely:",
         "options": [
-          "Being born secure",
-          "Developing security through conscious work despite insecure early attachment",
-          "Finding a secure partner",
-          "Pretending to be secure"
+          "True love that's worth fighting for",
+          "Your nervous system mistaking anxiety activation for passion",
+          "Evidence they're playing hard to get",
+          "Normal early relationship dynamics"
         ],
         "correctIndex": 1
       },
       {
         "id": 3,
-        "question": "What makes communication connecting rather than disconnecting?",
+        "question": "During a fight, your heart rate exceeds 100 BPM and you can't think clearly. You should:",
         "options": [
-          "Using the right words",
-          "Speaking from vulnerability, listening to understand, and validating experience",
-          "Talking more",
-          "Being logical"
+          "Push through and finish the conversation",
+          "Say 'I need 20-30 minutes to calm down, then I want to continue this conversation' and self-regulate",
+          "Agree with whatever they're saying to end the conflict",
+          "Leave without explanation"
         ],
         "correctIndex": 1
       },
       {
         "id": 4,
-        "question": "How can conflict be used for growth?",
+        "question": "Your partner did something that hurt you. A repair conversation should include:",
         "options": [
-          "By winning arguments",
-          "By staying curious about underlying needs and using tension to evolve together",
-          "By avoiding it entirely",
-          "By compromising on everything"
+          "A detailed list of everything they've done wrong",
+          "Acknowledgment of impact, taking responsibility where appropriate, and intentional reconnection",
+          "Waiting until they apologize first",
+          "Pretending it didn't happen to keep the peace"
         ],
         "correctIndex": 1
       },
       {
         "id": 5,
-        "question": "What creates polarity in a relationship?",
+        "question": "You want more physical affection but feel awkward asking. The best approach is:",
         "options": [
-          "Distance and coldness",
-          "The dynamic tension between different energies, often masculine and feminine",
-          "Always agreeing",
-          "Power imbalance"
+          "Drop hints and hope they pick up on it",
+          "Withhold affection until they give more first",
+          "State your need directly: 'I'd love more physical affection. Can we talk about that?'",
+          "Accept that they're just not affectionate"
         ],
-        "correctIndex": 1
+        "correctIndex": 2
       },
       {
         "id": 6,
-        "question": "What does healthy repair after rupture require?",
+        "question": "A 'boundary' in relationship is:",
         "options": [
-          "Pretending it didn't happen",
-          "Acknowledging impact, taking responsibility, and intentionally reconnecting",
-          "Waiting until both forget",
-          "One person apologizing"
+          "A rule you impose on your partner's behavior",
+          "A statement of what you will and won't accept, with consequences you control",
+          "A threat to leave if they don't change",
+          "Something only needed in unhealthy relationships"
         ],
         "correctIndex": 1
       },
       {
         "id": 7,
-        "question": "How do boundaries serve love?",
+        "question": "Polarity in a relationship refers to:",
         "options": [
-          "They don't - boundaries create distance",
-          "Boundaries create safety that allows for deeper intimacy",
-          "Boundaries are selfish",
-          "Only necessary with bad partners"
+          "One partner being dominant and one submissive",
+          "The dynamic tension between different energies that creates attraction",
+          "Being opposites in personality",
+          "Disagreeing frequently"
         ],
         "correctIndex": 1
       },
       {
         "id": 8,
-        "question": "What sustains love over decades?",
+        "question": "Research shows that 69% of relationship conflicts are 'perpetual' — never fully resolved. This means:",
         "options": [
-          "Initial chemistry",
-          "Consistent choosing, continued growth, and practices of connection",
-          "Never changing",
-          "Luck"
+          "Most relationships are doomed to fail",
+          "You should learn to dialogue about these issues without gridlock, rather than trying to solve them",
+          "You should avoid discussing these issues",
+          "You need to find a more compatible partner"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 9,
+        "question": "Your partner often withdraws during conflict (stonewalls). The most effective response is:",
+        "options": [
+          "Pursue them more intensely to resolve the issue",
+          "Stonewall back to show them how it feels",
+          "Recognize they may be flooded, give space, and agree on when to return to the conversation",
+          "Interpret their withdrawal as not caring about the relationship"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": 10,
+        "question": "'Earned secure attachment' means:",
+        "options": [
+          "You found a partner who makes you feel secure",
+          "You developed secure attachment through conscious work despite insecure early experiences",
+          "You were always secure but didn't realize it",
+          "You earned your partner's trust through good behavior"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 11,
+        "question": "What predicts relationship success better than compatibility, chemistry, or absence of conflict?",
+        "options": [
+          "Similar backgrounds and values",
+          "The ability to repair after conflict",
+          "Never fighting",
+          "Intense initial attraction"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": 12,
+        "question": "You notice you often pick apart your partner's flaws when they get close to you. This is likely:",
+        "options": [
+          "Evidence you're with the wrong person",
+          "A deactivating strategy of avoidant attachment — creating distance when intimacy threatens",
+          "Healthy discernment",
+          "Their fault for having flaws"
         ],
         "correctIndex": 1
       }
@@ -196,5 +271,11 @@
   "spectrum": [
     "embodiment",
     "optimization"
-  ]
+  ],
+  "certificateRequirements": {
+    "allModulesCompleted": true,
+    "practiceLogSubmitted": true,
+    "assessmentPassed": true,
+    "minimumTimeSpent": "8 weeks"
+  }
 }

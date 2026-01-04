@@ -2,12 +2,15 @@ import { NextRequest } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
-
-// LM Studio endpoint
-const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
-const TOKENS_PER_CREDIT = 1000;
-const CREDIT_COST = 5;
-const TOKEN_COST = CREDIT_COST * TOKENS_PER_CREDIT;
+import {
+  LM_STUDIO_URL,
+  LM_STUDIO_MODEL,
+  isLocalAI,
+  estimateTokens,
+  checkCredits,
+  deductTokens,
+  noCreditsResponse,
+} from '@/lib/ai-credits';
 
 interface MoodCount {
   mood: string;
@@ -28,42 +31,6 @@ interface RequestBody {
   totalEntries: number;
   writingStreak: number;
   dominantMood: string | null;
-}
-
-async function checkCredits(userId: string): Promise<{ hasCredits: boolean; balance: number }> {
-  const credits = await prisma.aICredits.findUnique({ where: { userId } });
-  if (!credits) return { hasCredits: false, balance: 0 };
-  return { hasCredits: credits.tokenBalance >= TOKEN_COST, balance: credits.tokenBalance };
-}
-
-async function deductTokens(userId: string, totalTokens: number): Promise<void> {
-  const credits = await prisma.aICredits.findUnique({ where: { userId } });
-
-  if (!credits) {
-    await prisma.aICredits.create({
-      data: {
-        userId,
-        tokenBalance: 0,
-        monthlyTokens: 0,
-        monthlyUsed: totalTokens,
-        purchasedTokens: 0,
-      },
-    });
-    return;
-  }
-
-  const monthlyRemaining = Math.max(0, credits.monthlyTokens - credits.monthlyUsed);
-  const monthlyDeduction = Math.min(totalTokens, monthlyRemaining);
-  const remainingDeduction = totalTokens - monthlyDeduction;
-
-  await prisma.aICredits.update({
-    where: { userId },
-    data: {
-      tokenBalance: { decrement: totalTokens },
-      monthlyUsed: { increment: monthlyDeduction },
-      purchasedTokens: remainingDeduction > 0 ? { decrement: remainingDeduction } : undefined,
-    },
-  });
 }
 
 /**
@@ -92,21 +59,12 @@ export async function POST(request: NextRequest) {
       return rateLimitResponse(rateLimit);
     }
 
-    // Check AI credits
-    const { hasCredits, balance } = await checkCredits(userId);
-
-    if (!hasCredits) {
-      return new Response(
-        JSON.stringify({
-          error: 'Insufficient AI credits',
-          required: CREDIT_COST,
-          available: Math.floor(balance / TOKENS_PER_CREDIT),
-        }),
-        {
-          status: 402,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+    // Check AI credits (skip for local AI)
+    if (!isLocalAI) {
+      const credits = await checkCredits(userId);
+      if (!credits.hasCredits) {
+        return noCreditsResponse();
+      }
     }
 
     // Build context about the journal entries
@@ -237,21 +195,12 @@ Please share your observations about patterns, themes, and opportunities for gro
           }
 
           // Deduct tokens after successful completion
-          const inputTokens = Math.ceil((systemPrompt.length + userPrompt.length) / 4);
-          const totalTokens = inputTokens + totalOutputTokens;
-          await deductTokens(userId, totalTokens);
-
-          // Log usage
-          await prisma.aIUsage.create({
-            data: {
-              userId,
-              inputTokens,
-              outputTokens: totalOutputTokens,
-              totalTokens,
-              cost: totalTokens * 0.000001,
-              model: 'qwen3-32b',
-              context: 'journal-patterns',
-            },
+          const inputTokens = estimateTokens(systemPrompt + userPrompt);
+          await deductTokens({
+            userId,
+            inputTokens,
+            outputTokens: totalOutputTokens,
+            context: 'journal-patterns',
           });
 
           controller.enqueue(encoder.encode('data: [DONE]\n\n'));

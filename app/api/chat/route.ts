@@ -10,7 +10,6 @@ import {
   type ContentSummary,
   type UserHealthContext,
 } from '@/lib/presence';
-import { calculateTokenCost } from '@/lib/subscriptions';
 import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
 import { sanitizeUserInput, sanitizeMessageHistory } from '@/lib/sanitize';
 import { getAllPosts } from '@/lib/posts';
@@ -18,94 +17,15 @@ import { getAllCourses } from '@/lib/courses';
 import { getAllPractices } from '@/lib/practices';
 import { getOrCreateHealth, type Pillar } from '@/lib/integration-health';
 import { safeJsonParse } from '@/lib/sanitize';
-
-// LM Studio endpoint - requires LM_STUDIO_URL env var in production
-const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
-const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'openai/gpt-oss-20b';
-
-// Rough token estimation (4 chars ≈ 1 token for English text)
-function estimateTokens(text: string): number {
-  return Math.ceil(text.length / 4);
-}
-
-/**
- * Check if user has enough credits and return their balance
- */
-async function checkCredits(userId: string): Promise<{ hasCredits: boolean; balance: number }> {
-  const credits = await prisma.aICredits.findUnique({
-    where: { userId },
-  });
-
-  if (!credits) {
-    return { hasCredits: false, balance: 0 };
-  }
-
-  return {
-    hasCredits: credits.tokenBalance > 0,
-    balance: credits.tokenBalance,
-  };
-}
-
-/**
- * Deduct tokens from user's balance and record usage
- */
-async function deductTokens(
-  userId: string,
-  inputTokens: number,
-  outputTokens: number
-): Promise<void> {
-  const totalTokens = inputTokens + outputTokens;
-  const cost = calculateTokenCost(inputTokens, outputTokens);
-
-  const credits = await prisma.aICredits.findUnique({
-    where: { userId },
-  });
-
-  if (!credits) {
-    await prisma.aICredits.create({
-      data: {
-        userId,
-        tokenBalance: 0,
-        monthlyTokens: 0,
-        monthlyUsed: totalTokens,
-        purchasedTokens: 0,
-      },
-    });
-  } else {
-    let monthlyDeduction = 0;
-    let remainingDeduction = totalTokens;
-
-    const monthlyAvailable = Math.max(0, credits.monthlyTokens - credits.monthlyUsed);
-
-    if (monthlyAvailable > 0) {
-      monthlyDeduction = Math.min(monthlyAvailable, remainingDeduction);
-      remainingDeduction -= monthlyDeduction;
-    }
-
-    await prisma.aICredits.update({
-      where: { userId },
-      data: {
-        tokenBalance: { decrement: totalTokens },
-        monthlyUsed: { increment: monthlyDeduction },
-        purchasedTokens: remainingDeduction > 0
-          ? { decrement: remainingDeduction }
-          : undefined,
-      },
-    });
-  }
-
-  await prisma.aIUsage.create({
-    data: {
-      userId,
-      inputTokens,
-      outputTokens,
-      totalTokens,
-      cost,
-      model: LM_STUDIO_MODEL,
-      context: 'chat',
-    },
-  });
-}
+import {
+  LM_STUDIO_URL,
+  LM_STUDIO_MODEL,
+  isLocalAI,
+  estimateTokens,
+  checkCredits,
+  deductTokens,
+  noCreditsResponse,
+} from '@/lib/ai-credits';
 
 /**
  * Gather content context for the AI
@@ -232,18 +152,14 @@ export async function POST(request: NextRequest) {
       return rateLimitResponse(rateLimit);
     }
 
-    // Check credits before proceeding
-    const { hasCredits, balance } = await checkCredits(userId);
-    if (!hasCredits) {
-      return NextResponse.json(
-        {
-          error: 'Insufficient credits',
-          code: 'NO_CREDITS',
-          message: 'You\'ve run out of AI credits. Purchase more to continue.',
-          balance: 0,
-        },
-        { status: 402 }
-      );
+    // Check credits before proceeding (skip for local AI)
+    let balance = 0;
+    if (!isLocalAI) {
+      const credits = await checkCredits(userId);
+      if (!credits.hasCredits) {
+        return noCreditsResponse();
+      }
+      balance = credits.balance;
     }
 
     const body = await request.json();
@@ -314,7 +230,7 @@ export async function POST(request: NextRequest) {
           model: LM_STUDIO_MODEL,
           messages,
           temperature: 0.7,
-          max_tokens: 500,
+          max_tokens: 350, // Reduced from 500 to encourage brevity
           stream: false,
         }),
         signal: controller.signal,
@@ -350,7 +266,12 @@ export async function POST(request: NextRequest) {
     const totalTokens = inputTokens + outputTokens;
 
     // Deduct tokens (don't block response on this)
-    deductTokens(userId, inputTokens, outputTokens).catch(err => {
+    deductTokens({
+      userId,
+      inputTokens,
+      outputTokens,
+      context: 'chat',
+    }).catch(err => {
       console.error('Error deducting tokens:', err);
     });
 

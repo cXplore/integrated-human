@@ -14,8 +14,7 @@ import {
 import ModuleCompleteButton from './ModuleCompleteButton';
 import ModuleContent from './ModuleContent';
 import ModuleAccessGuard from './ModuleAccessGuard';
-import ContentCompanion from '@/app/components/ContentCompanion';
-import { AIErrorBoundary } from '@/app/components/ErrorBoundary';
+import PageContextSetter from '@/app/components/PageContextSetter';
 
 export async function generateStaticParams() {
   const courses = getAllCourses();
@@ -80,6 +79,7 @@ export default async function ModulePage({
 
   return (
     <>
+      <PageContextSetter type="module" title={`${module.title} (${course.metadata.title})`} slug={moduleSlug} content={module.content} />
       <Navigation />
       <main className="min-h-screen bg-zinc-950">
         <div className="max-w-7xl mx-auto px-6 py-12">
@@ -294,14 +294,6 @@ export default async function ModulePage({
           </div>
         </div>
       </main>
-      <AIErrorBoundary>
-        <ContentCompanion
-          contentType="module"
-          contentTitle={module.title}
-          contentSlug={courseSlug}
-          moduleSlug={moduleSlug}
-        />
-      </AIErrorBoundary>
     </>
   );
 }

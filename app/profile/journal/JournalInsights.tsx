@@ -14,6 +14,11 @@ interface WeeklyActivity {
   wordCount: number;
 }
 
+interface MoodTimelineEntry {
+  date: string;
+  mood: string;
+}
+
 interface InsightsData {
   totalEntries: number;
   totalWords: number;
@@ -22,6 +27,7 @@ interface InsightsData {
   moodDistribution: MoodCount[];
   dominantMood: string | null;
   weeklyActivity: WeeklyActivity[];
+  moodTimeline: MoodTimelineEntry[];
   writingStreak: number;
   longestEntry: { date: string; wordCount: number } | null;
   promptUsagePercent: number;
@@ -56,6 +62,30 @@ const MOOD_LABELS: Record<string, string> = {
   angry: 'Angry',
   hopeful: 'Hopeful',
   confused: 'Confused',
+};
+
+// Mood valence for timeline visualization (0-100 scale, 50 = neutral)
+const MOOD_VALENCE: Record<string, number> = {
+  peaceful: 85,
+  grateful: 90,
+  curious: 70,
+  hopeful: 80,
+  confused: 45,
+  anxious: 30,
+  sad: 25,
+  angry: 20,
+};
+
+// Dot colors for timeline
+const MOOD_DOT_COLORS: Record<string, string> = {
+  peaceful: 'bg-blue-400',
+  grateful: 'bg-green-400',
+  curious: 'bg-purple-400',
+  hopeful: 'bg-amber-400',
+  confused: 'bg-orange-400',
+  anxious: 'bg-yellow-400',
+  sad: 'bg-gray-400',
+  angry: 'bg-red-400',
 };
 
 export default function JournalInsights() {
@@ -327,6 +357,111 @@ export default function JournalInsights() {
                 : `You often write with a ${MOOD_LABELS[data.dominantMood] || data.dominantMood} mindset.`}
             </p>
           )}
+        </div>
+      )}
+
+      {/* Mood Timeline */}
+      {data.moodTimeline.length >= 3 && (
+        <div className="bg-zinc-900 border border-zinc-800 p-6">
+          <h3 className="text-sm uppercase tracking-wide text-gray-500 mb-4">
+            Mood Journey
+          </h3>
+
+          {/* Timeline chart */}
+          <div className="relative h-32 mb-4">
+            {/* Y-axis labels */}
+            <div className="absolute left-0 top-0 bottom-0 w-16 flex flex-col justify-between text-xs text-gray-600 pr-2">
+              <span>Uplifted</span>
+              <span>Neutral</span>
+              <span>Heavy</span>
+            </div>
+
+            {/* Chart area */}
+            <div className="ml-16 h-full relative">
+              {/* Horizontal guide lines */}
+              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
+                <div className="border-t border-zinc-800 border-dashed" />
+                <div className="border-t border-zinc-700" />
+                <div className="border-t border-zinc-800 border-dashed" />
+              </div>
+
+              {/* Data points and line */}
+              <svg className="absolute inset-0 w-full h-full overflow-visible">
+                {/* Connecting line */}
+                <polyline
+                  fill="none"
+                  stroke="rgba(251, 191, 36, 0.3)"
+                  strokeWidth="2"
+                  points={data.moodTimeline.map((entry, i) => {
+                    const x = (i / (data.moodTimeline.length - 1)) * 100;
+                    const y = 100 - (MOOD_VALENCE[entry.mood] || 50);
+                    return `${x}%,${y}%`;
+                  }).join(' ')}
+                />
+              </svg>
+
+              {/* Data point dots */}
+              <div className="absolute inset-0 flex justify-between items-start">
+                {data.moodTimeline.map((entry, i) => {
+                  const valence = MOOD_VALENCE[entry.mood] || 50;
+                  const dotColor = MOOD_DOT_COLORS[entry.mood] || 'bg-gray-400';
+                  const label = MOOD_LABELS[entry.mood] || entry.mood;
+
+                  return (
+                    <div
+                      key={`${entry.date}-${i}`}
+                      className="relative group"
+                      style={{ top: `${100 - valence}%` }}
+                    >
+                      <div
+                        className={`w-3 h-3 rounded-full ${dotColor} cursor-pointer transition-transform hover:scale-150`}
+                      />
+                      {/* Tooltip */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-zinc-800 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                        <div className="font-medium text-white">{label}</div>
+                        <div className="text-gray-400">{new Date(entry.date).toLocaleDateString()}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* X-axis labels */}
+          <div className="ml-16 flex justify-between text-xs text-gray-600">
+            <span>{new Date(data.moodTimeline[0]?.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+            <span>{new Date(data.moodTimeline[data.moodTimeline.length - 1]?.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+          </div>
+
+          {/* Legend */}
+          <div className="mt-4 pt-4 border-t border-zinc-800">
+            <div className="flex flex-wrap gap-3">
+              {Object.entries(MOOD_DOT_COLORS).map(([mood, color]) => (
+                <div key={mood} className="flex items-center gap-1.5">
+                  <div className={`w-2 h-2 rounded-full ${color}`} />
+                  <span className="text-xs text-gray-500">{MOOD_LABELS[mood]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Trend insight */}
+          {data.moodTimeline.length >= 5 && (() => {
+            const recentAvg = data.moodTimeline.slice(-3).reduce((sum, e) => sum + (MOOD_VALENCE[e.mood] || 50), 0) / 3;
+            const olderAvg = data.moodTimeline.slice(0, 3).reduce((sum, e) => sum + (MOOD_VALENCE[e.mood] || 50), 0) / 3;
+            const trend = recentAvg - olderAvg;
+
+            if (Math.abs(trend) < 10) return null;
+
+            return (
+              <p className="text-sm text-gray-500 mt-3">
+                {trend > 0
+                  ? 'Your recent entries show a lift in mood. Something is shifting.'
+                  : 'Your recent entries feel heavier. Be gentle with yourself.'}
+              </p>
+            );
+          })()}
         </div>
       )}
 

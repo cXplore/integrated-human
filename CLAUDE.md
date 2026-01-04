@@ -40,7 +40,12 @@ app/
 │   ├── check-ins/          # Integration check-ins
 │   ├── assessments/        # Assessment results + synthesis
 │   ├── credits/            # AI credit management
-│   └── subscriptions/      # Subscription management
+│   ├── subscriptions/      # Subscription management
+│   └── verification/       # AI verification system
+│       ├── journal/        # Journal quality evaluation
+│       ├── skill-demo/     # Skill demonstration scenarios
+│       ├── simulation/     # Conversation practice
+│       └── gate/           # Progress gate checks
 ├── courses/[courseSlug]/   # Course pages with dynamic modules
 ├── certificate/[id]/       # Certificate verification pages
 ├── transparency/           # Transparency section
@@ -63,7 +68,7 @@ app/
 └── components/
     ├── course/             # Interactive exercise components
     ├── WhereImStuck.tsx    # AI-powered resource finder
-    ├── ContentCompanion.tsx # AI companion for articles/courses
+    ├── FloatingCompanion.tsx # Global AI companion (persistent, context-aware)
     ├── ReadTracker.tsx     # Scroll progress tracking
     └── Footer.tsx          # Site-wide footer
 
@@ -85,7 +90,14 @@ lib/
 ├── prisma.ts               # Database client
 ├── rate-limit.ts           # In-memory rate limiting
 ├── sanitize.ts             # Input sanitization + safeJsonParse
-└── env.ts                  # Environment variable validation
+├── env.ts                  # Environment variable validation
+└── ai-verification/        # AI verification system
+    ├── types.ts            # Type definitions
+    ├── journal-evaluator.ts # Journal quality evaluation
+    ├── skill-demonstration.ts # Skill scenarios + rubrics
+    ├── conversation-simulation.ts # Practice conversations
+    ├── progress-gates.ts   # Gate checking + certificate eligibility
+    └── index.ts            # Barrel exports
 
 prisma/schema.prisma        # Database models
 ```
@@ -115,6 +127,11 @@ DimensionHealth     # Verified scores from assessments (30 dimensions)
 DimensionEstimate   # Estimated scores from activity (auto-updated)
 GrowthActivity      # Activity log (courses, articles, practices completed)
 DimensionReassessment # Records of dimension-specific reassessments
+
+# AI Verification System (Jan 2026)
+GateAttempt         # Progress gate attempts with scores
+VerificationSession # Multi-step assessment sessions
+SimulationSession   # Conversation practice sessions
 ```
 
 ---
@@ -122,7 +139,7 @@ DimensionReassessment # Records of dimension-specific reassessments
 ## Business Logic That Matters
 
 ### AI Features (LM Studio / Local)
-- **Content Companion** - Contextual AI assistant on articles/courses
+- **AI Companion** - Persistent floating assistant across all pages (text selection tooltips on content pages)
 - **Journal Companion** - AI-powered reflection prompts and insights
   - Auto-detects growth dimensions discussed and records as activity
   - Keywords mapped to 30 dimensions across 4 pillars (2 pts per insight)
@@ -414,10 +431,11 @@ return new Response(response.body?.pipeThrough(transformStream), {
   - Health dashboard at /profile/health
 - **AI-powered features:**
   - Content companion (articles + courses)
-  - Journal companion with insights
-  - Dream journal with interpretation
-  - "Where I'm Stuck" resource finder
-  - Assessment synthesis
+  - Journal companion with insights + guided frameworks (6 types: gratitude, body check-in, etc.)
+  - Dream journal with interpretation + waking life bridge questions
+  - "Where I'm Stuck" resource finder + micro-commitments + 7-day accountability check-ins
+  - Assessment synthesis + stage-appropriate practice suggestions
+  - Mood timeline visualization in journal insights
 - **AI credit system** - 500 monthly for members + purchasable tokens
 - **Integration check-ins** - Periodic reflection system
 - **Reading streaks** - Engagement tracking
@@ -458,8 +476,12 @@ return new Response(response.body?.pipeThrough(transformStream), {
 | Interactive components | `app/components/course/MDXComponents.tsx` |
 | Error boundaries | `app/components/ErrorBoundary.tsx` |
 | Read tracker | `app/components/ReadTracker.tsx` |
-| Content companion | `app/components/ContentCompanion.tsx` |
+| AI Companion | `app/components/FloatingCompanion.tsx` |
 | Where I'm Stuck | `app/components/WhereImStuck.tsx` |
+| Stuck check-ins API | `app/api/stuck/check-ins/route.ts` |
+| Stuck analysis | `lib/stuck-analysis.ts`, `lib/stuck-persistence.ts` |
+| Dream analysis | `lib/dream-analysis.ts` |
+| Synthesis analysis | `lib/synthesis-analysis.ts` |
 | Footer | `app/components/Footer.tsx` |
 | Database schema | `prisma/schema.prisma` |
 | Assessment framework | `lib/assessment/framework.ts` |
@@ -522,5 +544,6 @@ Ask: Does this help someone become more present, or less?
 
 ## Related Docs
 
+- **ARCHITECTURE.md** - Learning system architecture (pillars, dimensions, paths, AI verification)
+- **CONTENT_MAP.md** - Detailed content-to-dimension mapping for all 92 courses, 201 articles
 - **IDEAS.md** - Future possibilities and creative brainstorming
-- **CONTENT_ROADMAP.md** - Content calendar, monetization strategy, revenue projections

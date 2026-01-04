@@ -18,11 +18,6 @@ import {
   calculateDataFreshness,
   type FreshnessLevel,
 } from '@/lib/integration-health';
-import {
-  calculateTokenCost,
-  INPUT_TOKEN_COST,
-  OUTPUT_TOKEN_COST,
-} from '@/lib/subscriptions';
 import { checkRateLimit, RATE_LIMITS, rateLimitResponse } from '@/lib/rate-limit';
 import { sanitizeUserInput, sanitizeMessageHistory, safeJsonParse } from '@/lib/sanitize';
 import { recordBulkActivities } from '@/lib/assessment/activity-tracker';
@@ -49,15 +44,16 @@ import {
   type CrisisSignal,
 } from '@/lib/crisis-detection';
 import type { PillarId } from '@/lib/assessment/types';
-
-// LM Studio endpoint - requires LM_STUDIO_URL env var in production
-const LM_STUDIO_URL = process.env.LM_STUDIO_URL || 'http://127.0.0.1:1234/v1/chat/completions';
-const LM_STUDIO_MODEL = process.env.LM_STUDIO_MODEL || 'openai/gpt-oss-20b';
-
-// Rough token estimation (4 chars ≈ 1 token for English text)
-function estimateTokens(text: string): number {
-  return Math.ceil(text.length / 4);
-}
+import {
+  LM_STUDIO_URL,
+  LM_STUDIO_MODEL,
+  isLocalAI,
+  estimateTokens,
+  checkCredits,
+  deductTokens,
+  noCreditsResponse,
+} from '@/lib/ai-credits';
+import { buildBudgetedContext, createSection } from '@/lib/context-budget';
 
 /**
  * Generate a clean, readable conversation title from the first message
@@ -271,92 +267,6 @@ async function recordChatInsights(
   } catch (error) {
     console.error('Failed to record chat insights:', error);
   }
-}
-
-/**
- * Check if user has enough credits and return their balance
- */
-async function checkCredits(userId: string): Promise<{ hasCredits: boolean; balance: number }> {
-  const credits = await prisma.aICredits.findUnique({
-    where: { userId },
-  });
-
-  if (!credits) {
-    return { hasCredits: false, balance: 0 };
-  }
-
-  return {
-    hasCredits: credits.tokenBalance > 0,
-    balance: credits.tokenBalance,
-  };
-}
-
-/**
- * Deduct tokens from user's balance and record usage
- */
-async function deductTokens(
-  userId: string,
-  inputTokens: number,
-  outputTokens: number,
-  context?: string
-): Promise<void> {
-  const totalTokens = inputTokens + outputTokens;
-  const cost = calculateTokenCost(inputTokens, outputTokens);
-
-  // Get current credits to determine deduction order
-  const credits = await prisma.aICredits.findUnique({
-    where: { userId },
-  });
-
-  if (!credits) {
-    // Create credits record if doesn't exist (shouldn't happen, but safety)
-    await prisma.aICredits.create({
-      data: {
-        userId,
-        tokenBalance: 0,
-        monthlyTokens: 0,
-        monthlyUsed: totalTokens,
-        purchasedTokens: 0,
-      },
-    });
-  } else {
-    // Deduct from monthly tokens first, then purchased
-    let monthlyDeduction = 0;
-    let remainingDeduction = totalTokens;
-
-    // How much monthly tokens are available (monthlyTokens - monthlyUsed)?
-    const monthlyAvailable = Math.max(0, credits.monthlyTokens - credits.monthlyUsed);
-
-    if (monthlyAvailable > 0) {
-      monthlyDeduction = Math.min(monthlyAvailable, remainingDeduction);
-      remainingDeduction -= monthlyDeduction;
-    }
-
-    await prisma.aICredits.update({
-      where: { userId },
-      data: {
-        tokenBalance: { decrement: totalTokens },
-        monthlyUsed: { increment: monthlyDeduction },
-        // If we need to dip into purchased tokens
-        purchasedTokens: remainingDeduction > 0
-          ? { decrement: remainingDeduction }
-          : undefined,
-      },
-    });
-  }
-
-  // Record usage for analytics
-  await prisma.aIUsage.create({
-    data: {
-      userId,
-      inputTokens,
-      outputTokens,
-      totalTokens,
-      cost,
-      model: LM_STUDIO_MODEL,
-      context: context || 'chat',
-    },
-  });
 }
 
 /**
@@ -837,7 +747,7 @@ async function getUserHealthContext(userId: string): Promise<UserHealthContext |
 
 export async function POST(request: NextRequest) {
   try {
-    const { message: rawMessage, history: rawHistory = [], context: chatContext, conversationId } = await request.json();
+    const { message: rawMessage, history: rawHistory = [], context: chatContext, conversationId, pageContext } = await request.json();
 
     if (!rawMessage || typeof rawMessage !== 'string') {
       return new Response(JSON.stringify({ error: 'Message is required' }), {
@@ -878,22 +788,14 @@ export async function POST(request: NextRequest) {
       return rateLimitResponse(rateLimit);
     }
 
-    // Check if user has credits
-    const { hasCredits, balance } = await checkCredits(userId);
-
-    if (!hasCredits) {
-      return new Response(
-        JSON.stringify({
-          error: 'Insufficient credits',
-          code: 'NO_CREDITS',
-          message: 'You\'ve run out of AI credits. Purchase more to continue.',
-          balance: 0,
-        }),
-        {
-          status: 402, // Payment Required
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+    // Check if user has credits (skip for local AI)
+    let userBalance = 0;
+    if (!isLocalAI) {
+      const credits = await checkCredits(userId);
+      userBalance = credits.balance;
+      if (!credits.hasCredits) {
+        return noCreditsResponse();
+      }
     }
 
     // Handle conversation persistence if conversationId provided
@@ -987,40 +889,40 @@ export async function POST(request: NextRequest) {
     // Detect stance - simplified to 5 modes: chill, supportive, hype, deep, grounding
     const stance: Stance = isInCrisis ? 'grounding' : detectStance(message);
 
-    // Build the prompt - now unified and simpler
+    // Build the prompt with context budgeting to prevent token overflow
     let systemPrompt: string;
     if (isCasual) {
+      // Casual messages get minimal context
       systemPrompt = buildCasualPrompt();
+      // Only add page context for casual messages if on content page
+      if (pageContext && typeof pageContext === 'string') {
+        systemPrompt += `\n\n(User is viewing: ${pageContext.split('\n')[0]})`;
+      }
     } else {
-      // Combine user context and site context into additional context
+      // Build context with priority-based budgeting
       const additionalContext = [userContext, siteContext].filter(Boolean).join('\n');
-      systemPrompt = buildSystemPrompt(stance, additionalContext || undefined);
-    }
+      const basePrompt = buildSystemPrompt(stance, additionalContext || undefined);
 
-    // Append cross-feature context if available (even for casual messages)
-    if (crossFeatureString) {
-      systemPrompt += crossFeatureString;
-    }
+      // Apply crisis protocol first if needed (critical priority)
+      const crisisContext = isInCrisis && crisisSignal.promptModification
+        ? crisisSignal.promptModification
+        : '';
 
-    // Append AI learning context (triggers and preferences) for non-casual messages
-    if (!isCasual && aiLearningString) {
-      systemPrompt += aiLearningString;
-    }
+      // Format page context
+      const formattedPageContext = pageContext && typeof pageContext === 'string'
+        ? `## Current Page Context\n${pageContext}\nYou can reference this context naturally if relevant.`
+        : '';
 
-    // Append shadow pattern awareness for deeper insight (only for non-casual)
-    if (!isCasual && shadowPatternString) {
-      systemPrompt += shadowPatternString;
-    }
-
-    // Append conversation memory context (summary of older messages)
-    if (memoryContextString) {
-      systemPrompt += memoryContextString;
-    }
-
-    // CRITICAL: Apply crisis protocol modifications if needed
-    if (isInCrisis && crisisSignal.promptModification) {
-      // Prepend crisis protocol to ensure it takes priority
-      systemPrompt = crisisSignal.promptModification + '\n\n' + systemPrompt;
+      // Use budgeted context builder with priorities
+      systemPrompt = buildBudgetedContext([
+        createSection('crisis', crisisContext, 'critical'),
+        createSection('base', basePrompt, 'critical'),
+        createSection('page', formattedPageContext, 'high', 400),
+        createSection('memory', memoryContextString, 'high', 300),
+        createSection('learning', aiLearningString, 'medium', 250),
+        createSection('cross-feature', crossFeatureString, 'medium', 200),
+        createSection('shadow', shadowPatternString, 'low', 150),
+      ]);
     }
 
     // Build messages array for the LLM
@@ -1049,7 +951,7 @@ export async function POST(request: NextRequest) {
           model: LM_STUDIO_MODEL,
           messages,
           temperature: 0.7,
-          max_tokens: 500,
+          max_tokens: 350, // Reduced from 500 to encourage brevity
           stream: true,
         }),
         signal: controller.signal,
@@ -1115,7 +1017,12 @@ export async function POST(request: NextRequest) {
               const totalTokens = inputTokens + outputTokens;
 
               // Deduct tokens in background (don't block response)
-              deductTokens(userId, inputTokens, outputTokens, chatContext).catch(err => {
+              deductTokens({
+                userId,
+                inputTokens,
+                outputTokens,
+                context: chatContext || 'chat-stream',
+              }).catch(err => {
                 console.error('Error deducting tokens:', err);
               });
 
@@ -1192,7 +1099,7 @@ export async function POST(request: NextRequest) {
                   inputTokens,
                   outputTokens,
                   totalTokens,
-                  remainingBalance: balance - totalTokens,
+                  remainingBalance: userBalance - totalTokens,
                 },
               };
 

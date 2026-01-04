@@ -17,9 +17,9 @@ import rehypeSlug from 'rehype-slug';
 import ArticleImage from '@/app/components/ArticleImage';
 import YouTube from '@/app/components/YouTube';
 import Image from 'next/image';
-import ContentCompanion from '@/app/components/ContentCompanion';
-import { AIErrorBoundary } from '@/app/components/ErrorBoundary';
 import { ArticleJsonLd, BreadcrumbJsonLd } from '@/app/components/JsonLd';
+import PageContextSetter from '@/app/components/PageContextSetter';
+import FeaturedImage from '@/app/components/FeaturedImage';
 
 const BASE_URL = 'https://integrated-human.vercel.app';
 
@@ -104,6 +104,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
   return (
     <>
+      <PageContextSetter type="article" title={post.metadata.title} slug={slug} content={post.content} />
       <ArticleJsonLd
         title={post.metadata.title}
         description={post.metadata.excerpt}
@@ -169,18 +170,12 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               <ArticleActions slug={slug} title={post.metadata.title} />
             </div>
 
-            {/* Featured Image */}
-            {post.metadata.image && (
-              <div className="mb-12 -mx-6 md:mx-0">
-                <Image
-                  src={post.metadata.image}
-                  alt={post.metadata.title}
-                  width={1200}
-                  height={630}
-                  className="w-full h-auto object-cover border border-zinc-800"
-                  priority
-                />
-              </div>
+            {/* Featured Image - show for articles with explicit image OR deep dives (10+ min) */}
+            {(post.metadata.image || post.readingTime > 10) && (
+              <FeaturedImage
+                src={post.metadata.image || `/images/posts/${slug}.jpg`}
+                alt={post.metadata.title}
+              />
             )}
 
             <div className="pt-8 border-t border-zinc-800 prose prose-invert prose-lg max-w-none
@@ -360,13 +355,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           nextSlug={seriesNav.next?.slug}
         />
       )}
-      <AIErrorBoundary>
-        <ContentCompanion
-          contentType="article"
-          contentTitle={post.metadata.title}
-          contentSlug={slug}
-        />
-      </AIErrorBoundary>
     </>
   );
 }
