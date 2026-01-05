@@ -4,7 +4,8 @@ import "dotenv/config";
 import { defineConfig, env } from "prisma/config";
 
 // For migrations, Prisma needs a direct connection (not pooler)
-// The directUrl is used for schema push/migrate operations
+// DIRECT_URL is set in .env.local for local development
+// For Vercel, the directUrl is configured in schema.prisma
 const directUrl = env("DIRECT_URL");
 const poolerUrl = env("DATABASE_URL");
 
@@ -17,6 +18,5 @@ export default defineConfig({
     // Use direct connection for schema operations (migrations, db push)
     // This is required because PgBouncer in transaction mode doesn't support DDL
     url: directUrl || poolerUrl,
-    directUrl: directUrl,
   },
 });
