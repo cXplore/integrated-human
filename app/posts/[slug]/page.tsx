@@ -7,7 +7,6 @@ import TableOfContents from '@/app/components/TableOfContents';
 import BackToTop from '@/app/components/BackToTop';
 import SeriesProgress from '@/app/components/SeriesProgress';
 import KeyboardNav from '@/app/components/KeyboardNav';
-import Comments from '@/app/components/Comments';
 import ReadTracker from '@/app/components/ReadTracker';
 import { getAllPosts, getPostBySlug, getRelatedPosts, getSeriesNavigation, getSeriesPostsMinimal } from '@/lib/posts';
 import { getRelatedCourses } from '@/lib/courses';
@@ -338,8 +337,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               </div>
             )}
 
-            {/* Comments Section */}
-            <Comments slug={slug} />
               </div>
 
               {/* Table of Contents Sidebar */}

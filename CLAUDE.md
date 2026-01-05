@@ -2,452 +2,574 @@
 
 ## Project Identity
 
-**What this is:** A personal development platform focused on psychological integration (Mind, Body, Soul, Relationships). Content-driven business with courses, articles, quizzes, AI-powered tools, and lead magnets.
+**What this is:** A personal development platform focused on psychological integration across four pillars (Mind, Body, Soul, Relationships). Content-driven learning platform with AI-powered tools, courses, articles, assessments, and a sophisticated health tracking system.
 
 **Live at:** integratedhuman.co (Vercel deployment)
 **Repo:** github.com/cXplore/integrated-human
 
 ---
 
-## Architecture Truth
+## Full Architecture
 
-### Stack
-- Next.js 16 (App Router, Turbopack)
-- TypeScript (strict mode)
-- Prisma ORM → PostgreSQL (Supabase)
-- TailwindCSS (dark theme primary, light mode supported)
-- Google OAuth via NextAuth
-- Stripe (payments + subscriptions)
-- ConvertKit (email marketing)
-- LM Studio / Qwen3-32b (local AI for companion features)
+### Content Inventory
 
-### Critical Paths
+| Content Type | Count |
+|-------------|-------|
+| **Articles/Posts** | 201 |
+| **Courses** | 92 |
+| **Course Modules** | 579 |
+| **Guided Practices** | 13 |
+| **Learning Paths** | 17 |
+| **Lead Magnets** | 4 |
+| **Products** | 5 |
+| **Assessment Questions** | ~205 |
+| **Total Content Pieces** | **912+** |
+
+### Platform Metrics
+
+| Metric | Count |
+|--------|-------|
+| App Pages | 65 |
+| API Routes | 103 |
+| UI Components | 71 |
+| Database Models | 41 |
+| Lib System Files | 60+ |
+| Health Dimensions | 30 |
+| Health Facets | 75+ |
+
+---
+
+## Stack
+
+- **Framework:** Next.js 16 (App Router, Turbopack)
+- **Language:** TypeScript (strict mode)
+- **Database:** Prisma ORM → PostgreSQL (Supabase)
+- **Styling:** TailwindCSS (dark theme primary)
+- **Auth:** Google OAuth via NextAuth v5
+- **Payments:** Stripe (subscriptions + one-time)
+- **Email:** ConvertKit (infrastructure ready)
+- **AI:** LM Studio / local models (configurable)
+
+---
+
+## Directory Structure
+
 ```
-app/
-├── api/                    # Route handlers
-│   ├── checkout/           # Stripe checkout + verify
-│   ├── webhook/stripe/     # Stripe webhooks
-│   ├── exercises/          # Interactive exercise responses
-│   ├── lead-magnets/       # Lead magnet download + content
-│   ├── certificates/       # Certificate generation (tiered)
-│   ├── courses/            # Course metadata + access APIs
-│   ├── purchases/          # Purchase status checks
-│   ├── journal/            # Journal entries + AI companion
-│   ├── dreams/             # Dream journal + AI interpretation
-│   ├── stuck/              # "Where I'm Stuck" AI feature
-│   ├── chat/               # AI companion chat
-│   ├── article-progress/   # Reading progress with scroll sync
-│   ├── check-ins/          # Integration check-ins
-│   ├── assessments/        # Assessment results + synthesis
-│   ├── credits/            # AI credit management
-│   ├── subscriptions/      # Subscription management
-│   └── verification/       # AI verification system
-│       ├── journal/        # Journal quality evaluation
-│       ├── skill-demo/     # Skill demonstration scenarios
-│       ├── simulation/     # Conversation practice
-│       └── gate/           # Progress gate checks
-├── courses/[courseSlug]/   # Course pages with dynamic modules
-├── certificate/[id]/       # Certificate verification pages
-├── transparency/           # Transparency section
-│   ├── methodology/        # Development Spectrum framework
-│   ├── standards/          # Quality standards
-│   ├── certificates/       # Certificate tier explanation
-│   └── audits/[courseSlug] # Per-course audit documents
-├── free/[slug]/            # Lead magnet landing pages
-├── posts/[slug]/           # MDX articles
-├── practices/[slug]/       # Guided practices
-├── profile/                # User dashboard
-│   ├── journal/            # AI-powered journaling
-│   ├── dreams/             # Dream journal
-│   └── subscription/       # Subscription management
-├── stuck/                  # "Where I'm Stuck" standalone page
-├── library/                # All articles with filtering
-├── books/                  # Recommended books
-├── privacy/                # Privacy policy
-├── terms/                  # Terms of service
-└── components/
-    ├── course/             # Interactive exercise components
-    ├── WhereImStuck.tsx    # AI-powered resource finder
-    ├── FloatingCompanion.tsx # Global AI companion (persistent, context-aware)
-    ├── ReadTracker.tsx     # Scroll progress tracking
-    └── Footer.tsx          # Site-wide footer
-
-content/
-├── posts/                  # MDX files (200+ articles)
-├── courses/                # 78 courses with JSON + MDX modules
-├── practices/              # 7 guided practices (breathwork, grounding, etc.)
-├── lead-magnets/           # 4 lead magnet markdown files
-└── products/               # Product descriptions
-
-lib/
-├── courses.ts              # Course/module loading functions
-├── practices.ts            # Practice loading functions
-├── lead-magnets.ts         # Lead magnet loading
-├── posts.ts                # Article loading functions
-├── stripe.ts               # Stripe client + helpers
-├── subscriptions.ts        # Subscription tier + AI credit config
-├── presence.ts             # AI context building
-├── prisma.ts               # Database client
-├── rate-limit.ts           # In-memory rate limiting
-├── sanitize.ts             # Input sanitization + safeJsonParse
-├── env.ts                  # Environment variable validation
-└── ai-verification/        # AI verification system
-    ├── types.ts            # Type definitions
-    ├── journal-evaluator.ts # Journal quality evaluation
-    ├── skill-demonstration.ts # Skill scenarios + rubrics
-    ├── conversation-simulation.ts # Practice conversations
-    ├── progress-gates.ts   # Gate checking + certificate eligibility
-    └── index.ts            # Barrel exports
-
-prisma/schema.prisma        # Database models
-```
-
-### Data Models (Prisma)
-```
-User                # Google OAuth profile + preferences
-Account             # OAuth provider accounts
-UserProfile         # Onboarding data, preferences, sensitivities
-Purchase            # Stripe payment records (userId + courseSlug)
-Subscription        # Active subscription data
-CourseProgress      # userId + courseSlug + moduleSlug + completed
-ExerciseResponse    # Interactive exercise data (journal, checklist)
-Certificate         # Issued credentials (tiered: completion vs certificate)
-QuizAttempt         # Score tracking, pass/fail status
-ArticleProgress     # Reading completion + scroll position tracking
-ReadingListItem     # Saved articles
-JournalEntry        # Standalone journal entries with AI companion
-DreamEntry          # Dream journal with symbols, emotions, AI interpretation
-IntegrationCheckIn  # Periodic integration reflections
-AssessmentResult    # Archetype, shadow, nervous system assessments
-AICredits           # Token balance (monthly + purchased)
-AIUsage             # Usage tracking for analytics
-
-# Two-Layer Health System (Dec 2025)
-DimensionHealth     # Verified scores from assessments (30 dimensions)
-DimensionEstimate   # Estimated scores from activity (auto-updated)
-GrowthActivity      # Activity log (courses, articles, practices completed)
-DimensionReassessment # Records of dimension-specific reassessments
-
-# AI Verification System (Jan 2026)
-GateAttempt         # Progress gate attempts with scores
-VerificationSession # Multi-step assessment sessions
-SimulationSession   # Conversation practice sessions
+integrated-human/
+│
+├── app/                          # 65 page routes, 103 API routes
+│   │
+│   ├── CORE PAGES
+│   │   ├── / (homepage)
+│   │   ├── /about
+│   │   ├── /start-here
+│   │   └── /welcome
+│   │
+│   ├── AUTHENTICATION
+│   │   ├── /login
+│   │   ├── /site-login           # Site-wide password protection
+│   │   └── /onboarding           # Multi-step flow
+│   │
+│   ├── ASSESSMENTS (10+ pages)
+│   │   ├── /assessment
+│   │   ├── /assessment/reassess/[pillar]/[dimension]
+│   │   ├── /archetype-exploration
+│   │   ├── /archetypes
+│   │   ├── /attachment
+│   │   ├── /nervous-system
+│   │   ├── /nervous-system-check
+│   │   ├── /shadow-profile
+│   │   ├── /values
+│   │   └── /mind, /body, /soul, /relationships (pillar pages)
+│   │
+│   ├── LEARNING CONTENT
+│   │   ├── /courses              # Course catalog
+│   │   ├── /courses/[slug]       # Course page
+│   │   ├── /courses/[slug]/[module] # Module lesson
+│   │   ├── /courses/[slug]/quiz  # Course quiz
+│   │   ├── /library              # Article library
+│   │   ├── /posts/[slug]         # Article page
+│   │   ├── /practices            # Practice catalog
+│   │   ├── /practices/[slug]     # Guided practice
+│   │   └── /books                # Recommended books
+│   │
+│   ├── LEARNING PATHS
+│   │   ├── /learn/paths          # Path catalog
+│   │   ├── /learn/paths/[id]     # Individual path
+│   │   └── /learning-paths       # Alternative view
+│   │
+│   ├── USER DASHBOARD
+│   │   ├── /profile              # Main dashboard
+│   │   ├── /profile/journal      # Journal + AI companion
+│   │   ├── /profile/dreams       # Dream journal
+│   │   ├── /profile/health       # Health/dimension tracking
+│   │   ├── /profile/subscription # Subscription management
+│   │   ├── /profile/ai-insights  # AI-detected patterns
+│   │   └── /reading-list         # Saved articles
+│   │
+│   ├── AI & INTERACTIVE
+│   │   ├── /chat                 # AI companion
+│   │   └── /stuck                # "Where I'm Stuck" finder
+│   │
+│   ├── COMMERCE
+│   │   ├── /pricing
+│   │   ├── /shop
+│   │   ├── /bundles
+│   │   └── /free/[slug]          # Lead magnet pages
+│   │
+│   ├── CERTIFICATES
+│   │   └── /certificate/[id]     # Verification page
+│   │
+│   ├── COMMUNITY
+│   │   ├── /community
+│   │   └── /connect
+│   │
+│   ├── TRANSPARENCY (9 pages)
+│   │   ├── /transparency
+│   │   ├── /transparency/methodology
+│   │   ├── /transparency/deeper-work
+│   │   ├── /transparency/standards
+│   │   ├── /transparency/certificates
+│   │   ├── /transparency/health-tracking
+│   │   ├── /transparency/audits
+│   │   └── /transparency/sources
+│   │
+│   ├── LEGAL
+│   │   ├── /privacy
+│   │   └── /terms
+│   │
+│   └── api/                      # 103 API routes
+│       ├── AUTH & USER (10+)
+│       │   ├── /auth/[...nextauth]
+│       │   ├── /user/profile, /preferences, /ai-profile
+│       │   ├── /user/shadow-patterns, /emotional-arc
+│       │   └── /user/streaks, /export
+│       │
+│       ├── ASSESSMENT & HEALTH (12+)
+│       │   ├── /assessment, /assessments
+│       │   ├── /assessments/synthesis
+│       │   ├── /health, /health/dimensions
+│       │   └── /health/activity, /health/analyze
+│       │
+│       ├── CONTENT (10+)
+│       │   ├── /courses, /courses/[slug]
+│       │   ├── /course-progress
+│       │   ├── /posts, /practices
+│       │   └── /search
+│       │
+│       ├── AI CHAT (20+)
+│       │   ├── /chat, /chat/stream
+│       │   ├── /chat/conversations
+│       │   ├── /chat/detect-mood, /detect-triggers
+│       │   ├── /chat/learn-preferences
+│       │   ├── /chat/suggest-articles, /suggest-practices
+│       │   └── /chat/growth-timeline
+│       │
+│       ├── JOURNAL & DREAMS (15+)
+│       │   ├── /journal, /journal/[id]
+│       │   ├── /journal/companion, /insights, /patterns
+│       │   ├── /dreams, /dreams/[id]
+│       │   └── /dreams/interpret, /symbols
+│       │
+│       ├── AI VERIFICATION (4)
+│       │   ├── /verification/gate
+│       │   ├── /verification/journal
+│       │   ├── /verification/skill-demo
+│       │   └── /verification/simulation
+│       │
+│       ├── PAYMENTS (8+)
+│       │   ├── /checkout, /checkout/verify
+│       │   ├── /subscriptions/checkout, /subscriptions
+│       │   ├── /credits/checkout, /credits
+│       │   └── /webhook/stripe
+│       │
+│       └── OTHER (15+)
+│           ├── /certificates, /quiz
+│           ├── /recommendations
+│           ├── /stuck, /reflections
+│           └── /newsletter, /contact
+│
+├── content/                      # 912+ content pieces
+│   │
+│   ├── posts/                    # 201 articles (MDX)
+│   │   ├── Attachment & Relationships
+│   │   ├── Shadow & Inner Work
+│   │   ├── Body & Nervous System
+│   │   ├── Meaning & Mortality
+│   │   └── Practices & Integration
+│   │
+│   ├── courses/                  # 92 courses, 579 modules
+│   │   │
+│   │   │ TIERS:
+│   │   │ ├── intro (free)
+│   │   │ ├── beginner ($0-29)
+│   │   │ ├── intermediate ($29-79)
+│   │   │ ├── advanced ($79-149)
+│   │   │ └── flagship ($149+)
+│   │   │
+│   │   │ STRUCTURE (per course):
+│   │   │ └── course-name/
+│   │   │     ├── course.json    # Metadata, tier, spectrum stages
+│   │   │     └── *.mdx          # Module content
+│   │   │
+│   │   └── EXAMPLES:
+│   │       shadow-work-foundations, nervous-system-mastery,
+│   │       attachment-repair, conscious-relationship,
+│   │       death-contemplation, parts-work, boundaries,
+│   │       breathwork-mastery, somatic-healing...
+│   │
+│   ├── practices/                # 13 guided practices
+│   │   ├── box-breathing.mdx
+│   │   ├── grounding-5-4-3-2-1.mdx
+│   │   ├── physiological-sigh.mdx
+│   │   ├── cold-water-activation.mdx
+│   │   ├── shadow-dialogue.mdx
+│   │   ├── shaking-release.mdx
+│   │   ├── self-compassion-break.mdx
+│   │   ├── anger-release.mdx
+│   │   ├── orienting.mdx
+│   │   ├── loving-kindness.mdx
+│   │   ├── body-scan.mdx
+│   │   ├── morning-intention.mdx
+│   │   └── repair-conversation.mdx
+│   │
+│   ├── lead-magnets/             # 4 free resources
+│   │   ├── shadow-work-prompts.md
+│   │   ├── nervous-system-reset-checklist.md
+│   │   ├── archetype-email-course.md
+│   │   └── integration-starter-kit.md
+│   │
+│   └── products/                 # 5 standalone products
+│
+├── lib/                          # 60+ system files
+│   │
+│   ├── CORE INFRASTRUCTURE
+│   │   ├── prisma.ts             # Database client
+│   │   ├── env.ts                # Environment validation
+│   │   ├── rate-limit.ts         # Rate limiting
+│   │   ├── csrf.ts               # CSRF protection
+│   │   ├── access.ts             # Course access control
+│   │   └── sanitize.ts           # Input sanitization
+│   │
+│   ├── CONTENT LOADERS
+│   │   ├── courses.ts            # Load courses from JSON + MDX
+│   │   ├── posts.ts              # Load articles
+│   │   ├── practices.ts          # Load practices
+│   │   ├── lead-magnets.ts       # Lead magnets
+│   │   ├── bundles.ts            # Content bundles
+│   │   └── learning-paths.ts     # 17 curated learning paths
+│   │
+│   ├── assessment/               # Assessment Framework
+│   │   ├── framework.ts          # 30 dimensions, 75+ facets
+│   │   ├── types.ts              # PillarId, SpectrumStage types
+│   │   ├── questions/            # ~205 questions
+│   │   │   ├── mind.ts
+│   │   │   ├── body.ts
+│   │   │   ├── soul.ts
+│   │   │   └── relationships.ts
+│   │   ├── scoring.ts            # Score calculation
+│   │   ├── portrait.ts           # User development portrait
+│   │   ├── dimension-health.ts   # Freshness + estimated scores
+│   │   ├── reassessment.ts       # Dimension reassessment
+│   │   ├── content-mapping.ts    # Maps content → dimensions
+│   │   └── activity-tracker.ts   # Activity → estimate updates
+│   │
+│   ├── ai-verification/          # AI Verification System
+│   │   ├── types.ts              # Gate, rubric, verification types
+│   │   ├── progress-gates.ts     # Progress gates + certificates
+│   │   ├── journal-evaluator.ts  # Journal quality AI
+│   │   ├── skill-demonstration.ts # Scenario-based skill tests
+│   │   └── conversation-simulation.ts # Practice conversations
+│   │
+│   ├── AI SYSTEMS (15+ files)
+│   │   ├── presence.ts           # AI context builder
+│   │   ├── health-ai.ts          # AI health analysis
+│   │   ├── dream-analysis.ts     # Dream interpretation
+│   │   ├── journal-analysis.ts   # Journal analysis
+│   │   ├── synthesis-analysis.ts # Combine assessments
+│   │   ├── stuck-analysis.ts     # "Where I'm Stuck" AI
+│   │   ├── emotional-arc.ts      # Emotional trajectory
+│   │   ├── somatic-analysis.ts   # Body pattern analysis
+│   │   ├── crisis-detection.ts   # Crisis detection
+│   │   ├── crisis-coordinator.ts # Crisis response
+│   │   ├── conversation-memory.ts # Persistent memory
+│   │   ├── symbol-tracker.ts     # Dream symbol dictionary
+│   │   ├── insights.ts           # Insight extraction
+│   │   ├── realtime-learning.ts  # Learn from interactions
+│   │   └── weekly-reflection.ts  # Weekly prompts
+│   │
+│   ├── HEALTH & LEARNING
+│   │   ├── integration-health.ts # 4 pillars + stages
+│   │   ├── longitudinal-analysis.ts # Track over time
+│   │   └── cross-modal-patterns.ts # Cross-modality patterns
+│   │
+│   └── PAYMENTS
+│       ├── stripe.ts             # Stripe client
+│       └── subscriptions.ts      # Tier config + credits
+│
+├── components/                   # 71 UI components
+│   │
+│   ├── NAVIGATION & LAYOUT
+│   │   ├── Navigation.tsx
+│   │   ├── MobileNav.tsx
+│   │   ├── Footer.tsx
+│   │   ├── UserMenu.tsx
+│   │   └── ThemeToggle.tsx
+│   │
+│   ├── ASSESSMENTS & QUIZZES
+│   │   ├── ArchetypeQuiz.tsx
+│   │   ├── AttachmentStyleQuiz.tsx
+│   │   ├── NervousSystemQuiz.tsx
+│   │   ├── ShadowProfileQuiz.tsx
+│   │   └── StartHereQuiz.tsx
+│   │
+│   ├── COURSE & LIBRARY
+│   │   ├── CoursesGrid.tsx, CoursesFilters.tsx
+│   │   ├── LibraryGrid.tsx, LibraryFilters.tsx
+│   │   └── SpectrumVisual.tsx
+│   │
+│   ├── AI & COMPANION
+│   │   ├── FloatingCompanion.tsx # Global AI assistant
+│   │   ├── HomepageChat.tsx
+│   │   └── AICompanionContext.tsx
+│   │
+│   ├── HEALTH & TRACKING
+│   │   ├── QuickCheckIn.tsx
+│   │   ├── WeeklyCheckIn.tsx
+│   │   └── TodaysFocus.tsx
+│   │
+│   ├── verification/             # AI Verification UI
+│   │   ├── VerificationGate.tsx
+│   │   ├── SkillDemo.tsx
+│   │   ├── SimulationChat.tsx
+│   │   └── CertificateEligibility.tsx
+│   │
+│   └── course/                   # Interactive MDX components
+│       ├── MDXComponents.tsx
+│       ├── JournalPrompt.tsx
+│       ├── ExerciseCheckbox.tsx
+│       └── ExerciseList.tsx
+│
+└── prisma/
+    └── schema.prisma             # 41 database models
+        │
+        ├── USER & AUTH (3)
+        │   User, Account, UserProfile
+        │
+        ├── CONTENT PROGRESS (4)
+        │   CourseProgress, ArticleProgress,
+        │   ExerciseResponse, ReadingListItem
+        │
+        ├── CERTIFICATES (4)
+        │   Certificate, QuizAttempt,
+        │   AssessmentResult, AssessmentProgress
+        │
+        ├── HEALTH TRACKING (6)
+        │   DimensionHealth, DimensionEstimate,
+        │   GrowthActivity, DimensionReassessment,
+        │   IntegrationHealth, PillarHealth
+        │
+        ├── JOURNALS & DREAMS (6)
+        │   JournalEntry, DreamEntry, DreamSymbol,
+        │   IntegrationCheckIn, SharedReflection,
+        │   SharedReflectionResponse
+        │
+        ├── AI & CHAT (7)
+        │   ChatConversation, ChatMessage,
+        │   ConversationInsight, AICredits, AIUsage,
+        │   TriggerPattern, ChatPreference
+        │
+        ├── PAYMENTS (3)
+        │   Subscription, Purchase, CreditPurchase
+        │
+        ├── HEALTH SESSIONS (3)
+        │   HealthSession, ReassessmentTrigger, QuickCheckIn
+        │
+        ├── STUCK PATTERNS (1)
+        │   StuckPattern
+        │
+        ├── AI VERIFICATION (3)
+        │   GateAttempt, VerificationSession, SimulationSession
+        │
+        └── INFRASTRUCTURE (1)
+            RateLimitEntry
 ```
 
 ---
 
-## Business Logic That Matters
+## Development Spectrum Framework
 
-### AI Features (LM Studio / Local)
-- **AI Companion** - Persistent floating assistant across all pages (text selection tooltips on content pages)
-- **Journal Companion** - AI-powered reflection prompts and insights
-  - Auto-detects growth dimensions discussed and records as activity
-  - Keywords mapped to 30 dimensions across 4 pillars (2 pts per insight)
-- **Dream Interpretation** - Symbol analysis with psychological context
-- **Where I'm Stuck** - Describes struggle → matched to relevant content
-- **Assessment Synthesis** - Combines multiple assessments into integrated profile
+```
+User Development Stages:
+========================
 
-All AI features use token credits (monthly allocation for members, purchasable for everyone).
-AI insights contribute to estimated health scores via keyword-based dimension detection.
+COLLAPSE → REGULATION → INTEGRATION → EMBODIMENT → OPTIMIZATION
+    │          │             │              │            │
+    └──────────┴─────────────┴──────────────┴────────────┘
+                        ↓
+              Content is mapped to appropriate stages
+              Users are assessed and matched to relevant content
 
-### Subscription Model (Single Tier)
+4 PILLARS (each with 7-9 dimensions):
+=====================================
+
+🧠 MIND                    🏃 BODY
+├── Shadow Work            ├── Nervous System
+├── Inner Critic           ├── Breath
+├── Emotional Intelligence ├── Somatic Awareness
+├── Pattern Recognition    ├── Movement
+├── Parts Work             ├── Energy Management
+└── Cognitive Clarity      └── Embodiment
+
+✨ SOUL                    💕 RELATIONSHIPS
+├── Meaning & Purpose      ├── Attachment Patterns
+├── Death Awareness        ├── Boundaries
+├── Presence               ├── Communication
+├── Spiritual Opening      ├── Intimacy
+├── Transcendence          ├── Trust
+└── Values                 └── Repair Skills
+
+30 DIMENSIONS × 5 STAGES = 150 possible states
+75+ FACETS for granular tracking
+~205 ASSESSMENT QUESTIONS
+```
+
+### The Presence Dimension
+
+Each stage has two versions—one with presence, one with avoidance. Presence isn't a destination after optimization; it's available at every stage.
+
+| Stage | With Presence | With Avoidance |
+|-------|---------------|----------------|
+| Collapse | Surrender—allowing breakdown, accepting help | Drowning—thrashing, isolation |
+| Regulation | Safety—grounding, building capacity | Numbing—avoiding sensation |
+| Integration | Understanding—feeling through | Rumination—analysis without feeling |
+| Embodiment | Aliveness—practice with awareness | Empty ritual—mechanical practice |
+| Optimization | Flow—effortless action | Burnout—grinding → collapse |
+
+---
+
+## Learning Paths (17 Curated)
+
+```
+MIND PILLAR (5 paths):
+├── shadow-integration
+├── inner-critic-healing
+├── emotional-intelligence
+├── breaking-patterns
+└── parts-work-journey
+
+BODY PILLAR (4 paths):
+├── nervous-system-regulation
+├── embodiment-journey
+├── breath-and-energy
+└── movement-healing
+
+SOUL PILLAR (4 paths):
+├── finding-meaning
+├── presence-practice
+├── death-awareness
+└── spiritual-opening
+
+RELATIONSHIPS PILLAR (4 paths):
+├── attachment-healing
+├── conscious-relating
+├── boundaries-mastery
+└── intimacy-deepening
+```
+
+---
+
+## Business Model
+
+### Subscription (Single Tier)
 ```
 Free               - 50 articles, 5 intro courses, free resources, no AI
 Member ($19/month) - Everything: all courses, all articles, 500 AI credits/month
                      Yearly: $190 (2 months free)
 ```
 
-AI credits purchasable separately: $0.025 per credit (1,000 tokens).
+### AI Credits
+- Members: 500 monthly tokens
+- Purchasable: $0.025 per credit (1,000 tokens)
 
-### Development Spectrum Framework
-Courses are tagged with which stage(s) of development they serve:
-- **Collapse** - Crisis support, stabilization, acute distress
-- **Regulation** - Nervous system work, grounding, building safety
-- **Integration** - Shadow work, pattern recognition, emotional processing
-- **Embodiment** - Practice, consistency, living values sustainably
-- **Optimization** - Peak performance, flow, mastery (only for solid foundations)
-
-Each course has a `spectrum` field in course.json with applicable stages.
-Used for personalized recommendations and preventing inappropriate content matching.
-
-Key principle: Don't push optimization on people in collapse.
-
-#### The Presence Dimension
-Each stage has two versions—one with presence, one with avoidance. Presence isn't a destination after optimization; it's available at every stage. It's the key that moves you forward.
-
-| Stage | With Presence (progress) | With Avoidance (regression) |
-|-------|--------------------------|----------------------------|
-| Collapse | Surrender—allowing breakdown, accepting help | Drowning—thrashing, isolation, fighting inevitable |
-| Regulation | Safety—grounding, building capacity to feel | Numbing—avoiding sensation, substances, dissociation |
-| Integration | Understanding—feeling through, genuine processing | Rumination—analysis without feeling, intellectualizing |
-| Embodiment | Aliveness—practice with awareness, living truth | Empty ritual—mechanical practice, spiritual bypassing |
-| Optimization | Flow—effortless action, mastery with meaning | Burnout—grinding, achievement as avoidance → collapse |
-
-**Presence moves you up the spectrum. Avoidance pulls you down.** Without presence at any stage, you get stuck or slide backward—eventually cycling back to collapse.
-
-#### Research Foundations
-This framework synthesizes established models:
-- **Polyvagal Theory** (Porges) - Nervous system states
-- **Window of Tolerance** (Siegel) - Processing zone
-- **IFS** (Schwartz) - Parts and protective mechanisms
-- **Spiritual Bypassing** (Welwood) - Using spirituality to avoid psychology
-- **Developmental models** (Wilber, Spiral Dynamics) - Stage-appropriate interventions
-- **Contemplative traditions** - Presence available at every moment
-
-### Course Tiers (Content Categories, Not Pricing)
-Courses are categorized by depth/complexity, not individually priced:
-```
-Intro       - Entry-level, short duration, completion record
-Beginner    - Foundation courses, completion record
-Intermediate- Deeper exploration, completion record
-Advanced    - Comprehensive + assessment, full certificate
-Flagship    - Our deepest work, full certificate, most extensive
-```
-
-All courses included with membership ($19/month). Free users can access 5 intro courses.
-
-### Payment Flow (Stripe)
-**Subscriptions:**
-1. User clicks "Become a Member" on pricing page
-2. POST `/api/subscriptions/checkout` creates Stripe subscription session
-3. User completes payment on Stripe
-4. Webhook creates Subscription record, unlocks all content + AI credits
-
-**AI Credits (one-time purchase):**
-1. User purchases credits from profile or pricing page
-2. POST `/api/credits/checkout` creates Stripe payment session
-3. Webhook adds tokens to AICredits balance
-
-### Certificate Tiering System
-Two credential types based on course tier:
-
-**Completion Records** (Intro, Beginner, Intermediate tiers):
-- Simpler, modern design
-- Acknowledges course completion
-- No assessment required
-
-**Certificates of Achievement** (Advanced, Flagship tiers):
-- Formal design with decorative elements
-- Requires passing quiz (70%+ default)
-- Includes assessment score
-- Links to course audit document
-
-Certificate Flow:
-1. User completes all modules (CourseProgress records)
-2. For certificate-tier courses: User takes quiz (`/courses/[slug]/quiz`)
-3. Quiz requires 70%+ pass (configurable per course in course.json)
-4. On pass: QuizAttempt.passed = true
-5. User claims credential from profile
-6. Certificate API determines credential type from course tier
-7. Credential generated with unique ID, viewable/printable/verifiable
-
-### Reading Progress Sync
-- `ReadTracker` component on article pages
-- Saves scroll position to database (debounced, 5% threshold)
-- Restores scroll position on return
-- Uses `sendBeacon` on page unload for reliable saves
-- `ContinueReading` component on profile shows in-progress articles
-
-### Two-Layer Health Tracking System (Dec 2025)
-Tracks development across 30 dimensions (4 pillars × 7-9 dimensions each).
-
-**Two Score Types:**
-```
-Verified Score  - From assessment/reassessment only
-                - Decays over time: Fresh (<30d) → Aging (30-90d) → Stale (90-180d) → Expired (>180d)
-                - User controls when to reassess—no gates
-
-Estimated Score - From activity (courses, articles, practices)
-                - Auto-updated when content completed
-                - Shows confidence level (based on activity volume)
-                - Prompts reassessment when 15+ points above verified
-```
-
-**Key Files:**
-```
-lib/assessment/
-├── framework.ts        # 30 dimensions, 75+ facets, research citations
-├── types.ts            # PillarId, DevelopmentStage, Question types
-├── questions/          # ~205 questions across 4 pillars
-├── scoring.ts          # Calculate dimension/facet scores
-├── portrait.ts         # Generate user portrait from scores
-├── dimension-health.ts # Freshness calculation, estimated score logic
-├── reassessment.ts     # Dimension-specific reassessment
-├── content-mapping.ts  # Maps courses/articles to dimensions
-├── health-bridge.ts    # Connects new system to existing display
-└── activity-tracker.ts # Records activities, updates estimates
-
-app/api/
-├── assessment/reassess/    # GET questions, POST submit reassessment
-├── health/dimensions/      # GET all dimension health (verified + estimated)
-├── health/activity/        # POST record growth activity
-└── health/display/         # GET combined health data for UI
-
-app/
-├── assessment/reassess/[pillar]/[dimension]/  # Reassessment UI
-└── profile/health/                            # Health dashboard
-```
-
-**Activity Points:**
-- Course module: 8 points
-- Article read: 3 points
-- Practice done: 2 points
-- AI insight: 2 points
-- Max effect: 40 points (diminishing returns)
-
-**Content hooks:** Course and article progress routes call `recordContentActivity()` on completion.
-
-**Transparency:** `/transparency/health-tracking` explains the system to users.
+### Certificate Tiers
+- **Completion Records**: Intro, Beginner, Intermediate courses
+- **Certificates of Achievement**: Advanced, Flagship courses (require 70%+ quiz)
 
 ---
 
-## Patterns to Follow
+## AI Features
 
-### Adding a Course
-1. Create `content/courses/[slug]/` directory
-2. Add `course.json` with CourseMetadata shape (see lib/courses.ts)
-3. Add MDX files for each module matching `modules[].slug`
-4. Use interactive components: `<Journal>`, `<Checklist>`, `<Callout>`, `<Exercise>`
-5. Add quiz questions if certification desired (required for advanced/flagship tiers)
-6. Set `tier`: intro, beginner, intermediate, advanced, or flagship
-7. Set `spectrum`: array of applicable stages (collapse, regulation, integration, embodiment, optimization)
-8. Set `published: true` when ready
+### AI Verification System
+- **Journal Evaluation**: AI assesses journal quality (depth, specificity, self-reflection)
+- **Skill Demonstrations**: Scenario-based tests with rubrics
+- **Conversation Simulations**: Practice difficult conversations with AI role-play
+- **Progress Gates**: Quality-gated progression through courses
 
-### Adding a Practice
-1. Create `content/practices/[slug].mdx`
-2. Add frontmatter: title, description, duration, category, helpssWith, steps
-3. Practice auto-appears at `/practices/[slug]`
-
-### Adding Interactive Exercises to Modules
-```mdx
-<Journal
-  id="unique-id"
-  prompt="The reflection question"
-  placeholder="Hint text..."
-  rows={6}
-/>
-
-<Checklist
-  id="unique-id"
-  title="Items to complete"
-  items={["Item 1", "Item 2", "Item 3"]}
-/>
-
-<Callout type="insight">
-Important insight or note here.
-</Callout>
-```
-
-### API Route Pattern
-```typescript
-import { auth } from '@/auth';
-import { prisma } from '@/lib/prisma';
-import { NextResponse } from 'next/server';
-
-export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  // ... database operations
-}
-```
-
-### AI Streaming Pattern
-```typescript
-// Use TransformStream for SSE with think-tag filtering
-const transformStream = new TransformStream({
-  transform(chunk, controller) {
-    // Filter <think>...</think> tags from qwen3 responses
-    // Stream content incrementally
-  }
-});
-return new Response(response.body?.pipeThrough(transformStream), {
-  headers: { 'Content-Type': 'text/event-stream' }
-});
-```
+### AI Companion Features
+- **Content Companion**: Context-aware help on articles/courses
+- **Journal Companion**: Reflection prompts, insight extraction
+- **Dream Interpretation**: Symbol analysis, waking life connections
+- **"Where I'm Stuck"**: Resource finder + micro-commitments
+- **Assessment Synthesis**: Combine assessments into integrated profile
+- **Growth Timeline**: Visualize progress over time
 
 ---
 
-## Known Constraints
+## Integrations
 
-### TypeScript
-- `services/` directory excluded from compilation (external Python services)
-- Strict null checks enforced
-- Use optional chaining for nullable data (`data?.recentUsage?.messageCount`)
-
-### Database
-- Supabase PostgreSQL with connection pooling
-- Prisma client regenerate needed after schema changes: `npx prisma generate`
-- Schema push for dev: `npx prisma db push`
-
-### AI / LM Studio
-- Default URL: `http://10.221.168.219:1234/v1/chat/completions`
-- Model: openai/gpt-oss-20b (configurable via LM_STUDIO_MODEL env var)
-- Filter `<think>` tags from streaming responses
-
-### Build
-- Turbopack for dev
-- 1220+ static pages generated
-- Some pages dynamic (API routes, auth-protected)
+| Service | Purpose |
+|---------|---------|
+| Stripe | Subscriptions, course purchases, AI credits |
+| NextAuth + Google | Authentication |
+| Supabase PostgreSQL | Database (41 models) |
+| LM Studio | Local AI (configurable) |
+| Vercel | Deployment + Analytics |
+| ConvertKit | Email marketing (ready) |
 
 ---
 
-## Current State (Dec 2025)
+## Working Philosophy
 
-### Implemented
-- **102 courses** with full module content, quizzes, and navigation
-  - Tagged with Development Spectrum stages
-  - All included with $19/month membership
-- **Transparency Section** at /transparency
-  - Methodology page (Development Spectrum framework)
-  - The Deeper Work page (contemplative dimension, two paths)
-  - Quality Standards page
-  - Certificate Standards page
-  - Course Audits (per-course audit documents)
-  - Health Tracking page (two-layer system explanation)
-- **200+ articles** in content/posts/
-- **7 guided practices** (breathwork, grounding, somatic work)
-- **Interactive exercises** - Journal prompts, checklists, callouts in MDX
-- **Stripe subscriptions** - Single-tier membership ($19/month or $190/year)
-- **AI credit purchases** - Pay-as-you-go tokens ($0.025 per credit)
-- **Lead magnets** - 4 downloadable resources with email capture
-- **Certificate tiering** - Completion records vs full certificates based on course tier
-- **Quiz system** with certificate gating (advanced/flagship tiers)
-- **User authentication** (Google OAuth)
-- **Onboarding flow** - Multi-step profile setup
-- **Course/article progress tracking** with scroll position sync
-- **Profile dashboard** with subscription, certificates, stats, journaling
-- **Learning paths** - Curated course sequences
-- **Archetype quiz** - Full masculine/feminine assessment
-- **Shadow profile quiz** - 8 shadow patterns
-- **Nervous system check** - Polyvagal-based assessment
-- **Integration Assessment** - 30-dimension, ~205 question assessment with portrait generation
-- **Two-Layer Health System** - Verified (assessment) + Estimated (activity) scores
-  - 30 dimensions across 4 pillars with 75+ facets
-  - Score freshness decay (Fresh → Aging → Stale → Expired)
-  - Dimension-specific reassessment (~6-8 questions per dimension)
-  - Activity tracking hooks on course/article completion
-  - Health dashboard at /profile/health
-- **AI-powered features:**
-  - Content companion (articles + courses)
-  - Journal companion with insights + guided frameworks (6 types: gratitude, body check-in, etc.)
-  - Dream journal with interpretation + waking life bridge questions
-  - "Where I'm Stuck" resource finder + micro-commitments + 7-day accountability check-ins
-  - Assessment synthesis + stage-appropriate practice suggestions
-  - Mood timeline visualization in journal insights
-- **AI credit system** - 500 monthly for members + purchasable tokens
-- **Integration check-ins** - Periodic reflection system
-- **Reading streaks** - Engagement tracking
-- **Site footer** - Full navigation + legal pages
-- **Privacy policy** and **Terms of service**
-- **Security hardening** - Rate limiting, input sanitization, auth on all AI endpoints
+### The Deepest Layer
 
-### Not Yet Implemented
-- Email sequences in ConvertKit (infrastructure ready)
-- Digital workbooks (PDF products)
-- Community features (Discord integration)
-- Full AI avatar (code exists, needs deployment)
+This platform points toward stillness. Presence. The direct experience of being.
+
+Everything serves that. The courses, articles, AI tools—they're fingers pointing at the moon.
+
+**Non-negotiable:**
+- No bouncing animations competing with contemplative content
+- No gamification that pulls attention outward
+- No commercial urgency that fragments presence
+- No visual noise during moments meant for stillness
+
+### Presence in Design
+- Interface should breathe
+- Transitions slow enough to feel intentional
+- White space is room to arrive
+- Design for regulation, not stimulation
+
+### Content Principles
+- Depth over volume
+- Free content genuinely valuable
+- Premium goes deeper, more structured
+
+### Brand Voice
+Warm but not soft. Direct but not harsh. Practical mysticism.
+
+---
+
+## Future Development Areas
+
+### Planned Improvements
+- [ ] Custom learning path generator from assessment results
+- [ ] Expanded practices library (currently 13, could be 50+)
+- [ ] Book content (digital books based on course material)
+- [ ] Improved user dashboard / workbench UI
+- [ ] Content for all 150 dimension-stage combinations
+
+### Removed
+- [x] Giscus (GitHub comments—users aren't tech people)
 
 ---
 
@@ -457,93 +579,14 @@ return new Response(response.body?.pipeThrough(transformStream), {
 |---------|------|
 | Stripe client | `lib/stripe.ts` |
 | Subscription config | `lib/subscriptions.ts` |
-| Subscription checkout | `app/api/subscriptions/checkout/route.ts` |
-| Credits checkout | `app/api/credits/checkout/route.ts` |
-| Webhook handler | `app/api/webhook/stripe/route.ts` |
-| Exercise API | `app/api/exercises/route.ts` |
-| Journal API | `app/api/journal/route.ts` |
-| Dream API | `app/api/dreams/route.ts` |
-| Stuck API | `app/api/stuck/route.ts` |
-| Credits API | `app/api/credits/route.ts` |
-| Article progress | `app/api/article-progress/route.ts` |
-| Course loader | `lib/courses.ts` (includes SpectrumStage type) |
+| Course loader | `lib/courses.ts` |
 | Practice loader | `lib/practices.ts` |
 | Article loader | `lib/posts.ts` |
-| AI context builder | `lib/presence.ts` |
-| Rate limiting | `lib/rate-limit.ts` |
-| Input sanitization | `lib/sanitize.ts` |
-| Env validation | `lib/env.ts` |
-| Interactive components | `app/components/course/MDXComponents.tsx` |
-| Error boundaries | `app/components/ErrorBoundary.tsx` |
-| Read tracker | `app/components/ReadTracker.tsx` |
-| AI Companion | `app/components/FloatingCompanion.tsx` |
-| Where I'm Stuck | `app/components/WhereImStuck.tsx` |
-| Stuck check-ins API | `app/api/stuck/check-ins/route.ts` |
-| Stuck analysis | `lib/stuck-analysis.ts`, `lib/stuck-persistence.ts` |
-| Dream analysis | `lib/dream-analysis.ts` |
-| Synthesis analysis | `lib/synthesis-analysis.ts` |
-| Footer | `app/components/Footer.tsx` |
-| Database schema | `prisma/schema.prisma` |
+| Learning paths | `lib/learning-paths.ts` |
+| AI context | `lib/presence.ts` |
 | Assessment framework | `lib/assessment/framework.ts` |
 | Dimension health | `lib/assessment/dimension-health.ts` |
-| Activity tracker | `lib/assessment/activity-tracker.ts` |
-| Health bridge | `lib/assessment/health-bridge.ts` |
-| Health dashboard | `app/profile/health/page.tsx` |
-| Reassessment flow | `app/assessment/reassess/[pillar]/[dimension]/page.tsx` |
-
----
-
-## Working Philosophy
-
-### The Deepest Layer
-
-This platform points toward stillness. Presence. The direct experience of being—whether accessed through meditation, psychedelics, embodiment, or simply paying attention.
-
-Everything here serves that. The courses, the articles, the AI tools—they're fingers pointing at the moon. The UI, the interactions, the pacing—they should embody what they teach.
-
-**This is non-negotiable:**
-- No bouncing animations competing with contemplative content
-- No fire emoji streaks, no gamification that pulls attention outward
-- No commercial urgency that fragments presence
-- No visual noise during moments meant for stillness
-
-When in doubt: does this help someone settle into themselves, or does it pull them out?
-
-### Presence in Design
-
-The interface should breathe. Movement has its place—but it must be sensitive to context.
-
-- A loading indicator can pulse. A wisdom quote cannot have animation beside it.
-- Transitions should be slow enough to feel intentional, not urgent.
-- White space is not emptiness—it's room to arrive.
-- The nervous system of the reader matters. Design for regulation, not stimulation.
-
-Sometimes the most impactful choice is removing something.
-
-### Content
-- Depth over volume. Quality content that transforms > endless content that entertains.
-- Free content should be genuinely valuable, not watered down teasers.
-- Premium goes deeper, more structured, more actionable.
-
-### Development
-- Simple first, elaborate later. Get it working, then improve.
-- Proactive suggestions welcome—but run them through the presence filter.
-- When unsure between options, bias toward what serves the person doing hard inner work.
-
-### Brand Voice
-Warm but not soft. Direct but not harsh. Practical mysticism.
-
-Avoid: toxic positivity, spiritual bypassing, oversimplification of complex inner work, attention-hijacking patterns.
-Embrace: honesty about difficulty, compassion for struggle, trust in the reader's intelligence, respect for their attention.
-
-### When Suggesting Features
-Ask: Does this deepen the integration journey or distract from it?
-Ask: Does this help someone become more present, or less?
-
----
-
-## Related Docs
-
-- **ARCHITECTURE.md** - Learning system architecture (pillars, dimensions, paths, AI verification)
-- **CONTENT_MAP.md** - Detailed content-to-dimension mapping for all 92 courses, 201 articles
-- **IDEAS.md** - Future possibilities and creative brainstorming
+| AI verification | `lib/ai-verification/` |
+| Database schema | `prisma/schema.prisma` |
+| AI Companion | `app/components/FloatingCompanion.tsx` |
+| Verification UI | `app/components/verification/` |
