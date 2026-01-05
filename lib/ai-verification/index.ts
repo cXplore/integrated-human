@@ -53,6 +53,7 @@ export {
   getSimulationById,
   getSimulationsBySkill,
   SIMULATIONS,
+  type SimulationSession,
 } from './conversation-simulation';
 
 // Progress gates
