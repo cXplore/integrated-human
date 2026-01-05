@@ -475,13 +475,14 @@ function normalizeSkillEvaluation(
   userResponse: string
 ): SkillDemonstrationEvaluation {
   const rubricScores: Record<string, { score: number; feedback: string }> = {};
+  const rawRubricScores = (raw.rubricScores ?? {}) as Record<string, Record<string, unknown>>;
 
   // Ensure all rubric items have scores
   for (const item of scenario.rubric) {
-    const rawScore = raw.rubricScores?.[item.criterion];
+    const rawScore = rawRubricScores[item.criterion] ?? {};
     rubricScores[item.criterion] = {
-      score: clampScore(rawScore?.score ?? 50),
-      feedback: String(rawScore?.feedback ?? 'No specific feedback available.'),
+      score: clampScore((rawScore.score as number) ?? 50),
+      feedback: String(rawScore.feedback ?? 'No specific feedback available.'),
     };
   }
 
