@@ -474,7 +474,7 @@ export async function continueSimulation(
   let turnEvaluation: TurnEvaluation;
   if (evalMatch) {
     turnEvaluation = {
-      skillsShown: evalMatch[1].split(',').map(s => s.trim()) as SkillCategory[],
+      skillsShown: evalMatch[1].split(',').map((s: string) => s.trim()) as SkillCategory[],
       effectiveness: parseInt(evalMatch[2]) || 50,
       feedback: evalMatch[3].trim(),
       suggestions: evalMatch[4] ? [evalMatch[4].trim()] : undefined,
