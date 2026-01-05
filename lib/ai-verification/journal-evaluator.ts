@@ -172,12 +172,13 @@ function normalizeJournalVerification(
   raw: Record<string, unknown>,
   minimumScore: number
 ): JournalVerification {
+  const rawCriteria = (raw.criteria ?? {}) as Record<string, unknown>;
   const criteria: JournalQualityCriteria = {
-    depth: clampScore(raw.criteria?.depth ?? 50),
-    specificity: clampScore(raw.criteria?.specificity ?? 50),
-    selfReflection: clampScore(raw.criteria?.selfReflection ?? 50),
-    patternRecognition: clampScore(raw.criteria?.patternRecognition ?? 50),
-    emotionalHonesty: clampScore(raw.criteria?.emotionalHonesty ?? 50),
+    depth: clampScore((rawCriteria.depth as number) ?? 50),
+    specificity: clampScore((rawCriteria.specificity as number) ?? 50),
+    selfReflection: clampScore((rawCriteria.selfReflection as number) ?? 50),
+    patternRecognition: clampScore((rawCriteria.patternRecognition as number) ?? 50),
+    emotionalHonesty: clampScore((rawCriteria.emotionalHonesty as number) ?? 50),
   };
 
   // Calculate weighted average
