@@ -1,4 +1,5 @@
 {
+  "id": "trauma-informed-healing",
   "title": "Trauma-Informed Healing",
   "description": "Understanding trauma, building safety, and reclaiming your life",
   "category": "Flagship",
@@ -59,7 +60,7 @@
           "Understanding the trauma's origin",
           "Changing beliefs about the trauma"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What does 'the window of tolerance' refer to?",
@@ -69,7 +70,7 @@
           "The time it takes to recover from trauma",
           "The number of triggers someone can handle"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Why is somatic awareness important in trauma healing?",
@@ -79,9 +80,10 @@
           "Physical exercise cures trauma",
           "Somatic awareness prevents future trauma"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Safety first, healing follows",
   "tier": "flagship",

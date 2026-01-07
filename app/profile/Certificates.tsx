@@ -48,7 +48,8 @@ export default function Certificates() {
           const progressJson = await progressResponse.json();
           // API returns { progress: [...], total, hasMore }
           const progress = progressJson.progress || [];
-          const courses = await coursesResponse.json();
+          const coursesJson = await coursesResponse.json();
+          const courses = coursesJson.courses || [];
 
           // Group progress by course
           const progressByCourse: Record<string, Set<string>> = {};
@@ -67,8 +68,9 @@ export default function Certificates() {
 
           // Fetch quiz status for each completed course
           for (const course of courses) {
-            const completed = progressByCourse[course.id]?.size || 0;
-            if (completed === course.modules.length && !certSlugs.has(course.id)) {
+            const completed = progressByCourse[course.slug]?.size || 0;
+            const totalModules = course.moduleCount || 0;
+            if (completed === totalModules && totalModules > 0 && !certSlugs.has(course.slug)) {
               // Check quiz status
               let quizPassed = false;
               const hasQuiz = course.hasQuiz || false;
@@ -86,9 +88,9 @@ export default function Certificates() {
               }
 
               eligible.push({
-                slug: course.id,
+                slug: course.slug,
                 title: course.title,
-                totalModules: course.modules.length,
+                totalModules: totalModules,
                 completedModules: completed,
                 hasQuiz,
                 quizPassed,

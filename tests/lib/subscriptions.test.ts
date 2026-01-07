@@ -99,7 +99,7 @@ describe('Configuration Constants', () => {
     expect(member.id).toBe('member');
     expect(member.monthlyPrice).toBe(19);
     expect(member.yearlyPrice).toBe(190);
-    expect(member.monthlyTokens).toBe(500000);
+    expect(member.monthlyTokens).toBe(1000000);
     expect(member.features.length).toBeGreaterThan(0);
   });
 

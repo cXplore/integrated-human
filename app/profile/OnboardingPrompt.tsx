@@ -96,8 +96,8 @@ export default function OnboardingPrompt() {
                 Know Where You Stand
               </h3>
               <p className="text-gray-400 text-sm mb-4">
-                Take the Integration Assessment to map your development across 30 dimensions.
-                Get personalized recommendations and track your growth over time.
+                Map your development across 30 dimensions of mind, body, soul, and relationships.
+                Complete one pillar at a time (10-15 min each) or all at once.
               </p>
               <Link
                 href="/assessment"

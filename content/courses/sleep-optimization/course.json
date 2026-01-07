@@ -1,4 +1,5 @@
 {
+  "id": "sleep-optimization",
   "title": "Sleep Optimization",
   "description": "Understanding sleep science and building habits for restorative rest",
   "category": "Body",
@@ -49,7 +50,7 @@
           "Only light exposure",
           "Caffeine levels"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is the most important sleep hygiene practice?",
@@ -59,7 +60,7 @@
           "Sleeping in on weekends",
           "Exercising right before bed"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "How does screen light affect sleep?",
@@ -69,9 +70,10 @@
           "Blue light suppresses melatonin, shifting circadian rhythm",
           "Only affects children"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Rest deeply, wake ready",
   "tier": "intro",

@@ -1,0 +1,63 @@
+{
+  "id": "crisis-stabilization",
+  "title": "Crisis Stabilization",
+  "subtitle": "Finding your feet when the ground has disappeared",
+  "description": "Gentle, practical tools for when you're in acute distress. No pressure, no performance—just what helps right now.",
+  "category": "Mind",
+  "level": "Beginner",
+  "duration": "1.5 hours",
+  "price": 0,
+  "published": true,
+  "featured": true,
+  "tier": "intro",
+  "spectrum": [
+    "collapse"
+  ],
+  "dimensions": [
+    "emotional-regulation",
+    "psychological-safety"
+  ],
+  "modules": [
+    {
+      "title": "You're Still Here",
+      "order": 1
+    },
+    {
+      "title": "The Smallest Next Thing",
+      "order": 2
+    },
+    {
+      "title": "Finding One Safe Thing",
+      "order": 3
+    },
+    {
+      "title": "When to Reach Out",
+      "order": 4
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the most important thing to remember during a crisis?",
+        "options": [
+          "You should be stronger than this",
+          "This feeling is permanent",
+          "This will pass, and you don't have to face it alone",
+          "You need to fix everything right now"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "question": "What does 'the smallest next thing' mean?",
+        "options": [
+          "Planning your whole life",
+          "Focusing only on what you can do in the next few minutes",
+          "Ignoring your problems",
+          "Working harder"
+        ],
+        "correctIndex": 1
+      }
+    ],
+    "passingScore": 70
+  }
+}

@@ -1,4 +1,5 @@
 {
+  "id": "healing-relationships-101",
   "title": "Healing Relationships 101",
   "description": "Essential foundations for healthier connections",
   "category": "Relationships",
@@ -37,7 +38,7 @@
           "Genetics only",
           "The other person's behavior entirely"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is a healthy boundary?",
@@ -47,9 +48,10 @@
           "A clear limit that protects your well-being while allowing connection",
           "Telling others what to do"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "The foundations of healthy connection",
   "tier": "intro",

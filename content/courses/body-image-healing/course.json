@@ -1,4 +1,5 @@
 {
+  "id": "body-image-healing",
   "title": "Body Image Healing",
   "description": "Developing a healthier relationship with your body beyond appearance",
   "category": "Body",
@@ -49,7 +50,7 @@
           "Your body weight and measurements",
           "What others think of your appearance"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Which statement about body image is accurate?",
@@ -59,7 +60,7 @@
           "Body image can be negative regardless of actual appearance",
           "Body image is fixed and cannot change"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Body neutrality focuses on:",
@@ -69,7 +70,7 @@
           "Respecting your body for what it does, not how it looks",
           "Ignoring your body completely"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Research shows that body dissatisfaction:",
@@ -79,7 +80,7 @@
           "Only affects women",
           "Decreases naturally with age"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "A healthy approach to body image includes:",
@@ -89,9 +90,10 @@
           "Treating your body with basic respect regardless of feelings",
           "Working harder to achieve the ideal body"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Make peace with the body you live in",
   "tier": "beginner",

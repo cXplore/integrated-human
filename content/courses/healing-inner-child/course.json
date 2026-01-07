@@ -1,4 +1,5 @@
 {
+  "id": "healing-inner-child",
   "title": "Healing the Inner Child",
   "description": "A deep journey to heal childhood wounds and reclaim your whole self",
   "category": "Flagship",
@@ -69,7 +70,7 @@
           "Only negative childhood experiences",
           "Something that disappears in adulthood"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Childhood wounds continue to affect us because:",
@@ -79,7 +80,7 @@
           "Unprocessed experiences remain active in our psyche",
           "Adults never change"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Reparenting yourself means:",
@@ -89,7 +90,7 @@
           "Learning to give yourself what you needed as a child",
           "Ignoring your inner child"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Inner child healing is blocked by:",
@@ -99,7 +100,7 @@
           "Excessive self-care",
           "Being too happy"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "The goal of inner child work is:",
@@ -109,9 +110,10 @@
           "Integration of wounded parts to live as a whole adult",
           "Perfect recall of childhood"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "The child within you needs your attention",
   "tier": "flagship",

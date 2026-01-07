@@ -1,4 +1,5 @@
 {
+  "id": "confidence-quickstart",
   "title": "Confidence Quickstart",
   "description": "Essential foundations for building genuine self-confidence",
   "category": "Mind",
@@ -37,7 +38,7 @@
           "Self-worth combined with real competence",
           "Others' approval and validation"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "What's the relationship between action and confidence?",
@@ -47,9 +48,10 @@
           "Confidence and action are unrelated",
           "Only naturally confident people can take action"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Quick wins for lasting self-assurance",
   "tier": "beginner",

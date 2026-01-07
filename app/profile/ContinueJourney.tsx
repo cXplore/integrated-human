@@ -87,7 +87,8 @@ export default function ContinueJourney() {
           const courseProgressData = await courseProgressRes.json();
           // API returns { progress: [...], total, hasMore }
           const courseProgress: CourseProgressItem[] = courseProgressData.progress || [];
-          const courses: CourseData[] = await coursesRes.json();
+          const coursesData = await coursesRes.json();
+          const courses: CourseData[] = coursesData.courses || [];
           const coursesMap = new Map(courses.map(c => [c.id, c]));
 
           // Group by course

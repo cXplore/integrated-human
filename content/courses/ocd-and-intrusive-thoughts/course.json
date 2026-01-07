@@ -1,4 +1,5 @@
 {
+  "id": "ocd-and-intrusive-thoughts",
   "title": "OCD and Intrusive Thoughts",
   "description": "Understanding and working with OCD patterns and intrusive thoughts from an integrative perspective",
   "category": "Mind",
@@ -49,7 +50,7 @@
           "Having anxiety",
           "Thinking about certain topics"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is the goal of ERP?",
@@ -59,7 +60,7 @@
           "To avoid triggering situations",
           "To analyze why thoughts occur"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is true about intrusive thoughts?",
@@ -69,9 +70,10 @@
           "Everyone has them; OCD is about the response",
           "They should be analyzed to find meaning"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Your thoughts are not your commands",
   "tier": "beginner",

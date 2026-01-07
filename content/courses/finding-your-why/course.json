@@ -1,4 +1,5 @@
 {
+  "id": "finding-your-why",
   "title": "Finding Your Why",
   "description": "A brief introduction to discovering meaning and purpose in your life",
   "category": "Soul",
@@ -37,7 +38,7 @@
           "Something that gives life meaning",
           "Connected to contribution"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Where are clues to purpose often found?",
@@ -47,9 +48,10 @@
           "In your history, passions, and what comes naturally",
           "Purpose can't be discovered through clues"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Discover what makes your life meaningful",
   "tier": "beginner",

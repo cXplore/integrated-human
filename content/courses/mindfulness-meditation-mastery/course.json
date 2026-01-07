@@ -1,4 +1,5 @@
 {
+  "id": "mindfulness-meditation-mastery",
   "title": "Mindfulness and Meditation Mastery",
   "description": "Developing a deep, transformative meditation practice",
   "category": "Flagship",
@@ -69,7 +70,7 @@
           "Clearing the mind of all thoughts",
           "Relaxation technique"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "The most important factor in developing a meditation practice is:",
@@ -79,7 +80,7 @@
           "Consistent daily practice",
           "Long meditation sessions"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "When thoughts arise during meditation, you should:",
@@ -89,7 +90,7 @@
           "Feel frustrated",
           "Notice them and gently return to your anchor"
         ],
-        "correctAnswer": 3
+        "correctIndex": 3
       },
       {
         "question": "Working with difficult emotions in meditation involves:",
@@ -99,7 +100,7 @@
           "Only meditating when you feel calm",
           "Changing how you feel"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "The ultimate goal of meditation practice is:",
@@ -109,9 +110,10 @@
           "Transformation of how you relate to experience",
           "Escaping ordinary life"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "From sitting to transformation",
   "tier": "flagship",

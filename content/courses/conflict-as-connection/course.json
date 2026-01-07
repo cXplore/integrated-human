@@ -1,4 +1,5 @@
 {
+  "id": "conflict-as-connection",
   "title": "Conflict as Connection",
   "description": "Transforming disagreements into opportunities for deeper understanding",
   "category": "Relationships",
@@ -49,7 +50,7 @@
           "Is inevitable and can strengthen connection when handled well",
           "Always damages the relationship"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "The 'Four Horsemen' that predict relationship failure include:",
@@ -59,7 +60,7 @@
           "Honesty, vulnerability, emotion, and intensity",
           "Conflict, anger, sadness, and frustration"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Beneath surface conflicts, partners are often fighting about:",
@@ -69,7 +70,7 @@
           "Money and household tasks exclusively",
           "Problems that have no solution"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "A 'soft startup' in conflict means:",
@@ -79,7 +80,7 @@
           "Speaking so quietly the other person can't hear",
           "Never expressing negative emotions"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Repair in relationships:",
@@ -89,9 +90,10 @@
           "Is an active process of reconnecting after rupture",
           "Isn't necessary if the conflict was resolved"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Fight better, love deeper",
   "tier": "intro",

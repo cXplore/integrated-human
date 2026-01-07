@@ -68,7 +68,8 @@ export default function CourseProgress() {
           setIsLoading(false);
           return;
         }
-        const coursesData: CourseData[] = await coursesResponse.json();
+        const coursesJson = await coursesResponse.json();
+        const coursesData: CourseData[] = coursesJson.courses || [];
 
         // Create a map of courses for easy lookup
         const coursesMap = new Map(coursesData.map(c => [c.id, c]));

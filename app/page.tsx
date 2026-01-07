@@ -8,9 +8,10 @@ import WisdomQuote from './components/WisdomQuote';
 import ScrollArrow from './components/ScrollArrow';
 import SpectrumVisual from './components/SpectrumVisual';
 import TodaysFocus from './components/TodaysFocus';
-import HomepageChat from './components/HomepageChat';
 import { getAllPosts, getPostBySlug } from '@/lib/posts';
 import { getAllCourses } from '@/lib/courses';
+import { getAllPractices } from '@/lib/practices';
+import { getAllPaths } from '@/lib/learning-paths';
 
 export const metadata: Metadata = {
   title: 'Integrated Human - Psychology, Embodiment & Personal Growth',
@@ -57,6 +58,14 @@ export default function Home() {
   const featuredCourses = Object.entries(pillarCourses).flatMap(([, slugs]) =>
     slugs.map(slug => allCourses.find(c => c.slug === slug)).filter(Boolean)
   ) as typeof allCourses;
+
+  // Get practices for featured section
+  const allPractices = getAllPractices();
+  const featuredPractices = allPractices.slice(0, 6);
+
+  // Get learning paths for featured section
+  const allLearningPaths = getAllPaths();
+  const featuredPaths = allLearningPaths.slice(0, 4);
 
   return (
     <>
@@ -143,9 +152,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AI Companion Chat */}
-      <HomepageChat />
-
       {/* The Four Pillars */}
       <section className="py-16 px-6 bg-[var(--background)]">
         <div className="max-w-5xl mx-auto">
@@ -215,21 +221,35 @@ export default function Home() {
               <Link
                 key={post.slug}
                 href={`/posts/${post.slug}`}
-                className="group block bg-zinc-900 border border-zinc-800 p-5 hover:border-zinc-600 transition-colors"
+                className="group block bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors overflow-hidden"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs uppercase tracking-wide text-gray-500">
-                    {post.metadata.categories[0]}
-                  </span>
-                  <span className="text-gray-700">·</span>
-                  <span className="text-xs text-gray-600">{post.readingTime} min</span>
+                {post.metadata.image && (
+                  <div className="relative h-40 w-full overflow-hidden">
+                    <Image
+                      src={post.metadata.image}
+                      alt=""
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent opacity-60" />
+                  </div>
+                )}
+                <div className="p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs uppercase tracking-wide text-gray-500">
+                      {post.metadata.categories[0]}
+                    </span>
+                    <span className="text-gray-700">·</span>
+                    <span className="text-xs text-gray-600">{post.readingTime} min</span>
+                  </div>
+                  <h3 className="font-serif text-lg text-white group-hover:text-gray-300 transition-colors mb-2 line-clamp-2">
+                    {post.metadata.title}
+                  </h3>
+                  <p className="text-gray-500 text-sm line-clamp-2">
+                    {post.metadata.excerpt}
+                  </p>
                 </div>
-                <h3 className="font-serif text-lg text-white group-hover:text-gray-300 transition-colors mb-2 line-clamp-2">
-                  {post.metadata.title}
-                </h3>
-                <p className="text-gray-500 text-sm line-clamp-2">
-                  {post.metadata.excerpt}
-                </p>
               </Link>
             ))}
           </div>
@@ -241,21 +261,34 @@ export default function Home() {
               <Link
                 key={post!.slug}
                 href={`/posts/${post!.slug}`}
-                className="group block bg-zinc-900 border border-zinc-800 p-5 hover:border-zinc-600 transition-colors"
+                className="group flex bg-zinc-900 border border-zinc-800 hover:border-zinc-600 transition-colors overflow-hidden"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs uppercase tracking-wide text-gray-500">
-                    {post!.metadata.categories[0]}
-                  </span>
-                  <span className="text-gray-700">·</span>
-                  <span className="text-xs text-gray-600">{post!.readingTime} min</span>
+                {post!.metadata.image && (
+                  <div className="relative w-32 flex-shrink-0 overflow-hidden">
+                    <Image
+                      src={post!.metadata.image}
+                      alt=""
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="128px"
+                    />
+                  </div>
+                )}
+                <div className="p-5 flex-1">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs uppercase tracking-wide text-gray-500">
+                      {post!.metadata.categories[0]}
+                    </span>
+                    <span className="text-gray-700">·</span>
+                    <span className="text-xs text-gray-600">{post!.readingTime} min</span>
+                  </div>
+                  <h3 className="font-serif text-lg text-white group-hover:text-gray-300 transition-colors mb-2">
+                    {post!.metadata.title}
+                  </h3>
+                  <p className="text-gray-500 text-sm line-clamp-2">
+                    {post!.metadata.excerpt}
+                  </p>
                 </div>
-                <h3 className="font-serif text-lg text-white group-hover:text-gray-300 transition-colors mb-2">
-                  {post!.metadata.title}
-                </h3>
-                <p className="text-gray-500 text-sm line-clamp-2">
-                  {post!.metadata.excerpt}
-                </p>
               </Link>
             ))}
           </div>
@@ -297,14 +330,28 @@ export default function Home() {
                     <Link
                       key={course.slug}
                       href={`/courses/${course.slug}`}
-                      className="group block bg-[var(--card-bg)] border border-[var(--border-color)] p-4 hover:border-zinc-600 transition-colors"
+                      className="group block bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-zinc-600 transition-colors overflow-hidden"
                     >
-                      <h4 className="font-serif text-base text-white group-hover:text-gray-300 transition-colors mb-1">
-                        {course.metadata.title}
-                      </h4>
-                      <p className="text-gray-500 text-sm line-clamp-2">
-                        {course.metadata.subtitle}
-                      </p>
+                      {course.metadata.image && (
+                        <div className="relative h-28 w-full overflow-hidden">
+                          <Image
+                            src={course.metadata.image}
+                            alt=""
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            sizes="(max-width: 768px) 50vw, 25vw"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/80 to-transparent" />
+                        </div>
+                      )}
+                      <div className="p-4">
+                        <h4 className="font-serif text-base text-white group-hover:text-gray-300 transition-colors mb-1">
+                          {course.metadata.title}
+                        </h4>
+                        <p className="text-gray-500 text-sm line-clamp-2">
+                          {course.metadata.subtitle}
+                        </p>
+                      </div>
                     </Link>
                   );
                 })}
@@ -323,6 +370,121 @@ export default function Home() {
 
         </div>
       </section>
+
+      {/* Practices */}
+      {featuredPractices.length > 0 && (
+        <section className="py-16 px-6 bg-[var(--card-bg)]">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-3xl mx-auto text-center mb-12">
+              <h2 className="font-serif text-3xl font-light text-white mb-4">
+                Practices
+              </h2>
+              <p className="text-gray-400 leading-relaxed">
+                {allPractices.length} guided practices for nervous system regulation,
+                grounding, breathwork, and more. From 3-minute resets to deeper somatic work.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+              {featuredPractices.map((practice) => (
+                <Link
+                  key={practice.slug}
+                  href={`/practices/${practice.slug}`}
+                  className="group block bg-zinc-900 border border-zinc-800 p-5 hover:border-zinc-600 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs uppercase tracking-wide text-gray-500">
+                      {practice.metadata.category}
+                    </span>
+                    <span className="text-gray-700">·</span>
+                    <span className="text-xs text-gray-600">
+                      {practice.metadata.durationMinutes} min
+                    </span>
+                    <span className="text-gray-700">·</span>
+                    <span className="text-xs text-gray-600 capitalize">
+                      {practice.metadata.intensity}
+                    </span>
+                  </div>
+                  <h3 className="font-serif text-lg text-white group-hover:text-gray-300 transition-colors mb-2">
+                    {practice.metadata.title}
+                  </h3>
+                  <p className="text-gray-500 text-sm line-clamp-2">
+                    {practice.metadata.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
+
+            <div className="text-center">
+              <Link
+                href="/practices"
+                className="text-gray-400 hover:text-white transition-colors text-sm"
+              >
+                Browse all {allPractices.length} practices →
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Learning Paths */}
+      {featuredPaths.length > 0 && (
+        <section className="py-16 px-6 bg-[var(--background)]">
+          <div className="max-w-6xl mx-auto">
+            <div className="max-w-3xl mx-auto text-center mb-12">
+              <h2 className="font-serif text-3xl font-light text-white mb-4">
+                Learning Paths
+              </h2>
+              <p className="text-gray-400 leading-relaxed">
+                {allLearningPaths.length} curated journeys combining courses, articles, and practices.
+                Structured progressions for deep, lasting transformation.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              {featuredPaths.map((path) => (
+                <Link
+                  key={path.id}
+                  href={`/learning-paths/${path.id}`}
+                  className="group block bg-[var(--card-bg)] border border-[var(--border-color)] p-6 hover:border-zinc-600 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs uppercase tracking-wide text-gray-500 capitalize">
+                      {path.pillar}
+                    </span>
+                    <span className="text-gray-700">·</span>
+                    <span className="text-xs text-gray-600">
+                      {path.estimatedDuration}
+                    </span>
+                    <span className="text-gray-700">·</span>
+                    <span className="text-xs text-gray-600">
+                      {path.steps.length} steps
+                    </span>
+                  </div>
+                  <h3 className="font-serif text-xl text-white group-hover:text-gray-300 transition-colors mb-2">
+                    {path.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm mb-3">
+                    {path.subtitle}
+                  </p>
+                  <p className="text-gray-500 text-sm line-clamp-2">
+                    {path.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
+
+            <div className="text-center">
+              <Link
+                href="/learning-paths"
+                className="text-gray-400 hover:text-white transition-colors text-sm"
+              >
+                Browse all {allLearningPaths.length} learning paths →
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Membership - understated */}
       <section className="py-12 px-6 bg-[var(--card-bg)] border-t border-[var(--border-color)]">

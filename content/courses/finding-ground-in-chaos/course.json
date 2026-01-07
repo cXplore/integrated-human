@@ -1,0 +1,65 @@
+{
+  "id": "finding-ground-in-chaos",
+  "title": "Finding Ground in Chaos",
+  "subtitle": "Anchoring your body when your nervous system is in crisis",
+  "description": "Your body as safe harbor when everything else is uncertain. Simple, immediate practices to find stability through physical grounding.",
+  "category": "Body",
+  "level": "Beginner",
+  "duration": "1.5 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "tier": "intro",
+  "spectrum": [
+    "collapse"
+  ],
+  "dimensions": [
+    "interoception",
+    "stress-physiology",
+    "embodied-presence"
+  ],
+  "leadsTo": "nervous-system-mastery",
+  "modules": [
+    {
+      "title": "Your Body as Anchor",
+      "order": 1
+    },
+    {
+      "title": "Basic Grounding Practices",
+      "order": 2
+    },
+    {
+      "title": "When the Body Feels Unsafe",
+      "order": 3
+    },
+    {
+      "title": "Simple Daily Anchors",
+      "order": 4
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Why does physical grounding help during crisis?",
+        "options": [
+          "It distracts you from the problem",
+          "It signals safety to your nervous system through sensation",
+          "It makes problems go away",
+          "It prevents you from feeling emotions"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "question": "If the body feels unsafe, what's a good first step?",
+        "options": [
+          "Force yourself to feel it anyway",
+          "Give up on body-based practices",
+          "Start with external anchors like touch and temperature",
+          "Avoid all physical sensation"
+        ],
+        "correctIndex": 2
+      }
+    ],
+    "passingScore": 70
+  }
+}

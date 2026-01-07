@@ -1,0 +1,69 @@
+{
+  "id": "healing-your-relationship-with-food",
+  "title": "Healing Your Relationship with Food",
+  "subtitle": "From struggle to nourishment",
+  "description": "For anyone whose relationship with food has become complicated. Moving beyond diets, guilt, and control toward genuine nourishment.",
+  "category": "Body",
+  "level": "Beginner",
+  "duration": "3 hours",
+  "price": 29,
+  "published": true,
+  "featured": false,
+  "tier": "beginner",
+  "spectrum": [
+    "regulation",
+    "integration"
+  ],
+  "dimensions": [
+    "nourishment",
+    "interoception"
+  ],
+  "leadsTo": "intuitive-eating-foundations",
+  "modules": [
+    {
+      "title": "How Food Got Complicated",
+      "order": 1
+    },
+    {
+      "title": "Beyond Good and Bad Foods",
+      "order": 2
+    },
+    {
+      "title": "Reconnecting with Hunger and Fullness",
+      "order": 3
+    },
+    {
+      "title": "Eating Without Punishment",
+      "order": 4
+    },
+    {
+      "title": "Food as Care, Not Control",
+      "order": 5
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "Why do diets typically fail long-term?",
+        "options": [
+          "People lack willpower",
+          "They create restriction cycles that backfire biologically and psychologically",
+          "People don't want to be healthy",
+          "Diets work if you try hard enough"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "question": "What is the foundation of a healthy relationship with food?",
+        "options": [
+          "Perfect eating habits",
+          "Never eating 'bad' foods",
+          "Attuning to your body's signals and eating without moral judgment",
+          "Strict portion control"
+        ],
+        "correctIndex": 2
+      }
+    ],
+    "passingScore": 70
+  }
+}

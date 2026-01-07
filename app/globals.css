@@ -529,6 +529,34 @@ a:hover {
   animation: slow-bounce 3s ease-in-out infinite;
 }
 
+/* Shimmer animation for progress bars */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Gentle glow pulse for achievements */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
 /* Mobile bottom navigation safe area padding */
 .safe-area-pb {
   padding-bottom: env(safe-area-inset-bottom, 0);
@@ -572,4 +600,13 @@ a:hover {
 .light-mode nav.fixed {
   background: #fffefa;
   border-color: #e8e0d8;
+}
+
+/* Hide scrollbar in sidebar */
+.sidebar-scroll {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.sidebar-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Opera */
 }

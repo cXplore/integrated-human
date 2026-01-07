@@ -1,4 +1,5 @@
 {
+  "id": "depression-a-different-approach",
   "title": "Depression: A Different Approach",
   "description": "Understanding and working with depression from an integrative, embodied perspective",
   "category": "Mind",
@@ -49,7 +50,7 @@
           "Avoiding activities until you feel better",
           "Only doing things that feel enjoyable"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "How does the body relate to depression?",
@@ -59,7 +60,7 @@
           "Depression has significant physical components",
           "Body symptoms are unrelated to mood"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "What role does meaning play in depression?",
@@ -69,9 +70,10 @@
           "Finding meaning cures depression instantly",
           "Meaning only matters after depression is gone"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Beyond symptoms to the roots of healing",
   "tier": "beginner",

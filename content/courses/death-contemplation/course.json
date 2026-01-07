@@ -1,4 +1,5 @@
 {
+  "id": "death-contemplation",
   "title": "Death Contemplation",
   "description": "Using mortality awareness to live more fully",
   "category": "Soul",
@@ -49,7 +50,7 @@
           "People should avoid thinking about death entirely",
           "Death contemplation is only for spiritual practitioners"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Terror Management Theory suggests that:",
@@ -59,7 +60,7 @@
           "Only anxious people worry about death",
           "Death anxiety cannot be addressed"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Death awareness can serve as a teacher by:",
@@ -69,7 +70,7 @@
           "Causing permanent depression",
           "Only affecting elderly people"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "The relationship between death awareness and love is that:",
@@ -79,7 +80,7 @@
           "We should avoid loving to prevent grief",
           "Death and love are completely unrelated"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Befriending mortality involves:",
@@ -89,9 +90,10 @@
           "Moving toward acceptance while acknowledging the difficulty",
           "Becoming depressed about life's impermanence"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Let death teach you how to live",
   "tier": "beginner",

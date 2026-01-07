@@ -109,19 +109,56 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
   // Check if all questions on current page are answered
   const pageAnswered = pageQuestions.every((q) => answers[q.id]);
 
+  // State for pillar completion dialog
+  const [showPillarComplete, setShowPillarComplete] = useState(false);
+
   // Navigation
   const goNext = () => {
     if (currentPage < totalPages - 1) {
       setCurrentPage((prev) => prev + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (currentPillarIndex < PILLAR_ORDER.length - 1) {
-      setCurrentPillarIndex((prev) => prev + 1);
-      setCurrentPage(0);
-      setShowPillarIntro(true);
-      saveProgress();
+      // Show pillar complete dialog before moving to next pillar
+      setShowPillarComplete(true);
     } else {
       submitAssessment();
     }
+  };
+
+  // Continue to next pillar after completing one
+  const continueToNextPillar = () => {
+    setCurrentPillarIndex((prev) => prev + 1);
+    setCurrentPage(0);
+    setShowPillarIntro(true);
+    setShowPillarComplete(false);
+    saveProgress();
+  };
+
+  // Submit partial assessment (completed pillars only)
+  const submitPartialAssessment = async () => {
+    setSubmitting(true);
+    try {
+      // Save progress first
+      await saveProgress();
+      // Then submit what we have
+      const response = await fetch('/api/assessment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answers, startedAt, partial: true }),
+      });
+      if (!response.ok) throw new Error('Failed to submit');
+      const data = await response.json();
+      if (data.portrait) {
+        setResult(data.portrait);
+      } else {
+        // If no portrait returned, redirect to profile
+        router.push('/profile');
+      }
+    } catch (error) {
+      console.error('Failed to submit partial assessment:', error);
+      router.push('/profile');
+    }
+    setSubmitting(false);
   };
 
   const goBack = () => {
@@ -170,6 +207,57 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
 
   if (result) {
     return <AssessmentResults portrait={result} />;
+  }
+
+  // Pillar completion dialog - shown after completing a pillar (not the last one)
+  if (showPillarComplete) {
+    const completedPillar = PILLAR_INFO[currentPillar];
+    const nextPillar = PILLAR_INFO[PILLAR_ORDER[currentPillarIndex + 1]];
+    const completedPillars = currentPillarIndex + 1;
+    const remainingPillars = PILLAR_ORDER.length - completedPillars;
+    const nextPillarQuestions = questions.filter((q) => q.pillar === PILLAR_ORDER[currentPillarIndex + 1]);
+    const estimatedMinutes = Math.ceil(nextPillarQuestions.length * 0.25);
+
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
+        <div className="text-5xl mb-4">{completedPillar.icon}</div>
+        <h1 className="font-serif text-3xl md:text-4xl font-light text-white mb-2">
+          {completedPillar.name} Complete
+        </h1>
+        <p className="text-gray-400 mb-8">
+          You&apos;ve finished the {completedPillar.name.toLowerCase()} section.
+          {remainingPillars > 0 && ` ${remainingPillars} section${remainingPillars > 1 ? 's' : ''} remaining.`}
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+          <button
+            onClick={continueToNextPillar}
+            className="flex-1 px-6 py-4 bg-white text-black font-medium hover:bg-gray-100 transition-colors"
+          >
+            <span className="block text-lg">{nextPillar.icon} Continue</span>
+            <span className="block text-xs opacity-70 mt-1">
+              {nextPillar.name} · ~{estimatedMinutes} min
+            </span>
+          </button>
+
+          <button
+            onClick={submitPartialAssessment}
+            disabled={submitting}
+            className="flex-1 px-6 py-4 border border-zinc-700 text-gray-300 hover:bg-zinc-800 transition-colors disabled:opacity-50"
+          >
+            <span className="block text-lg">Save Progress</span>
+            <span className="block text-xs opacity-70 mt-1">
+              {submitting ? 'Saving...' : 'Continue later'}
+            </span>
+          </button>
+        </div>
+
+        <p className="text-gray-600 text-xs mt-6 max-w-sm">
+          Your {completedPillars === 1 ? 'answers are' : `${completedPillars} completed sections are`} saved.
+          You can return anytime to finish.
+        </p>
+      </div>
+    );
   }
 
   if (showPillarIntro) {
@@ -248,7 +336,7 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
       </div>
 
       {/* Navigation */}
-      <div className="flex justify-between mt-8 pt-8 border-t border-zinc-800">
+      <div className="flex justify-between items-center mt-8 pt-8 border-t border-zinc-800">
         <button
           onClick={goBack}
           disabled={currentPillarIndex === 0 && currentPage === 0}
@@ -257,17 +345,32 @@ export default function AssessmentFlow({ existingProgress }: AssessmentFlowProps
           Back
         </button>
 
-        <button
-          onClick={goNext}
-          disabled={!pageAnswered || submitting}
-          className="px-8 py-3 bg-white text-black font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {submitting
-            ? 'Submitting...'
-            : currentPillarIndex === PILLAR_ORDER.length - 1 && currentPage === totalPages - 1
-            ? 'Complete'
-            : 'Continue'}
-        </button>
+        <div className="flex items-center gap-3">
+          {/* Save & Exit - always available after answering at least one question */}
+          {Object.keys(answers).length > 0 && (
+            <button
+              onClick={async () => {
+                await saveProgress();
+                router.push('/profile');
+              }}
+              className="px-4 py-3 text-gray-500 hover:text-gray-300 text-sm transition-colors"
+            >
+              Save & Exit
+            </button>
+          )}
+
+          <button
+            onClick={goNext}
+            disabled={!pageAnswered || submitting}
+            className="px-8 py-3 bg-white text-black font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {submitting
+              ? 'Submitting...'
+              : currentPillarIndex === PILLAR_ORDER.length - 1 && currentPage === totalPages - 1
+              ? 'Complete'
+              : 'Continue'}
+          </button>
+        </div>
       </div>
     </div>
   );

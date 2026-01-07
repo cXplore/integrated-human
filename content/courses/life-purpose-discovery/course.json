@@ -1,4 +1,5 @@
 {
+  "id": "life-purpose-discovery",
   "title": "Life Purpose Discovery",
   "description": "Finding meaning, direction, and calling in your life",
   "category": "Flagship",
@@ -69,7 +70,7 @@
           "Something you either have or don't",
           "Following what others expect"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Your values are important for purpose because:",
@@ -79,7 +80,7 @@
           "They reveal what truly matters to you and guide meaningful action",
           "They limit your options"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Discovering your strengths helps with purpose because:",
@@ -89,7 +90,7 @@
           "It's not related to purpose",
           "It limits your growth"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Contribution and service relate to purpose by:",
@@ -99,7 +100,7 @@
           "Connecting your gifts to the needs of the world",
           "Being the only source of purpose"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Purpose is:",
@@ -109,9 +110,10 @@
           "An ongoing process of discovery and living",
           "Only for special people"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Find your calling, live your mission",
   "tier": "flagship",

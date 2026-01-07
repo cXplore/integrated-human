@@ -6,6 +6,46 @@ import CoursesFilters from './CoursesFilters';
 import CoursesGrid from './CoursesGrid';
 import LibrarySearch from './LibrarySearch';
 
+// Pillar icons for category pills
+const PILLAR_CONFIG: Record<string, { icon: React.ReactNode; color: string; activeColor: string }> = {
+  mind: {
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+      </svg>
+    ),
+    color: 'bg-blue-500/10 text-blue-400 border-blue-500/20 hover:bg-blue-500/20',
+    activeColor: 'bg-blue-500 text-white border-blue-500',
+  },
+  body: {
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      </svg>
+    ),
+    color: 'bg-green-500/10 text-green-400 border-green-500/20 hover:bg-green-500/20',
+    activeColor: 'bg-green-500 text-white border-green-500',
+  },
+  soul: {
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+      </svg>
+    ),
+    color: 'bg-purple-500/10 text-purple-400 border-purple-500/20 hover:bg-purple-500/20',
+    activeColor: 'bg-purple-500 text-white border-purple-500',
+  },
+  relationships: {
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+    ),
+    color: 'bg-rose-500/10 text-rose-400 border-rose-500/20 hover:bg-rose-500/20',
+    activeColor: 'bg-rose-500 text-white border-rose-500',
+  },
+};
+
 interface Course {
   slug: string;
   title: string;
@@ -170,7 +210,7 @@ export default function CoursesContent() {
       </div>
 
       {/* Search and Sort Row */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <div className="flex-1">
           <LibrarySearch
             value={searchQuery}
@@ -189,6 +229,42 @@ export default function CoursesContent() {
             <option value="newest">Newest</option>
           </select>
         </div>
+      </div>
+
+      {/* Category Pills - Quick Filter */}
+      <div className="flex flex-wrap items-center gap-2 mb-6">
+        <span className="text-sm text-gray-500 mr-1">Pillar:</span>
+        <button
+          onClick={() => handleFilterChange('category', null)}
+          className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
+            !selectedCategory
+              ? 'bg-white text-black border-white'
+              : 'bg-zinc-900 text-gray-400 border-zinc-700 hover:bg-zinc-800 hover:text-white'
+          }`}
+        >
+          All
+        </button>
+        {Object.entries(PILLAR_CONFIG).map(([key, config]) => {
+          const isActive = selectedCategory === key;
+          const count = filters.categories[key] || 0;
+          return (
+            <button
+              key={key}
+              onClick={() => handleFilterChange('category', isActive ? null : key)}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
+                isActive ? config.activeColor : config.color
+              }`}
+            >
+              {config.icon}
+              <span className="capitalize">{key}</span>
+              {count > 0 && (
+                <span className={`text-xs ${isActive ? 'opacity-80' : 'opacity-60'}`}>
+                  {count}
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* Main Content */}

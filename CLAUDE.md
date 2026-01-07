@@ -16,14 +16,14 @@
 | Content Type | Count |
 |-------------|-------|
 | **Articles/Posts** | 201 |
-| **Courses** | 92 |
-| **Course Modules** | 579 |
-| **Guided Practices** | 13 |
+| **Courses** | 100 |
+| **Course Modules** | 619 |
+| **Guided Practices** | 50 |
 | **Learning Paths** | 17 |
 | **Lead Magnets** | 4 |
 | **Products** | 5 |
 | **Assessment Questions** | ~205 |
-| **Total Content Pieces** | **912+** |
+| **Total Content Pieces** | **960+** |
 
 ### Platform Metrics
 
@@ -307,11 +307,14 @@ integrated-human/
 │       ├── stripe.ts             # Stripe client
 │       └── subscriptions.ts      # Tier config + credits
 │
-├── components/                   # 71 UI components
+├── components/                   # 75+ UI components
 │   │
 │   ├── NAVIGATION & LAYOUT
-│   │   ├── Navigation.tsx
+│   │   ├── Navigation.tsx        # Top nav bar
 │   │   ├── MobileNav.tsx
+│   │   ├── AppSidebar.tsx        # Global sidebar (hover-to-expand)
+│   │   ├── SidebarChat.tsx       # AI quick chat in sidebar
+│   │   ├── SidebarAwareLayout.tsx # Content padding for sidebar
 │   │   ├── Footer.tsx
 │   │   ├── UserMenu.tsx
 │   │   └── ThemeToggle.tsx
@@ -329,9 +332,13 @@ integrated-human/
 │   │   └── SpectrumVisual.tsx
 │   │
 │   ├── AI & COMPANION
-│   │   ├── FloatingCompanion.tsx # Global AI assistant
-│   │   ├── HomepageChat.tsx
-│   │   └── AICompanionContext.tsx
+│   │   ├── AIPanel.tsx           # Right sidebar with AI tools
+│   │   └── BottomChatBar.tsx     # Floating chat input bar
+│   │
+│   ├── DASHBOARD WIDGETS
+│   │   ├── ActiveLearningPath.tsx # User's current learning path
+│   │   ├── PracticeFinder.tsx    # "How are you feeling?" → practice
+│   │   └── GrowthEdges.tsx       # Lowest-scoring dimensions
 │   │
 │   ├── HEALTH & TRACKING
 │   │   ├── QuickCheckIn.tsx
@@ -526,6 +533,67 @@ Member ($19/month) - Everything: all courses, all articles, 500 AI credits/month
 | LM Studio | Local AI (configurable) |
 | Vercel | Deployment + Analytics |
 | ConvertKit | Email marketing (ready) |
+| ComfyUI | Image generation for content (C:\Projects\ComfyUI) |
+
+### Image Generation (ComfyUI)
+
+Images for practices, courses, and other content are generated using ComfyUI with custom workflows.
+
+**Location:** `C:\Projects\ComfyUI`
+
+**Models Available:**
+- **SDXL:** JuggernautXL v9, RealVisXL V4, SDXL Base 1.0
+- **Flux:** flux1-dev (UNET)
+- **Custom Nodes:** LivePortrait, AnimateDiff, InstantID, IPAdapter, ControlNet, SadTalker, wav2lip
+
+**Scripts:**
+- `generate_course_images_flux.py` - Generate course cover images
+- `generate_article_images_flux.py` - Generate article images
+- `generate_guide_videos.py` - Generate guide avatar videos
+- `generate_idle_loop.py` - Generate idle animation loops
+
+**Usage:**
+- Practice card images (stored in `/public/images/practices/`)
+- Course cover images (stored in `/public/images/courses/`)
+- Article hero images (stored in `/public/images/posts/`)
+- Learning path illustrations
+
+**Notes:**
+- Images auto-detected by lib/posts.ts and lib/courses.ts based on slug
+- Generates on-demand via workflows
+- Images stored locally in public assets
+
+---
+
+## App Shell Architecture
+
+### Global Sidebar
+The app uses a hover-to-expand sidebar pattern available on all pages (except onboarding/login/signup).
+
+**Behavior:**
+- **Collapsed state (default):** 64px wide, icons only
+- **Hover state:** Expands to 256px, shows labels
+- **Pinned state:** User can click pin icon to keep expanded
+- **Mobile:** Full-width drawer, triggered by floating button
+
+**Components:**
+- `AppSidebar.tsx` - Left sidebar with navigation sections
+- `AIPanel.tsx` - Right sidebar with AI tools and recent chats
+- `BottomChatBar.tsx` - Floating chat input at bottom center
+- `SidebarAwareLayout.tsx` - Adds margin for both sidebars
+
+**Sections:**
+1. **Dashboard** - Profile, Health, Learning Path
+2. **Tools** - Journal, Dreams, AI Insights
+3. **Content** - Practices, Courses, Library, Reading List
+4. **Discover** - Archetypes, Attachment, Nervous System
+
+### Library Pages with Search/Discovery
+All content library pages follow a consistent pattern:
+- `CourseLibrary.tsx` - Courses with tier/pillar/stage filters
+- `PracticeLibrary.tsx` - Practices with category/duration/"For You" filters
+- `LearningPathsLibrary.tsx` - Learning paths with pillar/stage filters
+- `LibraryGrid.tsx` - Articles with pillar/type/reading time filters
 
 ---
 
@@ -559,14 +627,101 @@ Warm but not soft. Direct but not harsh. Practical mysticism.
 
 ---
 
+## Sensitivity & Tone Guidance
+
+### Context: Why This Matters
+
+This platform deals with deeply sensitive psychological territory:
+- **Trauma** (attachment wounds, childhood experiences, unprocessed pain)
+- **Mental health** (anxiety, depression, dissociation, crisis states)
+- **Shadow work** (shame, rage, grief, parts we've rejected)
+- **Attachment patterns** (anxious, avoidant, disorganized—all carry pain)
+- **Death and mortality** (existential anxiety, loss, grief)
+- **Relationship wounds** (betrayal, abandonment, intimacy fears)
+
+Users arrive in various states—some in crisis (collapse stage), some fragile, some carrying deep shame about their struggles. The interface and copy must honor this.
+
+### UI Copy Guidelines
+
+**Avoid:**
+- Gamification language (streaks as "achievements", badges, leaderboards, points)
+- Competitive framing ("beat your record", "level up", "unlock")
+- Performative enthusiasm (🔥, 💪, "crushing it!", "amazing!")
+- Pressure language ("don't break your streak", "you're falling behind")
+- Toxic positivity ("just stay positive!", "good vibes only")
+
+**Prefer:**
+- Gentle acknowledgment ("a rhythm forming", "becoming embodied")
+- Non-judgmental framing ("whenever you're ready", "the work will be here")
+- Process-oriented language ("practice", "showing up", "consistent")
+- Spacious invitations ("you might explore", "consider")
+- Honest validation ("this is hard work", "be gentle with yourself")
+
+### Examples
+
+| ❌ Avoid | ✅ Prefer |
+|----------|-----------|
+| "🔥 7 day streak! Keep it up!" | "7 days consistent. A rhythm is forming." |
+| "You're crushing it!" | "You showed up today. That's what matters." |
+| "Don't break your streak!" | "Whenever you're ready, the work will be here." |
+| "Level up your shadow work!" | "Deepening your practice" |
+| "Unlock the next badge!" | "Continue when you're ready" |
+
+### Crisis & Collapse State Sensitivity
+
+Users in collapse stage need:
+- Validation that they're not failing
+- No pressure to perform or achieve
+- Clear path to support resources
+- Warm, holding language
+- Permission to go slowly or pause
+
+Never shame someone for:
+- Missing days
+- Low engagement
+- Being in early stages
+- Struggling with content
+- Needing to step back
+
+### The Underlying Principle
+
+People doing integration work are often healing from environments that weaponized achievement, used shame as motivation, or tied worth to productivity. Our interface should be the opposite—a space where showing up matters more than streaks, where presence matters more than performance, where the work itself is the reward.
+
+---
+
 ## Future Development Areas
 
+### Recently Completed
+- [x] First-time user flow improvements (Jan 2026)
+  - Quick-win practice step in onboarding (intention-matched practices)
+  - FirstTimeJourney component (personalized starter content)
+  - Improved journal empty state with daily prompt
+- [x] Assessment conversion improvements (Jan 2026)
+  - Fixed misleading time estimate (was "15-20 min", now "45-60 min, 10-15 per pillar")
+  - Pillar completion dialogs with "Continue" or "Save Progress" choice
+  - Save & Exit button throughout assessment
+  - Contextual AssessmentNudge component (card/banner/inline variants)
+  - Assessment prompts on article pages based on category-pillar mapping
+  - Improved IntegrationHealth empty state with assessment CTA
+- [x] Improved user dashboard / workbench UI (Jan 2026)
+  - ActiveLearningPath widget showing current path progress
+  - PracticeFinder widget ("How are you feeling?" → practice recommendations)
+  - GrowthEdges widget showing lowest-scoring dimensions
+- [x] Global sidebar with hover-to-expand (Jan 2026)
+- [x] AI quick chat in sidebar (Jan 2026)
+- [x] Search/discovery for learning paths (Jan 2026)
+- [x] Crisis/collapse stage content with hopeful tone (Jan 2026)
+  - 14 articles for collapse-stage dimensions (content/articles/)
+
 ### Planned Improvements
+- [ ] Assessment completion incentives (unlock premium content, gamification)
 - [ ] Custom learning path generator from assessment results
-- [ ] Expanded practices library (currently 13, could be 50+)
+- [x] Expanded practices library (now 52 practices)
 - [ ] Book content (digital books based on course material)
-- [ ] Improved user dashboard / workbench UI
 - [ ] Content for all 150 dimension-stage combinations
+- [ ] Digital workbooks (PDF products)
+- [ ] Email sequences in ConvertKit
+- [ ] Community Discord with role sync
 
 ### Removed
 - [x] Giscus (GitHub comments—users aren't tech people)
@@ -577,16 +732,37 @@ Warm but not soft. Direct but not harsh. Practical mysticism.
 
 | Purpose | File |
 |---------|------|
-| Stripe client | `lib/stripe.ts` |
-| Subscription config | `lib/subscriptions.ts` |
+| **Navigation & Layout** | |
+| Global sidebar | `app/components/AppSidebar.tsx` |
+| Sidebar chat widget | `app/components/SidebarChat.tsx` |
+| Content padding | `app/components/SidebarAwareLayout.tsx` |
+| **Content & Libraries** | |
 | Course loader | `lib/courses.ts` |
 | Practice loader | `lib/practices.ts` |
 | Article loader | `lib/posts.ts` |
-| Learning paths | `lib/learning-paths.ts` |
-| AI context | `lib/presence.ts` |
+| Learning paths data | `lib/learning-paths.ts` |
+| Learning paths UI | `app/learning-paths/LearningPathsLibrary.tsx` |
+| **Dashboard Widgets** | |
+| Learning path progress | `app/profile/ActiveLearningPath.tsx` |
+| Practice finder | `app/profile/PracticeFinder.tsx` |
+| Growth edges | `app/profile/GrowthEdges.tsx` |
+| First-time user content | `app/profile/FirstTimeJourney.tsx` |
+| **Onboarding & Assessment** | |
+| Onboarding flow | `app/onboarding/OnboardingFlow.tsx` |
+| Assessment flow | `app/assessment/AssessmentFlow.tsx` |
+| Assessment nudge | `app/components/AssessmentNudge.tsx` |
+| Integration health | `app/profile/IntegrationHealth.tsx` |
+| **Assessment & Health** | |
 | Assessment framework | `lib/assessment/framework.ts` |
 | Dimension health | `lib/assessment/dimension-health.ts` |
+| **AI Systems** | |
+| AI context | `lib/presence.ts` |
 | AI verification | `lib/ai-verification/` |
-| Database schema | `prisma/schema.prisma` |
-| AI Companion | `app/components/FloatingCompanion.tsx` |
+| AI Panel (right sidebar) | `app/components/AIPanel.tsx` |
+| Bottom chat bar | `app/components/BottomChatBar.tsx` |
 | Verification UI | `app/components/verification/` |
+| **Payments** | |
+| Stripe client | `lib/stripe.ts` |
+| Subscription config | `lib/subscriptions.ts` |
+| **Database** | |
+| Schema | `prisma/schema.prisma` |

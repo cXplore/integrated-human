@@ -1,4 +1,5 @@
 {
+  "id": "intro-emotional-intelligence",
   "title": "Introduction to Emotional Intelligence",
   "description": "Discover the fundamentals of understanding and managing your emotions",
   "category": "Mind",
@@ -37,7 +38,7 @@
           "Happiness, sadness, anger, and fear",
           "Thinking, feeling, and acting"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Why is recognizing emotions important?",
@@ -47,9 +48,10 @@
           "Because you can't manage what you don't notice",
           "It's not actually important"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Feel more, understand better",
   "tier": "intro",

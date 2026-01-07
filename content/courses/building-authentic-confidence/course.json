@@ -1,4 +1,5 @@
 {
+  "id": "building-authentic-confidence",
   "title": "Building Authentic Confidence",
   "description": "Developing genuine self-assurance from the inside out",
   "category": "Flagship",
@@ -59,7 +60,7 @@
           "Authentic confidence always leads to arrogance over time",
           "Arrogance is just more extreme confidence"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Which approach builds more sustainable confidence?",
@@ -69,7 +70,7 @@
           "Building internal self-worth alongside competence",
           "Avoiding situations that make you uncomfortable"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "What role does action play in building confidence?",
@@ -79,9 +80,10 @@
           "Action is only helpful after confidence is established",
           "Action has no relationship to confidence"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Real confidence comes from within",
   "tier": "flagship",

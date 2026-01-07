@@ -4,7 +4,7 @@
  * Paths are personalized based on health state and goals
  */
 
-import { type Pillar, type SpectrumStage, PILLAR_INFO } from './integration-health';
+import { type Pillar, type SpectrumStage, PILLAR_INFO } from './health-types';
 
 export interface PathStep {
   type: 'course' | 'article' | 'practice' | 'assessment' | 'milestone';

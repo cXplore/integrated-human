@@ -1,4 +1,5 @@
 {
+  "id": "art-of-self-discipline",
   "title": "The Art of Self-Discipline",
   "description": "Building willpower, habits, and the capacity to follow through",
   "category": "Flagship",
@@ -69,7 +70,7 @@
           "Never having fun",
           "Punishing yourself for failures"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Willpower is:",
@@ -79,7 +80,7 @@
           "Something you either have or don't",
           "Not real"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "The most effective approach to lasting behavior change is:",
@@ -89,7 +90,7 @@
           "Building habits and systems that automate good behavior",
           "Punishing yourself for slip-ups"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Environment design works because:",
@@ -99,7 +100,7 @@
           "It makes everything harder",
           "It forces you to be disciplined"
         ],
-        "correctAnswer": 0
+        "correctIndex": 0
       },
       {
         "question": "When you fail at discipline:",
@@ -109,9 +110,10 @@
           "Learn from it, adjust, and continue",
           "Punish yourself severely"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "From willpower struggles to effortless follow-through",
   "tier": "flagship",

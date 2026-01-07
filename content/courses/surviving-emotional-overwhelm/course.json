@@ -1,0 +1,64 @@
+{
+  "id": "surviving-emotional-overwhelm",
+  "title": "Surviving Emotional Overwhelm",
+  "subtitle": "When feelings become too much to bear",
+  "description": "For when emotions are so intense they feel unbearable. Simple, immediate tools for riding the wave until it passes.",
+  "category": "Mind",
+  "level": "Beginner",
+  "duration": "1.5 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "tier": "intro",
+  "spectrum": [
+    "collapse"
+  ],
+  "dimensions": [
+    "emotional-regulation",
+    "stress-physiology"
+  ],
+  "leadsTo": "emotional-intelligence",
+  "modules": [
+    {
+      "title": "The Wave Will Pass",
+      "order": 1
+    },
+    {
+      "title": "Riding Intense Emotions",
+      "order": 2
+    },
+    {
+      "title": "Emergency Regulation",
+      "order": 3
+    },
+    {
+      "title": "After the Storm",
+      "order": 4
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "How long do intense emotions typically last if we don't fight them?",
+        "options": [
+          "Forever",
+          "About 90 seconds to 20 minutes for the peak intensity",
+          "Several days",
+          "They never decrease"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "question": "What is the goal when overwhelmed by emotion?",
+        "options": [
+          "Stop feeling immediately",
+          "Analyze why you feel this way",
+          "Ride the wave until intensity naturally decreases",
+          "Push through and be productive"
+        ],
+        "correctIndex": 2
+      }
+    ],
+    "passingScore": 70
+  }
+}

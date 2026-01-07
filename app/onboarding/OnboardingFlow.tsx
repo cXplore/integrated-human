@@ -31,12 +31,47 @@ interface OnboardingFlowProps {
   userName?: string;
 }
 
-// 5 core steps including assessment prompt
+// Quick win practices mapped to intentions
+const QUICK_WIN_PRACTICES: Record<string, { slug: string; title: string; duration: string; description: string }> = {
+  healing: {
+    slug: 'self-compassion-break',
+    title: 'Self-Compassion Break',
+    duration: '3 min',
+    description: 'A gentle practice to meet yourself with kindness in this moment.',
+  },
+  growth: {
+    slug: 'body-scan',
+    title: 'Quick Body Scan',
+    duration: '5 min',
+    description: 'Ground into presence and awareness of your current state.',
+  },
+  understanding: {
+    slug: 'cognitive-defusion',
+    title: 'Cognitive Defusion',
+    duration: '5 min',
+    description: 'Learn to observe your thoughts as mental events, not absolute truths.',
+  },
+  crisis: {
+    slug: 'physiological-sigh',
+    title: 'Physiological Sigh',
+    duration: '1 min',
+    description: 'An immediate nervous system reset backed by neuroscience.',
+  },
+  curiosity: {
+    slug: 'grounding-5-4-3-2-1',
+    title: '5-4-3-2-1 Grounding',
+    duration: '2 min',
+    description: 'Arrive fully into this moment through your senses.',
+  },
+};
+
+// 6 core steps including quick-win and assessment prompt
 const STEPS = [
   'intention',
   'situation',
   'challenges',
   'depth',
+  'quick-win',
   'assessment-invite',
 ] as const;
 
@@ -137,7 +172,7 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
         return (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <p className="text-gray-500 text-sm mb-4">Step 1 of 5</p>
+              <p className="text-gray-500 text-sm mb-4">Step 1 of 6</p>
               <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
                 What brings you here?
               </h2>
@@ -174,7 +209,7 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
         return (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <p className="text-gray-500 text-sm mb-4">Step 2 of 5</p>
+              <p className="text-gray-500 text-sm mb-4">Step 2 of 6</p>
               <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
                 Where are you in life right now?
               </h2>
@@ -210,7 +245,7 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
         return (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <p className="text-gray-500 text-sm mb-4">Step 3 of 5</p>
+              <p className="text-gray-500 text-sm mb-4">Step 3 of 6</p>
               <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
                 What are you working with?
               </h2>
@@ -248,7 +283,7 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
         return (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <p className="text-gray-500 text-sm mb-4">Step 4 of 5</p>
+              <p className="text-gray-500 text-sm mb-4">Step 4 of 6</p>
               <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
                 How deep do you want to go?
               </h2>
@@ -280,11 +315,54 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
           </div>
         );
 
+      case 'quick-win':
+        const practice = QUICK_WIN_PRACTICES[profile.primaryIntention || 'curiosity'];
+        return (
+          <div className="space-y-8">
+            <div className="text-center mb-8">
+              <p className="text-gray-500 text-sm mb-4">Step 5 of 6</p>
+              <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
+                Your First Practice
+              </h2>
+              <p className="text-gray-400 max-w-lg mx-auto">
+                Based on what you shared, here is a practice to try right now.
+                Just {practice.duration} to experience what this work feels like.
+              </p>
+            </div>
+
+            <div className="bg-zinc-900/50 border border-zinc-800 p-8 text-center space-y-4">
+              <div className="text-amber-500/80 text-sm uppercase tracking-wide">
+                {practice.duration} Practice
+              </div>
+              <h3 className="font-serif text-2xl text-white">
+                {practice.title}
+              </h3>
+              <p className="text-gray-400 max-w-md mx-auto">
+                {practice.description}
+              </p>
+              <button
+                onClick={() => {
+                  // Save profile and open practice
+                  saveProfile(false);
+                  window.open(`/practices/${practice.slug}`, '_blank');
+                }}
+                className="mt-4 px-8 py-3 bg-amber-600 text-white font-medium hover:bg-amber-500 transition-colors"
+              >
+                Try This Practice
+              </button>
+            </div>
+
+            <div className="text-center text-gray-500 text-sm">
+              This will open in a new tab. Come back here when you are done.
+            </div>
+          </div>
+        );
+
       case 'assessment-invite':
         return (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <p className="text-gray-500 text-sm mb-4">Step 5 of 5</p>
+              <p className="text-gray-500 text-sm mb-4">Step 6 of 6</p>
               <h2 className="font-serif text-3xl md:text-4xl font-light text-white mb-4">
                 Know Where You Stand
               </h2>
@@ -315,8 +393,8 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
                 </li>
               </ul>
               <p className="text-gray-500 text-sm pt-2">
-                Takes about 15-20 minutes. Your scores decay over time, prompting
-                reassessment as you grow.
+                The full assessment takes 45-60 minutes, but you can complete one pillar at a time
+                (10-15 minutes each). Your scores decay over time, prompting reassessment as you grow.
               </p>
             </div>
 
@@ -336,6 +414,7 @@ export default function OnboardingFlow({ existingProfile, userName }: Onboarding
     (currentStep === 'situation' && profile.lifeSituation) ||
     (currentStep === 'challenges') || // Optional
     (currentStep === 'depth' && profile.depthPreference) ||
+    (currentStep === 'quick-win') || // Always can proceed (practice is optional)
     (currentStep === 'assessment-invite'); // Always can proceed (choice)
 
   return (

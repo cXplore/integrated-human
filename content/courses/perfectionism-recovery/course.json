@@ -1,4 +1,5 @@
 {
+  "id": "perfectionism-recovery",
   "title": "Perfectionism Recovery",
   "description": "Breaking free from the perfection trap and embracing good enough",
   "category": "Mind",
@@ -49,7 +50,7 @@
           "There is no difference",
           "Healthy striving doesn't involve effort"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "How does perfectionism often affect productivity?",
@@ -59,7 +60,7 @@
           "It has no effect",
           "It only affects creative work"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is often at the root of perfectionism?",
@@ -69,9 +70,10 @@
           "Too much success",
           "Natural talent"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Good enough is good enough",
   "tier": "beginner",

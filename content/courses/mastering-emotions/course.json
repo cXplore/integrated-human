@@ -1,4 +1,5 @@
 {
+  "id": "mastering-emotions",
   "title": "Mastering Your Emotions",
   "description": "A comprehensive guide to emotional intelligence, regulation, and freedom",
   "category": "Flagship",
@@ -69,7 +70,7 @@
           "Information and energy that serve adaptive purposes",
           "Things that should be suppressed"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "The nervous system's role in emotions is:",
@@ -79,7 +80,7 @@
           "Only relevant for negative emotions",
           "Something we cannot influence"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Emotional regulation means:",
@@ -89,7 +90,7 @@
           "Managing intensity while still feeling fully",
           "Controlling others' emotions"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Emotional expression in relationships should be:",
@@ -99,7 +100,7 @@
           "Authentic yet appropriate to context",
           "Only positive"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Emotional freedom is characterized by:",
@@ -109,9 +110,10 @@
           "Choice in how to respond to emotional experience",
           "Only having positive emotions"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "From emotional chaos to emotional freedom",
   "tier": "flagship",

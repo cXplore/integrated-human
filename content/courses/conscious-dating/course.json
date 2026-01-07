@@ -1,4 +1,5 @@
 {
+  "id": "conscious-dating",
   "title": "Conscious Dating",
   "description": "Approaching dating with intention, awareness, and authenticity",
   "category": "Relationships",
@@ -49,7 +50,7 @@
           "Using strategies to appear more attractive",
           "Dating as many people as possible"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Values in dating are important because:",
@@ -59,7 +60,7 @@
           "Shared core values predict long-term compatibility",
           "You should only date people exactly like you"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "When noticing you keep attracting the same type of person:",
@@ -69,7 +70,7 @@
           "You should lower your standards",
           "It's completely random and meaningless"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Authentic self-presentation in dating means:",
@@ -79,7 +80,7 @@
           "Showing up as who you actually are, not a curated persona",
           "Never sharing anything personal"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "A healthy approach to early dating includes:",
@@ -89,9 +90,10 @@
           "Gathering information while staying grounded in your values",
           "Committing as soon as you feel attraction"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Date with intention, connect with authenticity",
   "tier": "beginner",

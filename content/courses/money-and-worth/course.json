@@ -1,4 +1,5 @@
 {
+  "id": "money-and-worth",
   "title": "Money & Worth",
   "slug": "money-and-worth",
   "description": "Heal your relationship with money by addressing the deeper issues of self-worth, family patterns, and inherited beliefs.",
@@ -72,7 +73,7 @@
           "Everyone should have the same money values",
           "Financial problems are always about income"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is scarcity consciousness?",
@@ -82,7 +83,7 @@
           "Being smart about spending",
           "A financial planning strategy"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Why is separating worth from net worth important?",
@@ -92,7 +93,7 @@
           "Your value as a person isn't determined by money",
           "Net worth doesn't matter at all"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "How do family money patterns typically get transmitted?",
@@ -102,7 +103,7 @@
           "They don't get transmitted at all",
           "Only through inheritance"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is a conscious relationship with money?",
@@ -112,7 +113,7 @@
           "Aware, intentional engagement with money aligned to values",
           "Avoiding all spending"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
     ],
     "passingScore": 60

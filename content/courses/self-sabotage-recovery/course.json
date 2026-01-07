@@ -1,4 +1,5 @@
 {
+  "id": "self-sabotage-recovery",
   "title": "Self-Sabotage Recovery",
   "description": "Stop undermining yourself and step into your full potential",
   "category": "Mind",
@@ -43,7 +44,7 @@
           "Because a part of us believes sabotage serves a protective purpose",
           "Because of bad luck"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "What is the most effective approach to self-sabotage?",
@@ -53,9 +54,10 @@
           "Ignoring it and hoping it goes away",
           "Punishing yourself when you sabotage"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Stop getting in your own way",
   "tier": "intermediate",

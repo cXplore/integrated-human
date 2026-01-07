@@ -1,4 +1,5 @@
 {
+  "id": "movement-fundamentals",
   "title": "Movement Fundamentals",
   "description": "Building a solid foundation of natural, functional movement for life",
   "category": "Body",
@@ -49,7 +50,7 @@
           "Running and jumping only",
           "Whatever feels good"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is the difference between mobility and flexibility?",
@@ -59,7 +60,7 @@
           "Mobility is usable range; flexibility is passive range",
           "Flexibility is more important"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "What makes a movement practice sustainable?",
@@ -69,9 +70,10 @@
           "Never changing the routine",
           "Only doing what's easy"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Move the way your body was designed to",
   "tier": "beginner",

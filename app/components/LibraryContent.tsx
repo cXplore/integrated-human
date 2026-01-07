@@ -43,6 +43,11 @@ interface Dimension {
   pillar: string;
 }
 
+interface TagCount {
+  tag: string;
+  count: number;
+}
+
 interface Pagination {
   page: number;
   limit: number;
@@ -65,12 +70,14 @@ export default function LibraryContent() {
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [filters, setFilters] = useState<FilterCounts | null>(null);
   const [dimensions, setDimensions] = useState<Dimension[]>([]);
+  const [tags, setTags] = useState<TagCount[]>([]);
 
   // Get current filter values from URL
   const currentPillar = searchParams.get('pillar');
   const currentDimension = searchParams.get('dimension');
   const currentType = searchParams.get('type');
   const currentReadingTime = searchParams.get('readingTime');
+  const currentTag = searchParams.get('tag');
   const currentSearch = searchParams.get('search') || '';
   const currentPage = parseInt(searchParams.get('page') || '1');
 
@@ -117,27 +124,29 @@ export default function LibraryContent() {
       if (currentDimension) params.set('dimension', currentDimension);
       if (currentType) params.set('type', currentType);
       if (currentReadingTime) params.set('readingTime', currentReadingTime);
+      if (currentTag) params.set('tag', currentTag);
       if (currentSearch) params.set('search', currentSearch);
 
       const response = await fetch(`/api/posts?${params.toString()}`);
       const data = await response.json();
 
       if (append) {
-        setPosts(prev => [...prev, ...data.posts]);
+        setPosts(prev => [...prev, ...(data.posts || [])]);
       } else {
-        setPosts(data.posts);
+        setPosts(data.posts || []);
       }
 
       setPagination(data.pagination);
       setFilters(data.filters);
       setDimensions(data.dimensions);
+      setTags(data.tags || []);
     } catch (error) {
       console.error('Failed to fetch posts:', error);
     } finally {
       setLoading(false);
       setLoadingMore(false);
     }
-  }, [currentPillar, currentDimension, currentType, currentReadingTime, currentSearch]);
+  }, [currentPillar, currentDimension, currentType, currentReadingTime, currentTag, currentSearch]);
 
   // Initial load and filter changes
   useEffect(() => {
@@ -159,10 +168,12 @@ export default function LibraryContent() {
         <LibraryFilters
           filters={filters}
           dimensions={dimensions}
+          tags={tags}
           selectedPillar={currentPillar}
           selectedDimension={currentDimension}
           selectedType={currentType}
           selectedReadingTime={currentReadingTime}
+          selectedTag={currentTag}
           onFilterChange={updateFilters}
           onClearAll={clearAllFilters}
           resultCount={pagination?.total || 0}

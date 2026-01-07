@@ -111,7 +111,31 @@ export default function IntegrationHealth() {
   if (error || !health || !stages || !pillars) {
     return (
       <div className="bg-stone-900/50 rounded-xl p-6 border border-stone-800">
-        <p className="text-stone-400 text-sm">Unable to load integration health.</p>
+        <div className="text-center py-4">
+          <div className="flex justify-center gap-3 text-3xl mb-4">
+            <span>🧠</span>
+            <span>💪</span>
+            <span>✨</span>
+            <span>💞</span>
+          </div>
+          <h3 className="text-white font-medium mb-2">Map Your Integration</h3>
+          <p className="text-stone-400 text-sm mb-4 max-w-sm mx-auto">
+            Discover where you are across the four pillars of human development.
+            Complete one section at a time, starting with what calls to you.
+          </p>
+          <Link
+            href="/assessment"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium transition-colors"
+          >
+            Start Assessment
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+          <p className="text-stone-600 text-xs mt-3">
+            ~10-15 min per section · Save progress anytime
+          </p>
+        </div>
       </div>
     );
   }
@@ -135,24 +159,30 @@ export default function IntegrationHealth() {
         </div>
       </div>
 
-      {/* Overall Score Bar */}
+      {/* Overall Score Bar with animated gradient */}
       <div className="mb-6">
-        <div className="flex justify-between text-xs text-stone-500 mb-1">
+        <div className="flex justify-between text-xs text-stone-500 mb-2">
           <span>Overall Integration</span>
-          <span>{health.overall.score}%</span>
+          <span className="font-medium text-stone-300">{health.overall.score}%</span>
         </div>
-        <div className="h-2 bg-stone-800 rounded-full overflow-hidden">
+        <div className="h-3 bg-stone-800 rounded-full overflow-hidden relative">
+          {/* Background gradient showing all stages */}
+          <div className="absolute inset-0 opacity-20 bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500" />
+          {/* Actual progress */}
           <div
-            className={`h-full ${STAGE_COLORS[health.overall.stage]} transition-all duration-500`}
+            className={`h-full ${STAGE_COLORS[health.overall.stage]} transition-all duration-1000 ease-out relative`}
             style={{ width: `${health.overall.score}%` }}
-          />
+          >
+            {/* Shimmer effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+          </div>
         </div>
-        <div className="flex justify-between text-xs text-stone-600 mt-1">
-          <span>Collapse</span>
-          <span>Regulation</span>
-          <span>Integration</span>
-          <span>Embodiment</span>
-          <span>Optimization</span>
+        <div className="flex justify-between text-[10px] text-stone-600 mt-1.5">
+          <span className={health.overall.stage === 'collapse' ? 'text-red-400 font-medium' : ''}>Collapse</span>
+          <span className={health.overall.stage === 'regulation' ? 'text-orange-400 font-medium' : ''}>Regulation</span>
+          <span className={health.overall.stage === 'integration' ? 'text-yellow-400 font-medium' : ''}>Integration</span>
+          <span className={health.overall.stage === 'embodiment' ? 'text-green-400 font-medium' : ''}>Embodiment</span>
+          <span className={health.overall.stage === 'optimization' ? 'text-blue-400 font-medium' : ''}>Optimization</span>
         </div>
       </div>
 

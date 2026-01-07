@@ -69,21 +69,36 @@ export default function StreakTracker() {
 
   return (
     <div className="space-y-6">
-      {/* Streak Display */}
+      {/* Streak Display with Animation */}
       <div>
         <h2 className="text-sm uppercase tracking-wide text-gray-500 mb-4">
           Your Practice
         </h2>
 
         <div className="flex items-center gap-6">
-          {/* Practice streak */}
-          <div className="text-center">
-            <div className="text-4xl font-light text-white">
+          {/* Practice streak - gentle, grounded design */}
+          <div className="text-center relative">
+            <div className={`text-4xl font-light transition-all duration-500 ${
+              data.currentStreak >= 30 ? 'text-emerald-400' :
+              data.currentStreak >= 7 ? 'text-stone-300' :
+              'text-white'
+            }`}>
               {data.currentStreak}
             </div>
             <div className="text-sm text-gray-500">
               {data.currentStreak === 1 ? 'day' : 'days'} consistent
             </div>
+            {/* Gentle milestone acknowledgments */}
+            {data.currentStreak >= 7 && data.currentStreak < 30 && (
+              <div className="mt-2 text-xs text-stone-500 italic">
+                a rhythm forming
+              </div>
+            )}
+            {data.currentStreak >= 30 && (
+              <div className="mt-2 text-xs text-emerald-600/70 italic">
+                becoming embodied
+              </div>
+            )}
           </div>
 
           {/* Check-in streak (if different and notable) */}
@@ -98,14 +113,38 @@ export default function StreakTracker() {
             </div>
           )}
 
-          {/* Days active */}
+          {/* Days active with progress ring */}
           {data.daysActive > 0 && (
             <div className="text-center border-l border-zinc-800 pl-6">
-              <div className="text-2xl font-light text-gray-400">
-                {data.daysActive}
+              <div className="relative inline-block">
+                <svg className="w-14 h-14 transform -rotate-90">
+                  <circle
+                    cx="28"
+                    cy="28"
+                    r="24"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    fill="none"
+                    className="text-zinc-800"
+                  />
+                  <circle
+                    cx="28"
+                    cy="28"
+                    r="24"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    fill="none"
+                    strokeLinecap="round"
+                    className="text-emerald-500 transition-all duration-1000"
+                    strokeDasharray={`${(data.daysActive / 90) * 150.8} 150.8`}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-lg font-light text-gray-300">{data.daysActive}</span>
+                </div>
               </div>
-              <div className="text-xs text-gray-600">
-                days active
+              <div className="text-xs text-gray-600 mt-1">
+                of 90 days
               </div>
             </div>
           )}
@@ -131,7 +170,7 @@ export default function StreakTracker() {
         </p>
       </div>
 
-      {/* Weekly Activity - Enhanced visualization */}
+      {/* Weekly Activity - Enhanced visualization with animations */}
       <div>
         <h3 className="text-xs uppercase tracking-wide text-gray-600 mb-3">
           This Week
@@ -144,67 +183,68 @@ export default function StreakTracker() {
             const dayOfWeek = date.getDay();
             const isToday = index === data.weekActivity.length - 1;
 
-            // Intensity based on activity count
-            const intensity = activityCount >= 5 ? 'high' : activityCount >= 2 ? 'medium' : 'low';
-            const intensityColors = {
-              high: 'bg-green-500',
-              medium: 'bg-green-600',
-              low: 'bg-green-700',
+            // Intensity based on activity count with gradient colors
+            const getIntensityStyle = () => {
+              if (!hasActivity) {
+                return isToday
+                  ? 'bg-zinc-800 border-2 border-dashed border-zinc-600 text-gray-400'
+                  : 'bg-zinc-800/50 text-gray-600';
+              }
+              if (activityCount >= 5) return 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-lg shadow-emerald-500/20';
+              if (activityCount >= 2) return 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white';
+              return 'bg-emerald-700/80 text-white';
             };
 
             return (
               <div
                 key={day.date}
-                className="flex flex-col items-center gap-1 flex-1"
+                className="flex flex-col items-center gap-1 flex-1 group"
                 title={`${new Date(day.date).toLocaleDateString()}: ${day.articles} articles, ${day.modules} modules, ${day.journals} journals, ${day.checkIns} check-ins`}
               >
                 <span className="text-xs text-gray-600">{dayNames[dayOfWeek]}</span>
                 <div
-                  className={`w-full aspect-square rounded flex items-center justify-center text-xs font-medium transition-colors max-w-10 ${
-                    hasActivity
-                      ? `${intensityColors[intensity]} text-white`
-                      : isToday
-                      ? 'bg-zinc-800 border border-zinc-600 text-gray-400'
-                      : 'bg-zinc-800 text-gray-600'
+                  className={`w-full aspect-square rounded-lg flex items-center justify-center text-xs font-medium max-w-10 transition-all duration-300 ${getIntensityStyle()} ${
+                    hasActivity ? 'hover:scale-110 cursor-default' : ''
                   }`}
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
                   {hasActivity ? (
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                     </svg>
                   ) : isToday ? (
-                    '?'
+                    <span className="animate-pulse">•</span>
                   ) : (
                     ''
                   )}
                 </div>
-                {/* Activity type indicators */}
+                {/* Activity type indicators - stacked vertically for better visibility */}
                 {hasActivity && (
                   <div className="flex gap-0.5 mt-0.5">
-                    {day.checkIns > 0 && <div className="w-1 h-1 rounded-full bg-amber-400" title="Check-in" />}
-                    {day.articles > 0 && <div className="w-1 h-1 rounded-full bg-blue-400" title="Article" />}
-                    {day.modules > 0 && <div className="w-1 h-1 rounded-full bg-purple-400" title="Module" />}
-                    {day.journals > 0 && <div className="w-1 h-1 rounded-full bg-pink-400" title="Journal" />}
+                    {day.checkIns > 0 && <div className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" title="Check-in" style={{ animationDelay: '0ms' }} />}
+                    {day.articles > 0 && <div className="w-1.5 h-1.5 rounded-full bg-blue-400" title="Article" />}
+                    {day.modules > 0 && <div className="w-1.5 h-1.5 rounded-full bg-purple-400" title="Module" />}
+                    {day.journals > 0 && <div className="w-1.5 h-1.5 rounded-full bg-pink-400" title="Journal" />}
                   </div>
                 )}
               </div>
             );
           })}
         </div>
-        <div className="flex items-center gap-4 mt-3 text-xs text-gray-600">
-          <div className="flex items-center gap-1">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-xs text-gray-600">
+          <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-amber-400" />
             <span>Check-in</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-blue-400" />
             <span>Article</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-purple-400" />
             <span>Module</span>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-pink-400" />
             <span>Journal</span>
           </div>

@@ -1,0 +1,51 @@
+{
+  "title": "The Integration Path",
+  "subtitle": "A Complete Guide to Becoming Whole",
+  "author": "Integrated Human",
+  "description": "A comprehensive journey through the five stages of human development—from crisis to mastery. This book synthesizes ancient wisdom with modern science to offer a practical roadmap for personal transformation.",
+  "coverImage": "/images/books/integration-path-cover.jpg",
+  "published": true,
+  "publishedDate": "2025-01-06",
+  "tier": "free",
+  "pillar": "soul",
+  "readingTime": "4-6 hours",
+  "pages": 320,
+  "chapters": 15,
+  "structure": {
+    "parts": [
+      {
+        "number": 1,
+        "title": "The Territory",
+        "description": "Understanding where you are and the landscape ahead",
+        "chapters": ["introduction", "the-spectrum", "assessment"]
+      },
+      {
+        "number": 2,
+        "title": "Foundation",
+        "description": "From crisis to stability—building the base",
+        "chapters": ["collapse", "regulation", "stabilization"]
+      },
+      {
+        "number": 3,
+        "title": "Transformation",
+        "description": "The work of integration and embodiment",
+        "chapters": ["integration", "embodiment", "the-body"]
+      },
+      {
+        "number": 4,
+        "title": "The Four Pillars",
+        "description": "Deep work in each dimension of life",
+        "chapters": ["pillar-mind", "pillar-body", "pillar-soul", "pillar-relationships"]
+      },
+      {
+        "number": 5,
+        "title": "Living Integrated",
+        "description": "Optimization, maintenance, and passing it on",
+        "chapters": ["optimization", "maintenance", "conclusion"]
+      }
+    ]
+  },
+  "keywords": ["personal development", "integration", "transformation", "self-help", "psychology", "spirituality", "embodiment"],
+  "targetAudience": "Anyone committed to personal growth who wants a comprehensive framework for transformation",
+  "uniqueValue": "Integrates psychological, somatic, and spiritual approaches into a single coherent developmental model"
+}

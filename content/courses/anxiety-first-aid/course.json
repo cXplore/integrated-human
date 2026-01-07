@@ -1,4 +1,5 @@
 {
+  "id": "anxiety-first-aid",
   "title": "Anxiety First Aid Kit",
   "description": "Essential tools for managing anxiety in the moment and building long-term calm",
   "category": "Mind",
@@ -37,7 +38,7 @@
           "To prevent you from taking action",
           "There is no purpose"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What does the 4-7-8 breathing technique help with?",
@@ -47,9 +48,10 @@
           "Improving memory",
           "Building muscle strength"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Calm in your pocket when you need it most",
   "tier": "intro",

@@ -1,0 +1,73 @@
+{
+  "id": "mastery-and-teaching",
+  "title": "From Mastery to Teaching",
+  "subtitle": "Sharing what you've learned with others",
+  "description": "For those who've done deep integration work and feel called to support others. How to transmit wisdom without imposing, hold space without fixing, and share without losing your own practice.",
+  "category": "Soul",
+  "level": "Advanced",
+  "duration": "5 hours",
+  "price": 99,
+  "published": true,
+  "featured": false,
+  "tier": "advanced",
+  "spectrum": [
+    "embodiment",
+    "optimization"
+  ],
+  "dimensions": [
+    "inner-wisdom",
+    "authenticity",
+    "communication"
+  ],
+  "modules": [
+    {
+      "title": "When You're Ready to Share",
+      "order": 1
+    },
+    {
+      "title": "The Ethics of Guidance",
+      "order": 2
+    },
+    {
+      "title": "Holding Space Without Fixing",
+      "order": 3
+    },
+    {
+      "title": "Teaching from Embodiment",
+      "order": 4
+    },
+    {
+      "title": "Protecting Your Own Practice",
+      "order": 5
+    },
+    {
+      "title": "The Ongoing Student",
+      "order": 6
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What makes someone ready to teach or guide others?",
+        "options": [
+          "Completing a certification",
+          "Having more knowledge than the person they're helping",
+          "Having embodied the work enough that it's become part of them, plus ongoing self-awareness",
+          "Being asked to teach"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "question": "What is the most important thing to protect when helping others?",
+        "options": [
+          "Your reputation",
+          "Your own ongoing practice and self-care",
+          "Your income",
+          "Your credentials"
+        ],
+        "correctIndex": 1
+      }
+    ],
+    "passingScore": 70
+  }
+}

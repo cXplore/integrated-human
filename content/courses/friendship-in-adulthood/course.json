@@ -1,4 +1,5 @@
 {
+  "id": "friendship-in-adulthood",
   "title": "Friendship in Adulthood",
   "description": "Building and maintaining meaningful friendships as a grown-up",
   "category": "Relationships",
@@ -49,7 +50,7 @@
           "People become incapable of friendship after age 25",
           "Social media has replaced all in-person connection"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Research on friendship shows that close friendships typically require:",
@@ -59,7 +60,7 @@
           "Accumulated hours of quality time together",
           "Similar income levels"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Moving from acquaintance to friend typically involves:",
@@ -69,7 +70,7 @@
           "Sending friend requests on all platforms",
           "Waiting for them to make all the moves"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Maintaining long-distance friendships requires:",
@@ -79,7 +80,7 @@
           "One person doing all the work",
           "Never discussing difficult topics"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "When a friendship becomes one-sided:",
@@ -89,9 +90,10 @@
           "Having a direct conversation about it is often the healthiest approach",
           "You should never bring it up"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Build the village you need",
   "tier": "beginner",

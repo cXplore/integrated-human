@@ -1,0 +1,81 @@
+{
+  "id": "intuitive-eating-foundations",
+  "title": "Intuitive Eating Foundations",
+  "subtitle": "Returning to your body's natural wisdom about food",
+  "description": "A comprehensive introduction to intuitive eating principles. Learn to trust your body, honor your hunger, and make peace with food.",
+  "category": "Body",
+  "level": "Intermediate",
+  "duration": "4 hours",
+  "price": 49,
+  "published": true,
+  "featured": false,
+  "tier": "intermediate",
+  "spectrum": [
+    "integration",
+    "embodiment"
+  ],
+  "dimensions": [
+    "nourishment",
+    "interoception",
+    "self-relationship"
+  ],
+  "modules": [
+    {
+      "title": "The 10 Principles Overview",
+      "order": 1
+    },
+    {
+      "title": "Rejecting Diet Mentality",
+      "order": 2
+    },
+    {
+      "title": "Honoring Hunger and Fullness",
+      "order": 3
+    },
+    {
+      "title": "Making Peace with Food",
+      "order": 4
+    },
+    {
+      "title": "Discovering Satisfaction",
+      "order": 5
+    },
+    {
+      "title": "Coping with Emotions",
+      "order": 6
+    },
+    {
+      "title": "Respecting Your Body",
+      "order": 7
+    },
+    {
+      "title": "Gentle Nutrition",
+      "order": 8
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the foundation of intuitive eating?",
+        "options": [
+          "Following a specific meal plan",
+          "Trusting your body's internal signals over external rules",
+          "Eating only when extremely hungry",
+          "Avoiding all processed foods"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "question": "When does 'gentle nutrition' enter intuitive eating?",
+        "options": [
+          "First, before anything else",
+          "Never - intuitive eating ignores nutrition",
+          "After other principles are established and food no longer has moral charge",
+          "Only for people with health conditions"
+        ],
+        "correctIndex": 2
+      }
+    ],
+    "passingScore": 70
+  }
+}

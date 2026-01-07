@@ -86,7 +86,7 @@ function postMatchesDimension(post: Post, dimensionId: string): boolean {
       }
       // Also check by tag matching (looser match)
       const dimTags = dimensionId.split('-');
-      if (post.metadata.tags.some(t => dimTags.some(dt => t.toLowerCase().includes(dt)))) {
+      if (post.metadata.tags?.some(t => dimTags.some(dt => t.toLowerCase().includes(dt)))) {
         return true;
       }
     }
@@ -143,7 +143,7 @@ export async function GET(request: NextRequest) {
     // Apply filters
     if (pillar) {
       const pillarCapitalized = pillar.charAt(0).toUpperCase() + pillar.slice(1);
-      posts = posts.filter(p => p.metadata.categories.includes(pillarCapitalized));
+      posts = posts.filter(p => p.metadata.categories?.includes(pillarCapitalized));
     }
 
     if (dimension) {
@@ -163,7 +163,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (tag) {
-      posts = posts.filter(p => p.metadata.tags.includes(tag));
+      posts = posts.filter(p => p.metadata.tags?.includes(tag));
     }
 
     // Sort
@@ -182,10 +182,10 @@ export async function GET(request: NextRequest) {
     const allPosts = getAllPosts();
     const filterCounts = {
       pillars: {
-        mind: allPosts.filter(p => p.metadata.categories.includes('Mind')).length,
-        body: allPosts.filter(p => p.metadata.categories.includes('Body')).length,
-        soul: allPosts.filter(p => p.metadata.categories.includes('Soul')).length,
-        relationships: allPosts.filter(p => p.metadata.categories.includes('Relationships')).length,
+        mind: allPosts.filter(p => p.metadata.categories?.includes('Mind')).length,
+        body: allPosts.filter(p => p.metadata.categories?.includes('Body')).length,
+        soul: allPosts.filter(p => p.metadata.categories?.includes('Soul')).length,
+        relationships: allPosts.filter(p => p.metadata.categories?.includes('Relationships')).length,
       },
       types: {
         article: allPosts.filter(p => p.metadata.type !== 'guide').length,
@@ -198,13 +198,25 @@ export async function GET(request: NextRequest) {
       },
     };
 
+    // Get popular tags with counts
+    const tagCounts: Record<string, number> = {};
+    allPosts.forEach(p => {
+      (p.metadata.tags || []).forEach(t => {
+        tagCounts[t] = (tagCounts[t] || 0) + 1;
+      });
+    });
+    const popularTags = Object.entries(tagCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 20)
+      .map(([tag, count]) => ({ tag, count }));
+
     // Serialize posts (exclude full content for performance)
     const serializedPosts = paginatedPosts.map(p => ({
       slug: p.slug,
       title: p.metadata.title,
       excerpt: p.metadata.excerpt,
-      categories: p.metadata.categories,
-      tags: p.metadata.tags,
+      categories: p.metadata.categories || [],
+      tags: p.metadata.tags || [],
       date: p.metadata.date,
       type: p.metadata.type || 'article',
       series: p.metadata.series,
@@ -223,6 +235,7 @@ export async function GET(request: NextRequest) {
       },
       filters: filterCounts,
       dimensions: getDimensionOptions(),
+      tags: popularTags,
     });
   } catch (error) {
     console.error('Posts API error:', error);

@@ -1,4 +1,5 @@
 {
+  "id": "nature-connection",
   "title": "Nature Connection",
   "description": "Rediscovering your place in the natural world",
   "category": "Soul",
@@ -49,7 +50,7 @@
           "Nature becoming more dangerous",
           "Humans outgrowing their need for nature"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Research shows that time in nature:",
@@ -59,7 +60,7 @@
           "Reduces stress, improves mood, and enhances cognition",
           "Is only beneficial for children"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "The main barrier to attention in nature is:",
@@ -69,7 +70,7 @@
           "Mental noise and habitual inattention",
           "Poor eyesight"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Forest bathing (shinrin-yoku) emphasizes:",
@@ -79,7 +80,7 @@
           "Swimming in forest streams",
           "Collecting forest plants"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "According to the course, humans are:",
@@ -89,9 +90,10 @@
           "Superior to nature and meant to control it",
           "No longer connected to natural systems"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Remember you belong to the earth",
   "tier": "beginner",

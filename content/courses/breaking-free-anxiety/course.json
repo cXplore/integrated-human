@@ -1,4 +1,5 @@
 {
+  "id": "breaking-free-anxiety",
   "title": "Breaking Free from Anxiety",
   "description": "Understanding, managing, and overcoming anxiety patterns",
   "category": "Flagship",
@@ -69,7 +70,7 @@
           "Always harmful",
           "Something that should be eliminated completely"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "The nervous system's 'fight or flight' response:",
@@ -79,7 +80,7 @@
           "Should never be activated",
           "Cannot be regulated"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Avoidance behaviors typically:",
@@ -89,7 +90,7 @@
           "Maintain and strengthen anxiety patterns",
           "Are the best treatment for anxiety"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "The goal of anxiety work is:",
@@ -99,7 +100,7 @@
           "Developing a different relationship with anxiety",
           "Avoiding all triggers"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Living with uncertainty requires:",
@@ -109,9 +110,10 @@
           "Predicting the future accurately",
           "Eliminating all risk"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "From anxious to grounded, step by step",
   "tier": "flagship",

@@ -1,4 +1,5 @@
 {
+  "id": "mindfulness-basics",
   "title": "Mindfulness Basics",
   "description": "An introduction to mindfulness practice for everyday life",
   "category": "Soul",
@@ -37,7 +38,7 @@
           "Feeling relaxed and peaceful",
           "Solving problems through meditation"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What should you do when your mind wanders during meditation?",
@@ -47,9 +48,10 @@
           "Gently notice and return attention to the present",
           "Analyze why your mind wandered"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Start where you are, with what you have",
   "tier": "intro",

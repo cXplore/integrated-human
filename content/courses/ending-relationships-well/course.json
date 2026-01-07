@@ -1,4 +1,5 @@
 {
+  "id": "ending-relationships-well",
   "title": "Ending Relationships Well",
   "description": "Navigating breakups with clarity, kindness, and integrity",
   "category": "Relationships",
@@ -49,7 +50,7 @@
           "Finding other people attractive sometimes",
           "Needing alone time away from your partner"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "When deciding whether to end a relationship:",
@@ -59,7 +60,7 @@
           "Clarity often emerges through honest reflection, not in the moment",
           "The decision should be made impulsively to avoid overthinking"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "A respectful breakup conversation includes:",
@@ -69,7 +70,7 @@
           "Leaving hope for reconciliation to soften the blow",
           "Breaking up by text to avoid emotional scenes"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Immediately after a breakup, it's generally helpful to:",
@@ -79,7 +80,7 @@
           "Create space and limit contact to allow both people to adjust",
           "Pretend nothing has changed"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "The grieving process after a breakup:",
@@ -89,9 +90,10 @@
           "Only applies to longer relationships",
           "Means you made the wrong decision"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Close chapters with grace and integrity",
   "tier": "beginner",

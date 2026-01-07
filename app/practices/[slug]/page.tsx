@@ -76,9 +76,11 @@ export default async function PracticePage({ params }: PageProps) {
             {/* Header */}
             <header className="mb-12">
               {/* Category */}
-              <div className="text-amber-500 text-sm uppercase tracking-wide mb-3">
-                {metadata.category.replace('-', ' ')}
-              </div>
+              {metadata.category && (
+                <div className="text-amber-500 text-sm uppercase tracking-wide mb-3">
+                  {metadata.category.replace('-', ' ')}
+                </div>
+              )}
 
               {/* Title */}
               <h1 className="font-serif text-4xl md:text-5xl font-light text-white mb-4">
@@ -93,22 +95,26 @@ export default async function PracticePage({ params }: PageProps) {
               {/* Meta Info */}
               <div className="flex flex-wrap items-center gap-4">
                 {/* Duration */}
-                <div className="flex items-center gap-2 text-gray-400">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span className="text-sm">{metadata.durationMinutes} minutes</span>
-                </div>
+                {metadata.durationMinutes && (
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-sm">{metadata.durationMinutes} minutes</span>
+                  </div>
+                )}
 
                 {/* Intensity */}
-                <div className={`px-3 py-1 text-xs border ${INTENSITY_COLORS[metadata.intensity]}`}>
-                  {metadata.intensity}
-                </div>
+                {metadata.intensity && (
+                  <div className={`px-3 py-1 text-xs border ${INTENSITY_COLORS[metadata.intensity] || 'text-gray-400 bg-gray-500/10 border-gray-500/30'}`}>
+                    {metadata.intensity}
+                  </div>
+                )}
               </div>
             </header>
 
             {/* Helps With */}
-            {metadata.helpssWith.length > 0 && (
+            {metadata.helpssWith && metadata.helpssWith.length > 0 && (
               <div className="mb-8 p-4 bg-zinc-900 border border-zinc-800">
                 <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">
                   This practice helps with

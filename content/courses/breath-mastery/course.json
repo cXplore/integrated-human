@@ -1,4 +1,5 @@
 {
+  "id": "breath-mastery",
   "title": "Breath Mastery",
   "description": "Harnessing the power of breath for regulation, performance, and wellbeing",
   "category": "Body",
@@ -49,7 +50,7 @@
           "Breath holding",
           "Mouth breathing"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is the ideal breathing pattern for most daily activities?",
@@ -59,7 +60,7 @@
           "Through the nose, into the belly, slow and light",
           "As deeply as possible at all times"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "How does breath affect emotional state?",
@@ -69,9 +70,10 @@
           "Only hyperventilation affects emotions",
           "Breath only affects physical not mental states"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Your breath is the remote control for your nervous system",
   "tier": "intro",

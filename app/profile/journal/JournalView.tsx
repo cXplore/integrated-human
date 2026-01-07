@@ -336,14 +336,36 @@ export default function JournalView() {
           {loading ? (
             <div className="text-center py-12 text-gray-500">Loading...</div>
           ) : entries.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-500 mb-4">No journal entries yet</p>
-              <button
-                onClick={() => setActiveTab('write')}
-                className="text-amber-500 hover:text-amber-400"
-              >
-                Write your first entry
-              </button>
+            <div className="py-8 px-4">
+              <div className="max-w-md mx-auto text-center">
+                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-amber-900/20 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-amber-500/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                </div>
+                <h3 className="text-white font-serif text-xl mb-3">Your Journal Awaits</h3>
+                <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                  Journaling is one of the most powerful tools for self-understanding.
+                  Even 5 minutes of writing can reveal patterns you never noticed and
+                  process emotions that were stuck.
+                </p>
+                <div className="bg-zinc-900/50 border border-zinc-800 p-4 mb-6 text-left">
+                  <p className="text-gray-500 text-xs uppercase tracking-wide mb-2">Today&apos;s Prompt</p>
+                  <p className="text-gray-300 italic">&ldquo;{currentPrompt}&rdquo;</p>
+                </div>
+                <button
+                  onClick={() => {
+                    setUsePrompt(true);
+                    setActiveTab('write');
+                  }}
+                  className="px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white font-medium transition-colors"
+                >
+                  Start Writing
+                </button>
+                <p className="text-gray-600 text-xs mt-4">
+                  Your entries are private and only visible to you
+                </p>
+              </div>
             </div>
           ) : (
             <div className="space-y-4">

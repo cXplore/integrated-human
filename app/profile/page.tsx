@@ -16,6 +16,7 @@ import AICredits from './AICredits';
 import WhereImStuck from '../components/WhereImStuck';
 import IntegrationCheckIn from './IntegrationCheckIn';
 import ContinueJourney from './ContinueJourney';
+import FirstTimeJourney from './FirstTimeJourney';
 import IntegrationHealth from './IntegrationHealth';
 import QuickCheckIn from '../components/QuickCheckIn';
 import WeeklyCheckIn from '../components/WeeklyCheckIn';
@@ -23,11 +24,15 @@ import TodaysFocus from '../components/TodaysFocus';
 import DataExport from './DataExport';
 import CollapsibleSection from './CollapsibleSection';
 import HealthNudges from './HealthNudges';
+import ActiveLearningPath from './ActiveLearningPath';
+import PracticeFinder from './PracticeFinder';
+import ProgressTimeline from './ProgressTimeline';
+import GrowthEdges from './GrowthEdges';
 import { prisma } from '@/lib/prisma';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Profile | Integrated Human',
+  title: 'Dashboard | Integrated Human',
   description: 'Your personal dashboard for tracking reading progress, course completions, and integration journey.',
 };
 
@@ -90,7 +95,7 @@ export default async function ProfilePage() {
               )}
               <div className="text-center sm:text-left flex-1">
                 <h1 className="font-serif text-2xl md:text-3xl font-light text-white">
-                  {user.name || 'Your Dashboard'}
+                  {user.name ? `Welcome back, ${user.name.split(' ')[0]}` : 'Your Dashboard'}
                 </h1>
                 {dbUser?.createdAt && (
                   <p className="text-gray-500 text-sm mt-1">
@@ -159,24 +164,39 @@ export default async function ProfilePage() {
               </h2>
               <div className="grid md:grid-cols-2 gap-4">
                 <QuickCheckIn />
-                <WeeklyCheckIn />
+                <PracticeFinder />
               </div>
             </section>
 
-            {/* Section 2: Continue Your Journey - Reading/Course progress */}
+            {/* Section 2: Active Learning Path */}
+            {!isNewUser && (
+              <section className="mb-8">
+                <h2 className="text-sm uppercase tracking-wide text-gray-500 mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  Your Learning Path
+                </h2>
+                <ActiveLearningPath />
+              </section>
+            )}
+
+            {/* Section 3: Your Journey - Personalized for new vs returning users */}
             <section className="mb-8">
               <h2 className="text-sm uppercase tracking-wide text-gray-500 mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
-                Continue Your Journey
+                {!hasReadArticles ? 'Your Starting Point' : 'Continue Your Journey'}
               </h2>
-              <div className="grid lg:grid-cols-3 gap-4">
-                <div className="lg:col-span-2">
-                  <ContinueJourney />
+              {!hasReadArticles ? (
+                <FirstTimeJourney />
+              ) : (
+                <div className="grid lg:grid-cols-3 gap-4">
+                  <div className="lg:col-span-2">
+                    <ContinueJourney />
+                  </div>
+                  <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5">
+                    <StreakTracker />
+                  </div>
                 </div>
-                <div className="bg-[var(--card-bg)] border border-[var(--border-color)] p-5">
-                  <StreakTracker />
-                </div>
-              </div>
+              )}
             </section>
 
             {/* Main Grid: Two columns on desktop */}
@@ -196,6 +216,9 @@ export default async function ProfilePage() {
 
                 {/* Section 4: Integration Health */}
                 <IntegrationHealth />
+
+                {/* Section 4.5: Growth Edges */}
+                <GrowthEdges />
 
                 {/* Section 5: Reflection - Collapsible */}
                 <CollapsibleSection title="Weekly Reflection" defaultOpen={true}>
@@ -225,6 +248,9 @@ export default async function ProfilePage() {
                     </div>
                   </div>
                 </CollapsibleSection>
+
+                {/* Section 9: Progress Timeline */}
+                <ProgressTimeline />
               </div>
 
               {/* Right Column: Account & Tools */}

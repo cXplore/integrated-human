@@ -1,0 +1,64 @@
+{
+  "id": "when-everything-feels-broken",
+  "title": "When Everything Feels Broken",
+  "subtitle": "A companion for rock bottom moments",
+  "description": "For when life has fallen apart and you don't know how to go on. Not about fixing anything—just surviving the unsurvivable.",
+  "category": "Soul",
+  "level": "Beginner",
+  "duration": "1.5 hours",
+  "price": 0,
+  "published": true,
+  "featured": false,
+  "tier": "intro",
+  "spectrum": [
+    "collapse"
+  ],
+  "dimensions": [
+    "existential-grounding",
+    "meaning-purpose"
+  ],
+  "leadsTo": "finding-meaning-crisis",
+  "modules": [
+    {
+      "title": "The Unsurvivable",
+      "order": 1
+    },
+    {
+      "title": "One Day at a Time (Or Less)",
+      "order": 2
+    },
+    {
+      "title": "What Still Works",
+      "order": 3
+    },
+    {
+      "title": "Reasons to Stay",
+      "order": 4
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "When life has fallen apart, the first goal is:",
+        "options": [
+          "Rebuild everything immediately",
+          "Figure out what went wrong",
+          "Simply survive and keep going",
+          "Be positive about the situation"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "question": "What does 'meaning' look like in crisis?",
+        "options": [
+          "A grand purpose that explains everything",
+          "Feeling happy despite circumstances",
+          "Small anchors—a person, a pet, a reason to get up",
+          "There is no meaning in crisis"
+        ],
+        "correctIndex": 2
+      }
+    ],
+    "passingScore": 70
+  }
+}

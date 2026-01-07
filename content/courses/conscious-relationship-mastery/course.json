@@ -1,4 +1,5 @@
 {
+  "id": "conscious-relationship-mastery",
   "title": "Conscious Relationship Mastery",
   "description": "Building and sustaining deeply fulfilling intimate partnerships",
   "category": "Flagship",
@@ -69,7 +70,7 @@
           "Perfect compatibility",
           "Always feeling in love"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "According to the course, your relationship patterns are primarily shaped by:",
@@ -79,7 +80,7 @@
           "Personality tests",
           "Luck and chance"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "The most important aspect of communication in relationships is:",
@@ -89,7 +90,7 @@
           "Winning arguments",
           "Avoiding difficult topics"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Healthy conflict in relationships:",
@@ -99,7 +100,7 @@
           "Can deepen understanding and connection when handled well",
           "Means the relationship is failing"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Sustaining love over time requires:",
@@ -109,9 +110,10 @@
           "Ongoing intention, growth, and conscious effort",
           "Avoiding all problems"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Beyond chemistry: building lasting love",
   "tier": "flagship",

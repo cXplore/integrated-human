@@ -1,4 +1,5 @@
 {
+  "id": "family-systems-healing",
   "title": "Family Systems Healing",
   "slug": "family-systems-healing",
   "description": "Understand your role in family dynamics and free yourself from inherited patterns while maintaining connection.",
@@ -72,7 +73,7 @@
           "All family problems come from parents",
           "Cutting off from family is the best solution"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is differentiation?",
@@ -82,7 +83,7 @@
           "Being a self while staying connected to others",
           "Making yourself different to stand out"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Why do family patterns tend to repeat across generations?",
@@ -92,7 +93,7 @@
           "Children consciously choose to repeat patterns",
           "There is no evidence that patterns repeat"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is a triangle in family systems?",
@@ -102,7 +103,7 @@
           "A geometric arrangement of furniture",
           "A type of family meeting"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "How does changing your part affect family dynamics?",
@@ -112,7 +113,7 @@
           "It shifts the entire system because all parts are connected",
           "It only affects you, not the system"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
     ],
     "passingScore": 60

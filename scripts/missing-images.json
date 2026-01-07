@@ -1,0 +1,55 @@
+{
+  "generatedAt": "2026-01-06T21:06:18.091Z",
+  "totalCourses": 100,
+  "totalImages": 92,
+  "missingImages": [
+    {
+      "slug": "advanced-presence-practice",
+      "title": "Advanced Presence Practice",
+      "filePath": "public/images/courses/advanced-presence-practice.jpg",
+      "prompt": "Create a cinematic, moody, dark-toned artistic image representing \"Advanced Presence Practice\" - Deepening into effortless awareness. Style: cosmic, transcendent, mystical light, spiritual symbols. Dark background with subtle glowing elements, abstract, no text, suitable for a course thumbnail. 1200x800 pixels."
+    },
+    {
+      "slug": "crisis-stabilization",
+      "title": "Crisis Stabilization",
+      "filePath": "public/images/courses/crisis-stabilization.jpg",
+      "prompt": "Create a cinematic, moody, dark-toned artistic image representing \"Crisis Stabilization\" - Finding your feet when the ground has disappeared. Style: ethereal light, neural networks, calm meditation, abstract thoughts. Dark background with subtle glowing elements, abstract, no text, suitable for a course thumbnail. 1200x800 pixels."
+    },
+    {
+      "slug": "finding-ground-in-chaos",
+      "title": "Finding Ground in Chaos",
+      "filePath": "public/images/courses/finding-ground-in-chaos.jpg",
+      "prompt": "Create a cinematic, moody, dark-toned artistic image representing \"Finding Ground in Chaos\" - Anchoring your body when your nervous system is in crisis. Style: organic forms, flowing energy, embodied presence, natural elements. Dark background with subtle glowing elements, abstract, no text, suitable for a course thumbnail. 1200x800 pixels."
+    },
+    {
+      "slug": "healing-your-relationship-with-food",
+      "title": "Healing Your Relationship with Food",
+      "filePath": "public/images/courses/healing-your-relationship-with-food.jpg",
+      "prompt": "Create a cinematic, moody, dark-toned artistic image representing \"Healing Your Relationship with Food\" - From struggle to nourishment. Style: organic forms, flowing energy, embodied presence, natural elements. Dark background with subtle glowing elements, abstract, no text, suitable for a course thumbnail. 1200x800 pixels."
+    },
+    {
+      "slug": "intuitive-eating-foundations",
+      "title": "Intuitive Eating Foundations",
+      "filePath": "public/images/courses/intuitive-eating-foundations.jpg",
+      "prompt": "Create a cinematic, moody, dark-toned artistic image representing \"Intuitive Eating Foundations\" - Returning to your body's natural wisdom about food. Style: organic forms, flowing energy, embodied presence, natural elements. Dark background with subtle glowing elements, abstract, no text, suitable for a course thumbnail. 1200x800 pixels."
+    },
+    {
+      "slug": "mastery-and-teaching",
+      "title": "From Mastery to Teaching",
+      "filePath": "public/images/courses/mastery-and-teaching.jpg",
+      "prompt": "Create a cinematic, moody, dark-toned artistic image representing \"From Mastery to Teaching\" - Sharing what you've learned with others. Style: cosmic, transcendent, mystical light, spiritual symbols. Dark background with subtle glowing elements, abstract, no text, suitable for a course thumbnail. 1200x800 pixels."
+    },
+    {
+      "slug": "surviving-emotional-overwhelm",
+      "title": "Surviving Emotional Overwhelm",
+      "filePath": "public/images/courses/surviving-emotional-overwhelm.jpg",
+      "prompt": "Create a cinematic, moody, dark-toned artistic image representing \"Surviving Emotional Overwhelm\" - When feelings become too much to bear. Style: ethereal light, neural networks, calm meditation, abstract thoughts. Dark background with subtle glowing elements, abstract, no text, suitable for a course thumbnail. 1200x800 pixels."
+    },
+    {
+      "slug": "when-everything-feels-broken",
+      "title": "When Everything Feels Broken",
+      "filePath": "public/images/courses/when-everything-feels-broken.jpg",
+      "prompt": "Create a cinematic, moody, dark-toned artistic image representing \"When Everything Feels Broken\" - A companion for rock bottom moments. Style: cosmic, transcendent, mystical light, spiritual symbols. Dark background with subtle glowing elements, abstract, no text, suitable for a course thumbnail. 1200x800 pixels."
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 {
+  "id": "the-integrated-self",
   "title": "The Integrated Self",
   "description": "A comprehensive journey to wholeness across mind, body, relationships, and soul",
   "category": "Flagship",
@@ -69,7 +70,7 @@
           "Lack of education",
           "Modern technology"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "The shadow contains:",
@@ -79,7 +80,7 @@
           "Both rejected positive and negative aspects of self",
           "Nothing of value"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Integration is best understood as:",
@@ -89,7 +90,7 @@
           "An ongoing process of welcoming and connecting",
           "Becoming perfect"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "The body dimension of integration involves:",
@@ -99,7 +100,7 @@
           "Reconnecting with embodied experience and sensation",
           "Only exercise and nutrition"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Relational integration means:",
@@ -109,9 +110,10 @@
           "Showing up authentically while remaining connected",
           "Avoiding difficult relationships"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Become whole across every dimension",
   "tier": "flagship",

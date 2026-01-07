@@ -50,9 +50,54 @@ export function getAllPosts(): Post[] {
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const { data, content } = matter(fileContents);
 
+      // Normalize frontmatter - handle different field names
+      const rawData = data as Record<string, unknown>;
+
+      // Handle excerpt vs description
+      const excerpt = (rawData.excerpt || rawData.description || '') as string;
+
+      // Handle categories vs category vs pillar
+      let categories: string[] = [];
+      if (Array.isArray(rawData.categories)) {
+        categories = rawData.categories as string[];
+      } else if (typeof rawData.category === 'string') {
+        // Convert single category to capitalized array entry
+        const cat = rawData.category as string;
+        categories = [cat.charAt(0).toUpperCase() + cat.slice(1)];
+      } else if (typeof rawData.pillar === 'string') {
+        // Convert pillar to category
+        const pillar = rawData.pillar as string;
+        categories = [pillar.charAt(0).toUpperCase() + pillar.slice(1)];
+      }
+
+      // Handle tags
+      const tags = Array.isArray(rawData.tags) ? rawData.tags as string[] : [];
+
+      // Handle image - check if frontmatter has it, otherwise check if file exists
+      let image = rawData.image as string | undefined;
+      if (!image) {
+        // Check if an image file exists for this post
+        const possibleImagePath = path.join(process.cwd(), 'public/images/posts', `${slug}.jpg`);
+        if (fs.existsSync(possibleImagePath)) {
+          image = `/images/posts/${slug}.jpg`;
+        }
+      }
+
+      const metadata: PostMetadata = {
+        title: (rawData.title || slug) as string,
+        excerpt,
+        categories,
+        tags,
+        date: (rawData.date || new Date().toISOString()) as string,
+        type: rawData.type as 'article' | 'guide' | undefined,
+        series: rawData.series as string | undefined,
+        order: rawData.order as number | undefined,
+        image,
+      };
+
       return {
         slug,
-        metadata: data as PostMetadata,
+        metadata,
         content,
         readingTime: calculateReadingTime(content),
       };
@@ -81,7 +126,7 @@ export function getPostBySlug(slug: string): Post | undefined {
 export function getPostsByCategory(category: string): Post[] {
   const allPosts = getAllPosts();
   return allPosts.filter((post) =>
-    post.metadata.categories.includes(category)
+    post.metadata.categories?.includes(category)
   );
 }
 

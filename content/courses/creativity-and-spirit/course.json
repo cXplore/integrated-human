@@ -1,4 +1,5 @@
 {
+  "id": "creativity-and-spirit",
   "title": "Creativity and Spirit",
   "description": "Accessing the creative force as spiritual practice",
   "category": "Soul",
@@ -49,7 +50,7 @@
           "A skill that can only be learned in school",
           "Something only for artists"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is the primary cause of creative blocks?",
@@ -59,7 +60,7 @@
           "Not enough time",
           "Insufficient training"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Flow state in creativity is characterized by:",
@@ -69,7 +70,7 @@
           "Thinking about the outcome",
           "Forcing the work"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "The most effective approach to creative practice is:",
@@ -79,7 +80,7 @@
           "Regular showing up regardless of inspiration",
           "Pushing through exhaustion"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Creation as service means:",
@@ -89,9 +90,10 @@
           "Creating for something beyond ego gratification",
           "Giving away all your work for free"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Create as a path to the sacred",
   "tier": "beginner",

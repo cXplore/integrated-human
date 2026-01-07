@@ -17,10 +17,38 @@ import ArticleImage from '@/app/components/ArticleImage';
 import YouTube from '@/app/components/YouTube';
 import Image from 'next/image';
 import { ArticleJsonLd, BreadcrumbJsonLd } from '@/app/components/JsonLd';
-import PageContextSetter from '@/app/components/PageContextSetter';
 import FeaturedImage from '@/app/components/FeaturedImage';
+import AssessmentNudge from '@/app/components/AssessmentNudge';
 
 const BASE_URL = 'https://integrated-human.vercel.app';
+
+// Map article categories to assessment pillars
+const CATEGORY_TO_PILLAR: Record<string, 'mind' | 'body' | 'soul' | 'relationships'> = {
+  Psychology: 'mind',
+  Emotions: 'mind',
+  'Shadow Work': 'mind',
+  'Inner Work': 'mind',
+  Therapy: 'mind',
+  Trauma: 'mind',
+  Body: 'body',
+  'Nervous System': 'body',
+  Somatic: 'body',
+  Health: 'body',
+  Movement: 'body',
+  Embodiment: 'body',
+  Soul: 'soul',
+  Spirituality: 'soul',
+  Meaning: 'soul',
+  Purpose: 'soul',
+  Meditation: 'soul',
+  Mindfulness: 'soul',
+  Relationships: 'relationships',
+  Attachment: 'relationships',
+  Intimacy: 'relationships',
+  Communication: 'relationships',
+  Love: 'relationships',
+  Connection: 'relationships',
+};
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -103,7 +131,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
   return (
     <>
-      <PageContextSetter type="article" title={post.metadata.title} slug={slug} content={post.content} />
       <ArticleJsonLd
         title={post.metadata.title}
         description={post.metadata.excerpt}
@@ -296,6 +323,22 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                 </div>
               </div>
             )}
+
+            {/* Assessment Nudge - contextual based on article category */}
+            {(() => {
+              const pillar = post.metadata.categories
+                .map(cat => CATEGORY_TO_PILLAR[cat])
+                .find(p => p);
+              return pillar ? (
+                <div className="mt-16">
+                  <AssessmentNudge
+                    pillar={pillar}
+                    variant="card"
+                    context={`Curious where you stand? Map your ${pillar} development.`}
+                  />
+                </div>
+              ) : null;
+            })()}
 
             {/* Related Posts */}
             {relatedPosts.length > 0 && (

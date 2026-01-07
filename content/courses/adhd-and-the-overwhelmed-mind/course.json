@@ -1,4 +1,5 @@
 {
+  "id": "adhd-and-the-overwhelmed-mind",
   "title": "ADHD and the Overwhelmed Mind",
   "description": "Understanding and working with ADHD from an integrative, compassionate perspective",
   "category": "Mind",
@@ -49,7 +50,7 @@
           "Executive function and self-regulation",
           "Personality and character"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Why do external systems help with ADHD?",
@@ -59,7 +60,7 @@
           "They are unnecessary if you try hard enough",
           "They only help children, not adults"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What is true about ADHD and emotions?",
@@ -69,9 +70,10 @@
           "People with ADHD should suppress emotions",
           "Emotions only matter for the hyperactive type"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Work with your brain, not against it",
   "tier": "beginner",

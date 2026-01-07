@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface FilterCounts {
   pillars: {
@@ -26,48 +26,67 @@ interface Dimension {
   pillar: string;
 }
 
+interface TagCount {
+  tag: string;
+  count: number;
+}
+
 interface LibraryFiltersProps {
   filters: FilterCounts;
   dimensions: Dimension[];
+  tags: TagCount[];
   selectedPillar: string | null;
   selectedDimension: string | null;
   selectedType: string | null;
   selectedReadingTime: string | null;
+  selectedTag: string | null;
   onFilterChange: (key: string, value: string | null) => void;
   onClearAll: () => void;
   resultCount: number;
 }
 
-const PILLAR_ICONS: Record<string, string> = {
-  mind: '🧠',
-  body: '💪',
-  soul: '✨',
-  relationships: '💞',
+const PILLAR_CONFIG: Record<string, { icon: string; color: string }> = {
+  mind: { icon: '🧠', color: 'blue' },
+  body: { icon: '💪', color: 'emerald' },
+  soul: { icon: '✨', color: 'purple' },
+  relationships: { icon: '💞', color: 'rose' },
 };
 
 export default function LibraryFilters({
   filters,
   dimensions,
+  tags,
   selectedPillar,
   selectedDimension,
   selectedType,
   selectedReadingTime,
+  selectedTag,
   onFilterChange,
   onClearAll,
   resultCount,
 }: LibraryFiltersProps) {
   const [expandedSection, setExpandedSection] = useState<string | null>('pillar');
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [dimensionSearch, setDimensionSearch] = useState('');
+  const [tagSearch, setTagSearch] = useState('');
 
-  const hasActiveFilters = selectedPillar || selectedDimension || selectedType || selectedReadingTime;
+  const hasActiveFilters = selectedPillar || selectedDimension || selectedType || selectedReadingTime || selectedTag;
 
-  // Filter dimensions based on selected pillar
-  const filteredDimensions = selectedPillar
-    ? dimensions.filter(d => d.pillar === selectedPillar)
-    : dimensions;
+  // Filter dimensions based on selected pillar and search
+  const filteredDimensions = dimensions.filter(d => {
+    const matchesPillar = !selectedPillar || d.pillar === selectedPillar;
+    const matchesSearch = !dimensionSearch ||
+      d.name.toLowerCase().includes(dimensionSearch.toLowerCase());
+    return matchesPillar && matchesSearch;
+  });
+
+  // Filter tags based on search
+  const filteredTags = tags.filter(t =>
+    !tagSearch || t.tag.toLowerCase().includes(tagSearch.toLowerCase())
+  );
 
   // Group dimensions by pillar for display
-  const dimensionsByPillar = dimensions.reduce((acc, dim) => {
+  const dimensionsByPillar = filteredDimensions.reduce((acc, dim) => {
     if (!acc[dim.pillar]) acc[dim.pillar] = [];
     acc[dim.pillar].push(dim);
     return acc;
@@ -81,17 +100,24 @@ export default function LibraryFilters({
     title,
     sectionKey,
     children,
+    badge,
   }: {
     title: string;
     sectionKey: string;
     children: React.ReactNode;
+    badge?: string | number;
   }) => (
     <div className="border-b border-zinc-800 last:border-b-0">
       <button
         onClick={() => toggleSection(sectionKey)}
         className="w-full flex items-center justify-between py-3 text-left text-sm font-medium text-gray-300 hover:text-white transition-colors"
       >
-        {title}
+        <span className="flex items-center gap-2">
+          {title}
+          {badge !== undefined && (
+            <span className="text-xs text-gray-500">({badge})</span>
+          )}
+        </span>
         <svg
           className={`w-4 h-4 transition-transform ${expandedSection === sectionKey ? 'rotate-180' : ''}`}
           fill="none"
@@ -126,7 +152,7 @@ export default function LibraryFilters({
     >
       {children}
       {count !== undefined && (
-        <span className={`ml-1.5 ${active ? 'text-gray-600' : 'text-gray-500'}`}>
+        <span className={`ml-1.5 ${active ? 'opacity-70' : 'text-gray-500'}`}>
           ({count})
         </span>
       )}
@@ -150,7 +176,7 @@ export default function LibraryFilters({
           <div className="flex flex-wrap gap-2">
             {selectedPillar && (
               <span className="inline-flex items-center gap-1 px-2 py-1 bg-zinc-800 text-sm text-gray-300 rounded">
-                {PILLAR_ICONS[selectedPillar]} {selectedPillar}
+                {PILLAR_CONFIG[selectedPillar]?.icon} {selectedPillar}
                 <button
                   onClick={() => onFilterChange('pillar', null)}
                   className="ml-1 text-gray-500 hover:text-white"
@@ -165,6 +191,17 @@ export default function LibraryFilters({
                 <button
                   onClick={() => onFilterChange('dimension', null)}
                   className="ml-1 text-gray-500 hover:text-white"
+                >
+                  &times;
+                </button>
+              </span>
+            )}
+            {selectedTag && (
+              <span className="inline-flex items-center gap-1 px-2 py-1 bg-amber-900/30 text-sm text-amber-300 rounded">
+                #{selectedTag}
+                <button
+                  onClick={() => onFilterChange('tag', null)}
+                  className="ml-1 text-amber-400 hover:text-white"
                 >
                   &times;
                 </button>
@@ -203,50 +240,109 @@ export default function LibraryFilters({
             <FilterButton
               key={pillar}
               active={selectedPillar === pillar}
-              onClick={() => onFilterChange('pillar', selectedPillar === pillar ? null : pillar)}
+              onClick={() => {
+                onFilterChange('pillar', selectedPillar === pillar ? null : pillar);
+                // Clear dimension if changing pillar
+                if (selectedDimension) onFilterChange('dimension', null);
+              }}
               count={count}
             >
-              {PILLAR_ICONS[pillar]} {pillar.charAt(0).toUpperCase() + pillar.slice(1)}
+              {PILLAR_CONFIG[pillar]?.icon} {pillar.charAt(0).toUpperCase() + pillar.slice(1)}
             </FilterButton>
           ))}
         </div>
       </FilterSection>
 
-      {/* Dimension Filter */}
-      <FilterSection title="Dimension" sectionKey="dimension">
-        <div className="max-h-64 overflow-y-auto space-y-3">
-          {selectedPillar ? (
-            <div className="flex flex-wrap gap-2">
-              {filteredDimensions.map(dim => (
-                <FilterButton
-                  key={dim.id}
-                  active={selectedDimension === dim.id}
-                  onClick={() => onFilterChange('dimension', selectedDimension === dim.id ? null : dim.id)}
-                >
-                  {dim.name}
-                </FilterButton>
-              ))}
-            </div>
-          ) : (
-            Object.entries(dimensionsByPillar).map(([pillar, dims]) => (
-              <div key={pillar}>
-                <div className="text-xs text-gray-500 uppercase tracking-wide mb-2 flex items-center gap-1">
-                  {PILLAR_ICONS[pillar]} {pillar}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {dims.map(dim => (
-                    <FilterButton
-                      key={dim.id}
-                      active={selectedDimension === dim.id}
-                      onClick={() => onFilterChange('dimension', selectedDimension === dim.id ? null : dim.id)}
-                    >
-                      {dim.name}
-                    </FilterButton>
-                  ))}
-                </div>
+      {/* Topics/Tags Filter */}
+      <FilterSection title="Topics" sectionKey="topics" badge={tags.length}>
+        <div className="space-y-3">
+          {/* Tag search */}
+          <input
+            type="text"
+            value={tagSearch}
+            onChange={(e) => setTagSearch(e.target.value)}
+            placeholder="Search topics..."
+            className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-1.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-zinc-600"
+          />
+
+          <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto">
+            {filteredTags.slice(0, 15).map(({ tag, count }) => (
+              <FilterButton
+                key={tag}
+                active={selectedTag === tag}
+                onClick={() => onFilterChange('tag', selectedTag === tag ? null : tag)}
+                count={count}
+              >
+                #{tag}
+              </FilterButton>
+            ))}
+            {filteredTags.length === 0 && tagSearch && (
+              <p className="text-gray-500 text-sm">No topics match "{tagSearch}"</p>
+            )}
+          </div>
+        </div>
+      </FilterSection>
+
+      {/* Dimension Filter - Improved */}
+      <FilterSection title="Dimensions" sectionKey="dimension" badge={dimensions.length}>
+        <div className="space-y-3">
+          {/* Dimension search */}
+          <input
+            type="text"
+            value={dimensionSearch}
+            onChange={(e) => setDimensionSearch(e.target.value)}
+            placeholder="Search dimensions..."
+            className="w-full bg-zinc-800 border border-zinc-700 rounded px-3 py-1.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-zinc-600"
+          />
+
+          <div className="max-h-64 overflow-y-auto space-y-3">
+            {selectedPillar ? (
+              /* Show flat list when pillar is selected */
+              <div className="flex flex-wrap gap-2">
+                {filteredDimensions.map(dim => (
+                  <FilterButton
+                    key={dim.id}
+                    active={selectedDimension === dim.id}
+                    onClick={() => onFilterChange('dimension', selectedDimension === dim.id ? null : dim.id)}
+                  >
+                    {dim.name}
+                  </FilterButton>
+                ))}
+                {filteredDimensions.length === 0 && (
+                  <p className="text-gray-500 text-sm">No dimensions match your search</p>
+                )}
               </div>
-            ))
-          )}
+            ) : (
+              /* Show grouped by pillar when no pillar selected */
+              Object.entries(dimensionsByPillar).map(([pillar, dims]) => (
+                <div key={pillar}>
+                  <button
+                    onClick={() => {
+                      onFilterChange('pillar', pillar);
+                    }}
+                    className="text-xs text-gray-500 uppercase tracking-wide mb-2 flex items-center gap-1 hover:text-gray-300 transition-colors"
+                  >
+                    {PILLAR_CONFIG[pillar]?.icon} {pillar}
+                    <span className="text-gray-600">({dims.length})</span>
+                  </button>
+                  <div className="flex flex-wrap gap-2">
+                    {dims.slice(0, 4).map(dim => (
+                      <FilterButton
+                        key={dim.id}
+                        active={selectedDimension === dim.id}
+                        onClick={() => onFilterChange('dimension', selectedDimension === dim.id ? null : dim.id)}
+                      >
+                        {dim.name}
+                      </FilterButton>
+                    ))}
+                    {dims.length > 4 && (
+                      <span className="text-xs text-gray-500 self-center">+{dims.length - 4} more</span>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </FilterSection>
 

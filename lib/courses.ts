@@ -116,6 +116,14 @@ export function getAllCourses(): Course[] {
         return null;
       }
 
+      // Auto-detect image if not specified in metadata
+      if (!metadata.image) {
+        const possibleImagePath = path.join(process.cwd(), 'public/images/courses', `${dirName}.jpg`);
+        if (fs.existsSync(possibleImagePath)) {
+          metadata.image = `/images/courses/${dirName}.jpg`;
+        }
+      }
+
       return {
         slug: dirName,
         metadata,

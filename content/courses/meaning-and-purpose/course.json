@@ -1,4 +1,5 @@
 {
+  "id": "meaning-and-purpose",
   "title": "Meaning and Purpose",
   "description": "Finding what matters and building a life around it",
   "category": "Soul",
@@ -49,7 +50,7 @@
           "Meaning can come from multiple sources and changes over time",
           "Meaning is irrelevant to psychological wellbeing"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "The relationship between meaning and happiness is:",
@@ -59,7 +60,7 @@
           "Related but distinct - meaningful lives often involve difficulty alongside fulfillment",
           "Completely unrelated"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Values differ from goals in that:",
@@ -69,7 +70,7 @@
           "Goals are more important than values",
           "Values are assigned to you while goals are chosen"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Common sources of meaning include:",
@@ -79,7 +80,7 @@
           "Material possessions primarily",
           "Status and recognition"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "When meaning fades or you experience existential doubt:",
@@ -89,9 +90,10 @@
           "It can be an invitation for reflection and potential growth",
           "It means you've made wrong life choices"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "What matters most in your one wild life",
   "tier": "intro",

@@ -1,4 +1,5 @@
 {
+  "id": "chronic-pain-and-the-mind",
   "title": "Chronic Pain and the Mind",
   "description": "Understanding the mind-body connection in chronic pain and finding paths to relief",
   "category": "Body",
@@ -49,7 +50,7 @@
           "Psychological weakness",
           "Aging"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Why is gentle movement often helpful for chronic pain?",
@@ -59,7 +60,7 @@
           "It distracts from pain",
           "It builds muscle to protect against injury"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "What role do emotions play in chronic pain?",
@@ -69,9 +70,10 @@
           "They only affect acute pain",
           "They cause all chronic pain"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "When the body speaks, learn to listen",
   "tier": "beginner",

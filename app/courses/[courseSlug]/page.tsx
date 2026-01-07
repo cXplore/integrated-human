@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { getAllCourses, getCourseBySlug } from '@/lib/courses';
 import { getRelatedPostsForCourse } from '@/lib/posts';
 import MembershipCTA from '@/app/components/MembershipCTA';
-import PageContextSetter from '@/app/components/PageContextSetter';
 import { CourseJsonLd, BreadcrumbJsonLd } from '@/app/components/JsonLd';
 
 export async function generateStaticParams() {
@@ -74,7 +73,6 @@ export default async function CoursePage({ params }: { params: Promise<{ courseS
 
   return (
     <>
-      <PageContextSetter type="course" title={metadata.title} slug={courseSlug} content={metadata.description} />
       <CourseJsonLd
         title={metadata.title}
         description={metadata.description}

@@ -1,0 +1,69 @@
+{
+  "id": "advanced-presence-practice",
+  "title": "Advanced Presence Practice",
+  "subtitle": "Deepening into effortless awareness",
+  "description": "For practitioners with a solid meditation foundation. Moving beyond technique into direct awareness. The practice of non-practice.",
+  "category": "Soul",
+  "level": "Advanced",
+  "duration": "4 hours",
+  "price": 79,
+  "published": true,
+  "featured": false,
+  "tier": "advanced",
+  "spectrum": [
+    "embodiment",
+    "optimization"
+  ],
+  "dimensions": [
+    "presence",
+    "transcendence",
+    "spiritual-practice"
+  ],
+  "modules": [
+    {
+      "title": "Beyond Technique",
+      "order": 1
+    },
+    {
+      "title": "The Nature of Awareness",
+      "order": 2
+    },
+    {
+      "title": "Non-Dual Glimpses",
+      "order": 3
+    },
+    {
+      "title": "Effortless Presence in Daily Life",
+      "order": 4
+    },
+    {
+      "title": "The Pathless Path",
+      "order": 5
+    }
+  ],
+  "quiz": {
+    "questions": [
+      {
+        "question": "What is the 'practice of non-practice'?",
+        "options": [
+          "Not meditating at all",
+          "Practicing lazily",
+          "Resting in awareness without effortful manipulation, letting presence be natural",
+          "Only meditating when you feel like it"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "question": "What happens to techniques at advanced stages?",
+        "options": [
+          "They become more complex",
+          "They're discarded completely",
+          "They become transparent - used when needed but not depended upon",
+          "They're practiced more intensively"
+        ],
+        "correctIndex": 2
+      }
+    ],
+    "passingScore": 70
+  }
+}

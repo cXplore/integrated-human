@@ -1,4 +1,5 @@
 {
+  "id": "self-worth-foundations",
   "title": "Self-Worth Foundations",
   "description": "Discover the roots of your self-worth and begin building unshakeable value",
   "category": "Mind",
@@ -37,7 +38,7 @@
           "Your inherent value as a human being",
           "How you compare to others"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Where do most self-worth issues originate?",
@@ -47,9 +48,10 @@
           "Early experiences and messages received",
           "Random chance"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "You are worthy, full stop",
   "tier": "beginner",

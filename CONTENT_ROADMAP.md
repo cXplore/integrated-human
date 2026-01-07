@@ -7,27 +7,24 @@ Build a sustainable income through high-quality content on personal integration,
 
 ---
 
-## Current State (Updated Dec 2024)
+## Current State (Updated Jan 2026)
 
-### Content
-- 75+ articles across Mind, Body, Soul, Relationships
-- Archetype quiz functional
-- Start Here quiz functional
-- Learning paths structure in place
-- Newsletter signup ready (ConvertKit)
+### Content Inventory
+| Type | Count |
+|------|-------|
+| Articles/Posts | 201+ |
+| Courses | 92 |
+| Course Modules | 579 |
+| Guided Practices | 52 |
+| Learning Paths | 17 |
+| Lead Magnets | 4 |
+| Assessment Questions | ~205 |
 
-### Courses (COMPLETE - 35 TOTAL)
-- **4 Flagship courses** ($197-$297):
-  - The Integration Path (8 modules) - $247
-  - Relationship Mastery (8 modules) - $297
-  - Masculine Integration (8 modules) - $247
-  - Feminine Embodiment (8 modules) - $247
-
-- **31 Standard courses** ($47-$97) across categories:
-  - Mind (9 courses): Shadow Work, Inner Critic, Emotional Intelligence, etc.
-  - Body (8 courses): Nervous System, Somatic Awareness, Breathwork, etc.
-  - Soul (8 courses): Purpose Discovery, Spiritual Bypassing, Death & Meaning, etc.
-  - Relationships (6 courses): Attachment Repair, Boundaries, Communication, etc.
+### Content by Pillar
+- **Mind:** Shadow work, inner critic, emotional regulation, cognitive patterns
+- **Body:** Nervous system, breathwork, somatic awareness, movement
+- **Soul:** Meaning, death awareness, presence, spiritual opening
+- **Relationships:** Attachment, boundaries, communication, intimacy
 
 ### Features Built
 - [x] Course progress tracking (database + UI)
@@ -43,16 +40,20 @@ Build a sustainable income through high-quality content on personal integration,
 - [x] **Lead magnets** - 4 downloadable resources with email capture
 - [x] **Interactive exercises** - Journal, Checklist, Checkbox components in modules
 - [x] **Quiz system** - Certificate gating with 70% pass requirement
-- [x] **Learning paths** - Curated course sequences
+- [x] **Learning paths** - 17 curated paths with search/discovery
 - [x] **Mega menu navigation** - with Free resources link
+- [x] **Standalone journaling** - view all entries, free-form, daily prompts
+- [x] **Course content gating** - ModuleAccessGuard component
+- [x] **Global sidebar** - hover-to-expand, AI chat widget
+- [x] **Dashboard widgets** - Learning path progress, practice finder, growth edges
+- [x] **AI chat** - Full chat page + quick chat in sidebar
+- [x] **Crisis content** - Collapse-stage articles with hopeful tone
 
 ### Still Needed
-- [x] Standalone journaling in profile (view all journal entries, free-form journaling, daily prompts)
-
-- [x] Course content gating (ModuleAccessGuard component - first module free, rest locked)
 - [ ] Email sequences in ConvertKit (infrastructure ready)
 - [ ] Digital workbooks (PDF products)
-- [ ] AI guide/avatar (code exists but not deployed)
+- [x] Expanded practices library (now 52 practices)
+- [ ] Community Discord with role sync
 
 
 ## Phase 1: Foundation - MOSTLY COMPLETE
@@ -214,29 +215,26 @@ All specialized courses have been built as part of the 35-course library.
 
 ## Content Creation Priority Queue
 
-### Immediate (This Month)
+### All Core Articles - COMPLETE
+All SEO-targeted articles and high-value deep content pieces from the original roadmap have been written. The article library now contains 201+ articles across all pillars and dimensions.
 
-1. [x] Lead magnet: "Shadow Work Prompts" PDF - COMPLETE
-2. [x] Lead magnet: "Nervous System Reset" PDF - COMPLETE
-3. [ ] Article: "Anxious Attachment: Signs and How to Heal"
-4. [ ] Article: "Avoidant Attachment: Understanding the Pattern"
-5. [ ] Article: "Healing the Father Wound"
+### Current Priorities
 
-### Next Month
+**Content Expansion:**
+1. [x] Expand practices library from 13 to 50+ guided practices (DONE - now 52)
+2. [ ] Add more collapse-stage content for remaining dimensions
+3. [ ] Create content for all 150 dimension-stage combinations
 
-6. [ ] Article: "Healing the Mother Wound"
-7. [x] Article: "How to Do Shadow Work: A Complete Guide" - EXISTS
-8. [ ] Article: "Why You Choose Unavailable Partners"
-9. [ ] Email sequences for lead magnets in ConvertKit
-10. [ ] Shadow Work Workbook (first draft)
+**Products:**
+4. [ ] Shadow Work Workbook (PDF)
+5. [ ] Integration Journal (PDF)
+6. [ ] Attachment Healing Workbook (PDF)
+7. [ ] Nervous System Reset Guide (PDF)
 
-### Month 3
-
-11. [x] Article: "Nervous System Regulation: A Practical Guide" - EXISTS
-12. [ ] Article: "Psychedelic Integration Guide"
-13. [ ] Article: "Disorganized Attachment: The Hidden Pattern"
-14. [ ] Shadow Work Workbook (complete)
-15. [ ] Integration Journal (first draft)
+**Marketing:**
+8. [ ] Email sequences for lead magnets in ConvertKit
+9. [ ] Welcome sequence for new subscribers
+10. [ ] Launch sequences for products
 
 ---
 
@@ -313,17 +311,28 @@ All specialized courses have been built as part of the 35-course library.
 
 ---
 
-## Next Steps (Updated Dec 2024)
+## Next Steps (Updated Jan 2026)
 
-### Pre-Launch (Content Gating) - COMPLETE
-1. ~~**Lock course content** - Gate modules behind purchase~~ DONE - ModuleAccessGuard component
-2. **Test full purchase flow** - End-to-end verification
+### Recently Completed
+- [x] Course content gating (ModuleAccessGuard)
+- [x] Interactive exercises in all course modules
+- [x] AI chat integration (full page + sidebar)
+- [x] Global app sidebar with hover-to-expand
+- [x] Dashboard widgets (learning path, practice finder, growth edges)
+- [x] Learning paths search/discovery
+- [x] Crisis/collapse stage content (6 articles)
 
-### Content
-3. Write SEO-targeted articles (attachment styles priority)
-4. Create workbook PDFs (Shadow Work, Integration Journal)
-5. Set up email sequences in ConvertKit
+### Active Priorities
 
-### Technical
-6. ~~Add interactive exercises to remaining course modules~~ COMPLETE - 226 MDX module files with exercises
-7. AI guide integration (avatar work in progress)
+**Content:**
+1. [x] Expand practices library (now 52)
+2. [ ] Create workbook PDFs (Shadow Work, Integration Journal)
+3. [ ] Add content for more dimension-stage combinations
+
+**Marketing:**
+4. [ ] Set up email sequences in ConvertKit
+5. [ ] Welcome sequence for new subscribers
+
+**Technical:**
+6. [ ] Community Discord with Stripe role sync
+7. [ ] Premium PDF reports from quiz results

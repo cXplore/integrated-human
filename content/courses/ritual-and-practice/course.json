@@ -1,4 +1,5 @@
 {
+  "id": "ritual-and-practice",
   "title": "Ritual and Practice",
   "description": "Creating meaningful structure for spiritual life",
   "category": "Soul",
@@ -49,7 +50,7 @@
           "Follow tradition exactly as done before",
           "Perform magic"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "The most important element of effective ritual is:",
@@ -59,7 +60,7 @@
           "Presence and intention",
           "Large group participation"
         ],
-        "correctAnswer": 2
+        "correctIndex": 2
       },
       {
         "question": "Daily practice is most effective when:",
@@ -69,7 +70,7 @@
           "It is only done when inspired",
           "It follows exactly what others do"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Seasonal rituals help us:",
@@ -79,7 +80,7 @@
           "Avoid seasonal depression",
           "Celebrate holidays commercially"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       },
       {
         "question": "Transition rituals are important because:",
@@ -89,9 +90,10 @@
           "They are always religious",
           "They must follow traditional forms"
         ],
-        "correctAnswer": 1
+        "correctIndex": 1
       }
-    ]
+    ],
+    "passingScore": 70
   },
   "subtitle": "Sacred structure for ordinary days",
   "tier": "beginner",
